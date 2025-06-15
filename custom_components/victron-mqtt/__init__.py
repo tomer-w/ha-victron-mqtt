@@ -3,13 +3,16 @@
 from __future__ import annotations
 
 import logging
+import importlib.metadata
+import asyncio
 
-from victronvenusclient import (
+from victron_mqtt import (
     CannotConnectError,
     Hub as VictronVenusHub,
     InvalidAuthError,
 )
 
+from homeassistant.helpers.typing import ConfigType
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import (
     CONF_HOST,
@@ -30,6 +33,20 @@ PLATFORMS = [Platform.SENSOR]
 
 __all__ = ["DOMAIN"]
 
+victron_mqtt_version: str | None = None
+
+async def get_package_version(package_name):
+    loop = asyncio.get_event_loop()
+    version = await loop.run_in_executor(None, importlib.metadata.version, package_name)
+    return version
+
+async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
+    """Set up the integration."""
+    version = getattr(hass.data["integrations"][DOMAIN], "version", 0)
+    global victron_mqtt_version
+    victron_mqtt_version = await get_package_version("victron_mqtt")
+    _LOGGER.info("Setting up victron-mqtt integration. Version: %s. victron_mqtt package version: %s", version, victron_mqtt_version)
+    return True
 
 async def async_setup_entry(
     hass: HomeAssistant, entry: ConfigEntry

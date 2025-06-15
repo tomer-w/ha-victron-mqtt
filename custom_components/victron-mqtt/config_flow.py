@@ -5,7 +5,7 @@ from __future__ import annotations
 from typing import Any
 from urllib.parse import urlparse
 
-from victronvenusclient import (
+from victron_mqtt import (
     CannotConnectError,
     Hub as VictronVenusHub,
     InvalidAuthError,

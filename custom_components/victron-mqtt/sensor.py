@@ -3,11 +3,12 @@
 This module is light-weight and only registers the sensors with Home Assistant. The sensor class is implemented in the victronvenus_sensor module.
 """
 
-from victronvenusclient import (
+import logging
+from victron_mqtt import (
     Device as VictronVenusDevice,
     Metric as VictronVenusMetric,
 )
-from victronvenusclient.constants import (
+from victron_mqtt.constants import (
     PLACEHOLDER_PHASE,
     DeviceType,
     MetricNature,
@@ -22,6 +23,7 @@ from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.config_entries import ConfigEntry
 
 from .const import DOMAIN
+_LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_entry(
@@ -37,6 +39,11 @@ async def async_setup_entry(
     sensors = []
 
     for device in devices:
+        _LOGGER.debug(
+            "Setting up sensors for device %s (%s)",
+            device.name,
+            device.unique_id,
+        )
         info = _map_device_info(device)
         metrics = device.metrics
         for metric in metrics:
