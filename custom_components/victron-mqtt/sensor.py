@@ -39,14 +39,11 @@ async def async_setup_entry(
     sensors = []
 
     for device in devices:
-        _LOGGER.debug(
-            "Setting up sensors for device %s (%s)",
-            device.name,
-            device.unique_id,
-        )
         info = _map_device_info(device)
+        _LOGGER.debug("Setting up sensors for device: %s. info: %s", device, info)
         metrics = device.metrics
         for metric in metrics:
+            _LOGGER.debug("Setting up sensor: %s", repr(metric))
             sensor = VictronSensor(device, metric, info)
             sensors.append(sensor)
 
@@ -144,7 +141,7 @@ def _map_device_info(device: VictronVenusDevice) -> DeviceInfo:
     info: DeviceInfo = {}
     info["identifiers"] = {(DOMAIN, device.unique_id)}
     info["manufacturer"] = device.manufacturer
-    info["name"] = device.name
+    info["name"] = f"{device.name} ({device.unique_id})" if device.device_id != "0" else device.name
     info["model"] = device.model
     info["serial_number"] = device.serial_number
 
