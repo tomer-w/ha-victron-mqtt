@@ -8,7 +8,6 @@ from urllib.parse import urlparse
 from victron_mqtt import (
     CannotConnectError,
     Hub as VictronVenusHub,
-    InvalidAuthError,
 )
 import voluptuous as vol
 
@@ -93,8 +92,6 @@ class VictronMQTTConfigFlow(ConfigFlow, domain=DOMAIN):
                 installation_id = await validate_input(self.hass, data)
             except CannotConnectError:
                 errors["base"] = "cannot_connect"
-            except InvalidAuthError:
-                errors["base"] = "invalid_auth"
             except Exception:  # pylint: disable=broad-except  # noqa: BLE001
                 errors["base"] = "unknown"
             else:
@@ -149,15 +146,15 @@ class VictronMQTTConfigFlow(ConfigFlow, domain=DOMAIN):
             await validate_input(
                 self.hass, {CONF_HOST: self.hostname, CONF_SERIAL: self.serial}
             )
-        except InvalidAuthError:
+        except CannotConnectError:
             return await self.async_step_user()
-        else:
-            return self.async_create_entry(
-                title=str(self.friendlyName),
-                data={
-                    CONF_HOST: self.hostname,
-                    CONF_SERIAL: self.serial,
-                    CONF_INSTALLATION_ID: self.installation_id,
-                    CONF_MODEL: self.modelName,
-                },
-            )
+
+        return self.async_create_entry(
+            title=str(self.friendlyName),
+            data={
+                CONF_HOST: self.hostname,
+                CONF_SERIAL: self.serial,
+                CONF_INSTALLATION_ID: self.installation_id,
+                CONF_MODEL: self.modelName,
+            },
+        )

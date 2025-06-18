@@ -8,8 +8,7 @@ import asyncio
 
 from victron_mqtt import (
     CannotConnectError,
-    Hub as VictronVenusHub,
-    InvalidAuthError,
+    Hub as VictronVenusHub
 )
 
 from homeassistant.helpers.typing import ConfigType
@@ -68,8 +67,6 @@ async def async_setup_entry(
     try:
         await hub.connect()
 
-    except InvalidAuthError as auth_error:
-        raise ConfigEntryError("Invalid authentication") from auth_error
     except CannotConnectError as connect_error:
         _LOGGER.error("Cannot connect to the hub")
         raise ConfigEntryNotReady("Device is offline") from connect_error
