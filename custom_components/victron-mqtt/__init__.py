@@ -71,7 +71,6 @@ async def async_setup_entry(
         _LOGGER.error("Cannot connect to the hub")
         raise ConfigEntryNotReady("Device is offline") from connect_error
 
-    await hub.initialize_devices_and_metrics()
     entry.runtime_data = hub
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
     return True
