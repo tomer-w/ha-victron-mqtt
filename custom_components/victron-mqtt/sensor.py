@@ -4,6 +4,7 @@ This module is light-weight and only registers the sensors with Home Assistant. 
 """
 
 import logging
+import asyncio
 from victron_mqtt import (
     Device as VictronVenusDevice,
     Metric as VictronVenusMetric,
@@ -25,6 +26,7 @@ from homeassistant.config_entries import ConfigEntry
 from .const import DOMAIN
 _LOGGER = logging.getLogger(__name__)
 
+asyncio_event_loop: asyncio.AbstractEventLoop | None = None
 
 async def async_setup_entry(
     hass: HomeAssistant,
@@ -33,11 +35,12 @@ async def async_setup_entry(
 ) -> None:
     """Set up Victron Venus sensors from a config entry."""
 
-    hub = config_entry.runtime_data
+    global asyncio_event_loop
+    asyncio_event_loop = asyncio.get_event_loop()
 
+    hub = config_entry.runtime_data
     devices: VictronVenusDevice = hub.devices
     sensors = []
-
     for device in devices:
         info = _map_device_info(device)
         _LOGGER.debug("Setting up sensors for device: %s. info: %s", device, info)
@@ -87,7 +90,12 @@ class VictronSensor(SensorEntity):
         if metric.phase is not None:
             self._attr_translation_placeholders = {"phase": metric.phase}
 
+
     def _on_update(self, metric: VictronVenusMetric):
+        assert asyncio_event_loop is not None
+        asyncio.run_coroutine_threadsafe(self._on_update_task(metric), asyncio_event_loop)
+
+    async def _on_update_task(self, metric: VictronVenusMetric):
         if self._registered_with_homeassistant:
             self._attr_native_value = metric.value
             self.async_write_ha_state()
@@ -140,7 +148,7 @@ class VictronSensor(SensorEntity):
 def _map_device_info(device: VictronVenusDevice) -> DeviceInfo:
     info: DeviceInfo = {}
     info["identifiers"] = {(DOMAIN, device.unique_id)}
-    info["manufacturer"] = device.manufacturer
+    info["manufacturer"] = device.manufacturer if device.manufacturer is not None else "Victron Energy"
     info["name"] = f"{device.name} (ID: {device.device_id})" if device.device_id != "0" else device.name
     info["model"] = device.model
     info["serial_number"] = device.serial_number

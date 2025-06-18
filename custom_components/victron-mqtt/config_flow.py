@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import logging
 from typing import Any
 from urllib.parse import urlparse
 
@@ -30,6 +31,9 @@ from .const import (
     DEFAULT_PORT,
     DOMAIN,
 )
+
+_LOGGER = logging.getLogger(__name__)
+
 
 STEP_USER_DATA_SCHEMA = vol.Schema(
     {
@@ -63,7 +67,8 @@ async def validate_input(hass: HomeAssistant, data: dict[str, Any]) -> str:
         data.get(CONF_SERIAL, "NOSERIAL"),
     )
 
-    return await hub.verify_connection_details()
+    await hub.connect()
+    return hub.installation_id
 
 
 class VictronMQTTConfigFlow(ConfigFlow, domain=DOMAIN):
@@ -133,11 +138,12 @@ class VictronMQTTConfigFlow(ConfigFlow, domain=DOMAIN):
     ) -> ConfigFlowResult:
         """Handle UPnP  discovery."""
         self.hostname = str(urlparse(discovery_info.ssdp_location).hostname)
-
         self.serial = discovery_info.upnp["serialNumber"]
         self.installation_id = discovery_info.upnp["X_VrmPortalId"]
         self.modelName = discovery_info.upnp["modelName"]
         self.friendlyName = discovery_info.upnp["friendlyName"]
+        
+        _LOGGER.info("SSDP: hostname=%s, serial=%s, installation_id=%s, modelName=%s, friendlyName=%s", self.hostname, self.serial, self.installation_id, self.modelName, self.friendlyName)
 
         await self.async_set_unique_id(self.installation_id)
         self._abort_if_unique_id_configured()
