@@ -1,5 +1,5 @@
 {
-    "domain": "victron-mqtt",
+    "domain": "victron_mqtt",
     "name": "Victron MQTT Integration",
     "codeowners": ["@tomer-w"],
     "config_flow": true,

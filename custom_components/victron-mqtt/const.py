@@ -1,10 +1,10 @@
-"""Constants for the victron-mqtt integration."""
+"""Constants for the victron_mqtt integration."""
 
 CONF_INSTALLATION_ID = "installation_id"
 CONF_MODEL = "model"
 CONF_SERIAL = "serial"
 
-DOMAIN = "victron-mqtt"
+DOMAIN = "victron_mqtt"
 
 DEVICE_MESSAGE = "device"
 SENSOR_MESSAGE = "sensor"
