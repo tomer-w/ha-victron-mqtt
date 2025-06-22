@@ -39,6 +39,10 @@ A Home Assistant integration that connects to Victron Energy devices using MQTT,
 If you prefer not to use HACS due to bandwidth constraints, especially in marine environments, you can use the provided update script to manually update the integration after it was installed for the first time.
 
 1. Open the HA Terminal window.
+2. For the first time only, you need to give the script execution permissions:
+   ```bash
+   chmod +x /config/custom_components/victron_mqtt/update_integration.sh
+   ```
 2. Run the script using a terminal:
    ```bash
    /config/custom_components/victron_mqtt/update_integration.sh
