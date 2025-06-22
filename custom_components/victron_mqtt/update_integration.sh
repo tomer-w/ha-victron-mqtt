@@ -41,7 +41,7 @@ unzip -q latest.zip
 # Copy the integration folder to destination
 mkdir -p "$DEST_FOLDER"
 cp -r "$TMP_FOLDER/$TARGET_SUBFOLDER/"* "$DEST_FOLDER/"
-
+chmod +x "$DEST_FOLDER/"update_integration.py
 echo "✅ Integration updated at $DEST_FOLDER"
 
 # Cleanup
