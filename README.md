@@ -35,6 +35,24 @@ A Home Assistant integration that connects to Victron Energy devices using MQTT,
 1. Copy the `custom_components/victron-mqtt` folder to your Home Assistant's `custom_components` directory
 2. Restart Home Assistant
 
+### Script-Based Update (For Limited Bandwidth Environments)
+If you prefer not to use HACS due to bandwidth constraints, especially in marine environments, you can use the provided update script to manually update the integration after it was installed for the first time.
+
+1. Open the HA Terminal window.
+2. Run the script using a terminal:
+   ```bash
+   /config/custom_components/victron_mqtt/update_integration.sh
+   ```
+3. Optionally, use the `--restart` flag to restart Home Assistant after the update:
+   ```bash
+   /config/custom_components/victron_mqtt/update_integration.sh --restart
+   ```
+   This will validate the Home Assistant configuration and issue a restart command if the configuration is valid.
+
+4. Restart Home Assistant manually if you did not use the `--restart` flag.
+
+This script will fetch the latest version of the integration directly from the repository and replace the existing files.
+
 ## Configuration
 
 The integration can be configured in two ways:
