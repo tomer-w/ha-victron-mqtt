@@ -5,8 +5,10 @@ This module is light-weight and only registers the sensors with Home Assistant. 
 
 import logging
 import asyncio
+from typing import List
 from victron_mqtt import (
     Device as VictronVenusDevice,
+    Hub,
     Metric as VictronVenusMetric,
 )
 from victron_mqtt.constants import (
@@ -16,6 +18,7 @@ from victron_mqtt.constants import (
     MetricType,
 )
 
+from .common import _map_device_info
 from homeassistant.components.sensor import SensorEntity
 from homeassistant.components.sensor.const import SensorDeviceClass, SensorStateClass
 from homeassistant.core import HomeAssistant
@@ -23,7 +26,6 @@ from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.config_entries import ConfigEntry
 
-from .const import DOMAIN
 _LOGGER = logging.getLogger(__name__)
 
 asyncio_event_loop: asyncio.AbstractEventLoop | None = None
@@ -38,25 +40,20 @@ async def async_setup_entry(
     global asyncio_event_loop
     asyncio_event_loop = asyncio.get_event_loop()
 
-    hub = config_entry.runtime_data
-    devices: VictronVenusDevice = hub.devices
-    sensors = []
-    for device in devices:
+    hub: Hub = config_entry.runtime_data
+    sensors: List[VictronSensor] = []
+    for device in hub.devices:
         info = _map_device_info(device)
-        _LOGGER.debug("Setting up sensors for device: %s. info: %s", device, info)
-        metrics = device.metrics
-        for metric in metrics:
+        _LOGGER.info("Setting up sensors for device: %s. info: %s", device, info)
+        for metric in device.metrics:
             _LOGGER.debug("Setting up sensor: %s", repr(metric))
             sensor = VictronSensor(device, metric, info)
             sensors.append(sensor)
 
-    async_add_entities(sensors)
-
-    # Mark the sensors as registered with Home Assistant, so that updates can be propagated.
-    # The Victron Client will asynchronously update the metrics, and will update the sensor values
-    # before they are registered with Home Assistant.
-    for sensor in sensors:
-        sensor.mark_registered_with_homeassistant()
+    if sensors:
+        async_add_entities(sensors)
+        for sensor in sensors:
+            sensor.mark_registered_with_homeassistant()
 
 
 class VictronSensor(SensorEntity):
@@ -71,13 +68,11 @@ class VictronSensor(SensorEntity):
         """Initialize the sensor based on detauls in the metric."""
         self._device = device
         self._metric = metric
-        self._metric.on_update = self._on_update
-        self._registered_with_homeassistant = False
         self._device_info = device_info
         self._attr_native_unit_of_measurement = metric.unit_of_measurement
         self._attr_device_class = self._map_metric_to_device_class(metric)
         self._attr_state_class = self._map_metric_to_stateclass(metric)
-        self._attr_unique_id = metric.unique_id
+        self._attr_unique_id = f"{metric.unique_id}_sensor"
         self._attr_native_value = metric.value
         self._attr_should_poll = False
         self._attr_has_entity_name = True
@@ -90,19 +85,28 @@ class VictronSensor(SensorEntity):
         if metric.phase is not None:
             self._attr_translation_placeholders = {"phase": metric.phase}
 
+        _LOGGER.info("Sensor %s added", repr(self))
+
+    def __repr__(self) -> str:
+        """Return a string representation of the sensor."""
+        return (
+            f"VictronSensor(device={self._device.name}, "
+            f"metric={self._metric.short_id}, "
+            f"translation_key={self._attr_translation_key}, "
+            f"value={self._attr_native_value})"
+        )
 
     def _on_update(self, metric: VictronVenusMetric):
         assert asyncio_event_loop is not None
         asyncio.run_coroutine_threadsafe(self._on_update_task(metric), asyncio_event_loop)
 
     async def _on_update_task(self, metric: VictronVenusMetric):
-        if self._registered_with_homeassistant:
-            self._attr_native_value = metric.value
-            self.async_write_ha_state()
+        self._attr_native_value = metric.value
+        self.async_write_ha_state()
 
     def mark_registered_with_homeassistant(self):
         """Mark the sensor as registered with Home Assistant, so that updates can be propagated."""
-        self._registered_with_homeassistant = True
+        self._metric.on_update = self._on_update
 
     def _map_metric_to_device_class(
         self, metric: VictronVenusMetric
@@ -143,14 +147,3 @@ class VictronSensor(SensorEntity):
     def device_info(self) -> DeviceInfo:
         """Return device information about the sensor."""
         return self._device_info
-
-
-def _map_device_info(device: VictronVenusDevice) -> DeviceInfo:
-    info: DeviceInfo = {}
-    info["identifiers"] = {(DOMAIN, device.unique_id)}
-    info["manufacturer"] = device.manufacturer if device.manufacturer is not None else "Victron Energy"
-    info["name"] = f"{device.name} (ID: {device.device_id})" if device.device_id != "0" else device.name
-    info["model"] = device.model
-    info["serial_number"] = device.serial_number
-
-    return info
