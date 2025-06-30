@@ -1,8 +1,8 @@
 # Victron Venus MQTT Integration for Home Assistant
 
-[![hacs_badge](https://img.shields.io/badge/HACS-Custom-orange.svg)](https://github.com/custom-components/hacs)
+[![hacs_badge](https://img.shields.io/badge/HACS-Default-green.svg)](https://github.com/custom-components/hacs)
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0)
-<!-- [![Validate](https://github.com/tomer-w/ha-victron-mqtt/actions/workflows/validate.yaml/badge.svg)](https://github.com/tomer-w/ha-victron-mqtt/actions/workflows/validate.yaml) -->
+[![Validate](https://github.com/tomer-w/ha-victron-mqtt/actions/workflows/validate.yaml/badge.svg)](https://github.com/tomer-w/ha-victron-mqtt/actions/workflows/validate.yaml)
 
 A Home Assistant integration that connects to Victron Energy devices using MQTT, providing real-time monitoring of your Victron system including inverters, solar chargers, and battery systems.
 
@@ -23,13 +23,10 @@ A Home Assistant integration that connects to Victron Energy devices using MQTT,
 
 ### HACS Installation (Recommended)
 1. Make sure you have [HACS](https://hacs.xyz/) installed
-2. In HACS, click on the 3 dots in the top right corner and select "Custom repositories"
-3. Add `https://github.com/tomer-w/ha-victron-mqtt` as a custom repository with the category "Integration"
-4. Click "Add"
-5. Go to HACS > Integrations
-6. Click the "+" button and search for "Victron MQTT"
-7. Click "Download"
-8. Restart Home Assistant
+2. Go to HACS > Integrations
+3. Click the "+" button and search for "Victron MQTT"
+4. Click "Download"
+5. Restart Home Assistant
 
 ### Manual Installation
 1. Copy the `custom_components/victron-mqtt` folder to your Home Assistant's `custom_components` directory
