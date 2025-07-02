@@ -26,25 +26,34 @@ from homeassistant.exceptions import ConfigEntryNotReady
 
 from .const import CONF_INSTALLATION_ID, CONF_MODEL, CONF_SERIAL, DOMAIN
 
+
 _LOGGER = logging.getLogger(__name__)
 
 PLATFORMS: list[Platform] = [Platform.BINARY_SENSOR, Platform.NUMBER, Platform.SELECT, Platform.SENSOR, Platform.SWITCH]
 
 __all__ = ["DOMAIN"]
 
-victron_mqtt_version: str | None = None
+asyncio_event_loop: asyncio.AbstractEventLoop | None = None
+
+def get_event_loop() -> asyncio.AbstractEventLoop:
+    """Get the current asyncio event loop."""
+    global asyncio_event_loop
+    assert asyncio_event_loop is not None
+    return asyncio_event_loop
 
 async def get_package_version(package_name):
-    loop = asyncio.get_event_loop()
+    loop = get_event_loop()
     version = await loop.run_in_executor(None, importlib.metadata.version, package_name)
     return version
 
 async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
     """Set up the integration."""
+    global asyncio_event_loop
+    asyncio_event_loop = asyncio.get_event_loop()
     version = getattr(hass.data["integrations"][DOMAIN], "version", 0)
-    global victron_mqtt_version
     victron_mqtt_version = await get_package_version("victron_mqtt")
     _LOGGER.info("Setting up victron_mqtt integration. Version: %s. victron_mqtt package version: %s", version, victron_mqtt_version)
+
     return True
 
 async def async_setup_entry(
