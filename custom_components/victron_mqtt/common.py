@@ -4,13 +4,8 @@ from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.entity import Entity
 from homeassistant.components.sensor.const import SensorDeviceClass, SensorStateClass
 
-from victron_mqtt import Device as VictronVenusDevice
-
-from . import get_event_loop
-from .const import DOMAIN
 from victron_mqtt import (
     Device as VictronVenusDevice,
-    Hub,
     Metric as VictronVenusMetric,
 )
 from victron_mqtt.constants import (
@@ -22,21 +17,24 @@ from victron_mqtt.constants import (
 
 _LOGGER = logging.getLogger(__name__)
 
-def _map_device_info(device: VictronVenusDevice) -> DeviceInfo:
-    info: DeviceInfo = {}
-    info["identifiers"] = {(DOMAIN, device.unique_id)}
-    info["manufacturer"] = device.manufacturer if device.manufacturer is not None else "Victron Energy"
-    info["name"] = f"{device.name} (ID: {device.device_id})" if device.device_id != "0" else device.name
-    info["model"] = device.model
-    info["serial_number"] = device.serial_number
+asyncio_event_loop: asyncio.AbstractEventLoop | None = None
 
-    return info
+def init_event_loop():
+    global asyncio_event_loop
+    asyncio_event_loop = asyncio.get_event_loop()
+
+def get_event_loop() -> asyncio.AbstractEventLoop:
+    """Get the current asyncio event loop."""
+    global asyncio_event_loop
+    assert asyncio_event_loop is not None
+    return asyncio_event_loop
 
 class VictronBaseEntity(Entity):
     """Implementation of a Victron Venus base entity."""
 
     def __init__(
         self,
+        hub_id: str,
         device: VictronVenusDevice,
         metric: VictronVenusMetric,
         device_info: DeviceInfo,
@@ -46,22 +44,33 @@ class VictronBaseEntity(Entity):
         self._device = device
         self._metric = metric
         self._device_info = device_info
+        self._attr_unique_id = f"{type}_{hub_id}_{metric.unique_id}"
+        self.entity_id = self._attr_unique_id
         self._attr_name = metric.name
         self._attr_native_unit_of_measurement = metric.unit_of_measurement
         self._attr_device_class = self._map_metric_to_device_class(metric)
         self._attr_state_class = self._map_metric_to_stateclass(metric)
-        self._attr_unique_id = f"{metric.unique_id}_{type}"
         self._attr_native_value = metric.value
         self._attr_should_poll = False
         self._attr_has_entity_name = True
         self._attr_suggested_display_precision = metric.precision
-        _LOGGER.info("VictronBaseEntity %s added", repr(self))
+        translation_key = metric.generic_short_id
+        translation_key = translation_key.replace(
+            PLACEHOLDER_PHASE, "lx"
+        )  # for translation key we do generic replacement
+        self._attr_translation_key = translation_key
+        self._attr_translation_placeholders = {}
+        if metric.phase is not None:
+            self._attr_translation_placeholders = {"phase": metric.phase}
 
     def __repr__(self) -> str:
         """Return a string representation of the entity."""
         return (
             f"VictronBaseEntity(device={self._device.name}, "
+            f"unique_id={self._attr_unique_id}, "
             f"metric={self._metric.short_id}, "
+            f"translation_key={self._attr_translation_key}, "
+            f"translation_placeholders={self._attr_translation_placeholders}, "
             f"value={self._attr_native_value})"
         )
 

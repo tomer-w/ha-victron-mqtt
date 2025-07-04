@@ -27,5 +27,14 @@
       "already_configured": "Already configured",
       "not_victronvenus": "Not a Victron Venus device"
     }
+  },
+
+  "entity": {
+    "sensor": {
+      "system_grid_phases": {
+        "name": "Grid phases Foo Bar"
+      }
+    }
   }
+  
 }
