@@ -62,7 +62,7 @@ jobs:
         run: |
           latest="${{ steps.get_release.outputs.latest_version }}"
           pip install --upgrade pip
-          pip download --no-deps --dest . "victron_mqtt==$latest"
+          pip download --no-binary :all: --no-deps --dest . "victron_mqtt==$latest"
 
       - name: Extract victron_mqtt.json from release package
         run: |
