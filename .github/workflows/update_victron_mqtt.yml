@@ -41,11 +41,8 @@ jobs:
             echo "update_needed=true" >> $GITHUB_OUTPUT
           fi
 
-      - name: Exit if no update needed
-        if: steps.check_update.outputs.update_needed == 'false'
-        run: exit 0
-
       - name: Update manifest.json with new version
+        if: steps.check_update.outputs.update_needed == 'true'
         run: |
           latest="${{ steps.get_release.outputs.latest_version }}"
           # Get current version
@@ -63,23 +60,28 @@ jobs:
             custom_components/victron_mqtt/manifest.json > manifest.tmp && mv manifest.tmp custom_components/victron_mqtt/manifest.json
 
       - name: Download victron_mqtt release package from PyPI
+        if: steps.check_update.outputs.update_needed == 'true'
         run: |
           latest="${{ steps.get_release.outputs.latest_version }}"
           pip install --upgrade pip
           pip download --no-binary :all: --no-deps --dest . "victron_mqtt==$latest"
 
       - name: Extract victron_mqtt.json from release package
+        if: steps.check_update.outputs.update_needed == 'true'
         run: |
           set -e
           latest="${{ steps.get_release.outputs.latest_version }}"
-          tar -xzf "$pkg" victron_mqtt-$latest/victron_mqtt.json
+          tar -xzf victron_mqtt-$latest.tar.gz victron_mqtt-$latest/victron_mqtt.json
+          mv victron_mqtt-$latest/victron_mqtt.json victron_mqtt.json
           rm -rf victron_mqtt-$latest.tar.gz
 
       - name: Merge topics into en.json
+        if: steps.check_update.outputs.update_needed == 'true'
         run: |
           python3 .github/scripts/merge_topics.py
 
       - name: Commit and push changes
+        if: steps.check_update.outputs.update_needed == 'true'
         uses: stefanzweifel/git-auto-commit-action@v6
         with:
           commit_message: "chore: update victron_mqtt to ${{ steps.get_release.outputs.latest_version }} and merge topics"
@@ -87,6 +89,7 @@ jobs:
           skip_fetch: false
 
       - name: Create Pull Request
+        if: steps.check_update.outputs.update_needed == 'true'
         uses: peter-evans/create-pull-request@v7
         with:
           branch: update/victron-mqtt-${{ steps.get_release.outputs.latest_version }}
