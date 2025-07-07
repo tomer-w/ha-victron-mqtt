@@ -95,7 +95,7 @@ jobs:
         with:
           commit_message: "chore: update victron_mqtt to ${{ steps.get_release.outputs.latest_version }} and merge topics"
           branch: update/victron-mqtt-${{ steps.get_release.outputs.latest_version }}
-          create_branch: true
+          skip_fetch: false
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v7
