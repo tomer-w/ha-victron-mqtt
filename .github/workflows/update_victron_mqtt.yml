@@ -5,6 +5,10 @@ on:
     - cron: '0 3 * * *' # Runs daily at 03:00 UTC
   workflow_dispatch:
 
+permissions:
+  contents: write
+  pull-requests: write
+
 jobs:
   update-victron-mqtt:
     runs-on: ubuntu-latest
