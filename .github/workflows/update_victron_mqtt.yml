@@ -72,7 +72,9 @@ jobs:
           if [[ "$pkg" == *.whl ]]; then
             unzip -j "$pkg" 'victron_mqtt/victron_mqtt.json' -d custom_components/victron_mqtt/
           else
-            tar --wildcards --strip-components=1 -xzf "$pkg" -C custom_components/victron_mqtt/ '*/victron_mqtt.json'
+            tar -xzf "$pkg" victron_mqtt-$latest/victron_mqtt.json
+            mv victron_mqtt-$latest/victron_mqtt.json custom_components/victron_mqtt/
+            rm -rf victron_mqtt-$latest
           fi
 
       - name: Download latest victron_mqtt.json
