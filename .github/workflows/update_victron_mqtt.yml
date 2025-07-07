@@ -72,19 +72,8 @@ jobs:
         run: |
           set -e
           latest="${{ steps.get_release.outputs.latest_version }}"
-          pkg=$(ls victron_mqtt-$latest*.whl 2>/dev/null || ls victron_mqtt-$latest*.tar.gz)
-          if [[ "$pkg" == *.whl ]]; then
-            unzip -j "$pkg" 'victron_mqtt/victron_mqtt.json' -d custom_components/victron_mqtt/
-          else
-            tar -xzf "$pkg" victron_mqtt-$latest/victron_mqtt.json
-            mv victron_mqtt-$latest/victron_mqtt.json custom_components/victron_mqtt/
-            rm -rf victron_mqtt-$latest
-          fi
-
-      - name: Download latest victron_mqtt.json
-        run: |
-          latest="${{ steps.get_release.outputs.latest_version }}"
-          curl -s -L -o custom_components/victron_mqtt/victron_mqtt.json "https://raw.githubusercontent.com/tomer-w/victron_mqtt/main/victron_mqtt.json"
+          tar -xzf "$pkg" victron_mqtt-$latest/victron_mqtt.json
+          rm -rf victron_mqtt-$latest.tar.gz
 
       - name: Merge topics into en.json
         run: |
