@@ -90,4 +90,4 @@ jobs:
           body: "This PR updates victron_mqtt to ${{ steps.get_release.outputs.latest_version }} and merges new topics into translations."
           commit-message: "Update victron_mqtt to ${{ steps.get_release.outputs.latest_version }} and merge topics"
           base: main
-          labels: "automation"
+          labels: "dependencies"
