@@ -1,0 +1,99 @@
+name: Update victron_mqtt Dependency and Translations
+
+on:
+  schedule:
+    - cron: '0 3 * * *' # Runs daily at 03:00 UTC
+  workflow_dispatch:
+
+jobs:
+  update-victron-mqtt:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Get latest victron_mqtt release
+        id: get_release
+        run: |
+          latest=$(curl -s https://pypi.org/pypi/victron_mqtt/json | jq -r .info.version)
+          echo "latest_version=$latest" >> $GITHUB_OUTPUT
+
+      - name: Check if update is needed
+        id: check_update
+        run: |
+          current=$(jq -r '.requirements[0]' custom_components/victron_mqtt/manifest.json | cut -d'=' -f3)
+          latest="${{ steps.get_release.outputs.latest_version }}"
+          echo "Current: $current, Latest: $latest"
+          if [ "$current" = "$latest" ]; then
+            echo "No update needed."
+            echo "update_needed=false" >> $GITHUB_OUTPUT
+          else
+            echo "Update needed."
+            echo "update_needed=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Exit if no update needed
+        if: steps.check_update.outputs.update_needed == 'false'
+        run: exit 0
+
+      - name: Update manifest.json with new version
+        run: |
+          latest="${{ steps.get_release.outputs.latest_version }}"
+          # Get current version
+          current_version=$(jq -r '.version' custom_components/victron_mqtt/manifest.json)
+          year=$(echo "$current_version" | cut -d. -f1)
+          minor=$(echo "$current_version" | cut -d. -f2)
+          patch=$(echo "$current_version" | cut -d. -f3)
+          # Bump patch version
+          new_patch=$((patch + 1))
+          new_version="$year.$minor.$new_patch"
+          jq \
+            --arg v "$latest" \
+            --arg nv "$new_version" \
+            '.requirements[0] = "victron_mqtt=="+$v | .version = $nv' \
+            custom_components/victron_mqtt/manifest.json > manifest.tmp && mv manifest.tmp custom_components/victron_mqtt/manifest.json
+
+      - name: Download victron_mqtt release package from PyPI
+        run: |
+          latest="${{ steps.get_release.outputs.latest_version }}"
+          pip install --upgrade pip
+          pip download --no-deps --dest . "victron_mqtt==$latest"
+
+      - name: Extract victron_mqtt.json from release package
+        run: |
+          set -e
+          latest="${{ steps.get_release.outputs.latest_version }}"
+          pkg=$(ls victron_mqtt-$latest*.whl 2>/dev/null || ls victron_mqtt-$latest*.tar.gz)
+          if [[ "$pkg" == *.whl ]]; then
+            unzip -j "$pkg" 'victron_mqtt/victron_mqtt.json' -d custom_components/victron_mqtt/
+          else
+            tar --wildcards --strip-components=1 -xzf "$pkg" -C custom_components/victron_mqtt/ '*/victron_mqtt.json'
+          fi
+
+      - name: Download latest victron_mqtt.json
+        run: |
+          latest="${{ steps.get_release.outputs.latest_version }}"
+          curl -s -L -o custom_components/victron_mqtt/victron_mqtt.json "https://raw.githubusercontent.com/tomer-w/victron_mqtt/main/victron_mqtt.json"
+
+      - name: Merge topics into en.json
+        run: |
+          python3 .github/scripts/merge_topics.py
+
+      - name: Commit and push changes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore: update victron_mqtt to ${{ steps.get_release.outputs.latest_version }} and merge topics"
+          branch: update/victron-mqtt-${{ steps.get_release.outputs.latest_version }}
+          create_branch: true
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          branch: update/victron-mqtt-${{ steps.get_release.outputs.latest_version }}
+          title: "Update victron_mqtt to ${{ steps.get_release.outputs.latest_version }} and merge topics"
+          body: "This PR updates victron_mqtt to ${{ steps.get_release.outputs.latest_version }} and merges new topics into translations."

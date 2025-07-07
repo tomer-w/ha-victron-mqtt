@@ -28,13 +28,154 @@
       "not_victronvenus": "Not a Victron Venus device"
     }
   },
-
   "entity": {
     "sensor": {
       "system_grid_phases": {
-        "name": "Grid phases Foo Bar"
+        "name": "Grid phases"
+      },
+      "grid_voltage_lx": {
+        "name": "Grid voltage on {phase}"
+      },
+      "grid_current_lx": {
+        "name": "Grid current on {phase}"
+      },
+      "grid_power_lx": {
+        "name": "Grid power on {phase}"
+      },
+      "grid_voltage": {
+        "name": "Grid voltage"
+      },
+      "grid_current": {
+        "name": "Grid current"
+      },
+      "grid_power": {
+        "name": "Grid power"
+      },
+      "grid_energy_forward": {
+        "name": "Grid consumption"
+      },
+      "grid_energy_reverse": {
+        "name": "Grid feed-in"
+      },
+      "solar_voltage": {
+        "name": "DC Bus voltage"
+      },
+      "solar_current": {
+        "name": "DC current"
+      },
+      "solar_power": {
+        "name": "Power"
+      },
+      "solar_yield": {
+        "name": "Yield"
+      },
+      "solar_max_power": {
+        "name": "Max Power Today"
+      },
+      "battery_voltage": {
+        "name": "Battery voltage"
+      },
+      "battery_current": {
+        "name": "Battery current"
+      },
+      "battery_power": {
+        "name": "Battery power"
+      },
+      "battery_temperature": {
+        "name": "Battery temperature"
+      },
+      "battery_discharged_energy": {
+        "name": "Discharged energy"
+      },
+      "battery_charged_energy": {
+        "name": "Charged energy"
+      },
+      "battery_capacity": {
+        "name": "Battery capacity"
+      },
+      "battery_installed_capacity": {
+        "name": "Battery installed capacity"
+      },
+      "battery_soc": {
+        "name": "SOC"
+      },
+      "inverter_input_power_lx": {
+        "name": "Inverter input power {phase}"
+      },
+      "inverter_input_frequency_lx": {
+        "name": "Inverter input frequency {phase}"
+      },
+      "inverter_input_apparent_power_lx": {
+        "name": "Inverter input apparent power {phase}"
+      },
+      "inverter_output_power_lx": {
+        "name": "Inverter output power {phase}"
+      },
+      "inverter_output_frequency_lx": {
+        "name": "Inverter output frequency {phase}"
+      },
+      "inverter_output_apparent_power_lx": {
+        "name": "Inverter output frequency {phase}"
+      },
+      "system_critical_loads_lx": {
+        "name": "Critical loads on {phase}"
+      },
+      "system_ac_loads_lx": {
+        "name": "AC loads on {phase}"
+      },
+      "evcharger_current": {
+        "name": "EV charger current"
+      },
+      "evcharger_power_lx": {
+        "name": "EV charger power"
+      },
+      "solar_voltage_lx": {
+        "name": "Voltage {phase}"
+      },
+      "solar_current_lx": {
+        "name": "Current {phase}"
+      },
+      "solar_power_total": {
+        "name": "Power Total"
+      },
+      "solar_power_lx": {
+        "name": "Power {phase}"
+      },
+      "solar_yield_total": {
+        "name": "Total Yield"
+      },
+      "solar_yield_lx": {
+        "name": "Yield {phase}"
+      }
+    },
+    "select": {
+      "inverter_mode": {
+        "name": "Inverter mode"
+      },
+      "evcharger_mode": {
+        "name": "EV charger mode"
+      }
+    },
+    "binary_sensor": {
+      "inverter_connected": {
+        "name": "Inverter connected"
+      },
+      "evcharger_connected": {
+        "name": "EV charger connected"
+      }
+    },
+    "number": {
+      "inverter_current_limit": {
+        "name": "Inverter current limit"
+      },
+      "evcharger_set_current": {
+        "name": "EV charger set current"
+      }
+    },
+    "switch": {
+      "evcharger_charge": {
+        "name": "EV charger charge"
       }
     }
   }
-  
 }

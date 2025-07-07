@@ -46,7 +46,6 @@ class VictronBaseEntity(Entity):
         self._device_info = device_info
         self._attr_unique_id = f"{type}_{hub_id}_{metric.unique_id}"
         self.entity_id = self._attr_unique_id
-        self._attr_name = metric.name
         self._attr_native_unit_of_measurement = metric.unit_of_measurement
         self._attr_device_class = self._map_metric_to_device_class(metric)
         self._attr_state_class = self._map_metric_to_stateclass(metric)
