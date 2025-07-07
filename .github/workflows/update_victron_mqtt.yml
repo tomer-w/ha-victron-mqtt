@@ -91,7 +91,7 @@ jobs:
           python3 .github/scripts/merge_topics.py
 
       - name: Commit and push changes
-        uses: stefanzweifel/git-auto-commit-action@v5
+        uses: stefanzweifel/git-auto-commit-action@v6
         with:
           commit_message: "chore: update victron_mqtt to ${{ steps.get_release.outputs.latest_version }} and merge topics"
           branch: update/victron-mqtt-${{ steps.get_release.outputs.latest_version }}
