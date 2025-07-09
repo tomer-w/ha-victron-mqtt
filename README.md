@@ -85,7 +85,7 @@ The integration can be configured in two ways:
 ## Available entities (sensors, switches, lists, numbers)
 
 The integration provides numerous entities depending on your Victron system configuration. Here are some key sensors:  
-The full list is auto generated [here](https://tomer-w.github.io/victron_mqtt/)
+The full list is auto generated [here](https://tomer-w.github.io/victron_mqtt/).
 
 ### Battery Monitoring
 - Battery Voltage
@@ -135,11 +135,11 @@ If you want to help the community and add more entities, please take a look at t
    - Ensure that MQTT is enabled on your Victron device.
 
 2. **Authentication Failed**
-   - Double-check username and password if authentication is enabled
+   - Double-check the username and password if authentication is enabled.
    - Note: These are device credentials, not VRM portal credentials.
 
 3. **No Sensors Appear**
-   - Verify MQTT topics are being published by your Victron device
+   - Verify that MQTT topics are being published by your Victron device.
    - Check the Home Assistant logs for any error messages.
 
 ## Support
@@ -153,5 +153,5 @@ This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENS
 
 ## Acknowledgments
 
-- Thanks to Johan du Plessis <johan@epicwin.co.za> who [submitted](https://github.com/home-assistant/core/pull/130505) the original code this custom integration is based on. Later he abandoned it and I revived it here.
-- Thanks to Victron Energy for their excellent hardware and documentation
+- Thanks to Johan du Plessis <johan@epicwin.co.za>, who [submitted](https://github.com/home-assistant/core/pull/130505) the original code this custom integration is based on. He later abandoned it, and I revived it here.
+- Thanks to Victron Energy for their excellent hardware and documentation.
