@@ -14,7 +14,7 @@ A Home Assistant integration that connects to Victron Energy devices using MQTT,
   - Solar/PV metrics (voltage, current, power, yield)
   - Grid metrics (voltage, current, power, energy)
   - Inverter metrics (input/output power, frequency)
-  - EV Charger data
+  - EV Charger metrics
 - 🕹️ Two-way control over your Victron installation:  
    - inverter mode (On, Off, Charger Only, Inverter Only)  
    - EV Charger (On, Off, current limit)  
@@ -85,7 +85,7 @@ The integration can be configured in two ways:
 ## Available entities (sensors, switches, lists, numbers)
 
 The integration provides numerous entities depending on your Victron system configuration. Here are some key sensors:  
-The full list is auto generated (here)[https://tomer-w.github.io/victron_mqtt/]
+The full list is auto generated [here](https://tomer-w.github.io/victron_mqtt/)
 
 ### Battery Monitoring
 - Battery Voltage
