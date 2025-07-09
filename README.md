@@ -14,10 +14,17 @@ A Home Assistant integration that connects to Victron Energy devices using MQTT,
   - Solar/PV metrics (voltage, current, power, yield)
   - Grid metrics (voltage, current, power, energy)
   - Inverter metrics (input/output power, frequency)
-  - System load monitoring
+  - EV Charger data
+- 🕹️ Two-way control over your Victron installation:  
+   - inverter mode (On, Off, Charger Only, Inverter Only)  
+   - EV Charger (On, Off, current limit)  
+   - charger current limit
+  - inverter mode (On, Off, Charger Only, Inverter Only)
+  - EV Charger (On, Off, current limit)
 - ⚡ Real-time updates via MQTT
 - 🔒 Optional SSL and authentication support
 - 🌐 Multi-phase system support
+- All current supported entities are documented (here)[https://tomer-w.github.io/victron_mqtt/]
 
 ## Installation
 
@@ -75,9 +82,10 @@ The integration can be configured in two ways:
    - Password: (optional)
    - SSL: Enable/disable SSL connection
 
-## Available Sensors
+## Available entities (sensors, switches, lists, numbers)
 
-The integration provides numerous sensors depending on your Victron system configuration. Here are some key sensors:
+The integration provides numerous entities depending on your Victron system configuration. Here are some key sensors:  
+The full list is auto generated (here)[https://tomer-w.github.io/victron_mqtt/]
 
 ### Battery Monitoring
 - Battery Voltage
@@ -112,22 +120,27 @@ The integration provides numerous sensors depending on your Victron system confi
 - Critical Loads
 - Grid Phases
 
+
+## Adding entities
+If you want to help the community and add more entities, please take a look at the [module](https://github.com/tomer-w/victron_mqtt) which drives this integration. It is very simple to extend this integration. I wrote a [document](https://github.com/tomer-w/victron_mqtt/blob/main/extending-victron-support.md) about it.
+
+
 ## Troubleshooting
 
 ### Common Issues
 
 1. **Cannot Connect**
    - Verify your Victron device is powered on and connected to your network
-   - Check if the hostname/IP is correct
-   - Ensure MQTT is enabled on your Victron device
+   - Check that the hostname/IP is correct.
+   - Ensure that MQTT is enabled on your Victron device.
 
 2. **Authentication Failed**
    - Double-check username and password if authentication is enabled
-   - Note: These are device credentials, not VRM portal credentials
+   - Note: These are device credentials, not VRM portal credentials.
 
 3. **No Sensors Appear**
    - Verify MQTT topics are being published by your Victron device
-   - Check Home Assistant logs for any error messages
+   - Check the Home Assistant logs for any error messages.
 
 ## Support
 
