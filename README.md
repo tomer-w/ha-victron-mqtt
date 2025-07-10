@@ -19,12 +19,10 @@ A Home Assistant integration that connects to Victron Energy devices using MQTT,
    - inverter mode (On, Off, Charger Only, Inverter Only)  
    - EV Charger (On, Off, current limit)  
    - charger current limit
-  - inverter mode (On, Off, Charger Only, Inverter Only)
-  - EV Charger (On, Off, current limit)
 - ⚡ Real-time updates via MQTT
 - 🔒 Optional SSL and authentication support
 - 🌐 Multi-phase system support
-- All current supported entities are documented (here)[https://tomer-w.github.io/victron_mqtt/]
+- All current supported entities are documented [here](https://tomer-w.github.io/victron_mqtt/)
 
 ## Installation
 
