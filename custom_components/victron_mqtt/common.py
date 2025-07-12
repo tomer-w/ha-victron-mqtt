@@ -7,12 +7,10 @@ from homeassistant.components.sensor.const import SensorDeviceClass, SensorState
 from victron_mqtt import (
     Device as VictronVenusDevice,
     Metric as VictronVenusMetric,
-)
-from victron_mqtt.constants import (
-    PLACEHOLDER_PHASE,
     DeviceType,
     MetricNature,
     MetricType,
+    PLACEHOLDER_PHASE
 )
 
 _LOGGER = logging.getLogger(__name__)
@@ -44,7 +42,7 @@ class VictronBaseEntity(Entity):
         self._device = device
         self._metric = metric
         self._device_info = device_info
-        self._attr_unique_id = f"{type}_{hub_id}_{metric.unique_id}"
+        self._attr_unique_id = f"{type}.{hub_id}_{metric.unique_id}"
         self.entity_id = self._attr_unique_id
         self._attr_native_unit_of_measurement = metric.unit_of_measurement
         self._attr_device_class = self._map_metric_to_device_class(metric)
