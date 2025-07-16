@@ -67,6 +67,126 @@
       "max": null
     },
     {
+      "topic": "N/+/grid/+/Ac/+/Energy/Forward",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "grid_energy_forward_{phase}",
+      "name": "Grid consumption on {phase}",
+      "unit_of_measurement": "kWh",
+      "metric_type": "MetricType.ENERGY",
+      "metric_nature": "MetricNature.CUMULATIVE",
+      "device_type": "Grid",
+      "value_type": "ValueType.FLOAT",
+      "precision": 1,
+      "enum": null,
+      "min": null,
+      "max": null
+    },
+    {
+      "topic": "N/+/grid/+/Ac/+/Energy/Reverse",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "grid_energy_reverse_{phase}",
+      "name": "Grid feed-in on {phase}",
+      "unit_of_measurement": "kWh",
+      "metric_type": "MetricType.ENERGY",
+      "metric_nature": "MetricNature.CUMULATIVE",
+      "device_type": "Grid",
+      "value_type": "ValueType.FLOAT",
+      "precision": 1,
+      "enum": null,
+      "min": null,
+      "max": null
+    },
+    {
+      "topic": "N/+/grid/+/Ac/PENVoltage",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "grid_voltage_PEN",
+      "name": "Grid voltage on PEN",
+      "unit_of_measurement": "V",
+      "metric_type": "MetricType.VOLTAGE",
+      "metric_nature": "MetricNature.INSTANTANEOUS",
+      "device_type": "Grid",
+      "value_type": "ValueType.FLOAT",
+      "precision": 1,
+      "enum": null,
+      "min": null,
+      "max": null
+    },
+    {
+      "topic": "N/+/grid/+/Ac/N/Current",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "grid_current_N",
+      "name": "Grid current on N",
+      "unit_of_measurement": "A",
+      "metric_type": "MetricType.CURRENT",
+      "metric_nature": "MetricNature.INSTANTANEOUS",
+      "device_type": "Grid",
+      "value_type": "ValueType.FLOAT",
+      "precision": 1,
+      "enum": null,
+      "min": null,
+      "max": null
+    },
+    {
+      "topic": "N/+/grid/+/Ac/Frequency",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "grid_frequency",
+      "name": "Grid frequency",
+      "unit_of_measurement": "Hz",
+      "metric_type": "MetricType.FREQUENCY",
+      "metric_nature": "MetricNature.INSTANTANEOUS",
+      "device_type": "Grid",
+      "value_type": "ValueType.FLOAT",
+      "precision": 2,
+      "enum": null,
+      "min": null,
+      "max": null
+    },
+    {
+      "topic": "N/+/grid/+/Ac/L1/VoltageLineToLine",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "grid_voltage_L1_L2",
+      "name": "Grid voltage L1 to L2",
+      "unit_of_measurement": "V",
+      "metric_type": "MetricType.VOLTAGE",
+      "metric_nature": "MetricNature.INSTANTANEOUS",
+      "device_type": "Grid",
+      "value_type": "ValueType.FLOAT",
+      "precision": 1,
+      "enum": null,
+      "min": null,
+      "max": null
+    },
+    {
+      "topic": "N/+/grid/+/Ac/L2/VoltageLineToLine",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "grid_voltage_L2_L3",
+      "name": "Grid voltage L2 to L3",
+      "unit_of_measurement": "V",
+      "metric_type": "MetricType.VOLTAGE",
+      "metric_nature": "MetricNature.INSTANTANEOUS",
+      "device_type": "Grid",
+      "value_type": "ValueType.FLOAT",
+      "precision": 1,
+      "enum": null,
+      "min": null,
+      "max": null
+    },
+    {
+      "topic": "N/+/grid/+/Ac/L3/VoltageLineToLine",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "grid_voltage_L3_L1",
+      "name": "Grid voltage L3 to L1",
+      "unit_of_measurement": "V",
+      "metric_type": "MetricType.VOLTAGE",
+      "metric_nature": "MetricNature.INSTANTANEOUS",
+      "device_type": "Grid",
+      "value_type": "ValueType.FLOAT",
+      "precision": 1,
+      "enum": null,
+      "min": null,
+      "max": null
+    },
+    {
       "topic": "N/+/grid/+/Ac/Voltage",
       "message_type": "MetricKind.SENSOR",
       "short_id": "grid_voltage",
@@ -340,13 +460,43 @@
       "topic": "N/+/battery/+/Soc",
       "message_type": "MetricKind.SENSOR",
       "short_id": "battery_soc",
-      "name": "SOC",
+      "name": "Battery charge",
       "unit_of_measurement": "%",
       "metric_type": "MetricType.PERCENTAGE",
       "metric_nature": "MetricNature.INSTANTANEOUS",
       "device_type": "Battery",
       "value_type": "ValueType.FLOAT",
       "precision": 1,
+      "enum": null,
+      "min": null,
+      "max": null
+    },
+    {
+      "topic": "N/+/battery/+/System/MinCellVoltage",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "battery_min_cell_voltage",
+      "name": "Battery minimum cell voltage",
+      "unit_of_measurement": "V",
+      "metric_type": "MetricType.VOLTAGE",
+      "metric_nature": "MetricNature.INSTANTANEOUS",
+      "device_type": "Battery",
+      "value_type": "ValueType.FLOAT",
+      "precision": 3,
+      "enum": null,
+      "min": null,
+      "max": null
+    },
+    {
+      "topic": "N/+/battery/+/System/MaxCellVoltage",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "battery_max_cell_voltage",
+      "name": "Battery maximum cell voltage",
+      "unit_of_measurement": "V",
+      "metric_type": "MetricType.VOLTAGE",
+      "metric_nature": "MetricNature.INSTANTANEOUS",
+      "device_type": "Battery",
+      "value_type": "ValueType.FLOAT",
+      "precision": 3,
       "enum": null,
       "min": null,
       "max": null
@@ -363,6 +513,21 @@
       "value_type": "ValueType.ENUM",
       "precision": null,
       "enum": "InverterMode",
+      "min": null,
+      "max": null
+    },
+    {
+      "topic": "N/+/vebus/+/State",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "inverter_state",
+      "name": "Inverter state",
+      "unit_of_measurement": null,
+      "metric_type": "MetricType.NONE",
+      "metric_nature": "MetricNature.INSTANTANEOUS",
+      "device_type": "Inverter",
+      "value_type": "ValueType.ENUM",
+      "precision": null,
+      "enum": "InverterState",
       "min": null,
       "max": null
     },
@@ -445,7 +610,7 @@
       "topic": "N/+/vebus/+/Ac/Out/+/S",
       "message_type": "MetricKind.SENSOR",
       "short_id": "inverter_output_apparent_power_{phase}",
-      "name": "Inverter output frequency {phase}",
+      "name": "Inverter output apparent power {phase}",
       "unit_of_measurement": "VA",
       "metric_type": "MetricType.POWER",
       "metric_nature": "MetricNature.INSTANTANEOUS",
@@ -517,6 +682,51 @@
       "max": null
     },
     {
+      "topic": "N/+/system/+/Dc/System/Power",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "system_dc_consumption",
+      "name": "DC Consumption",
+      "unit_of_measurement": "W",
+      "metric_type": "MetricType.POWER",
+      "metric_nature": "MetricNature.INSTANTANEOUS",
+      "device_type": "System",
+      "value_type": "ValueType.FLOAT",
+      "precision": 1,
+      "enum": null,
+      "min": null,
+      "max": null
+    },
+    {
+      "topic": "N/+/system/+/Relay/0/State",
+      "message_type": "MetricKind.SWITCH",
+      "short_id": "system_relay_1",
+      "name": "Relay 1 state",
+      "unit_of_measurement": null,
+      "metric_type": "MetricType.NONE",
+      "metric_nature": "MetricNature.NONE",
+      "device_type": "System",
+      "value_type": "ValueType.ENUM",
+      "precision": null,
+      "enum": "GenericOnOff",
+      "min": null,
+      "max": null
+    },
+    {
+      "topic": "N/+/system/+/Relay/1/State",
+      "message_type": "MetricKind.SWITCH",
+      "short_id": "system_relay_2",
+      "name": "Relay 2 state",
+      "unit_of_measurement": null,
+      "metric_type": "MetricType.NONE",
+      "metric_nature": "MetricNature.NONE",
+      "device_type": "System",
+      "value_type": "ValueType.ENUM",
+      "precision": null,
+      "enum": "GenericOnOff",
+      "min": null,
+      "max": null
+    },
+    {
       "topic": "N/+/evcharger/+/Mode",
       "message_type": "MetricKind.SELECT",
       "short_id": "evcharger_mode",
@@ -580,7 +790,7 @@
       "topic": "N/+/evcharger/+/Ac/+/Power",
       "message_type": "MetricKind.SENSOR",
       "short_id": "evcharger_power_{phase}",
-      "name": "EV charger power",
+      "name": "EV charger power on {phase}",
       "unit_of_measurement": "W",
       "metric_type": "MetricType.POWER",
       "metric_nature": "MetricNature.INSTANTANEOUS",
@@ -695,6 +905,81 @@
       "enum": null,
       "min": null,
       "max": null
+    },
+    {
+      "topic": "N/+/temperature/+/Temperature",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "temperature_temperature",
+      "name": "Temperature",
+      "unit_of_measurement": "\u00b0C",
+      "metric_type": "MetricType.TEMPERATURE",
+      "metric_nature": "MetricNature.INSTANTANEOUS",
+      "device_type": "Temperature",
+      "value_type": "ValueType.INT",
+      "precision": 1,
+      "enum": null,
+      "min": null,
+      "max": null
+    },
+    {
+      "topic": "N/+/temperature/+/Status",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "temperature_status",
+      "name": "Temperature sensor status",
+      "unit_of_measurement": null,
+      "metric_type": "MetricType.NONE",
+      "metric_nature": "MetricNature.INSTANTANEOUS",
+      "device_type": "Temperature",
+      "value_type": "ValueType.ENUM",
+      "precision": null,
+      "enum": "TemperatureStatus",
+      "min": null,
+      "max": null
+    },
+    {
+      "topic": "N/+/temperature/+/TemperatureType",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "temperature_type",
+      "name": "Temperature sensor type",
+      "unit_of_measurement": null,
+      "metric_type": "MetricType.NONE",
+      "metric_nature": "MetricNature.INSTANTANEOUS",
+      "device_type": "Temperature",
+      "value_type": "ValueType.ENUM",
+      "precision": null,
+      "enum": "TemperatureType",
+      "min": null,
+      "max": null
+    },
+    {
+      "topic": "N/+/temperature/+/Offset",
+      "message_type": "MetricKind.NUMBER",
+      "short_id": "temperature_offset",
+      "name": "Temperature offset",
+      "unit_of_measurement": "\u00b0C",
+      "metric_type": "MetricType.TEMPERATURE",
+      "metric_nature": "MetricNature.INSTANTANEOUS",
+      "device_type": "Temperature",
+      "value_type": "ValueType.FLOAT",
+      "precision": 1,
+      "enum": null,
+      "min": null,
+      "max": null
+    },
+    {
+      "topic": "N/+/temperature/+/Scale",
+      "message_type": "MetricKind.NUMBER",
+      "short_id": "temperature_scale",
+      "name": "Temperature scale factor",
+      "unit_of_measurement": null,
+      "metric_type": "MetricType.NONE",
+      "metric_nature": "MetricNature.INSTANTANEOUS",
+      "device_type": "Temperature",
+      "value_type": "ValueType.FLOAT",
+      "precision": 2,
+      "enum": null,
+      "min": null,
+      "max": null
     }
   ],
   "enums": [
@@ -745,6 +1030,11 @@
           "id": "PVINVERTER",
           "name": "PV Inverter",
           "value": "pvinverter"
+        },
+        {
+          "id": "TEMPERATURE",
+          "name": "Temperature",
+          "value": "temperature"
         }
       ]
     },
@@ -805,6 +1095,151 @@
           "id": "Off",
           "name": "Off",
           "value": 4
+        }
+      ]
+    },
+    {
+      "name": "InverterState",
+      "EnumValues": [
+        {
+          "id": "Off",
+          "name": "Off",
+          "value": 0
+        },
+        {
+          "id": "LowPower",
+          "name": "Low Power",
+          "value": 1
+        },
+        {
+          "id": "Fault",
+          "name": "Fault",
+          "value": 2
+        },
+        {
+          "id": "Bulk",
+          "name": "Bulk",
+          "value": 3
+        },
+        {
+          "id": "Absorption",
+          "name": "Absorption",
+          "value": 4
+        },
+        {
+          "id": "Float",
+          "name": "Float",
+          "value": 5
+        },
+        {
+          "id": "Storage",
+          "name": "Storage",
+          "value": 6
+        },
+        {
+          "id": "Equalize",
+          "name": "Equalize",
+          "value": 7
+        },
+        {
+          "id": "Passthrough",
+          "name": "Passthrough",
+          "value": 8
+        },
+        {
+          "id": "Inverting",
+          "name": "Inverting",
+          "value": 9
+        },
+        {
+          "id": "PowerAssist",
+          "name": "Power Assist",
+          "value": 10
+        },
+        {
+          "id": "PowerSupply",
+          "name": "Power Supply",
+          "value": 11
+        },
+        {
+          "id": "Sustain",
+          "name": "Sustain",
+          "value": 244
+        },
+        {
+          "id": "ExternalControl",
+          "name": "External Control",
+          "value": 252
+        }
+      ]
+    },
+    {
+      "name": "TemperatureStatus",
+      "EnumValues": [
+        {
+          "id": "Ok",
+          "name": "Ok",
+          "value": 0
+        },
+        {
+          "id": "Disconnected",
+          "name": "Disconnected",
+          "value": 1
+        },
+        {
+          "id": "ShortCircuited",
+          "name": "Short circuited",
+          "value": 2
+        },
+        {
+          "id": "ReversePolarity",
+          "name": "Reverse polarity",
+          "value": 3
+        },
+        {
+          "id": "Unknown",
+          "name": "Unknown",
+          "value": 4
+        }
+      ]
+    },
+    {
+      "name": "TemperatureType",
+      "EnumValues": [
+        {
+          "id": "Battery",
+          "name": "Battery",
+          "value": 0
+        },
+        {
+          "id": "Fridge",
+          "name": "Fridge",
+          "value": 1
+        },
+        {
+          "id": "Generic",
+          "name": "Generic",
+          "value": 2
+        },
+        {
+          "id": "Room",
+          "name": "Room",
+          "value": 3
+        },
+        {
+          "id": "Outdoor",
+          "name": "Outdoor",
+          "value": 4
+        },
+        {
+          "id": "WaterHeater",
+          "name": "Water Heater",
+          "value": 5
+        },
+        {
+          "id": "Freezer",
+          "name": "Freezer",
+          "value": 6
         }
       ]
     }

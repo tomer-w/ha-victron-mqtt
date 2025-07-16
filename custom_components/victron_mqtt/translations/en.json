@@ -97,7 +97,7 @@
         "name": "Battery installed capacity"
       },
       "battery_soc": {
-        "name": "SOC"
+        "name": "Battery charge"
       },
       "inverter_input_power_lx": {
         "name": "Inverter input power {phase}"
@@ -115,7 +115,7 @@
         "name": "Inverter output frequency {phase}"
       },
       "inverter_output_apparent_power_lx": {
-        "name": "Inverter output frequency {phase}"
+        "name": "Inverter output apparent power {phase}"
       },
       "system_critical_loads_lx": {
         "name": "Critical loads on {phase}"
@@ -127,7 +127,7 @@
         "name": "EV charger current"
       },
       "evcharger_power_lx": {
-        "name": "EV charger power"
+        "name": "EV charger power on {phase}"
       },
       "solar_voltage_lx": {
         "name": "Voltage {phase}"
@@ -146,6 +146,51 @@
       },
       "solar_yield_lx": {
         "name": "Yield {phase}"
+      },
+      "grid_energy_forward_lx": {
+        "name": "Grid consumption on {phase}"
+      },
+      "grid_energy_reverse_lx": {
+        "name": "Grid feed-in on {phase}"
+      },
+      "grid_voltage_PEN": {
+        "name": "Grid voltage on PEN"
+      },
+      "grid_current_N": {
+        "name": "Grid current on N"
+      },
+      "grid_frequency": {
+        "name": "Grid frequency"
+      },
+      "grid_voltage_L1_L2": {
+        "name": "Grid voltage L1 to L2"
+      },
+      "grid_voltage_L2_L3": {
+        "name": "Grid voltage L2 to L3"
+      },
+      "grid_voltage_L3_L1": {
+        "name": "Grid voltage L3 to L1"
+      },
+      "battery_min_cell_voltage": {
+        "name": "Battery minimum cell voltage"
+      },
+      "battery_max_cell_voltage": {
+        "name": "Battery maximum cell voltage"
+      },
+      "inverter_state": {
+        "name": "Inverter state"
+      },
+      "system_dc_consumption": {
+        "name": "DC Consumption"
+      },
+      "temperature_temperature": {
+        "name": "Temperature"
+      },
+      "temperature_status": {
+        "name": "Temperature sensor status"
+      },
+      "temperature_type": {
+        "name": "Temperature sensor type"
       }
     },
     "select": {
@@ -170,11 +215,23 @@
       },
       "evcharger_set_current": {
         "name": "EV charger set current"
+      },
+      "temperature_offset": {
+        "name": "Temperature offset"
+      },
+      "temperature_scale": {
+        "name": "Temperature scale factor"
       }
     },
     "switch": {
       "evcharger_charge": {
         "name": "EV charger charge"
+      },
+      "system_relay_1": {
+        "name": "Relay 1 state"
+      },
+      "system_relay_2": {
+        "name": "Relay 2 state"
       }
     }
   }
