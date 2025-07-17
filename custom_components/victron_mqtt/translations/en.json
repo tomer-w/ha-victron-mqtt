@@ -185,6 +185,12 @@
       },
       "temperature_type": {
         "name": "Temperature sensor type"
+      },
+      "grid_voltage_pen": {
+        "name": "Grid voltage on PEN"
+      },
+      "grid_current_n": {
+        "name": "Grid current on N"
       }
     },
     "select": {
