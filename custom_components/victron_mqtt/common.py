@@ -31,7 +31,6 @@ class VictronBaseEntity(Entity):
 
     def __init__(
         self,
-        hub_id: str,
         device: VictronVenusDevice,
         metric: VictronVenusMetric,
         device_info: DeviceInfo,
@@ -41,7 +40,7 @@ class VictronBaseEntity(Entity):
         self._device = device
         self._metric = metric
         self._device_info = device_info
-        self._attr_unique_id = f"{type}.{hub_id}_{metric.unique_id}"
+        self._attr_unique_id = f"{type}.victron_mqtt_{metric.unique_id}"
         self.entity_id = self._attr_unique_id
         self._attr_native_unit_of_measurement = metric.unit_of_measurement
         self._attr_device_class = self._map_metric_to_device_class(metric)
@@ -52,6 +51,7 @@ class VictronBaseEntity(Entity):
         self._attr_suggested_display_precision = metric.precision
         self._attr_translation_key = metric.generic_short_id.replace('{', '').replace('}', '') # same as in merge_topics.py
         self._attr_translation_placeholders = metric.key_values
+        _LOGGER.info("%s %s added. Based on: %s", type, self, repr(metric))
 
     def __repr__(self) -> str:
         """Return a string representation of the entity."""
@@ -100,7 +100,7 @@ class VictronBaseEntity(Entity):
         self, metric: VictronVenusMetric
     ) -> SensorStateClass | None:
         if metric.metric_nature == MetricNature.CUMULATIVE:
-            return SensorStateClass.TOTAL_INCREASING
+            return SensorStateClass.TOTAL
         if metric.metric_nature == MetricNature.INSTANTANEOUS:
             return SensorStateClass.MEASUREMENT
 

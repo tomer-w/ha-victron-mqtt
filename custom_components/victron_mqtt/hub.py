@@ -110,16 +110,16 @@ class Hub:
     def creatre_entity(self, device: VictronVenusDevice, metric: VictronVenusMetric, info: DeviceInfo) -> VictronBaseEntity:
         """Create a VictronBaseEntity from a device and metric."""
         if metric.metric_kind == MetricKind.SENSOR:
-            return VictronSensor(self.id, device, metric, info)
+            return VictronSensor(device, metric, info)
         elif metric.metric_kind == MetricKind.BINARY_SENSOR:
-            return VictronBinarySensor(self.id, device, metric, info)
+            return VictronBinarySensor(device, metric, info)
         assert isinstance(metric, VictronVenusSwitch), f"Expected metric to be a VictronVenusSwitch. Got {type(metric)}"
         if metric.metric_kind == MetricKind.SWITCH:
-            return VictronSwitch(self.id, device, metric, info)
+            return VictronSwitch(device, metric, info)
         elif metric.metric_kind == MetricKind.NUMBER:
-            return VictronNumber(self.id, device, metric, info)
+            return VictronNumber( device, metric, info)
         elif metric.metric_kind == MetricKind.SELECT:
-            return VictronSelect(self.id, device, metric, info)
+            return VictronSelect(device, metric, info)
         else:
             raise ValueError(f"Unsupported metric kind: {metric.metric_kind}")
 
@@ -129,16 +129,13 @@ class VictronSensor(VictronBaseEntity, SensorEntity):
 
     def __init__(
         self,
-        hub_id: str,
         device: VictronVenusDevice,
         metric: VictronVenusMetric,
         device_info: DeviceInfo,
     ) -> None:
         """Initialize the sensor based on detauls in the metric."""
-        super().__init__(hub_id, device, metric, device_info, "sensor")
+        super().__init__(device, metric, device_info, "sensor")
         self._attr_native_value = metric.value
-
-        _LOGGER.info("Sensor %s added", repr(self))
 
     def __repr__(self) -> str:
         """Return a string representation of the sensor."""
@@ -154,15 +151,13 @@ class VictronSwitch(VictronBaseEntity, SwitchEntity):
 
     def __init__(
         self,
-        hub_id: str,
         device: VictronVenusDevice,
         switch: VictronVenusSwitch,
         device_info: DeviceInfo,
     ) -> None:
         """Initialize the switch."""
-        super().__init__(hub_id, device, switch, device_info, "switch")
+        super().__init__(device, switch, device_info, "switch")
         self._attr_is_on = switch.value 
-        _LOGGER.info("switch %s added", repr(self))
 
     def __repr__(self) -> str:
         """Return a string representation of the sensor."""
@@ -194,18 +189,16 @@ class VictronNumber(VictronBaseEntity, NumberEntity):
 
     def __init__(
         self,
-        hub_id: str,
         device: VictronVenusDevice,
         switch: VictronVenusSwitch,
         device_info: DeviceInfo,
     ) -> None:
         """Initialize the number entity."""
-        super().__init__(hub_id, device, switch, device_info, "number")
+        super().__init__(device, switch, device_info, "number")
         self._attr_native_value = switch.value
         self._attr_native_min_value = switch.min_value
         self._attr_native_max_value = switch.max_value
         self._attr_native_step = 1 #TODO: Add support for different steps
-        _LOGGER.info("Number %s added", repr(self))
 
     def __repr__(self) -> str:
         """Return a string representation of the sensor."""
@@ -232,14 +225,12 @@ class VictronBinarySensor(VictronBaseEntity, BinarySensorEntity):
 
     def __init__(
         self,
-        hub_id: str,
         device: VictronVenusDevice,
         metric: VictronVenusMetric,
         device_info: DeviceInfo,
     ) -> None:
-        super().__init__(hub_id, device, metric, device_info, "binary_sensor")
+        super().__init__(device, metric, device_info, "binary_sensor")
         self._attr_is_on = bool(metric.value)
-        _LOGGER.info("BinarySensor %s added", repr(self))
 
     def __repr__(self) -> str:
         """Return a string representation of the sensor."""
@@ -258,16 +249,14 @@ class VictronSelect(VictronBaseEntity, SelectEntity):
 
     def __init__(
         self,
-        hub_id: str,
         device: VictronVenusDevice,
         switch: VictronVenusSwitch,
         device_info: DeviceInfo,
     ) -> None:
         """Initialize the switch."""
-        super().__init__(hub_id, device, switch, device_info, "select")
+        super().__init__(device, switch, device_info, "select")
         self._attr_options = switch.enum_values
         self._attr_current_option = self._map_value_to_state(switch.value)
-        _LOGGER.info("Sensor %s added", repr(self))
 
     def __repr__(self) -> str:
         """Return a string representation of the sensor."""
