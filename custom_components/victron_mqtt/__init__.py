@@ -8,6 +8,7 @@ import importlib.metadata
 from .hub import Hub
 from .common import get_event_loop, init_event_loop
 from homeassistant.helpers.typing import ConfigType
+import homeassistant.helpers.config_validation as cv
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import Platform
 from homeassistant.core import HomeAssistant
@@ -16,6 +17,9 @@ from .const import DOMAIN
 
 
 _LOGGER = logging.getLogger(__name__)
+
+# Config schema - this integration is config entry only
+CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 PLATFORMS: list[Platform] = [Platform.BINARY_SENSOR, Platform.NUMBER, Platform.SELECT, Platform.SENSOR, Platform.SWITCH]
 
