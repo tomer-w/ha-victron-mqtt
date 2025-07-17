@@ -13,8 +13,8 @@ def main():
     with open(en_path, encoding='utf-8') as f:
         en = json.load(f)
 
-    # Merge topics: add or update entries in en.json under entity.sensor for each topic id
-    entity = en.get('entity', {})
+    # Update topics: add or update entries in en.json under entity.sensor for each topic id
+    entity = {}
     count = 0
     for topic in topics.get('topics', []):
         translation_key = topic.get('short_id').replace('{', '').replace('}', '') # same as in common.py
