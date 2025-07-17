@@ -1,13 +1,72 @@
-change-template: "- #$NUMBER - $TITLE (@$AUTHOR)"
+name-template: 'v$RESOLVED_VERSION 🌈'
+tag-template: 'v$RESOLVED_VERSION'
 categories:
-  - title: "⚠ Breaking Changes"
+  - title: '🚀 Features'
     labels:
-      - "breaking-change"
-  - title: "⬆️ Dependencies"
-    collapse-after: 1
+      - 'feature'
+      - 'enhancement'
+  - title: '🐛 Bug Fixes'
     labels:
-      - "dependencies"
+      - 'fix'
+      - 'bugfix'
+      - 'bug'
+  - title: '🧰 Maintenance'
+    labels:
+      - 'chore'
+      - 'dependencies'
+      - 'maintenance'
+  - title: '📚 Documentation'
+    labels:
+      - 'documentation'
+      - 'docs'
+change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
+change-title-escapes: '\<*_&' # You can add # and @ to disable mentions, and add ` to disable code blocks.
+version-resolver:
+  major:
+    labels:
+      - 'major'
+  minor:
+    labels:
+      - 'minor'
+  patch:
+    labels:
+      - 'patch'
+  default: patch
 template: |
-  ## What’s Changed
+  ## Changes
 
   $CHANGES
+
+  ## Contributors
+
+  $CONTRIBUTORS
+autolabeler:
+  - label: 'chore'
+    files:
+      - '*.md'
+      - '.github/**/*'
+      - '.gitignore'
+      - '.pylintrc'
+      - 'pytest.ini'
+  - label: 'documentation'
+    files:
+      - 'docs/**/*'
+      - '*.md'
+  - label: 'feature'
+    branch:
+      - '/feature\/.+/'
+    title:
+      - '/^feat/i'
+  - label: 'bug'
+    branch:
+      - '/fix\/.+/'
+    title:
+      - '/^fix/i'
+      - '/^bug/i'
+  - label: 'dependencies'
+    files:
+      - 'pyproject.toml'
+      - 'requirements*.txt'
+    title:
+      - '/dependencies/i'
+      - '/deps/i'
