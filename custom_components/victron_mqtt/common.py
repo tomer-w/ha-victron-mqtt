@@ -10,7 +10,6 @@ from victron_mqtt import (
     DeviceType,
     MetricNature,
     MetricType,
-    PLACEHOLDER_PHASE
 )
 
 _LOGGER = logging.getLogger(__name__)
@@ -51,14 +50,8 @@ class VictronBaseEntity(Entity):
         self._attr_should_poll = False
         self._attr_has_entity_name = True
         self._attr_suggested_display_precision = metric.precision
-        translation_key = metric.generic_short_id
-        translation_key = translation_key.replace(
-            PLACEHOLDER_PHASE, "lx"
-        )  # for translation key we do generic replacement
-        self._attr_translation_key = translation_key
-        self._attr_translation_placeholders = {}
-        if metric.phase is not None:
-            self._attr_translation_placeholders = {"phase": metric.phase}
+        self._attr_translation_key = metric.generic_short_id.replace('{', '').replace('}', '') # same as in merge_topics.py
+        self._attr_translation_placeholders = metric.key_values
 
     def __repr__(self) -> str:
         """Return a string representation of the entity."""

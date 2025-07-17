@@ -17,14 +17,18 @@ def main():
     entity = en.get('entity', {})
     count = 0
     for topic in topics.get('topics', []):
-        topic_id = topic.get('short_id').replace('{phase}', 'lx')
+        translation_key = topic.get('short_id').replace('{', '').replace('}', '') # same as in common.py
         topic_name = topic.get('name')
-        message_type = topic.get('message_type', 'sensor')
+        message_type = topic.get('message_type')
         # Extract the part after the dot and make it lower case
-        entity_type = message_type.split('.', 1)[1].lower()
+        if '.' in message_type:
+            entity_type = message_type.split('.', 1)[1].lower()
+        else:
+            # Fallback for old format
+            entity_type = message_type.lower()
         if entity_type not in entity:
             entity[entity_type] = {}
-        entity[entity_type][topic_id] = {"name": topic_name}
+        entity[entity_type][translation_key] = {"name": topic_name}
         count+=1
     en['entity'] = entity
 

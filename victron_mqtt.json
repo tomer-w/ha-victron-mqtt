@@ -22,7 +22,7 @@
       "max": null
     },
     {
-      "topic": "N/+/grid/+/Ac/+/Voltage",
+      "topic": "N/+/grid/+/Ac/{phase}/Voltage",
       "message_type": "MetricKind.SENSOR",
       "short_id": "grid_voltage_{phase}",
       "name": "Grid voltage on {phase}",
@@ -37,7 +37,7 @@
       "max": null
     },
     {
-      "topic": "N/+/grid/+/Ac/+/Current",
+      "topic": "N/+/grid/+/Ac/{phase}/Current",
       "message_type": "MetricKind.SENSOR",
       "short_id": "grid_current_{phase}",
       "name": "Grid current on {phase}",
@@ -52,7 +52,7 @@
       "max": null
     },
     {
-      "topic": "N/+/grid/+/Ac/+/Power",
+      "topic": "N/+/grid/+/Ac/{phase}/Power",
       "message_type": "MetricKind.SENSOR",
       "short_id": "grid_power_{phase}",
       "name": "Grid power on {phase}",
@@ -67,7 +67,7 @@
       "max": null
     },
     {
-      "topic": "N/+/grid/+/Ac/+/Energy/Forward",
+      "topic": "N/+/grid/+/Ac/{phase}/Energy/Forward",
       "message_type": "MetricKind.SENSOR",
       "short_id": "grid_energy_forward_{phase}",
       "name": "Grid consumption on {phase}",
@@ -82,7 +82,7 @@
       "max": null
     },
     {
-      "topic": "N/+/grid/+/Ac/+/Energy/Reverse",
+      "topic": "N/+/grid/+/Ac/{phase}/Energy/Reverse",
       "message_type": "MetricKind.SENSOR",
       "short_id": "grid_energy_reverse_{phase}",
       "name": "Grid feed-in on {phase}",
@@ -142,40 +142,10 @@
       "max": null
     },
     {
-      "topic": "N/+/grid/+/Ac/L1/VoltageLineToLine",
+      "topic": "N/+/grid/+/Ac/{phase}/VoltageLineToLine",
       "message_type": "MetricKind.SENSOR",
-      "short_id": "grid_voltage_L1_L2",
-      "name": "Grid voltage L1 to L2",
-      "unit_of_measurement": "V",
-      "metric_type": "MetricType.VOLTAGE",
-      "metric_nature": "MetricNature.INSTANTANEOUS",
-      "device_type": "Grid",
-      "value_type": "ValueType.FLOAT",
-      "precision": 1,
-      "enum": null,
-      "min": null,
-      "max": null
-    },
-    {
-      "topic": "N/+/grid/+/Ac/L2/VoltageLineToLine",
-      "message_type": "MetricKind.SENSOR",
-      "short_id": "grid_voltage_L2_L3",
-      "name": "Grid voltage L2 to L3",
-      "unit_of_measurement": "V",
-      "metric_type": "MetricType.VOLTAGE",
-      "metric_nature": "MetricNature.INSTANTANEOUS",
-      "device_type": "Grid",
-      "value_type": "ValueType.FLOAT",
-      "precision": 1,
-      "enum": null,
-      "min": null,
-      "max": null
-    },
-    {
-      "topic": "N/+/grid/+/Ac/L3/VoltageLineToLine",
-      "message_type": "MetricKind.SENSOR",
-      "short_id": "grid_voltage_L3_L1",
-      "name": "Grid voltage L3 to L1",
+      "short_id": "grid_voltage_{phase}_{next_phase}",
+      "name": "Grid voltage {phase} to {next_phase}",
       "unit_of_measurement": "V",
       "metric_type": "MetricType.VOLTAGE",
       "metric_nature": "MetricNature.INSTANTANEOUS",
@@ -532,7 +502,7 @@
       "max": null
     },
     {
-      "topic": "N/+/vebus/+/Ac/ActiveIn/+/P",
+      "topic": "N/+/vebus/+/Ac/ActiveIn/{phase}/P",
       "message_type": "MetricKind.SENSOR",
       "short_id": "inverter_input_power_{phase}",
       "name": "Inverter input power {phase}",
@@ -547,7 +517,7 @@
       "max": null
     },
     {
-      "topic": "N/+/vebus/+/Ac/ActiveIn/+/F",
+      "topic": "N/+/vebus/+/Ac/ActiveIn/{phase}/F",
       "message_type": "MetricKind.SENSOR",
       "short_id": "inverter_input_frequency_{phase}",
       "name": "Inverter input frequency {phase}",
@@ -562,7 +532,7 @@
       "max": null
     },
     {
-      "topic": "N/+/vebus/+/Ac/ActiveIn/+/S",
+      "topic": "N/+/vebus/+/Ac/ActiveIn/{phase}/S",
       "message_type": "MetricKind.SENSOR",
       "short_id": "inverter_input_apparent_power_{phase}",
       "name": "Inverter input apparent power {phase}",
@@ -577,7 +547,7 @@
       "max": null
     },
     {
-      "topic": "N/+/vebus/+/Ac/Out/+/P",
+      "topic": "N/+/vebus/+/Ac/Out/{phase}/P",
       "message_type": "MetricKind.SENSOR",
       "short_id": "inverter_output_power_{phase}",
       "name": "Inverter output power {phase}",
@@ -592,7 +562,7 @@
       "max": null
     },
     {
-      "topic": "N/+/vebus/+/Ac/Out/+/F",
+      "topic": "N/+/vebus/+/Ac/Out/{phase}/F",
       "message_type": "MetricKind.SENSOR",
       "short_id": "inverter_output_frequency_{phase}",
       "name": "Inverter output frequency {phase}",
@@ -607,7 +577,7 @@
       "max": null
     },
     {
-      "topic": "N/+/vebus/+/Ac/Out/+/S",
+      "topic": "N/+/vebus/+/Ac/Out/{phase}/S",
       "message_type": "MetricKind.SENSOR",
       "short_id": "inverter_output_apparent_power_{phase}",
       "name": "Inverter output apparent power {phase}",
@@ -652,7 +622,7 @@
       "max": 16
     },
     {
-      "topic": "N/+/system/+/Ac/ConsumptionOnOutput/+/Power",
+      "topic": "N/+/system/+/Ac/ConsumptionOnOutput/{phase}/Power",
       "message_type": "MetricKind.SENSOR",
       "short_id": "system_critical_loads_{phase}",
       "name": "Critical loads on {phase}",
@@ -667,7 +637,7 @@
       "max": null
     },
     {
-      "topic": "N/+/system/+/Ac/ConsumptionOnInput/+/Power",
+      "topic": "N/+/system/+/Ac/ConsumptionOnInput/{phase}/Power",
       "message_type": "MetricKind.SENSOR",
       "short_id": "system_ac_loads_{phase}",
       "name": "AC loads on {phase}",
@@ -787,10 +757,10 @@
       "max": null
     },
     {
-      "topic": "N/+/evcharger/+/Ac/+/Power",
+      "topic": "N/+/evcharger/+/Ac/{phase}/Power",
       "message_type": "MetricKind.SENSOR",
       "short_id": "evcharger_power_{phase}",
-      "name": "EV charger power on {phase}",
+      "name": "EV charger power {phase}",
       "unit_of_measurement": "W",
       "metric_type": "MetricType.POWER",
       "metric_nature": "MetricNature.INSTANTANEOUS",
@@ -817,7 +787,7 @@
       "max": 16
     },
     {
-      "topic": "N/+/pvinverter/+/Ac/+/Voltage",
+      "topic": "N/+/pvinverter/+/Ac/{phase}/Voltage",
       "message_type": "MetricKind.SENSOR",
       "short_id": "solar_voltage_{phase}",
       "name": "Voltage {phase}",
@@ -832,7 +802,7 @@
       "max": null
     },
     {
-      "topic": "N/+/pvinverter/+/Ac/+/Current",
+      "topic": "N/+/pvinverter/+/Ac/{phase}/Current",
       "message_type": "MetricKind.SENSOR",
       "short_id": "solar_current_{phase}",
       "name": "Current {phase}",
@@ -862,7 +832,7 @@
       "max": null
     },
     {
-      "topic": "N/+/pvinverter/+/Ac/+/Power",
+      "topic": "N/+/pvinverter/+/Ac/{phase}/Power",
       "message_type": "MetricKind.SENSOR",
       "short_id": "solar_power_{phase}",
       "name": "Power {phase}",
@@ -892,7 +862,7 @@
       "max": null
     },
     {
-      "topic": "N/+/pvinverter/+/Ac/+/Energy/Forward",
+      "topic": "N/+/pvinverter/+/Ac/{phase}/Energy/Forward",
       "message_type": "MetricKind.SENSOR",
       "short_id": "solar_yield_{phase}",
       "name": "Yield {phase}",

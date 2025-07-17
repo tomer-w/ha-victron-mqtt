@@ -33,14 +33,32 @@
       "system_grid_phases": {
         "name": "Grid phases"
       },
-      "grid_voltage_lx": {
+      "grid_voltage_phase": {
         "name": "Grid voltage on {phase}"
       },
-      "grid_current_lx": {
+      "grid_current_phase": {
         "name": "Grid current on {phase}"
       },
-      "grid_power_lx": {
+      "grid_power_phase": {
         "name": "Grid power on {phase}"
+      },
+      "grid_energy_forward_phase": {
+        "name": "Grid consumption on {phase}"
+      },
+      "grid_energy_reverse_phase": {
+        "name": "Grid feed-in on {phase}"
+      },
+      "grid_voltage_PEN": {
+        "name": "Grid voltage on PEN"
+      },
+      "grid_current_N": {
+        "name": "Grid current on N"
+      },
+      "grid_frequency": {
+        "name": "Grid frequency"
+      },
+      "grid_voltage_phase_next_phase": {
+        "name": "Grid voltage {phase} to {next_phase}"
       },
       "grid_voltage": {
         "name": "Grid voltage"
@@ -99,78 +117,6 @@
       "battery_soc": {
         "name": "Battery charge"
       },
-      "inverter_input_power_lx": {
-        "name": "Inverter input power {phase}"
-      },
-      "inverter_input_frequency_lx": {
-        "name": "Inverter input frequency {phase}"
-      },
-      "inverter_input_apparent_power_lx": {
-        "name": "Inverter input apparent power {phase}"
-      },
-      "inverter_output_power_lx": {
-        "name": "Inverter output power {phase}"
-      },
-      "inverter_output_frequency_lx": {
-        "name": "Inverter output frequency {phase}"
-      },
-      "inverter_output_apparent_power_lx": {
-        "name": "Inverter output apparent power {phase}"
-      },
-      "system_critical_loads_lx": {
-        "name": "Critical loads on {phase}"
-      },
-      "system_ac_loads_lx": {
-        "name": "AC loads on {phase}"
-      },
-      "evcharger_current": {
-        "name": "EV charger current"
-      },
-      "evcharger_power_lx": {
-        "name": "EV charger power on {phase}"
-      },
-      "solar_voltage_lx": {
-        "name": "Voltage {phase}"
-      },
-      "solar_current_lx": {
-        "name": "Current {phase}"
-      },
-      "solar_power_total": {
-        "name": "Power Total"
-      },
-      "solar_power_lx": {
-        "name": "Power {phase}"
-      },
-      "solar_yield_total": {
-        "name": "Total Yield"
-      },
-      "solar_yield_lx": {
-        "name": "Yield {phase}"
-      },
-      "grid_energy_forward_lx": {
-        "name": "Grid consumption on {phase}"
-      },
-      "grid_energy_reverse_lx": {
-        "name": "Grid feed-in on {phase}"
-      },
-      "grid_voltage_PEN": {
-        "name": "Grid voltage on PEN"
-      },
-      "grid_current_N": {
-        "name": "Grid current on N"
-      },
-      "grid_frequency": {
-        "name": "Grid frequency"
-      },
-      "grid_voltage_L1_L2": {
-        "name": "Grid voltage L1 to L2"
-      },
-      "grid_voltage_L2_L3": {
-        "name": "Grid voltage L2 to L3"
-      },
-      "grid_voltage_L3_L1": {
-        "name": "Grid voltage L3 to L1"
-      },
       "battery_min_cell_voltage": {
         "name": "Battery minimum cell voltage"
       },
@@ -180,8 +126,56 @@
       "inverter_state": {
         "name": "Inverter state"
       },
+      "inverter_input_power_phase": {
+        "name": "Inverter input power {phase}"
+      },
+      "inverter_input_frequency_phase": {
+        "name": "Inverter input frequency {phase}"
+      },
+      "inverter_input_apparent_power_phase": {
+        "name": "Inverter input apparent power {phase}"
+      },
+      "inverter_output_power_phase": {
+        "name": "Inverter output power {phase}"
+      },
+      "inverter_output_frequency_phase": {
+        "name": "Inverter output frequency {phase}"
+      },
+      "inverter_output_apparent_power_phase": {
+        "name": "Inverter output apparent power {phase}"
+      },
+      "system_critical_loads_phase": {
+        "name": "Critical loads on {phase}"
+      },
+      "system_ac_loads_phase": {
+        "name": "AC loads on {phase}"
+      },
       "system_dc_consumption": {
         "name": "DC Consumption"
+      },
+      "evcharger_current": {
+        "name": "EV charger current"
+      },
+      "evcharger_power_phase": {
+        "name": "EV charger power {phase}"
+      },
+      "solar_voltage_phase": {
+        "name": "Voltage {phase}"
+      },
+      "solar_current_phase": {
+        "name": "Current {phase}"
+      },
+      "solar_power_total": {
+        "name": "Power Total"
+      },
+      "solar_power_phase": {
+        "name": "Power {phase}"
+      },
+      "solar_yield_total": {
+        "name": "Total Yield"
+      },
+      "solar_yield_phase": {
+        "name": "Yield {phase}"
       },
       "temperature_temperature": {
         "name": "Temperature"
@@ -224,14 +218,14 @@
       }
     },
     "switch": {
-      "evcharger_charge": {
-        "name": "EV charger charge"
-      },
       "system_relay_1": {
         "name": "Relay 1 state"
       },
       "system_relay_2": {
         "name": "Relay 2 state"
+      },
+      "evcharger_charge": {
+        "name": "EV charger charge"
       }
     }
   }
