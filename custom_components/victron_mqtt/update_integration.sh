@@ -26,17 +26,29 @@ if [ "$LATEST_TAG" == "null" ] || [ -z "$LATEST_TAG" ]; then
 else
     echo "⬇️  Found latest release: $LATEST_TAG"
     ZIP_URL="https://github.com/$GITHUB_USER/$GITHUB_REPO/archive/refs/tags/$LATEST_TAG.zip"
-    TMP_FOLDER="$GITHUB_REPO-$LATEST_TAG"
+    # Remove 'v' prefix from tag for folder name
+    TAG_WITHOUT_V="${LATEST_TAG#v}"
+    TMP_FOLDER="$GITHUB_REPO-$TAG_WITHOUT_V"
 fi
 
 # Create temp dir
 TMP_DIR=$(mktemp -d)
+echo "TMP_DIR=$TMP_DIR"
 cd "$TMP_DIR" || exit 1
 
 # Download and extract
 echo "📦 Downloading from $ZIP_URL"
 wget -q "$ZIP_URL" -O latest.zip || curl -L "$ZIP_URL" -o latest.zip
 unzip -q latest.zip
+
+# Check if the source directory exists
+SOURCE_DIR="$TMP_FOLDER/$TARGET_SUBFOLDER"
+if [ ! -d "$SOURCE_DIR" ]; then
+    echo "❌ Source directory not found: $SOURCE_DIR"
+    echo "Available directories in $TMP_FOLDER:"
+    ls -la "$TMP_FOLDER/"
+    exit 1
+fi
 
 # Copy the integration folder to destination
 mkdir -p "$DEST_FOLDER"
