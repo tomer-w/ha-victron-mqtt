@@ -53,7 +53,7 @@ class Hub:
         config = entry.data
         self._hub = VictronVenusHub(
             host=config.get(CONF_HOST),
-            port=config.get(CONF_PORT),
+            port=config.get(CONF_PORT, 1883),
             username=config.get(CONF_USERNAME),
             password=config.get(CONF_PASSWORD),
             use_ssl=config.get(CONF_SSL),

@@ -62,7 +62,7 @@ async def validate_input(hass: HomeAssistant, data: dict[str, Any]) -> str:
     _LOGGER.info("Validating input: %s", data)
     hub = VictronVenusHub(
         host=data.get(CONF_HOST),
-        port=data.get(CONF_PORT),
+        port=data.get(CONF_PORT, DEFAULT_PORT),
         username=data.get(CONF_USERNAME),
         password=data.get(CONF_PASSWORD),
         use_ssl=data.get(CONF_SSL),

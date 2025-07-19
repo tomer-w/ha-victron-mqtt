@@ -1,4 +1,4 @@
-#!/bin/bash
+﻿#!/bin/bash
 
 # ==== CONFIGURATION ====
 GITHUB_USER="tomer-w"
@@ -9,18 +9,41 @@ DEST_FOLDER="/config/custom_components/victron_mqtt"
 # Usage:
 # Run the script without arguments to update the integration.
 # Use the --restart flag to restart Home Assistant after updating.
-# Example: bash update_integration.sh --restart
+# Use the --main flag to force using main branch even if releases exist.
+# Examples: 
+#   bash update_integration.sh --restart
+#   bash update_integration.sh --main
+#   bash update_integration.sh --main --restart
 
 RESTART_HA=false
-if [[ "$1" == "--restart" ]]; then
-    RESTART_HA=true
+USE_MAIN=false
+
+# Parse command line arguments
+for arg in "$@"; do
+    case $arg in
+        --restart)
+            RESTART_HA=true
+            ;;
+        --main)
+            USE_MAIN=true
+            ;;
+    esac
+done
+
+# Fetch latest release tag via GitHub API (unless --main flag is used)
+if [ "$USE_MAIN" = true ]; then
+    echo "🔀 Using main branch as requested (--main flag)"
+    LATEST_TAG="null"
+else
+    LATEST_TAG=$(curl -s "https://api.github.com/repos/$GITHUB_USER/$GITHUB_REPO/releases/latest" | jq -r .tag_name)
 fi
 
-# Fetch latest release tag via GitHub API
-LATEST_TAG=$(curl -s "https://api.github.com/repos/$GITHUB_USER/$GITHUB_REPO/releases/latest" | jq -r .tag_name)
-
 if [ "$LATEST_TAG" == "null" ] || [ -z "$LATEST_TAG" ]; then
-    echo "⚠️  No releases found. Falling back to main branch."
+    if [ "$USE_MAIN" = true ]; then
+        echo "📥 Downloading from main branch"
+    else
+        echo "⚠️  No releases found. Falling back to main branch."
+    fi
     ZIP_URL="https://github.com/$GITHUB_USER/$GITHUB_REPO/archive/refs/heads/main.zip"
     TMP_FOLDER="$GITHUB_REPO-main"
 else
