@@ -163,10 +163,7 @@ class VictronSwitch(VictronBaseEntity, SwitchEntity):
     def __repr__(self) -> str:
         """Return a string representation of the sensor."""
         return (
-            f"VictronSwitch(device={self._device.name}, "
-            f"metric={self._switch.short_id}, "
-            f"translation_key={self._attr_translation_key}, "
-            f"value={self._attr_native_value})"
+            f"VictronSwitch({super().__repr__()}, is_on={self._attr_is_on})"
         )
 
     async def _on_update_task(self, metric: VictronVenusMetric):
@@ -205,7 +202,7 @@ class VictronNumber(VictronBaseEntity, NumberEntity):
 
     def __repr__(self) -> str:
         """Return a string representation of the sensor."""
-        return f"VictronNumber({super().__repr__()})"
+        return f"VictronNumber({super().__repr__()}, native_value={self._attr_native_value})"
 
     async def _on_update_task(self, metric: VictronVenusMetric):
         self._attr_native_value = metric.value
@@ -263,7 +260,7 @@ class VictronSelect(VictronBaseEntity, SelectEntity):
 
     def __repr__(self) -> str:
         """Return a string representation of the sensor."""
-        return f"VictronSelect({super().__repr__()})"
+        return f"VictronSelect({super().__repr__()}, current_option={self._attr_current_option}, options={self._attr_options})"
 
     async def _on_update_task(self, metric: VictronVenusMetric):
         self._attr_current_option = self._map_value_to_state(metric.value)
