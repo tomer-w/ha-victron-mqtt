@@ -196,8 +196,10 @@ class VictronNumber(VictronBaseEntity, NumberEntity):
         """Initialize the number entity."""
         super().__init__(device, switch, device_info, "number")
         self._attr_native_value = switch.value
-        self._attr_native_min_value = switch.min_value
-        self._attr_native_max_value = switch.max_value
+        if isinstance(switch.min_value, int) or isinstance(switch.min_value, float):
+            self._attr_native_min_value = switch.min_value
+        if isinstance(switch.max_value, int) or isinstance(switch.max_value, float):
+            self._attr_native_max_value = switch.max_value
         self._attr_native_step = 1 #TODO: Add support for different steps
 
     def __repr__(self) -> str:
