@@ -19,7 +19,8 @@
       "precision": 0,
       "enum": null,
       "min": null,
-      "max": null
+      "max": null,
+      "is_adjustable_suffix": null
     },
     {
       "topic": "N/+/grid/+/Ac/{phase}/Voltage",
@@ -34,7 +35,8 @@
       "precision": 1,
       "enum": null,
       "min": null,
-      "max": null
+      "max": null,
+      "is_adjustable_suffix": null
     },
     {
       "topic": "N/+/grid/+/Ac/{phase}/Current",
@@ -49,7 +51,8 @@
       "precision": 1,
       "enum": null,
       "min": null,
-      "max": null
+      "max": null,
+      "is_adjustable_suffix": null
     },
     {
       "topic": "N/+/grid/+/Ac/{phase}/Power",
@@ -64,7 +67,8 @@
       "precision": 1,
       "enum": null,
       "min": null,
-      "max": null
+      "max": null,
+      "is_adjustable_suffix": null
     },
     {
       "topic": "N/+/grid/+/Ac/{phase}/Energy/Forward",
@@ -79,7 +83,8 @@
       "precision": 1,
       "enum": null,
       "min": null,
-      "max": null
+      "max": null,
+      "is_adjustable_suffix": null
     },
     {
       "topic": "N/+/grid/+/Ac/{phase}/Energy/Reverse",
@@ -94,7 +99,8 @@
       "precision": 1,
       "enum": null,
       "min": null,
-      "max": null
+      "max": null,
+      "is_adjustable_suffix": null
     },
     {
       "topic": "N/+/grid/+/Ac/PENVoltage",
@@ -109,7 +115,8 @@
       "precision": 1,
       "enum": null,
       "min": null,
-      "max": null
+      "max": null,
+      "is_adjustable_suffix": null
     },
     {
       "topic": "N/+/grid/+/Ac/N/Current",
@@ -124,7 +131,8 @@
       "precision": 1,
       "enum": null,
       "min": null,
-      "max": null
+      "max": null,
+      "is_adjustable_suffix": null
     },
     {
       "topic": "N/+/grid/+/Ac/Frequency",
@@ -139,7 +147,8 @@
       "precision": 2,
       "enum": null,
       "min": null,
-      "max": null
+      "max": null,
+      "is_adjustable_suffix": null
     },
     {
       "topic": "N/+/grid/+/Ac/{phase}/VoltageLineToLine",
@@ -154,7 +163,8 @@
       "precision": 1,
       "enum": null,
       "min": null,
-      "max": null
+      "max": null,
+      "is_adjustable_suffix": null
     },
     {
       "topic": "N/+/grid/+/Ac/Voltage",
@@ -169,7 +179,8 @@
       "precision": 1,
       "enum": null,
       "min": null,
-      "max": null
+      "max": null,
+      "is_adjustable_suffix": null
     },
     {
       "topic": "N/+/grid/+/Ac/Current",
@@ -184,7 +195,8 @@
       "precision": 1,
       "enum": null,
       "min": null,
-      "max": null
+      "max": null,
+      "is_adjustable_suffix": null
     },
     {
       "topic": "N/+/grid/+/Ac/Power",
@@ -199,7 +211,8 @@
       "precision": 1,
       "enum": null,
       "min": null,
-      "max": null
+      "max": null,
+      "is_adjustable_suffix": null
     },
     {
       "topic": "N/+/grid/+/Ac/Energy/Forward",
@@ -214,7 +227,8 @@
       "precision": 1,
       "enum": null,
       "min": null,
-      "max": null
+      "max": null,
+      "is_adjustable_suffix": null
     },
     {
       "topic": "N/+/grid/+/Ac/Energy/Reverse",
@@ -229,7 +243,8 @@
       "precision": 1,
       "enum": null,
       "min": null,
-      "max": null
+      "max": null,
+      "is_adjustable_suffix": null
     },
     {
       "topic": "N/+/solarcharger/+/Dc/0/Voltage",
@@ -244,7 +259,8 @@
       "precision": 1,
       "enum": null,
       "min": null,
-      "max": null
+      "max": null,
+      "is_adjustable_suffix": null
     },
     {
       "topic": "N/+/solarcharger/+/Dc/0/Current",
@@ -259,7 +275,8 @@
       "precision": 1,
       "enum": null,
       "min": null,
-      "max": null
+      "max": null,
+      "is_adjustable_suffix": null
     },
     {
       "topic": "N/+/solarcharger/+/Yield/Power",
@@ -274,7 +291,8 @@
       "precision": 1,
       "enum": null,
       "min": null,
-      "max": null
+      "max": null,
+      "is_adjustable_suffix": null
     },
     {
       "topic": "N/+/solarcharger/+/Yield/User",
@@ -289,7 +307,8 @@
       "precision": 1,
       "enum": null,
       "min": null,
-      "max": null
+      "max": null,
+      "is_adjustable_suffix": null
     },
     {
       "topic": "N/+/solarcharger/+/History/Daily/0/MaxPower",
@@ -304,7 +323,8 @@
       "precision": 1,
       "enum": null,
       "min": null,
-      "max": null
+      "max": null,
+      "is_adjustable_suffix": null
     },
     {
       "topic": "N/+/battery/+/Dc/0/Voltage",
@@ -319,7 +339,8 @@
       "precision": 1,
       "enum": null,
       "min": null,
-      "max": null
+      "max": null,
+      "is_adjustable_suffix": null
     },
     {
       "topic": "N/+/battery/+/Dc/0/Current",
@@ -334,7 +355,8 @@
       "precision": 1,
       "enum": null,
       "min": null,
-      "max": null
+      "max": null,
+      "is_adjustable_suffix": null
     },
     {
       "topic": "N/+/battery/+/Dc/0/Power",
@@ -349,7 +371,8 @@
       "precision": 1,
       "enum": null,
       "min": null,
-      "max": null
+      "max": null,
+      "is_adjustable_suffix": null
     },
     {
       "topic": "N/+/battery/+/Dc/0/Temperature",
@@ -364,7 +387,8 @@
       "precision": 1,
       "enum": null,
       "min": null,
-      "max": null
+      "max": null,
+      "is_adjustable_suffix": null
     },
     {
       "topic": "N/+/battery/+/History/DischargedEnergy",
@@ -379,7 +403,8 @@
       "precision": 1,
       "enum": null,
       "min": null,
-      "max": null
+      "max": null,
+      "is_adjustable_suffix": null
     },
     {
       "topic": "N/+/battery/+/History/ChargedEnergy",
@@ -388,13 +413,14 @@
       "name": "Charged energy",
       "unit_of_measurement": "kWh",
       "metric_type": "MetricType.ENERGY",
-      "metric_nature": "MetricNature.INSTANTANEOUS",
+      "metric_nature": "MetricNature.CUMULATIVE",
       "device_type": "Battery",
       "value_type": "ValueType.FLOAT",
       "precision": 1,
       "enum": null,
       "min": null,
-      "max": null
+      "max": null,
+      "is_adjustable_suffix": null
     },
     {
       "topic": "N/+/battery/+/Capacity",
@@ -409,7 +435,8 @@
       "precision": 1,
       "enum": null,
       "min": null,
-      "max": null
+      "max": null,
+      "is_adjustable_suffix": null
     },
     {
       "topic": "N/+/battery/+/InstalledCapacity",
@@ -424,7 +451,8 @@
       "precision": 1,
       "enum": null,
       "min": null,
-      "max": null
+      "max": null,
+      "is_adjustable_suffix": null
     },
     {
       "topic": "N/+/battery/+/Soc",
@@ -439,7 +467,8 @@
       "precision": 1,
       "enum": null,
       "min": null,
-      "max": null
+      "max": null,
+      "is_adjustable_suffix": null
     },
     {
       "topic": "N/+/battery/+/System/MinCellVoltage",
@@ -454,7 +483,8 @@
       "precision": 3,
       "enum": null,
       "min": null,
-      "max": null
+      "max": null,
+      "is_adjustable_suffix": null
     },
     {
       "topic": "N/+/battery/+/System/MaxCellVoltage",
@@ -469,7 +499,8 @@
       "precision": 3,
       "enum": null,
       "min": null,
-      "max": null
+      "max": null,
+      "is_adjustable_suffix": null
     },
     {
       "topic": "N/+/vebus/+/Mode",
@@ -484,7 +515,8 @@
       "precision": null,
       "enum": "InverterMode",
       "min": null,
-      "max": null
+      "max": null,
+      "is_adjustable_suffix": null
     },
     {
       "topic": "N/+/vebus/+/State",
@@ -499,7 +531,8 @@
       "precision": null,
       "enum": "InverterState",
       "min": null,
-      "max": null
+      "max": null,
+      "is_adjustable_suffix": null
     },
     {
       "topic": "N/+/vebus/+/Ac/ActiveIn/{phase}/P",
@@ -514,7 +547,8 @@
       "precision": 1,
       "enum": null,
       "min": null,
-      "max": null
+      "max": null,
+      "is_adjustable_suffix": null
     },
     {
       "topic": "N/+/vebus/+/Ac/ActiveIn/{phase}/F",
@@ -529,7 +563,8 @@
       "precision": 1,
       "enum": null,
       "min": null,
-      "max": null
+      "max": null,
+      "is_adjustable_suffix": null
     },
     {
       "topic": "N/+/vebus/+/Ac/ActiveIn/{phase}/S",
@@ -544,7 +579,8 @@
       "precision": 1,
       "enum": null,
       "min": null,
-      "max": null
+      "max": null,
+      "is_adjustable_suffix": null
     },
     {
       "topic": "N/+/vebus/+/Ac/Out/{phase}/P",
@@ -559,7 +595,8 @@
       "precision": 1,
       "enum": null,
       "min": null,
-      "max": null
+      "max": null,
+      "is_adjustable_suffix": null
     },
     {
       "topic": "N/+/vebus/+/Ac/Out/{phase}/F",
@@ -574,7 +611,8 @@
       "precision": 1,
       "enum": null,
       "min": null,
-      "max": null
+      "max": null,
+      "is_adjustable_suffix": null
     },
     {
       "topic": "N/+/vebus/+/Ac/Out/{phase}/S",
@@ -589,7 +627,8 @@
       "precision": 1,
       "enum": null,
       "min": null,
-      "max": null
+      "max": null,
+      "is_adjustable_suffix": null
     },
     {
       "topic": "N/+/vebus/+/Connected",
@@ -604,7 +643,8 @@
       "precision": null,
       "enum": "GenericOnOff",
       "min": null,
-      "max": null
+      "max": null,
+      "is_adjustable_suffix": null
     },
     {
       "topic": "N/+/vebus/+/Ac/ActiveIn/CurrentLimit",
@@ -619,7 +659,8 @@
       "precision": 0,
       "enum": null,
       "min": 0,
-      "max": 16
+      "max": "RangeType.DYNAMIC",
+      "is_adjustable_suffix": "CurrentLimitIsAdjustable"
     },
     {
       "topic": "N/+/system/+/Ac/ConsumptionOnOutput/{phase}/Power",
@@ -634,7 +675,8 @@
       "precision": 1,
       "enum": null,
       "min": null,
-      "max": null
+      "max": null,
+      "is_adjustable_suffix": null
     },
     {
       "topic": "N/+/system/+/Ac/ConsumptionOnInput/{phase}/Power",
@@ -649,7 +691,8 @@
       "precision": 1,
       "enum": null,
       "min": null,
-      "max": null
+      "max": null,
+      "is_adjustable_suffix": null
     },
     {
       "topic": "N/+/system/+/Dc/System/Power",
@@ -664,7 +707,8 @@
       "precision": 1,
       "enum": null,
       "min": null,
-      "max": null
+      "max": null,
+      "is_adjustable_suffix": null
     },
     {
       "topic": "N/+/system/+/Relay/0/State",
@@ -679,7 +723,8 @@
       "precision": null,
       "enum": "GenericOnOff",
       "min": null,
-      "max": null
+      "max": null,
+      "is_adjustable_suffix": null
     },
     {
       "topic": "N/+/system/+/Relay/1/State",
@@ -694,7 +739,8 @@
       "precision": null,
       "enum": "GenericOnOff",
       "min": null,
-      "max": null
+      "max": null,
+      "is_adjustable_suffix": null
     },
     {
       "topic": "N/+/evcharger/+/Mode",
@@ -709,7 +755,8 @@
       "precision": null,
       "enum": "EvChargerMode",
       "min": null,
-      "max": null
+      "max": null,
+      "is_adjustable_suffix": null
     },
     {
       "topic": "N/+/evcharger/+/StartStop",
@@ -724,7 +771,8 @@
       "precision": null,
       "enum": "GenericOnOff",
       "min": null,
-      "max": null
+      "max": null,
+      "is_adjustable_suffix": null
     },
     {
       "topic": "N/+/evcharger/+/Connected",
@@ -739,7 +787,8 @@
       "precision": null,
       "enum": "GenericOnOff",
       "min": null,
-      "max": null
+      "max": null,
+      "is_adjustable_suffix": null
     },
     {
       "topic": "N/+/evcharger/+/Current",
@@ -754,7 +803,8 @@
       "precision": 1,
       "enum": null,
       "min": null,
-      "max": null
+      "max": null,
+      "is_adjustable_suffix": null
     },
     {
       "topic": "N/+/evcharger/+/Ac/{phase}/Power",
@@ -769,7 +819,8 @@
       "precision": 1,
       "enum": null,
       "min": null,
-      "max": null
+      "max": null,
+      "is_adjustable_suffix": null
     },
     {
       "topic": "N/+/evcharger/+/SetCurrent",
@@ -784,7 +835,8 @@
       "precision": 0,
       "enum": null,
       "min": 0,
-      "max": 16
+      "max": 16,
+      "is_adjustable_suffix": null
     },
     {
       "topic": "N/+/pvinverter/+/Ac/{phase}/Voltage",
@@ -799,7 +851,8 @@
       "precision": 1,
       "enum": null,
       "min": null,
-      "max": null
+      "max": null,
+      "is_adjustable_suffix": null
     },
     {
       "topic": "N/+/pvinverter/+/Ac/{phase}/Current",
@@ -814,7 +867,8 @@
       "precision": 1,
       "enum": null,
       "min": null,
-      "max": null
+      "max": null,
+      "is_adjustable_suffix": null
     },
     {
       "topic": "N/+/pvinverter/+/Ac/Power",
@@ -829,7 +883,8 @@
       "precision": 1,
       "enum": null,
       "min": null,
-      "max": null
+      "max": null,
+      "is_adjustable_suffix": null
     },
     {
       "topic": "N/+/pvinverter/+/Ac/{phase}/Power",
@@ -844,7 +899,8 @@
       "precision": 1,
       "enum": null,
       "min": null,
-      "max": null
+      "max": null,
+      "is_adjustable_suffix": null
     },
     {
       "topic": "N/+/pvinverter/+/Ac/Energy/Forward",
@@ -853,13 +909,14 @@
       "name": "Total Yield",
       "unit_of_measurement": "kWh",
       "metric_type": "MetricType.ENERGY",
-      "metric_nature": "MetricNature.INSTANTANEOUS",
+      "metric_nature": "MetricNature.CUMULATIVE",
       "device_type": "PV Inverter",
       "value_type": "ValueType.FLOAT",
       "precision": 1,
       "enum": null,
       "min": null,
-      "max": null
+      "max": null,
+      "is_adjustable_suffix": null
     },
     {
       "topic": "N/+/pvinverter/+/Ac/{phase}/Energy/Forward",
@@ -874,7 +931,8 @@
       "precision": 1,
       "enum": null,
       "min": null,
-      "max": null
+      "max": null,
+      "is_adjustable_suffix": null
     },
     {
       "topic": "N/+/temperature/+/Temperature",
@@ -889,7 +947,8 @@
       "precision": 1,
       "enum": null,
       "min": null,
-      "max": null
+      "max": null,
+      "is_adjustable_suffix": null
     },
     {
       "topic": "N/+/temperature/+/Status",
@@ -904,7 +963,8 @@
       "precision": null,
       "enum": "TemperatureStatus",
       "min": null,
-      "max": null
+      "max": null,
+      "is_adjustable_suffix": null
     },
     {
       "topic": "N/+/temperature/+/TemperatureType",
@@ -919,7 +979,8 @@
       "precision": null,
       "enum": "TemperatureType",
       "min": null,
-      "max": null
+      "max": null,
+      "is_adjustable_suffix": null
     },
     {
       "topic": "N/+/temperature/+/Offset",
@@ -934,7 +995,8 @@
       "precision": 1,
       "enum": null,
       "min": null,
-      "max": null
+      "max": null,
+      "is_adjustable_suffix": null
     },
     {
       "topic": "N/+/temperature/+/Scale",
@@ -949,7 +1011,8 @@
       "precision": 2,
       "enum": null,
       "min": null,
-      "max": null
+      "max": null,
+      "is_adjustable_suffix": null
     }
   ],
   "enums": [
