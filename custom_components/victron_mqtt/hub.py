@@ -135,8 +135,8 @@ class VictronSensor(VictronBaseEntity, SensorEntity):
         device_info: DeviceInfo,
     ) -> None:
         """Initialize the sensor based on detauls in the metric."""
-        super().__init__(device, metric, device_info, "sensor")
         self._attr_native_value = metric.value
+        super().__init__(device, metric, device_info, "sensor")
 
     def __repr__(self) -> str:
         """Return a string representation of the sensor."""
@@ -157,8 +157,8 @@ class VictronSwitch(VictronBaseEntity, SwitchEntity):
         device_info: DeviceInfo,
     ) -> None:
         """Initialize the switch."""
-        super().__init__(device, switch, device_info, "switch")
         self._attr_is_on = switch.value 
+        super().__init__(device, switch, device_info, "switch")
 
     def __repr__(self) -> str:
         """Return a string representation of the sensor."""
@@ -192,13 +192,13 @@ class VictronNumber(VictronBaseEntity, NumberEntity):
         device_info: DeviceInfo,
     ) -> None:
         """Initialize the number entity."""
-        super().__init__(device, switch, device_info, "number")
         self._attr_native_value = switch.value
         if isinstance(switch.min_value, int) or isinstance(switch.min_value, float):
             self._attr_native_min_value = switch.min_value
         if isinstance(switch.max_value, int) or isinstance(switch.max_value, float):
             self._attr_native_max_value = switch.max_value
         self._attr_native_step = 1 #TODO: Add support for different steps
+        super().__init__(device, switch, device_info, "number")
 
     def __repr__(self) -> str:
         """Return a string representation of the sensor."""
@@ -229,8 +229,8 @@ class VictronBinarySensor(VictronBaseEntity, BinarySensorEntity):
         metric: VictronVenusMetric,
         device_info: DeviceInfo,
     ) -> None:
-        super().__init__(device, metric, device_info, "binary_sensor")
         self._attr_is_on = bool(metric.value)
+        super().__init__(device, metric, device_info, "binary_sensor")
 
     def __repr__(self) -> str:
         """Return a string representation of the sensor."""
@@ -254,9 +254,9 @@ class VictronSelect(VictronBaseEntity, SelectEntity):
         device_info: DeviceInfo,
     ) -> None:
         """Initialize the switch."""
-        super().__init__(device, switch, device_info, "select")
         self._attr_options = switch.enum_values
         self._attr_current_option = self._map_value_to_state(switch.value)
+        super().__init__(device, switch, device_info, "select")
 
     def __repr__(self) -> str:
         """Return a string representation of the sensor."""
