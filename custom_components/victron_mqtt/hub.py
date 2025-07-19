@@ -29,7 +29,7 @@ from victron_mqtt import (
     GenericOnOff
 )
 
-from .const import CONF_INSTALLATION_ID, CONF_MODEL, CONF_SERIAL, DOMAIN
+from .const import CONF_INSTALLATION_ID, CONF_MODEL, CONF_SERIAL, DOMAIN, CONF_ROOT_TOPIC_PREFIX
 from .common import VictronBaseEntity
 
 _LOGGER = logging.getLogger(__name__)
@@ -52,14 +52,15 @@ class Hub:
 
         config = entry.data
         self._hub = VictronVenusHub(
-            config.get(CONF_HOST),
-            config.get(CONF_PORT, 1883),
-            config.get(CONF_USERNAME),
-            config.get(CONF_PASSWORD),
-            config.get(CONF_SSL, False),
-            config.get(CONF_INSTALLATION_ID),
-            config.get(CONF_MODEL),
-            config.get(CONF_SERIAL),
+            host=config.get(CONF_HOST),
+            port=config.get(CONF_PORT),
+            username=config.get(CONF_USERNAME),
+            password=config.get(CONF_PASSWORD),
+            use_ssl=config.get(CONF_SSL),
+            installation_id=config.get(CONF_INSTALLATION_ID),
+            model_name = config.get(CONF_MODEL),
+            serial = config.get(CONF_SERIAL),
+            topic_prefix = config.get(CONF_ROOT_TOPIC_PREFIX),
         )
 
     async def start(self):

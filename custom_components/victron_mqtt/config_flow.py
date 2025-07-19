@@ -27,6 +27,7 @@ from .const import (
     CONF_INSTALLATION_ID,
     CONF_MODEL,
     CONF_SERIAL,
+    CONF_ROOT_TOPIC_PREFIX,
     DEFAULT_HOST,
     DEFAULT_PORT,
     DOMAIN,
@@ -37,11 +38,12 @@ _LOGGER = logging.getLogger(__name__)
 
 STEP_USER_DATA_SCHEMA = vol.Schema(
     {
-        vol.Required(CONF_HOST): str,
+        vol.Required(CONF_HOST, default=DEFAULT_HOST): str,
         vol.Required(CONF_PORT, default=DEFAULT_PORT): int,
         vol.Optional(CONF_USERNAME): str,
         vol.Optional(CONF_PASSWORD): str,
         vol.Required(CONF_SSL): bool,
+        vol.Optional(CONF_ROOT_TOPIC_PREFIX): str,
     }
 )
 
@@ -57,14 +59,16 @@ async def validate_input(hass: HomeAssistant, data: dict[str, Any]) -> str:
 
     Returns the installation id upon success.
     """
-
+    _LOGGER.info("Validating input: %s", data)
     hub = VictronVenusHub(
-        data[CONF_HOST],
-        data.get(CONF_PORT, DEFAULT_PORT),
-        data.get(CONF_USERNAME),
-        data.get(CONF_PASSWORD),
-        data.get(CONF_SSL, False),
-        data.get(CONF_SERIAL, "NOSERIAL"),
+        host=data.get(CONF_HOST),
+        port=data.get(CONF_PORT),
+        username=data.get(CONF_USERNAME),
+        password=data.get(CONF_PASSWORD),
+        use_ssl=data.get(CONF_SSL),
+        installation_id=data.get(CONF_INSTALLATION_ID),
+        serial=data.get(CONF_SERIAL, "noserial"),
+        topic_prefix=data.get(CONF_ROOT_TOPIC_PREFIX),
     )
 
     await hub.connect()
@@ -88,6 +92,7 @@ class VictronMQTTConfigFlow(ConfigFlow, domain=DOMAIN):
         """Handle the initial step."""
         errors: dict[str, str] = {}
         if user_input is not None:
+            _LOGGER.info("User input received: %s", user_input)
             data = {**user_input, CONF_SERIAL: self.serial, CONF_MODEL: self.modelName}
             data = {
                 k: v for k, v in data.items() if v is not None
@@ -95,9 +100,12 @@ class VictronMQTTConfigFlow(ConfigFlow, domain=DOMAIN):
 
             try:
                 installation_id = await validate_input(self.hass, data)
-            except CannotConnectError:
+                _LOGGER.info("Successfully connected to Victron device: %s", installation_id)
+            except CannotConnectError as e:
+                _LOGGER.error("Cannot connect to Victron device: %s", e, exc_info=True)
                 errors["base"] = "cannot_connect"
-            except Exception:  # pylint: disable=broad-except  # noqa: BLE001
+            except Exception as e:
+                _LOGGER.error("General error connecting to Victron device: %s", e, exc_info=True)
                 errors["base"] = "unknown"
             else:
                 data[CONF_INSTALLATION_ID] = installation_id
@@ -111,25 +119,14 @@ class VictronMQTTConfigFlow(ConfigFlow, domain=DOMAIN):
                 else:
                     title = f"Victron OS {unique_id}"
                 return self.async_create_entry(title=title, data=data)
-
-        if user_input is None:
-            default_host = self.hostname or DEFAULT_HOST
-            dynamic_schema = vol.Schema(
-                {
-                    vol.Required(CONF_HOST, default=default_host): str,
-                    vol.Required(CONF_PORT, default=DEFAULT_PORT): int,
-                    vol.Optional(CONF_USERNAME): str,
-                    vol.Optional(CONF_PASSWORD): str,
-                    vol.Required(CONF_SSL): bool,
-                }
-            )
-
+        
+        if len(errors) > 0:
+            _LOGGER.warning("showing form with errors: %s", errors)
         else:
-            dynamic_schema = STEP_USER_DATA_SCHEMA
-
+            _LOGGER.info("showing form without errors")
         return self.async_show_form(
             step_id="user",
-            data_schema=dynamic_schema,
+            data_schema=STEP_USER_DATA_SCHEMA,
             errors=errors,
         )
 
