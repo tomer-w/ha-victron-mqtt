@@ -56,7 +56,7 @@ class Hub:
             port=config.get(CONF_PORT, 1883),
             username=config.get(CONF_USERNAME),
             password=config.get(CONF_PASSWORD),
-            use_ssl=config.get(CONF_SSL),
+            use_ssl=config.get(CONF_SSL, False),
             installation_id=config.get(CONF_INSTALLATION_ID),
             model_name = config.get(CONF_MODEL),
             serial = config.get(CONF_SERIAL),
