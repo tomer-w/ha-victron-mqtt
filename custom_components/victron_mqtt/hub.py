@@ -59,7 +59,7 @@ class Hub:
             use_ssl=config.get(CONF_SSL, False),
             installation_id=config.get(CONF_INSTALLATION_ID),
             model_name = config.get(CONF_MODEL),
-            serial = config.get(CONF_SERIAL),
+            serial = config.get(CONF_SERIAL, "noserial"),
             topic_prefix = config.get(CONF_ROOT_TOPIC_PREFIX),
         )
 
