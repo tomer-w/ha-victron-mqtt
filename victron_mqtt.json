@@ -16,7 +16,7 @@
       "metric_nature": "MetricNature.INSTANTANEOUS",
       "device_type": "Grid",
       "value_type": "ValueType.INT_DEFAULT_0",
-      "precision": 0,
+      "precision": null,
       "enum": null,
       "min": null,
       "max": null,
@@ -249,7 +249,7 @@
     {
       "topic": "N/+/solarcharger/+/Dc/0/Voltage",
       "message_type": "MetricKind.SENSOR",
-      "short_id": "solar_voltage",
+      "short_id": "solarcharger_voltage",
       "name": "DC Bus voltage",
       "unit_of_measurement": "V",
       "metric_type": "MetricType.VOLTAGE",
@@ -265,7 +265,7 @@
     {
       "topic": "N/+/solarcharger/+/Dc/0/Current",
       "message_type": "MetricKind.SENSOR",
-      "short_id": "solar_current",
+      "short_id": "solarcharger_current",
       "name": "DC current",
       "unit_of_measurement": "A",
       "metric_type": "MetricType.CURRENT",
@@ -281,7 +281,7 @@
     {
       "topic": "N/+/solarcharger/+/Yield/Power",
       "message_type": "MetricKind.SENSOR",
-      "short_id": "solar_power",
+      "short_id": "solarcharger_power",
       "name": "Power",
       "unit_of_measurement": "W",
       "metric_type": "MetricType.POWER",
@@ -297,8 +297,40 @@
     {
       "topic": "N/+/solarcharger/+/Yield/User",
       "message_type": "MetricKind.SENSOR",
-      "short_id": "solar_yield",
-      "name": "Yield",
+      "short_id": "solarcharger_yield_total",
+      "name": "Total Yield",
+      "unit_of_measurement": "kWh",
+      "metric_type": "MetricType.ENERGY",
+      "metric_nature": "MetricNature.CUMULATIVE",
+      "device_type": "Solar Charger",
+      "value_type": "ValueType.FLOAT",
+      "precision": 1,
+      "enum": null,
+      "min": null,
+      "max": null,
+      "is_adjustable_suffix": null
+    },
+    {
+      "topic": "N/+/solarcharger/+/History/Daily/0/Yield",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "solarcharger_yield_today",
+      "name": "Yield Today",
+      "unit_of_measurement": "kWh",
+      "metric_type": "MetricType.ENERGY",
+      "metric_nature": "MetricNature.CUMULATIVE",
+      "device_type": "Solar Charger",
+      "value_type": "ValueType.FLOAT",
+      "precision": 1,
+      "enum": null,
+      "min": null,
+      "max": null,
+      "is_adjustable_suffix": null
+    },
+    {
+      "topic": "N/+/solarcharger/+/History/Daily/1/Yield",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "solarcharger_yield_yesterday",
+      "name": "Yield Yesterday",
       "unit_of_measurement": "kWh",
       "metric_type": "MetricType.ENERGY",
       "metric_nature": "MetricNature.CUMULATIVE",
@@ -313,8 +345,24 @@
     {
       "topic": "N/+/solarcharger/+/History/Daily/0/MaxPower",
       "message_type": "MetricKind.SENSOR",
-      "short_id": "solar_max_power",
+      "short_id": "solarcharger_max_power_today",
       "name": "Max Power Today",
+      "unit_of_measurement": "W",
+      "metric_type": "MetricType.POWER",
+      "metric_nature": "MetricNature.INSTANTANEOUS",
+      "device_type": "Solar Charger",
+      "value_type": "ValueType.FLOAT",
+      "precision": 1,
+      "enum": null,
+      "min": null,
+      "max": null,
+      "is_adjustable_suffix": null
+    },
+    {
+      "topic": "N/+/solarcharger/+/History/Daily/1/MaxPower",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "solarcharger_max_power_yesterday",
+      "name": "Max Power Yesterday",
       "unit_of_measurement": "W",
       "metric_type": "MetricType.POWER",
       "metric_nature": "MetricNature.INSTANTANEOUS",
@@ -423,6 +471,22 @@
       "is_adjustable_suffix": null
     },
     {
+      "topic": "N/+/battery/+/History/AutomaticSyncs",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "battery_automatic_syncs",
+      "name": "Automatic syncs",
+      "unit_of_measurement": "count",
+      "metric_type": "MetricType.NONE",
+      "metric_nature": "MetricNature.CUMULATIVE",
+      "device_type": "Battery",
+      "value_type": "ValueType.INT",
+      "precision": null,
+      "enum": null,
+      "min": null,
+      "max": null,
+      "is_adjustable_suffix": null
+    },
+    {
       "topic": "N/+/battery/+/Capacity",
       "message_type": "MetricKind.SENSOR",
       "short_id": "battery_capacity",
@@ -497,6 +561,22 @@
       "device_type": "Battery",
       "value_type": "ValueType.FLOAT",
       "precision": 3,
+      "enum": null,
+      "min": null,
+      "max": null,
+      "is_adjustable_suffix": null
+    },
+    {
+      "topic": "N/+/battery/+/TimeToGo",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "battery_time_to_go",
+      "name": "Battery time to go",
+      "unit_of_measurement": "s",
+      "metric_type": "MetricType.TIME",
+      "metric_nature": "MetricNature.INSTANTANEOUS",
+      "device_type": "Battery",
+      "value_type": "ValueType.INT",
+      "precision": null,
       "enum": null,
       "min": null,
       "max": null,
@@ -647,6 +727,22 @@
       "is_adjustable_suffix": null
     },
     {
+      "topic": "N/+/vebus/+/Alarms/Overload",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "inverter_alarm_overload",
+      "name": "Inverter overload alarm",
+      "unit_of_measurement": null,
+      "metric_type": "MetricType.NONE",
+      "metric_nature": "MetricNature.NONE",
+      "device_type": "Inverter",
+      "value_type": "ValueType.ENUM",
+      "precision": null,
+      "enum": "InverterOverloadAlarmEnum",
+      "min": null,
+      "max": null,
+      "is_adjustable_suffix": null
+    },
+    {
       "topic": "N/+/vebus/+/Ac/ActiveIn/CurrentLimit",
       "message_type": "MetricKind.NUMBER",
       "short_id": "inverter_current_limit",
@@ -656,7 +752,7 @@
       "metric_nature": "MetricNature.INSTANTANEOUS",
       "device_type": "Inverter",
       "value_type": "ValueType.INT",
-      "precision": 0,
+      "precision": null,
       "enum": null,
       "min": 0,
       "max": "RangeType.DYNAMIC",
@@ -738,6 +834,38 @@
       "value_type": "ValueType.ENUM",
       "precision": null,
       "enum": "GenericOnOff",
+      "min": null,
+      "max": null,
+      "is_adjustable_suffix": null
+    },
+    {
+      "topic": "N/+/system/+/Ac/Genset/{phase}/Power",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "system_generator_load_{phase}",
+      "name": "Genset Load {phase}",
+      "unit_of_measurement": "W",
+      "metric_type": "MetricType.POWER",
+      "metric_nature": "MetricNature.INSTANTANEOUS",
+      "device_type": "System",
+      "value_type": "ValueType.FLOAT",
+      "precision": 1,
+      "enum": null,
+      "min": null,
+      "max": null,
+      "is_adjustable_suffix": null
+    },
+    {
+      "topic": "N/+/system/+/Ac/Grid/{phase}/Power",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "system_grid_power_{phase}",
+      "name": "Grid Power {phase}",
+      "unit_of_measurement": "W",
+      "metric_type": "MetricType.POWER",
+      "metric_nature": "MetricNature.INSTANTANEOUS",
+      "device_type": "System",
+      "value_type": "ValueType.FLOAT",
+      "precision": 1,
+      "enum": null,
       "min": null,
       "max": null,
       "is_adjustable_suffix": null
@@ -832,7 +960,7 @@
       "metric_nature": "MetricNature.INSTANTANEOUS",
       "device_type": "EV Charging Station",
       "value_type": "ValueType.INT",
-      "precision": 0,
+      "precision": null,
       "enum": null,
       "min": 0,
       "max": 16,
@@ -841,7 +969,7 @@
     {
       "topic": "N/+/pvinverter/+/Ac/{phase}/Voltage",
       "message_type": "MetricKind.SENSOR",
-      "short_id": "solar_voltage_{phase}",
+      "short_id": "pvinverter_voltage_{phase}",
       "name": "Voltage {phase}",
       "unit_of_measurement": "V",
       "metric_type": "MetricType.VOLTAGE",
@@ -857,7 +985,7 @@
     {
       "topic": "N/+/pvinverter/+/Ac/{phase}/Current",
       "message_type": "MetricKind.SENSOR",
-      "short_id": "solar_current_{phase}",
+      "short_id": "pvinverter_current_{phase}",
       "name": "Current {phase}",
       "unit_of_measurement": "A",
       "metric_type": "MetricType.CURRENT",
@@ -873,7 +1001,7 @@
     {
       "topic": "N/+/pvinverter/+/Ac/Power",
       "message_type": "MetricKind.SENSOR",
-      "short_id": "solar_power_total",
+      "short_id": "pvinverter_power_total",
       "name": "Power Total",
       "unit_of_measurement": "W",
       "metric_type": "MetricType.POWER",
@@ -889,7 +1017,7 @@
     {
       "topic": "N/+/pvinverter/+/Ac/{phase}/Power",
       "message_type": "MetricKind.SENSOR",
-      "short_id": "solar_power_{phase}",
+      "short_id": "pvinverter_power_{phase}",
       "name": "Power {phase}",
       "unit_of_measurement": "W",
       "metric_type": "MetricType.POWER",
@@ -905,7 +1033,7 @@
     {
       "topic": "N/+/pvinverter/+/Ac/Energy/Forward",
       "message_type": "MetricKind.SENSOR",
-      "short_id": "solar_yield_total",
+      "short_id": "pvinverter_yield_total",
       "name": "Total Yield",
       "unit_of_measurement": "kWh",
       "metric_type": "MetricType.ENERGY",
@@ -921,7 +1049,7 @@
     {
       "topic": "N/+/pvinverter/+/Ac/{phase}/Energy/Forward",
       "message_type": "MetricKind.SENSOR",
-      "short_id": "solar_yield_{phase}",
+      "short_id": "pvinverter_yield_{phase}",
       "name": "Yield {phase}",
       "unit_of_measurement": "kWh",
       "metric_type": "MetricType.ENERGY",
@@ -943,7 +1071,7 @@
       "metric_type": "MetricType.TEMPERATURE",
       "metric_nature": "MetricNature.INSTANTANEOUS",
       "device_type": "Temperature",
-      "value_type": "ValueType.INT",
+      "value_type": "ValueType.FLOAT",
       "precision": 1,
       "enum": null,
       "min": null,
@@ -1013,6 +1141,54 @@
       "min": null,
       "max": null,
       "is_adjustable_suffix": null
+    },
+    {
+      "topic": "N/+/tank/+/Level",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "tank_level",
+      "name": "Level",
+      "unit_of_measurement": "%",
+      "metric_type": "MetricType.PERCENTAGE",
+      "metric_nature": "MetricNature.INSTANTANEOUS",
+      "device_type": "Liquid Tank",
+      "value_type": "ValueType.INT",
+      "precision": null,
+      "enum": null,
+      "min": null,
+      "max": null,
+      "is_adjustable_suffix": null
+    },
+    {
+      "topic": "N/+/tank/+/Remaining",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "tank_remaining",
+      "name": "Remaining",
+      "unit_of_measurement": "m3",
+      "metric_type": "MetricType.LIQUID_VOLUME",
+      "metric_nature": "MetricNature.INSTANTANEOUS",
+      "device_type": "Liquid Tank",
+      "value_type": "ValueType.INT",
+      "precision": null,
+      "enum": null,
+      "min": null,
+      "max": null,
+      "is_adjustable_suffix": null
+    },
+    {
+      "topic": "N/+/tank/+/Temperature",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "tank_temperature",
+      "name": "Temperature",
+      "unit_of_measurement": "\u00b0C",
+      "metric_type": "MetricType.TEMPERATURE",
+      "metric_nature": "MetricNature.INSTANTANEOUS",
+      "device_type": "Liquid Tank",
+      "value_type": "ValueType.INT",
+      "precision": null,
+      "enum": null,
+      "min": null,
+      "max": null,
+      "is_adjustable_suffix": null
     }
   ],
   "enums": [
@@ -1068,6 +1244,16 @@
           "id": "TEMPERATURE",
           "name": "Temperature",
           "value": "temperature"
+        },
+        {
+          "id": "GENERATOR",
+          "name": "Generator",
+          "value": "generator"
+        },
+        {
+          "id": "TANK",
+          "name": "Liquid Tank",
+          "value": "tank"
         }
       ]
     },
@@ -1088,6 +1274,71 @@
           "id": "ScheduledCharge",
           "name": "Scheduled Charge",
           "value": 2
+        }
+      ]
+    },
+    {
+      "name": "FluidType",
+      "EnumValues": [
+        {
+          "id": "Fuel",
+          "name": "Fuel",
+          "value": 0
+        },
+        {
+          "id": "FreshWater",
+          "name": "Fresh Water",
+          "value": 1
+        },
+        {
+          "id": "WasteWater",
+          "name": "Waste Water",
+          "value": 2
+        },
+        {
+          "id": "LiveWell",
+          "name": "Live Well",
+          "value": 3
+        },
+        {
+          "id": "Oil",
+          "name": "Oil",
+          "value": 4
+        },
+        {
+          "id": "BlackWater",
+          "name": "Black water (sewage)",
+          "value": 5
+        },
+        {
+          "id": "Gasoline",
+          "name": "Gasoline",
+          "value": 6
+        },
+        {
+          "id": "Diesel",
+          "name": "Diesel",
+          "value": 7
+        },
+        {
+          "id": "LPG",
+          "name": "Liquid  Petroleum Gas (LPG)",
+          "value": 8
+        },
+        {
+          "id": "LNG",
+          "name": "Liquid Natural Gas (LNG)",
+          "value": 9
+        },
+        {
+          "id": "HydraulicOil",
+          "name": "Hydraulic oil",
+          "value": 10
+        },
+        {
+          "id": "RawWater",
+          "name": "Raw water",
+          "value": 11
         }
       ]
     },
@@ -1128,6 +1379,26 @@
           "id": "Off",
           "name": "Off",
           "value": 4
+        }
+      ]
+    },
+    {
+      "name": "InverterOverloadAlarmEnum",
+      "EnumValues": [
+        {
+          "id": "NoAlarm",
+          "name": "No Alarm",
+          "value": 0
+        },
+        {
+          "id": "Warning",
+          "name": "Warning",
+          "value": 1
+        },
+        {
+          "id": "Alarm",
+          "name": "Alarm",
+          "value": 2
         }
       ]
     },
