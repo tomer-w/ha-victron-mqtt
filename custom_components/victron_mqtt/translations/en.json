@@ -77,20 +77,29 @@
       "grid_energy_reverse": {
         "name": "Grid feed-in"
       },
-      "solar_voltage": {
+      "solarcharger_voltage": {
         "name": "DC Bus voltage"
       },
-      "solar_current": {
+      "solarcharger_current": {
         "name": "DC current"
       },
-      "solar_power": {
+      "solarcharger_power": {
         "name": "Power"
       },
-      "solar_yield": {
-        "name": "Yield"
+      "solarcharger_yield_total": {
+        "name": "Total Yield"
       },
-      "solar_max_power": {
+      "solarcharger_yield_today": {
+        "name": "Yield Today"
+      },
+      "solarcharger_yield_yesterday": {
+        "name": "Yield Yesterday"
+      },
+      "solarcharger_max_power_today": {
         "name": "Max Power Today"
+      },
+      "solarcharger_max_power_yesterday": {
+        "name": "Max Power Yesterday"
       },
       "battery_voltage": {
         "name": "Battery voltage"
@@ -110,6 +119,9 @@
       "battery_charged_energy": {
         "name": "Charged energy"
       },
+      "battery_automatic_syncs": {
+        "name": "Automatic syncs"
+      },
       "battery_capacity": {
         "name": "Battery capacity"
       },
@@ -124,6 +136,9 @@
       },
       "battery_max_cell_voltage": {
         "name": "Battery maximum cell voltage"
+      },
+      "battery_time_to_go": {
+        "name": "Battery time to go"
       },
       "inverter_state": {
         "name": "Inverter state"
@@ -146,6 +161,9 @@
       "inverter_output_apparent_power_phase": {
         "name": "Inverter output apparent power {phase}"
       },
+      "inverter_alarm_overload": {
+        "name": "Inverter overload alarm"
+      },
       "system_critical_loads_phase": {
         "name": "Critical loads on {phase}"
       },
@@ -155,28 +173,34 @@
       "system_dc_consumption": {
         "name": "DC Consumption"
       },
+      "system_generator_load_phase": {
+        "name": "Genset Load {phase}"
+      },
+      "system_grid_power_phase": {
+        "name": "Grid Power {phase}"
+      },
       "evcharger_current": {
         "name": "EV charger current"
       },
       "evcharger_power_phase": {
         "name": "EV charger power {phase}"
       },
-      "solar_voltage_phase": {
+      "pvinverter_voltage_phase": {
         "name": "Voltage {phase}"
       },
-      "solar_current_phase": {
+      "pvinverter_current_phase": {
         "name": "Current {phase}"
       },
-      "solar_power_total": {
+      "pvinverter_power_total": {
         "name": "Power Total"
       },
-      "solar_power_phase": {
+      "pvinverter_power_phase": {
         "name": "Power {phase}"
       },
-      "solar_yield_total": {
+      "pvinverter_yield_total": {
         "name": "Total Yield"
       },
-      "solar_yield_phase": {
+      "pvinverter_yield_phase": {
         "name": "Yield {phase}"
       },
       "temperature_temperature": {
@@ -187,6 +211,15 @@
       },
       "temperature_type": {
         "name": "Temperature sensor type"
+      },
+      "tank_level": {
+        "name": "Level"
+      },
+      "tank_remaining": {
+        "name": "Remaining"
+      },
+      "tank_temperature": {
+        "name": "Temperature"
       }
     },
     "select": {
