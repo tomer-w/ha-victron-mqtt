@@ -96,7 +96,7 @@ class Hub:
             if not sensor_metrics:
                 continue
 
-            _LOGGER.info("Setting up sensors for device: %s. info: %s", device, info)
+            _LOGGER.info("Setting up entities for device: %s. info: %s", device, info)
             for metric in sensor_metrics:
                 _LOGGER.debug("Setting up entity: %s", repr(metric))
                 sensor = self.creatre_entity(device, metric, info)

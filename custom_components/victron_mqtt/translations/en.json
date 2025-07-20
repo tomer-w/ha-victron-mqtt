@@ -146,6 +146,9 @@
       "inverter_output_apparent_power_phase": {
         "name": "Inverter output apparent power {phase}"
       },
+      "inverter_current_limit": {
+        "name": "Inverter current limit"
+      },
       "system_critical_loads_phase": {
         "name": "Critical loads on {phase}"
       },

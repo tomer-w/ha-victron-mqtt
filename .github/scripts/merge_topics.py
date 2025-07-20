@@ -20,16 +20,27 @@ def main():
         translation_key = topic.get('short_id').replace('{', '').replace('}', '') # same as in common.py
         topic_name = topic.get('name')
         message_type = topic.get('message_type')
+        is_adjustable_suffix = topic.get('is_adjustable_suffix')
+        
         # Extract the part after the dot and make it lower case
         if '.' in message_type:
             entity_type = message_type.split('.', 1)[1].lower()
         else:
             # Fallback for old format
             entity_type = message_type.lower()
+            
+        # Add to original entity type
         if entity_type not in entity:
             entity[entity_type] = {}
         entity[entity_type][translation_key] = {"name": topic_name}
-        count+=1
+        count += 1
+        
+        # If is_adjustable_suffix is set, also add to sensor entity type
+        if is_adjustable_suffix is not None and entity_type != 'sensor':
+            if 'sensor' not in entity:
+                entity['sensor'] = {}
+            entity['sensor'][translation_key] = {"name": topic_name}
+            count += 1
     en['entity'] = entity
 
     with open(en_path, 'w', encoding='utf-8') as f:
