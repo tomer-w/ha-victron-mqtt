@@ -807,26 +807,10 @@
       "is_adjustable_suffix": null
     },
     {
-      "topic": "N/+/system/+/Relay/0/State",
+      "topic": "N/+/system/+/Relay/{relay}/State",
       "message_type": "MetricKind.SWITCH",
-      "short_id": "system_relay_1",
-      "name": "Relay 1 state",
-      "unit_of_measurement": null,
-      "metric_type": "MetricType.NONE",
-      "metric_nature": "MetricNature.NONE",
-      "device_type": "System",
-      "value_type": "ValueType.ENUM",
-      "precision": null,
-      "enum": "GenericOnOff",
-      "min": null,
-      "max": null,
-      "is_adjustable_suffix": null
-    },
-    {
-      "topic": "N/+/system/+/Relay/1/State",
-      "message_type": "MetricKind.SWITCH",
-      "short_id": "system_relay_2",
-      "name": "Relay 2 state",
+      "short_id": "system_relay_{relay}",
+      "name": "Relay {relay} state",
       "unit_of_measurement": null,
       "metric_type": "MetricType.NONE",
       "metric_nature": "MetricNature.NONE",
@@ -1167,8 +1151,8 @@
       "metric_type": "MetricType.LIQUID_VOLUME",
       "metric_nature": "MetricNature.INSTANTANEOUS",
       "device_type": "Liquid Tank",
-      "value_type": "ValueType.INT",
-      "precision": null,
+      "value_type": "ValueType.FLOAT",
+      "precision": 2,
       "enum": null,
       "min": null,
       "max": null,
@@ -1183,8 +1167,264 @@
       "metric_type": "MetricType.TEMPERATURE",
       "metric_nature": "MetricNature.INSTANTANEOUS",
       "device_type": "Liquid Tank",
+      "value_type": "ValueType.FLOAT",
+      "precision": 1,
+      "enum": null,
+      "min": null,
+      "max": null,
+      "is_adjustable_suffix": null
+    },
+    {
+      "topic": "N/+/multi/+/Ac/NumberOfPhases",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "multirssolar_phases",
+      "name": "Phases",
+      "unit_of_measurement": null,
+      "metric_type": "MetricType.NONE",
+      "metric_nature": "MetricNature.INSTANTANEOUS",
+      "device_type": "Multi RS Solar",
       "value_type": "ValueType.INT",
       "precision": null,
+      "enum": null,
+      "min": null,
+      "max": null,
+      "is_adjustable_suffix": null
+    },
+    {
+      "topic": "N/+/multi/+/Ac/In/1/{phase}/V",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "multirssolar_acin_voltage_{phase}",
+      "name": "Voltage on L{phase}",
+      "unit_of_measurement": "V",
+      "metric_type": "MetricType.VOLTAGE",
+      "metric_nature": "MetricNature.INSTANTANEOUS",
+      "device_type": "Multi RS Solar",
+      "value_type": "ValueType.FLOAT",
+      "precision": 1,
+      "enum": null,
+      "min": null,
+      "max": null,
+      "is_adjustable_suffix": null
+    },
+    {
+      "topic": "N/+/multi/+/Ac/In/1/{phase}/I",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "multirssolar_acin_current_{phase}",
+      "name": "Current {phase}",
+      "unit_of_measurement": "A",
+      "metric_type": "MetricType.CURRENT",
+      "metric_nature": "MetricNature.INSTANTANEOUS",
+      "device_type": "Multi RS Solar",
+      "value_type": "ValueType.FLOAT",
+      "precision": 1,
+      "enum": null,
+      "min": null,
+      "max": null,
+      "is_adjustable_suffix": null
+    },
+    {
+      "topic": "N/+/multi/+/Ac/In/1/{phase}/P",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "multirssolar_acin_power_{phase}",
+      "name": "Power on L{phase}",
+      "unit_of_measurement": "W",
+      "metric_type": "MetricType.POWER",
+      "metric_nature": "MetricNature.INSTANTANEOUS",
+      "device_type": "Multi RS Solar",
+      "value_type": "ValueType.FLOAT",
+      "precision": 1,
+      "enum": null,
+      "min": null,
+      "max": null,
+      "is_adjustable_suffix": null
+    },
+    {
+      "topic": "N/+/multi/+/Ac/Out/{output}/{phase}/V",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "multirssolar_acout_{output}_voltage_{phase}",
+      "name": "AC Out {output} Voltage on {phase}",
+      "unit_of_measurement": "V",
+      "metric_type": "MetricType.VOLTAGE",
+      "metric_nature": "MetricNature.INSTANTANEOUS",
+      "device_type": "Multi RS Solar",
+      "value_type": "ValueType.FLOAT",
+      "precision": 1,
+      "enum": null,
+      "min": null,
+      "max": null,
+      "is_adjustable_suffix": null
+    },
+    {
+      "topic": "N/+/multi/+/Ac/Out/{output}/{phase}/I",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "multirssolar_acout_{output}_current_{phase}",
+      "name": "AC Out {output} Current on {phase}",
+      "unit_of_measurement": "A",
+      "metric_type": "MetricType.CURRENT",
+      "metric_nature": "MetricNature.INSTANTANEOUS",
+      "device_type": "Multi RS Solar",
+      "value_type": "ValueType.FLOAT",
+      "precision": 1,
+      "enum": null,
+      "min": null,
+      "max": null,
+      "is_adjustable_suffix": null
+    },
+    {
+      "topic": "N/+/multi/+/Ac/Out/{output}/{phase}/P",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "multirssolar_acout_{output}_power_{phase}",
+      "name": "AC Out {output} Power on {phase}",
+      "unit_of_measurement": "W",
+      "metric_type": "MetricType.POWER",
+      "metric_nature": "MetricNature.INSTANTANEOUS",
+      "device_type": "Multi RS Solar",
+      "value_type": "ValueType.FLOAT",
+      "precision": 1,
+      "enum": null,
+      "min": null,
+      "max": null,
+      "is_adjustable_suffix": null
+    },
+    {
+      "topic": "N/+/multi/+/State",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "multirssolar_state",
+      "name": "State",
+      "unit_of_measurement": null,
+      "metric_type": "MetricType.NONE",
+      "metric_nature": "MetricNature.NONE",
+      "device_type": "Multi RS Solar",
+      "value_type": "ValueType.ENUM",
+      "precision": null,
+      "enum": "InverterState",
+      "min": null,
+      "max": null,
+      "is_adjustable_suffix": null
+    },
+    {
+      "topic": "N/+/multi/+/Pv/{mpptnumber}/V",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "multirssolar_mppt_{mpptnumber}_voltage",
+      "name": "MPPT {mpptnumber} PV Voltage",
+      "unit_of_measurement": "V",
+      "metric_type": "MetricType.VOLTAGE",
+      "metric_nature": "MetricNature.INSTANTANEOUS",
+      "device_type": "Multi RS Solar",
+      "value_type": "ValueType.FLOAT",
+      "precision": 1,
+      "enum": null,
+      "min": null,
+      "max": null,
+      "is_adjustable_suffix": null
+    },
+    {
+      "topic": "N/+/multi/+/Pv/{mpptnumber}/P",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "multirssolar_mppt_{mpptnumber}_power",
+      "name": "MPPT {mpptnumber} Power",
+      "unit_of_measurement": "W",
+      "metric_type": "MetricType.POWER",
+      "metric_nature": "MetricNature.INSTANTANEOUS",
+      "device_type": "Multi RS Solar",
+      "value_type": "ValueType.FLOAT",
+      "precision": 1,
+      "enum": null,
+      "min": null,
+      "max": null,
+      "is_adjustable_suffix": null
+    },
+    {
+      "topic": "N/+/multi/+/Pv/{mpptnumber}/MppOperationMode",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "multirssolar_mppt_{mpptnumber}_state",
+      "name": "MPPT {mpptnumber} state",
+      "unit_of_measurement": null,
+      "metric_type": "MetricType.NONE",
+      "metric_nature": "MetricNature.NONE",
+      "device_type": "Multi RS Solar",
+      "value_type": "ValueType.ENUM",
+      "precision": null,
+      "enum": "SolarChargerState",
+      "min": null,
+      "max": null,
+      "is_adjustable_suffix": null
+    },
+    {
+      "topic": "N/+/multi/+/Yield/Power",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "multirssolar_pv_power_total",
+      "name": "PV Power Total",
+      "unit_of_measurement": "W",
+      "metric_type": "MetricType.POWER",
+      "metric_nature": "MetricNature.INSTANTANEOUS",
+      "device_type": "Multi RS Solar",
+      "value_type": "ValueType.FLOAT",
+      "precision": 1,
+      "enum": null,
+      "min": null,
+      "max": null,
+      "is_adjustable_suffix": null
+    },
+    {
+      "topic": "N/+/multi/+/Yield/User",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "multirssolar_total_pv_yield",
+      "name": "Total PV Yield",
+      "unit_of_measurement": "kWh",
+      "metric_type": "MetricType.ENERGY",
+      "metric_nature": "MetricNature.CUMULATIVE",
+      "device_type": "Multi RS Solar",
+      "value_type": "ValueType.FLOAT",
+      "precision": 1,
+      "enum": null,
+      "min": null,
+      "max": null,
+      "is_adjustable_suffix": null
+    },
+    {
+      "topic": "N/+/multi/+/Settings/Ess/Mode",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "multirssolar_ess_mode",
+      "name": "ESS Mode",
+      "unit_of_measurement": null,
+      "metric_type": "MetricType.NONE",
+      "metric_nature": "MetricNature.NONE",
+      "device_type": "Multi RS Solar",
+      "value_type": "ValueType.ENUM",
+      "precision": null,
+      "enum": "ESSMode",
+      "min": null,
+      "max": null,
+      "is_adjustable_suffix": null
+    },
+    {
+      "topic": "N/+/multi/+/Ess/AcPowerSetpoint",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "multirssolar_ess_ac_power_set_point",
+      "name": "ESS AC Power Setpoint",
+      "unit_of_measurement": "W",
+      "metric_type": "MetricType.POWER",
+      "metric_nature": "MetricNature.INSTANTANEOUS",
+      "device_type": "Multi RS Solar",
+      "value_type": "ValueType.FLOAT",
+      "precision": 1,
+      "enum": null,
+      "min": null,
+      "max": null,
+      "is_adjustable_suffix": null
+    },
+    {
+      "topic": "N/+/multi/+/Ess/InverterPowerSetpoint",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "multirssolar_inverter_power_setpoint",
+      "name": "Inverter Power Setpoint",
+      "unit_of_measurement": "W",
+      "metric_type": "MetricType.POWER",
+      "metric_nature": "MetricNature.INSTANTANEOUS",
+      "device_type": "Multi RS Solar",
+      "value_type": "ValueType.FLOAT",
+      "precision": 1,
       "enum": null,
       "min": null,
       "max": null,
@@ -1208,7 +1448,7 @@
         {
           "id": "SOLAR_CHARGER",
           "name": "Solar Charger",
-          "value": "solarcharger"
+          "value": "solar_charger"
         },
         {
           "id": "INVERTER",
@@ -1254,6 +1494,36 @@
           "id": "TANK",
           "name": "Liquid Tank",
           "value": "tank"
+        },
+        {
+          "id": "MULTI_RS_SOLAR",
+          "name": "Multi RS Solar",
+          "value": "multi_rs_solar"
+        }
+      ]
+    },
+    {
+      "name": "ESSMode",
+      "EnumValues": [
+        {
+          "id": "SelfConsumptionBatterylife",
+          "name": "self consumption (batterylife)",
+          "value": 0
+        },
+        {
+          "id": "SelfConsumption",
+          "name": "self consumption",
+          "value": 1
+        },
+        {
+          "id": "KeepCharged",
+          "name": "keep charged",
+          "value": 2
+        },
+        {
+          "id": "ExternalControl",
+          "name": "External control",
+          "value": 3
         }
       ]
     },
@@ -1474,6 +1744,31 @@
           "id": "ExternalControl",
           "name": "External Control",
           "value": 252
+        }
+      ]
+    },
+    {
+      "name": "SolarChargerState",
+      "EnumValues": [
+        {
+          "id": "Off",
+          "name": "Off",
+          "value": 0
+        },
+        {
+          "id": "VoltageCurrentLimited",
+          "name": "Voltage/current limited",
+          "value": 1
+        },
+        {
+          "id": "MPPTActive",
+          "name": "MPPT active",
+          "value": 2
+        },
+        {
+          "id": "NotavAilable",
+          "name": "Not available",
+          "value": 255
         }
       ]
     },
