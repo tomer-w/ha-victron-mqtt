@@ -157,7 +157,7 @@ class VictronSwitch(VictronBaseEntity, SwitchEntity):
         device_info: DeviceInfo,
     ) -> None:
         """Initialize the switch."""
-        self._attr_is_on = switch.value 
+        self._attr_is_on = switch.value == GenericOnOff.On
         super().__init__(device, switch, device_info, "switch")
 
     def __repr__(self) -> str:
