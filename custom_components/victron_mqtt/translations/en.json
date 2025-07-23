@@ -301,6 +301,9 @@
       },
       "temperature_scale": {
         "name": "Temperature scale factor"
+      },
+      "cgwacs_ac_power_set_point": {
+        "name": "CGwacs AC Power Setpoint"
       }
     },
     "switch": {
