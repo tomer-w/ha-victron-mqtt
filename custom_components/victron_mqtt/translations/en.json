@@ -223,6 +223,54 @@
       },
       "tank_temperature": {
         "name": "Temperature"
+      },
+      "multirssolar_phases": {
+        "name": "Phases"
+      },
+      "multirssolar_acin_voltage_phase": {
+        "name": "Voltage on {phase}"
+      },
+      "multirssolar_acin_current_phase": {
+        "name": "Current {phase}"
+      },
+      "multirssolar_acin_power_phase": {
+        "name": "Power on {phase}"
+      },
+      "multirssolar_acout_output_voltage_phase": {
+        "name": "AC Out {output} Voltage on {phase}"
+      },
+      "multirssolar_acout_output_current_phase": {
+        "name": "AC Out {output} Current on {phase}"
+      },
+      "multirssolar_acout_output_power_phase": {
+        "name": "AC Out {output} Power on {phase}"
+      },
+      "multirssolar_state": {
+        "name": "State"
+      },
+      "multirssolar_mppt_mpptnumber_voltage": {
+        "name": "MPPT {mpptnumber} PV Voltage"
+      },
+      "multirssolar_mppt_mpptnumber_power": {
+        "name": "MPPT {mpptnumber} Power"
+      },
+      "multirssolar_mppt_mpptnumber_state": {
+        "name": "MPPT {mpptnumber} state"
+      },
+      "multirssolar_pv_power_total": {
+        "name": "PV Power Total"
+      },
+      "multirssolar_total_pv_yield": {
+        "name": "Total PV Yield"
+      },
+      "multirssolar_ess_mode": {
+        "name": "ESS Mode"
+      },
+      "multirssolar_ess_ac_power_set_point": {
+        "name": "ESS AC Power Setpoint"
+      },
+      "multirssolar_inverter_power_setpoint": {
+        "name": "Inverter Power Setpoint"
       }
     },
     "select": {
@@ -256,11 +304,8 @@
       }
     },
     "switch": {
-      "system_relay_1": {
-        "name": "Relay 1 state"
-      },
-      "system_relay_2": {
-        "name": "Relay 2 state"
+      "system_relay_relay": {
+        "name": "Relay {relay} state"
       },
       "evcharger_charge": {
         "name": "EV charger charge"
