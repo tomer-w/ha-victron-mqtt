@@ -1,4 +1,4 @@
-from typing import List
+from typing import Any, List
 import logging
 
 from homeassistant.core import HomeAssistant
@@ -170,16 +170,16 @@ class VictronSwitch(VictronBaseEntity, SwitchEntity):
         self._attr_is_on = metric.value == GenericOnOff.On
         self.async_write_ha_state()
 
-    def turn_on(self, **kwargs):
+    async def async_turn_on(self, **kwargs: Any) -> None:
         """Turn the switch on."""
         assert isinstance(self._metric, VictronVenusSwitch)
         self._metric.set(GenericOnOff.On)
         self.async_write_ha_state()
 
-    def turn_off(self, **kwargs):
+    async def async_turn_off(self, **kwargs: Any) -> None:
         """Turn the switch off."""
         assert isinstance(self._metric, VictronVenusSwitch)
-        self._metric.set(GenericOnOff.On)
+        self._metric.set(GenericOnOff.Off)
         self.async_write_ha_state()
 
 class VictronNumber(VictronBaseEntity, NumberEntity):
@@ -275,6 +275,7 @@ class VictronSelect(VictronBaseEntity, SelectEntity):
         _LOGGER.info("Setting switch %s to %s", self._attr_unique_id, option)
         assert isinstance(self._metric, VictronVenusSwitch)
         self._metric.set(option)
+        self.async_write_ha_state()
 
     def _map_value_to_state(self, value) -> str:
         """Map metric value to switch state."""
