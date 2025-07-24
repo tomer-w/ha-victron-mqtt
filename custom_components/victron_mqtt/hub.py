@@ -173,12 +173,14 @@ class VictronSwitch(VictronBaseEntity, SwitchEntity):
     async def async_turn_on(self, **kwargs: Any) -> None:
         """Turn the switch on."""
         assert isinstance(self._metric, VictronVenusSwitch)
+        _LOGGER.info("Turning on switch: %s", self._attr_unique_id)
         self._metric.set(GenericOnOff.On)
         self.async_write_ha_state()
 
     async def async_turn_off(self, **kwargs: Any) -> None:
         """Turn the switch off."""
         assert isinstance(self._metric, VictronVenusSwitch)
+        _LOGGER.info("Turning off switch: %s", self._attr_unique_id)
         self._metric.set(GenericOnOff.Off)
         self.async_write_ha_state()
 
@@ -216,6 +218,7 @@ class VictronNumber(VictronBaseEntity, NumberEntity):
     async def async_set_native_value(self, value: float) -> None:
         """Set a new value."""
         assert isinstance(self._metric, VictronVenusSwitch)
+        _LOGGER.info("Setting number %s on switch: %s", value, self._attr_unique_id)
         self._metric.set(value)
         self.async_write_ha_state()
 
