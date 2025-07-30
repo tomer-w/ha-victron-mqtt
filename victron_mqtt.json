@@ -1739,6 +1739,40 @@
       "min": -10000,
       "max": 10000,
       "is_adjustable_suffix": null
+    },
+    {
+      "topic": "N/+/switch/+/SwitchableOutput/output_{output}/State",
+      "message_type": "MetricKind.SWITCH",
+      "short_id": "switch_{output}_state",
+      "name": "Switch {output} State",
+      "unit_of_measurement": null,
+      "metric_type": "MetricType.NONE",
+      "metric_nature": "MetricNature.NONE",
+      "device_type": "Switch",
+      "value_type": "ValueType.ENUM",
+      "precision": null,
+      "enum": "GenericOnOff",
+      "min_max_range": "RangeType.STATIC",
+      "min": null,
+      "max": null,
+      "is_adjustable_suffix": null
+    },
+    {
+      "topic": "N/+/switch/+/SwitchableOutput/output_{output}/Dimming",
+      "message_type": "MetricKind.NUMBER",
+      "short_id": "switch_{output}_dimming",
+      "name": "Switch {output} Dimming",
+      "unit_of_measurement": null,
+      "metric_type": "MetricType.NONE",
+      "metric_nature": "MetricNature.NONE",
+      "device_type": "Switch",
+      "value_type": "ValueType.INT",
+      "precision": null,
+      "enum": null,
+      "min_max_range": "RangeType.STATIC",
+      "min": 0,
+      "max": 100,
+      "is_adjustable_suffix": null
     }
   ],
   "enums": [
@@ -1819,6 +1853,11 @@
           "id": "ALTERNATOR",
           "name": "Charger (Orion/Alternator)",
           "value": "alternator"
+        },
+        {
+          "id": "SWITCH",
+          "name": "Switch",
+          "value": "switch"
         }
       ]
     },
