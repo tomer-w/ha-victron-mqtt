@@ -77,14 +77,29 @@
       "grid_energy_reverse": {
         "name": "Grid feed-in"
       },
-      "solarcharger_voltage": {
-        "name": "DC Bus voltage"
+      "solarcharger_dc_voltage": {
+        "name": "DC (Batt) Bus voltage"
       },
-      "solarcharger_current": {
-        "name": "DC current"
+      "solarcharger_dc_current": {
+        "name": "DC (Batt) Bus current"
+      },
+      "solarcharger_load_current": {
+        "name": "Load Bus current"
+      },
+      "solarcharger_voltage": {
+        "name": "PV Bus Voltage"
+      },
+      "solarcharger_state": {
+        "name": "Solar Charger State"
       },
       "solarcharger_power": {
-        "name": "Power"
+        "name": "PV Power"
+      },
+      "solarcharger_current": {
+        "name": "PV Bus current"
+      },
+      "solarcharger_yield_power": {
+        "name": "PV Yield Power"
       },
       "solarcharger_yield_total": {
         "name": "Total Yield"
@@ -102,10 +117,10 @@
         "name": "Max Power Yesterday"
       },
       "battery_voltage": {
-        "name": "Battery voltage"
+        "name": "DC Bus voltage"
       },
       "battery_current": {
-        "name": "Battery current"
+        "name": "DC Bus current"
       },
       "battery_power": {
         "name": "Battery power"
@@ -271,6 +286,35 @@
       },
       "multirssolar_inverter_power_setpoint": {
         "name": "Inverter Power Setpoint"
+      },
+      "alternator_dc_voltage": {
+        "name": "DC Output Voltage"
+      },
+      "alternator_dc_current": {
+        "name": "DC Output Current"
+      },
+      "alternator_dc_power": {
+        "name": "DC Output Power"
+      },
+      "alternator_input_voltage": {
+        "name": "Input Voltage"
+      },
+      "alternator_input_current": {
+        "name": "Input Current"
+      },
+      "alternator_input_power": {
+        "name": "Input Power"
+      }
+    },
+    "switch": {
+      "solarcharger_load_state": {
+        "name": "Solar Charger Load State"
+      },
+      "system_relay_relay": {
+        "name": "Relay {relay} state"
+      },
+      "evcharger_charge": {
+        "name": "EV charger charge"
       }
     },
     "select": {
@@ -304,14 +348,6 @@
       },
       "cgwacs_ac_power_set_point": {
         "name": "CGwacs AC Power Setpoint"
-      }
-    },
-    "switch": {
-      "system_relay_relay": {
-        "name": "Relay {relay} state"
-      },
-      "evcharger_charge": {
-        "name": "EV charger charge"
       }
     }
   }

@@ -18,6 +18,7 @@
       "value_type": "ValueType.INT_DEFAULT_0",
       "precision": null,
       "enum": null,
+      "min_max_range": "RangeType.STATIC",
       "min": null,
       "max": null,
       "is_adjustable_suffix": null
@@ -34,6 +35,7 @@
       "value_type": "ValueType.FLOAT",
       "precision": 1,
       "enum": null,
+      "min_max_range": "RangeType.STATIC",
       "min": null,
       "max": null,
       "is_adjustable_suffix": null
@@ -50,6 +52,7 @@
       "value_type": "ValueType.FLOAT",
       "precision": 1,
       "enum": null,
+      "min_max_range": "RangeType.STATIC",
       "min": null,
       "max": null,
       "is_adjustable_suffix": null
@@ -66,6 +69,7 @@
       "value_type": "ValueType.FLOAT",
       "precision": 1,
       "enum": null,
+      "min_max_range": "RangeType.STATIC",
       "min": null,
       "max": null,
       "is_adjustable_suffix": null
@@ -82,6 +86,7 @@
       "value_type": "ValueType.FLOAT",
       "precision": 1,
       "enum": null,
+      "min_max_range": "RangeType.STATIC",
       "min": null,
       "max": null,
       "is_adjustable_suffix": null
@@ -98,6 +103,7 @@
       "value_type": "ValueType.FLOAT",
       "precision": 1,
       "enum": null,
+      "min_max_range": "RangeType.STATIC",
       "min": null,
       "max": null,
       "is_adjustable_suffix": null
@@ -114,6 +120,7 @@
       "value_type": "ValueType.FLOAT",
       "precision": 1,
       "enum": null,
+      "min_max_range": "RangeType.STATIC",
       "min": null,
       "max": null,
       "is_adjustable_suffix": null
@@ -130,6 +137,7 @@
       "value_type": "ValueType.FLOAT",
       "precision": 1,
       "enum": null,
+      "min_max_range": "RangeType.STATIC",
       "min": null,
       "max": null,
       "is_adjustable_suffix": null
@@ -146,6 +154,7 @@
       "value_type": "ValueType.FLOAT",
       "precision": 2,
       "enum": null,
+      "min_max_range": "RangeType.STATIC",
       "min": null,
       "max": null,
       "is_adjustable_suffix": null
@@ -162,6 +171,7 @@
       "value_type": "ValueType.FLOAT",
       "precision": 1,
       "enum": null,
+      "min_max_range": "RangeType.STATIC",
       "min": null,
       "max": null,
       "is_adjustable_suffix": null
@@ -178,6 +188,7 @@
       "value_type": "ValueType.FLOAT",
       "precision": 1,
       "enum": null,
+      "min_max_range": "RangeType.STATIC",
       "min": null,
       "max": null,
       "is_adjustable_suffix": null
@@ -194,6 +205,7 @@
       "value_type": "ValueType.FLOAT",
       "precision": 1,
       "enum": null,
+      "min_max_range": "RangeType.STATIC",
       "min": null,
       "max": null,
       "is_adjustable_suffix": null
@@ -210,6 +222,7 @@
       "value_type": "ValueType.FLOAT",
       "precision": 1,
       "enum": null,
+      "min_max_range": "RangeType.STATIC",
       "min": null,
       "max": null,
       "is_adjustable_suffix": null
@@ -226,6 +239,7 @@
       "value_type": "ValueType.FLOAT",
       "precision": 1,
       "enum": null,
+      "min_max_range": "RangeType.STATIC",
       "min": null,
       "max": null,
       "is_adjustable_suffix": null
@@ -242,6 +256,7 @@
       "value_type": "ValueType.FLOAT",
       "precision": 1,
       "enum": null,
+      "min_max_range": "RangeType.STATIC",
       "min": null,
       "max": null,
       "is_adjustable_suffix": null
@@ -249,15 +264,16 @@
     {
       "topic": "N/+/solarcharger/+/Dc/0/Voltage",
       "message_type": "MetricKind.SENSOR",
-      "short_id": "solarcharger_voltage",
-      "name": "DC Bus voltage",
+      "short_id": "solarcharger_dc_voltage",
+      "name": "DC (Batt) Bus voltage",
       "unit_of_measurement": "V",
       "metric_type": "MetricType.VOLTAGE",
       "metric_nature": "MetricNature.INSTANTANEOUS",
       "device_type": "Solar Charger",
       "value_type": "ValueType.FLOAT",
-      "precision": 1,
+      "precision": 2,
       "enum": null,
+      "min_max_range": "RangeType.STATIC",
       "min": null,
       "max": null,
       "is_adjustable_suffix": null
@@ -265,24 +281,76 @@
     {
       "topic": "N/+/solarcharger/+/Dc/0/Current",
       "message_type": "MetricKind.SENSOR",
-      "short_id": "solarcharger_current",
-      "name": "DC current",
+      "short_id": "solarcharger_dc_current",
+      "name": "DC (Batt) Bus current",
       "unit_of_measurement": "A",
       "metric_type": "MetricType.CURRENT",
       "metric_nature": "MetricNature.INSTANTANEOUS",
       "device_type": "Solar Charger",
       "value_type": "ValueType.FLOAT",
-      "precision": 1,
+      "precision": 2,
       "enum": null,
+      "min_max_range": "RangeType.STATIC",
       "min": null,
       "max": null,
       "is_adjustable_suffix": null
     },
     {
-      "topic": "N/+/solarcharger/+/Yield/Power",
+      "topic": "N/+/solarcharger/+/Load/I",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "solarcharger_load_current",
+      "name": "Load Bus current",
+      "unit_of_measurement": "A",
+      "metric_type": "MetricType.CURRENT",
+      "metric_nature": "MetricNature.INSTANTANEOUS",
+      "device_type": "Solar Charger",
+      "value_type": "ValueType.FLOAT",
+      "precision": 2,
+      "enum": null,
+      "min_max_range": "RangeType.STATIC",
+      "min": null,
+      "max": null,
+      "is_adjustable_suffix": null
+    },
+    {
+      "topic": "N/+/solarcharger/+/Pv/V",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "solarcharger_voltage",
+      "name": "PV Bus Voltage",
+      "unit_of_measurement": "V",
+      "metric_type": "MetricType.VOLTAGE",
+      "metric_nature": "MetricNature.INSTANTANEOUS",
+      "device_type": "Solar Charger",
+      "value_type": "ValueType.FLOAT",
+      "precision": 2,
+      "enum": null,
+      "min_max_range": "RangeType.STATIC",
+      "min": null,
+      "max": null,
+      "is_adjustable_suffix": null
+    },
+    {
+      "topic": "N/+/solarcharger/+/State",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "solarcharger_state",
+      "name": "Solar Charger State",
+      "unit_of_measurement": null,
+      "metric_type": "MetricType.NONE",
+      "metric_nature": "MetricNature.NONE",
+      "device_type": "Solar Charger",
+      "value_type": "ValueType.ENUM",
+      "precision": null,
+      "enum": "SolarChargerState",
+      "min_max_range": "RangeType.STATIC",
+      "min": null,
+      "max": null,
+      "is_adjustable_suffix": null
+    },
+    {
+      "topic": "N/+/system/+/Dc/Pv/Power",
       "message_type": "MetricKind.SENSOR",
       "short_id": "solarcharger_power",
-      "name": "Power",
+      "name": "PV Power",
       "unit_of_measurement": "W",
       "metric_type": "MetricType.POWER",
       "metric_nature": "MetricNature.INSTANTANEOUS",
@@ -290,6 +358,41 @@
       "value_type": "ValueType.FLOAT",
       "precision": 1,
       "enum": null,
+      "min_max_range": "RangeType.STATIC",
+      "min": null,
+      "max": null,
+      "is_adjustable_suffix": null
+    },
+    {
+      "topic": "N/+/system/+/PV/Current",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "solarcharger_current",
+      "name": "PV Bus current",
+      "unit_of_measurement": "A",
+      "metric_type": "MetricType.CURRENT",
+      "metric_nature": "MetricNature.INSTANTANEOUS",
+      "device_type": "Solar Charger",
+      "value_type": "ValueType.FLOAT",
+      "precision": 2,
+      "enum": null,
+      "min_max_range": "RangeType.STATIC",
+      "min": null,
+      "max": null,
+      "is_adjustable_suffix": null
+    },
+    {
+      "topic": "N/+/solarcharger/+/Yield/Power",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "solarcharger_yield_power",
+      "name": "PV Yield Power",
+      "unit_of_measurement": "W",
+      "metric_type": "MetricType.POWER",
+      "metric_nature": "MetricNature.INSTANTANEOUS",
+      "device_type": "Solar Charger",
+      "value_type": "ValueType.FLOAT",
+      "precision": 1,
+      "enum": null,
+      "min_max_range": "RangeType.STATIC",
       "min": null,
       "max": null,
       "is_adjustable_suffix": null
@@ -306,6 +409,7 @@
       "value_type": "ValueType.FLOAT",
       "precision": 1,
       "enum": null,
+      "min_max_range": "RangeType.STATIC",
       "min": null,
       "max": null,
       "is_adjustable_suffix": null
@@ -322,6 +426,7 @@
       "value_type": "ValueType.FLOAT",
       "precision": 1,
       "enum": null,
+      "min_max_range": "RangeType.STATIC",
       "min": null,
       "max": null,
       "is_adjustable_suffix": null
@@ -338,6 +443,7 @@
       "value_type": "ValueType.FLOAT",
       "precision": 1,
       "enum": null,
+      "min_max_range": "RangeType.STATIC",
       "min": null,
       "max": null,
       "is_adjustable_suffix": null
@@ -354,6 +460,7 @@
       "value_type": "ValueType.FLOAT",
       "precision": 1,
       "enum": null,
+      "min_max_range": "RangeType.STATIC",
       "min": null,
       "max": null,
       "is_adjustable_suffix": null
@@ -370,6 +477,24 @@
       "value_type": "ValueType.FLOAT",
       "precision": 1,
       "enum": null,
+      "min_max_range": "RangeType.STATIC",
+      "min": null,
+      "max": null,
+      "is_adjustable_suffix": null
+    },
+    {
+      "topic": "N/+/solarcharger/+/Load/State",
+      "message_type": "MetricKind.SWITCH",
+      "short_id": "solarcharger_load_state",
+      "name": "Solar Charger Load State",
+      "unit_of_measurement": null,
+      "metric_type": "MetricType.NONE",
+      "metric_nature": "MetricNature.NONE",
+      "device_type": "Solar Charger",
+      "value_type": "ValueType.ENUM",
+      "precision": null,
+      "enum": "GenericOnOff",
+      "min_max_range": "RangeType.STATIC",
       "min": null,
       "max": null,
       "is_adjustable_suffix": null
@@ -378,7 +503,7 @@
       "topic": "N/+/battery/+/Dc/0/Voltage",
       "message_type": "MetricKind.SENSOR",
       "short_id": "battery_voltage",
-      "name": "Battery voltage",
+      "name": "DC Bus voltage",
       "unit_of_measurement": "V",
       "metric_type": "MetricType.VOLTAGE",
       "metric_nature": "MetricNature.INSTANTANEOUS",
@@ -386,6 +511,7 @@
       "value_type": "ValueType.FLOAT",
       "precision": 1,
       "enum": null,
+      "min_max_range": "RangeType.STATIC",
       "min": null,
       "max": null,
       "is_adjustable_suffix": null
@@ -394,7 +520,7 @@
       "topic": "N/+/battery/+/Dc/0/Current",
       "message_type": "MetricKind.SENSOR",
       "short_id": "battery_current",
-      "name": "Battery current",
+      "name": "DC Bus current",
       "unit_of_measurement": "A",
       "metric_type": "MetricType.CURRENT",
       "metric_nature": "MetricNature.INSTANTANEOUS",
@@ -402,6 +528,7 @@
       "value_type": "ValueType.FLOAT",
       "precision": 1,
       "enum": null,
+      "min_max_range": "RangeType.STATIC",
       "min": null,
       "max": null,
       "is_adjustable_suffix": null
@@ -418,6 +545,7 @@
       "value_type": "ValueType.FLOAT",
       "precision": 1,
       "enum": null,
+      "min_max_range": "RangeType.STATIC",
       "min": null,
       "max": null,
       "is_adjustable_suffix": null
@@ -434,6 +562,7 @@
       "value_type": "ValueType.FLOAT",
       "precision": 1,
       "enum": null,
+      "min_max_range": "RangeType.STATIC",
       "min": null,
       "max": null,
       "is_adjustable_suffix": null
@@ -450,6 +579,7 @@
       "value_type": "ValueType.FLOAT",
       "precision": 1,
       "enum": null,
+      "min_max_range": "RangeType.STATIC",
       "min": null,
       "max": null,
       "is_adjustable_suffix": null
@@ -466,6 +596,7 @@
       "value_type": "ValueType.FLOAT",
       "precision": 1,
       "enum": null,
+      "min_max_range": "RangeType.STATIC",
       "min": null,
       "max": null,
       "is_adjustable_suffix": null
@@ -482,6 +613,7 @@
       "value_type": "ValueType.INT",
       "precision": null,
       "enum": null,
+      "min_max_range": "RangeType.STATIC",
       "min": null,
       "max": null,
       "is_adjustable_suffix": null
@@ -498,6 +630,7 @@
       "value_type": "ValueType.FLOAT",
       "precision": 1,
       "enum": null,
+      "min_max_range": "RangeType.STATIC",
       "min": null,
       "max": null,
       "is_adjustable_suffix": null
@@ -514,6 +647,7 @@
       "value_type": "ValueType.FLOAT",
       "precision": 1,
       "enum": null,
+      "min_max_range": "RangeType.STATIC",
       "min": null,
       "max": null,
       "is_adjustable_suffix": null
@@ -530,6 +664,7 @@
       "value_type": "ValueType.FLOAT",
       "precision": 1,
       "enum": null,
+      "min_max_range": "RangeType.STATIC",
       "min": null,
       "max": null,
       "is_adjustable_suffix": null
@@ -546,6 +681,7 @@
       "value_type": "ValueType.FLOAT",
       "precision": 3,
       "enum": null,
+      "min_max_range": "RangeType.STATIC",
       "min": null,
       "max": null,
       "is_adjustable_suffix": null
@@ -562,6 +698,7 @@
       "value_type": "ValueType.FLOAT",
       "precision": 3,
       "enum": null,
+      "min_max_range": "RangeType.STATIC",
       "min": null,
       "max": null,
       "is_adjustable_suffix": null
@@ -578,6 +715,7 @@
       "value_type": "ValueType.INT",
       "precision": null,
       "enum": null,
+      "min_max_range": "RangeType.STATIC",
       "min": null,
       "max": null,
       "is_adjustable_suffix": null
@@ -594,6 +732,7 @@
       "value_type": "ValueType.ENUM",
       "precision": null,
       "enum": "InverterMode",
+      "min_max_range": "RangeType.STATIC",
       "min": null,
       "max": null,
       "is_adjustable_suffix": null
@@ -610,6 +749,7 @@
       "value_type": "ValueType.ENUM",
       "precision": null,
       "enum": "InverterState",
+      "min_max_range": "RangeType.STATIC",
       "min": null,
       "max": null,
       "is_adjustable_suffix": null
@@ -626,6 +766,7 @@
       "value_type": "ValueType.FLOAT",
       "precision": 1,
       "enum": null,
+      "min_max_range": "RangeType.STATIC",
       "min": null,
       "max": null,
       "is_adjustable_suffix": null
@@ -642,6 +783,7 @@
       "value_type": "ValueType.FLOAT",
       "precision": 1,
       "enum": null,
+      "min_max_range": "RangeType.STATIC",
       "min": null,
       "max": null,
       "is_adjustable_suffix": null
@@ -658,6 +800,7 @@
       "value_type": "ValueType.FLOAT",
       "precision": 1,
       "enum": null,
+      "min_max_range": "RangeType.STATIC",
       "min": null,
       "max": null,
       "is_adjustable_suffix": null
@@ -674,6 +817,7 @@
       "value_type": "ValueType.FLOAT",
       "precision": 1,
       "enum": null,
+      "min_max_range": "RangeType.STATIC",
       "min": null,
       "max": null,
       "is_adjustable_suffix": null
@@ -690,6 +834,7 @@
       "value_type": "ValueType.FLOAT",
       "precision": 1,
       "enum": null,
+      "min_max_range": "RangeType.STATIC",
       "min": null,
       "max": null,
       "is_adjustable_suffix": null
@@ -706,6 +851,7 @@
       "value_type": "ValueType.FLOAT",
       "precision": 1,
       "enum": null,
+      "min_max_range": "RangeType.STATIC",
       "min": null,
       "max": null,
       "is_adjustable_suffix": null
@@ -722,6 +868,7 @@
       "value_type": "ValueType.ENUM",
       "precision": null,
       "enum": "GenericOnOff",
+      "min_max_range": "RangeType.STATIC",
       "min": null,
       "max": null,
       "is_adjustable_suffix": null
@@ -738,6 +885,7 @@
       "value_type": "ValueType.ENUM",
       "precision": null,
       "enum": "InverterOverloadAlarmEnum",
+      "min_max_range": "RangeType.STATIC",
       "min": null,
       "max": null,
       "is_adjustable_suffix": null
@@ -754,8 +902,9 @@
       "value_type": "ValueType.INT",
       "precision": null,
       "enum": null,
+      "min_max_range": "RangeType.DYNAMIC",
       "min": 0,
-      "max": "RangeType.DYNAMIC",
+      "max": 16,
       "is_adjustable_suffix": "CurrentLimitIsAdjustable"
     },
     {
@@ -770,6 +919,7 @@
       "value_type": "ValueType.FLOAT",
       "precision": 1,
       "enum": null,
+      "min_max_range": "RangeType.STATIC",
       "min": null,
       "max": null,
       "is_adjustable_suffix": null
@@ -786,6 +936,7 @@
       "value_type": "ValueType.FLOAT",
       "precision": 1,
       "enum": null,
+      "min_max_range": "RangeType.STATIC",
       "min": null,
       "max": null,
       "is_adjustable_suffix": null
@@ -802,6 +953,7 @@
       "value_type": "ValueType.FLOAT",
       "precision": 1,
       "enum": null,
+      "min_max_range": "RangeType.STATIC",
       "min": null,
       "max": null,
       "is_adjustable_suffix": null
@@ -818,6 +970,7 @@
       "value_type": "ValueType.ENUM",
       "precision": null,
       "enum": "GenericOnOff",
+      "min_max_range": "RangeType.STATIC",
       "min": null,
       "max": null,
       "is_adjustable_suffix": null
@@ -834,6 +987,7 @@
       "value_type": "ValueType.FLOAT",
       "precision": 1,
       "enum": null,
+      "min_max_range": "RangeType.STATIC",
       "min": null,
       "max": null,
       "is_adjustable_suffix": null
@@ -850,6 +1004,7 @@
       "value_type": "ValueType.FLOAT",
       "precision": 1,
       "enum": null,
+      "min_max_range": "RangeType.STATIC",
       "min": null,
       "max": null,
       "is_adjustable_suffix": null
@@ -866,6 +1021,7 @@
       "value_type": "ValueType.ENUM",
       "precision": null,
       "enum": "EvChargerMode",
+      "min_max_range": "RangeType.STATIC",
       "min": null,
       "max": null,
       "is_adjustable_suffix": null
@@ -882,6 +1038,7 @@
       "value_type": "ValueType.ENUM",
       "precision": null,
       "enum": "GenericOnOff",
+      "min_max_range": "RangeType.STATIC",
       "min": null,
       "max": null,
       "is_adjustable_suffix": null
@@ -898,6 +1055,7 @@
       "value_type": "ValueType.ENUM",
       "precision": null,
       "enum": "GenericOnOff",
+      "min_max_range": "RangeType.STATIC",
       "min": null,
       "max": null,
       "is_adjustable_suffix": null
@@ -914,6 +1072,7 @@
       "value_type": "ValueType.FLOAT",
       "precision": 1,
       "enum": null,
+      "min_max_range": "RangeType.STATIC",
       "min": null,
       "max": null,
       "is_adjustable_suffix": null
@@ -930,6 +1089,7 @@
       "value_type": "ValueType.FLOAT",
       "precision": 1,
       "enum": null,
+      "min_max_range": "RangeType.STATIC",
       "min": null,
       "max": null,
       "is_adjustable_suffix": null
@@ -946,6 +1106,7 @@
       "value_type": "ValueType.INT",
       "precision": null,
       "enum": null,
+      "min_max_range": "RangeType.STATIC",
       "min": 0,
       "max": 16,
       "is_adjustable_suffix": null
@@ -962,6 +1123,7 @@
       "value_type": "ValueType.FLOAT",
       "precision": 1,
       "enum": null,
+      "min_max_range": "RangeType.STATIC",
       "min": null,
       "max": null,
       "is_adjustable_suffix": null
@@ -978,6 +1140,7 @@
       "value_type": "ValueType.FLOAT",
       "precision": 1,
       "enum": null,
+      "min_max_range": "RangeType.STATIC",
       "min": null,
       "max": null,
       "is_adjustable_suffix": null
@@ -994,6 +1157,7 @@
       "value_type": "ValueType.FLOAT",
       "precision": 1,
       "enum": null,
+      "min_max_range": "RangeType.STATIC",
       "min": null,
       "max": null,
       "is_adjustable_suffix": null
@@ -1010,6 +1174,7 @@
       "value_type": "ValueType.FLOAT",
       "precision": 1,
       "enum": null,
+      "min_max_range": "RangeType.STATIC",
       "min": null,
       "max": null,
       "is_adjustable_suffix": null
@@ -1026,6 +1191,7 @@
       "value_type": "ValueType.FLOAT",
       "precision": 1,
       "enum": null,
+      "min_max_range": "RangeType.STATIC",
       "min": null,
       "max": null,
       "is_adjustable_suffix": null
@@ -1042,6 +1208,7 @@
       "value_type": "ValueType.FLOAT",
       "precision": 1,
       "enum": null,
+      "min_max_range": "RangeType.STATIC",
       "min": null,
       "max": null,
       "is_adjustable_suffix": null
@@ -1058,6 +1225,7 @@
       "value_type": "ValueType.FLOAT",
       "precision": 1,
       "enum": null,
+      "min_max_range": "RangeType.STATIC",
       "min": null,
       "max": null,
       "is_adjustable_suffix": null
@@ -1074,6 +1242,7 @@
       "value_type": "ValueType.ENUM",
       "precision": null,
       "enum": "TemperatureStatus",
+      "min_max_range": "RangeType.STATIC",
       "min": null,
       "max": null,
       "is_adjustable_suffix": null
@@ -1090,6 +1259,7 @@
       "value_type": "ValueType.ENUM",
       "precision": null,
       "enum": "TemperatureType",
+      "min_max_range": "RangeType.STATIC",
       "min": null,
       "max": null,
       "is_adjustable_suffix": null
@@ -1106,6 +1276,7 @@
       "value_type": "ValueType.FLOAT",
       "precision": 1,
       "enum": null,
+      "min_max_range": "RangeType.STATIC",
       "min": null,
       "max": null,
       "is_adjustable_suffix": null
@@ -1122,6 +1293,7 @@
       "value_type": "ValueType.FLOAT",
       "precision": 2,
       "enum": null,
+      "min_max_range": "RangeType.STATIC",
       "min": null,
       "max": null,
       "is_adjustable_suffix": null
@@ -1138,6 +1310,7 @@
       "value_type": "ValueType.INT",
       "precision": null,
       "enum": null,
+      "min_max_range": "RangeType.STATIC",
       "min": null,
       "max": null,
       "is_adjustable_suffix": null
@@ -1154,6 +1327,7 @@
       "value_type": "ValueType.FLOAT",
       "precision": 2,
       "enum": null,
+      "min_max_range": "RangeType.STATIC",
       "min": null,
       "max": null,
       "is_adjustable_suffix": null
@@ -1170,6 +1344,7 @@
       "value_type": "ValueType.FLOAT",
       "precision": 1,
       "enum": null,
+      "min_max_range": "RangeType.STATIC",
       "min": null,
       "max": null,
       "is_adjustable_suffix": null
@@ -1186,6 +1361,7 @@
       "value_type": "ValueType.INT",
       "precision": null,
       "enum": null,
+      "min_max_range": "RangeType.STATIC",
       "min": null,
       "max": null,
       "is_adjustable_suffix": null
@@ -1202,6 +1378,7 @@
       "value_type": "ValueType.FLOAT",
       "precision": 1,
       "enum": null,
+      "min_max_range": "RangeType.STATIC",
       "min": null,
       "max": null,
       "is_adjustable_suffix": null
@@ -1218,6 +1395,7 @@
       "value_type": "ValueType.FLOAT",
       "precision": 1,
       "enum": null,
+      "min_max_range": "RangeType.STATIC",
       "min": null,
       "max": null,
       "is_adjustable_suffix": null
@@ -1234,6 +1412,7 @@
       "value_type": "ValueType.FLOAT",
       "precision": 1,
       "enum": null,
+      "min_max_range": "RangeType.STATIC",
       "min": null,
       "max": null,
       "is_adjustable_suffix": null
@@ -1250,6 +1429,7 @@
       "value_type": "ValueType.FLOAT",
       "precision": 1,
       "enum": null,
+      "min_max_range": "RangeType.STATIC",
       "min": null,
       "max": null,
       "is_adjustable_suffix": null
@@ -1266,6 +1446,7 @@
       "value_type": "ValueType.FLOAT",
       "precision": 1,
       "enum": null,
+      "min_max_range": "RangeType.STATIC",
       "min": null,
       "max": null,
       "is_adjustable_suffix": null
@@ -1282,6 +1463,7 @@
       "value_type": "ValueType.FLOAT",
       "precision": 1,
       "enum": null,
+      "min_max_range": "RangeType.STATIC",
       "min": null,
       "max": null,
       "is_adjustable_suffix": null
@@ -1298,6 +1480,7 @@
       "value_type": "ValueType.ENUM",
       "precision": null,
       "enum": "InverterState",
+      "min_max_range": "RangeType.STATIC",
       "min": null,
       "max": null,
       "is_adjustable_suffix": null
@@ -1314,6 +1497,7 @@
       "value_type": "ValueType.FLOAT",
       "precision": 1,
       "enum": null,
+      "min_max_range": "RangeType.STATIC",
       "min": null,
       "max": null,
       "is_adjustable_suffix": null
@@ -1330,6 +1514,7 @@
       "value_type": "ValueType.FLOAT",
       "precision": 1,
       "enum": null,
+      "min_max_range": "RangeType.STATIC",
       "min": null,
       "max": null,
       "is_adjustable_suffix": null
@@ -1345,7 +1530,8 @@
       "device_type": "Multi RS Solar",
       "value_type": "ValueType.ENUM",
       "precision": null,
-      "enum": "SolarChargerState",
+      "enum": "MultiState",
+      "min_max_range": "RangeType.STATIC",
       "min": null,
       "max": null,
       "is_adjustable_suffix": null
@@ -1362,6 +1548,7 @@
       "value_type": "ValueType.FLOAT",
       "precision": 1,
       "enum": null,
+      "min_max_range": "RangeType.STATIC",
       "min": null,
       "max": null,
       "is_adjustable_suffix": null
@@ -1378,6 +1565,7 @@
       "value_type": "ValueType.FLOAT",
       "precision": 1,
       "enum": null,
+      "min_max_range": "RangeType.STATIC",
       "min": null,
       "max": null,
       "is_adjustable_suffix": null
@@ -1394,6 +1582,7 @@
       "value_type": "ValueType.ENUM",
       "precision": null,
       "enum": "ESSMode",
+      "min_max_range": "RangeType.STATIC",
       "min": null,
       "max": null,
       "is_adjustable_suffix": null
@@ -1410,6 +1599,7 @@
       "value_type": "ValueType.FLOAT",
       "precision": 1,
       "enum": null,
+      "min_max_range": "RangeType.STATIC",
       "min": null,
       "max": null,
       "is_adjustable_suffix": null
@@ -1426,6 +1616,109 @@
       "value_type": "ValueType.FLOAT",
       "precision": 1,
       "enum": null,
+      "min_max_range": "RangeType.STATIC",
+      "min": null,
+      "max": null,
+      "is_adjustable_suffix": null
+    },
+    {
+      "topic": "N/+/alternator/+/Dc/0/Voltage",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "alternator_dc_voltage",
+      "name": "DC Output Voltage",
+      "unit_of_measurement": "V",
+      "metric_type": "MetricType.VOLTAGE",
+      "metric_nature": "MetricNature.INSTANTANEOUS",
+      "device_type": "Charger (Orion/Alternator)",
+      "value_type": "ValueType.FLOAT",
+      "precision": 2,
+      "enum": null,
+      "min_max_range": "RangeType.STATIC",
+      "min": null,
+      "max": null,
+      "is_adjustable_suffix": null
+    },
+    {
+      "topic": "N/+/alternator/+/Dc/0/Current",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "alternator_dc_current",
+      "name": "DC Output Current",
+      "unit_of_measurement": "A",
+      "metric_type": "MetricType.CURRENT",
+      "metric_nature": "MetricNature.INSTANTANEOUS",
+      "device_type": "Charger (Orion/Alternator)",
+      "value_type": "ValueType.FLOAT",
+      "precision": 2,
+      "enum": null,
+      "min_max_range": "RangeType.STATIC",
+      "min": null,
+      "max": null,
+      "is_adjustable_suffix": null
+    },
+    {
+      "topic": "N/+/alternator/+/Dc/0/Power",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "alternator_dc_power",
+      "name": "DC Output Power",
+      "unit_of_measurement": "W",
+      "metric_type": "MetricType.POWER",
+      "metric_nature": "MetricNature.INSTANTANEOUS",
+      "device_type": "Charger (Orion/Alternator)",
+      "value_type": "ValueType.FLOAT",
+      "precision": 1,
+      "enum": null,
+      "min_max_range": "RangeType.STATIC",
+      "min": null,
+      "max": null,
+      "is_adjustable_suffix": null
+    },
+    {
+      "topic": "N/+/alternator/+/In/V",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "alternator_input_voltage",
+      "name": "Input Voltage",
+      "unit_of_measurement": "V",
+      "metric_type": "MetricType.VOLTAGE",
+      "metric_nature": "MetricNature.INSTANTANEOUS",
+      "device_type": "Charger (Orion/Alternator)",
+      "value_type": "ValueType.FLOAT",
+      "precision": 2,
+      "enum": null,
+      "min_max_range": "RangeType.STATIC",
+      "min": null,
+      "max": null,
+      "is_adjustable_suffix": null
+    },
+    {
+      "topic": "N/+/alternator/+/In/I",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "alternator_input_current",
+      "name": "Input Current",
+      "unit_of_measurement": "A",
+      "metric_type": "MetricType.CURRENT",
+      "metric_nature": "MetricNature.INSTANTANEOUS",
+      "device_type": "Charger (Orion/Alternator)",
+      "value_type": "ValueType.FLOAT",
+      "precision": 2,
+      "enum": null,
+      "min_max_range": "RangeType.STATIC",
+      "min": null,
+      "max": null,
+      "is_adjustable_suffix": null
+    },
+    {
+      "topic": "N/+/alternator/+/In/P",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "alternator_input_power",
+      "name": "Input Power",
+      "unit_of_measurement": "W",
+      "metric_type": "MetricType.POWER",
+      "metric_nature": "MetricNature.INSTANTANEOUS",
+      "device_type": "Charger (Orion/Alternator)",
+      "value_type": "ValueType.FLOAT",
+      "precision": 1,
+      "enum": null,
+      "min_max_range": "RangeType.STATIC",
       "min": null,
       "max": null,
       "is_adjustable_suffix": null
@@ -1438,12 +1731,13 @@
       "unit_of_measurement": "W",
       "metric_type": "MetricType.POWER",
       "metric_nature": "MetricNature.INSTANTANEOUS",
-      "device_type": "Settings",
+      "device_type": "Carlo Gavazzi Wired AC Sensors",
       "value_type": "ValueType.INT",
       "precision": null,
       "enum": null,
-      "min": "RangeType.DYNAMIC",
-      "max": "RangeType.DYNAMIC",
+      "min_max_range": "RangeType.DYNAMIC",
+      "min": -10000,
+      "max": 10000,
       "is_adjustable_suffix": null
     }
   ],
@@ -1517,9 +1811,14 @@
           "value": "multi"
         },
         {
-          "id": "SETTINGS",
-          "name": "Settings",
-          "value": "settings"
+          "id": "CGWACS",
+          "name": "Carlo Gavazzi Wired AC Sensors",
+          "value": "CGwacs"
+        },
+        {
+          "id": "ALTERNATOR",
+          "name": "Charger (Orion/Alternator)",
+          "value": "alternator"
         }
       ]
     },
@@ -1769,7 +2068,7 @@
       ]
     },
     {
-      "name": "SolarChargerState",
+      "name": "MultiState",
       "EnumValues": [
         {
           "id": "Off",
@@ -1787,9 +2086,54 @@
           "value": 2
         },
         {
-          "id": "NotavAilable",
+          "id": "NotAvailable",
           "name": "Not available",
           "value": 255
+        }
+      ]
+    },
+    {
+      "name": "SolarChargerState",
+      "EnumValues": [
+        {
+          "id": "Off",
+          "name": "Off",
+          "value": 0
+        },
+        {
+          "id": "Fault",
+          "name": "Fault",
+          "value": 2
+        },
+        {
+          "id": "Bulk",
+          "name": "Bulk",
+          "value": 3
+        },
+        {
+          "id": "Absorption",
+          "name": "Absorption",
+          "value": 4
+        },
+        {
+          "id": "Float",
+          "name": "Float",
+          "value": 5
+        },
+        {
+          "id": "Storage",
+          "name": "Storage",
+          "value": 6
+        },
+        {
+          "id": "Equalize",
+          "name": "Equalize",
+          "value": 7
+        },
+        {
+          "id": "ExternalControl",
+          "name": "External control",
+          "value": 252
         }
       ]
     },
