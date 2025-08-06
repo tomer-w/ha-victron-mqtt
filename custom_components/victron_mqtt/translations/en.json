@@ -155,6 +155,9 @@
       "battery_time_to_go": {
         "name": "Battery time to go"
       },
+      "charge_mode": {
+        "name": "Battery charge mode"
+      },
       "inverter_state": {
         "name": "Inverter state"
       },
@@ -304,6 +307,15 @@
       },
       "alternator_input_power": {
         "name": "Input Power"
+      },
+      "dcload_voltage": {
+        "name": "DC load voltage"
+      },
+      "dcload_current": {
+        "name": "DC load current"
+      },
+      "dcload_power": {
+        "name": "DC load power"
       }
     },
     "switch": {
@@ -315,6 +327,9 @@
       },
       "evcharger_charge": {
         "name": "EV charger charge"
+      },
+      "switch_output_state": {
+        "name": "Switch {output} State"
       }
     },
     "select": {
@@ -346,8 +361,11 @@
       "temperature_scale": {
         "name": "Temperature scale factor"
       },
-      "cgwacs_ac_power_set_point": {
-        "name": "CGwacs AC Power Setpoint"
+      "system_ac_power_set_point": {
+        "name": "AC Power Setpoint"
+      },
+      "switch_output_dimming": {
+        "name": "Switch {output} Dimming"
       }
     }
   }
