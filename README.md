@@ -22,7 +22,7 @@ A Home Assistant integration that connects to Victron Energy devices using MQTT,
 - ⚡ Real-time updates via MQTT
 - 🔒 Optional SSL and authentication support
 - 🌐 Multi-phase system support
-- All current supported entities are documented [here](https://tomer-w.github.io/victron_mqtt/)
+- All current supported entities are auto-documented [here](https://tomer-w.github.io/victron_mqtt/)
 
 ## Installation
 
@@ -79,48 +79,8 @@ The integration can be configured in two ways:
    - Username: (optional)
    - Password: (optional)
    - SSL: Enable/disable SSL connection
-
-## Available entities (sensors, switches, lists, numbers)
-
-The integration provides numerous entities depending on your Victron system configuration. Here are some key sensors:  
-The full list is auto generated [here](https://tomer-w.github.io/victron_mqtt/).
-
-### Battery Monitoring
-- Battery Voltage
-- Battery Current
-- Battery Power
-- Battery Level (State of Charge)
-- Battery Temperature
-- Battery Capacity
-- Battery Energy (Charged/Discharged)
-
-### Solar/PV Monitoring
-- PV Voltage
-- PV Current
-- PV Power
-- PV Yield
-- PV Max Power Today
-
-### Grid Monitoring
-- Grid Voltage (per phase)
-- Grid Current (per phase)
-- Grid Power (per phase)
-- Grid Consumption
-- Grid Feed-in
-
-### Inverter Monitoring
-- Input/Output Power
-- Input/Output Frequency
-- Apparent Power
-
-### System Monitoring
-- AC Loads
-- Critical Loads
-- Grid Phases
-
-
-## Adding entities
-If you want to help the community and add more entities, please take a look at the [module](https://github.com/tomer-w/victron_mqtt) which drives this integration. It is very simple to extend this integration. I wrote a [document](https://github.com/tomer-w/victron_mqtt/blob/main/extending-victron-support.md) about it.
+documented entities
+If you want to help the community and add more entities, please take a look at the [module](httsimpleithub.com/tomer-w/victron_mqtt) which drives this integration. It is very simple to extend this integration. I wrote a [document](https://github.com/tomer-w/victron_mqtt/blob/main/extending-victron-support.md) about it.
 
 
 ## Troubleshooting
