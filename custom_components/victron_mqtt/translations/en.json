@@ -318,9 +318,29 @@
         "name": "DC load power"
       }
     },
-    "switch": {
+    "binary_sensor": {
       "solarcharger_load_state": {
         "name": "Solar Charger Load State"
+      },
+      "inverter_connected": {
+        "name": "Inverter connected"
+      },
+      "evcharger_connected": {
+        "name": "EV charger connected"
+      },
+      "gps_connected": {
+        "name": "GPS Connected"
+      },
+      "gps_fix": {
+        "name": "GPS Fix"
+      }
+    },
+    "switch": {
+      "solarcharger_mode": {
+        "name": "Solar Charger Mode"
+      },
+      "solarcharger_relay_state": {
+        "name": "Solar Charger Relay State"
       },
       "system_relay_relay": {
         "name": "Relay {relay} state"
@@ -338,14 +358,6 @@
       },
       "evcharger_mode": {
         "name": "EV charger mode"
-      }
-    },
-    "binary_sensor": {
-      "inverter_connected": {
-        "name": "Inverter connected"
-      },
-      "evcharger_connected": {
-        "name": "EV charger connected"
       }
     },
     "number": {
@@ -366,6 +378,24 @@
       },
       "switch_output_dimming": {
         "name": "Switch {output} Dimming"
+      },
+      "gps_altitude": {
+        "name": "GPS Altitude"
+      },
+      "gps_course": {
+        "name": "GPS Course"
+      },
+      "gps_speed": {
+        "name": "GPS Speed"
+      },
+      "gps_nrofsatellites": {
+        "name": "GPS Nr Of Satellites"
+      },
+      "gps_latitude": {
+        "name": "GPS Latitude"
+      },
+      "gps_longitude": {
+        "name": "GPS Longitude"
       }
     }
   }
