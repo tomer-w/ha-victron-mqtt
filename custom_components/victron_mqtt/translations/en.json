@@ -316,6 +316,24 @@
       },
       "dcload_power": {
         "name": "DC load power"
+      },
+      "gps_altitude": {
+        "name": "GPS Altitude"
+      },
+      "gps_course": {
+        "name": "GPS Course"
+      },
+      "gps_speed": {
+        "name": "GPS Speed"
+      },
+      "gps_nrofsatellites": {
+        "name": "GPS Nr Of Satellites"
+      },
+      "gps_latitude": {
+        "name": "GPS Latitude"
+      },
+      "gps_longitude": {
+        "name": "GPS Longitude"
       }
     },
     "binary_sensor": {
@@ -378,24 +396,6 @@
       },
       "switch_output_dimming": {
         "name": "Switch {output} Dimming"
-      },
-      "gps_altitude": {
-        "name": "GPS Altitude"
-      },
-      "gps_course": {
-        "name": "GPS Course"
-      },
-      "gps_speed": {
-        "name": "GPS Speed"
-      },
-      "gps_nrofsatellites": {
-        "name": "GPS Nr Of Satellites"
-      },
-      "gps_latitude": {
-        "name": "GPS Latitude"
-      },
-      "gps_longitude": {
-        "name": "GPS Longitude"
       }
     }
   }

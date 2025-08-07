@@ -1988,7 +1988,7 @@
     },
     {
       "topic": "N/+/gps/+/Altitude",
-      "message_type": "MetricKind.NUMBER",
+      "message_type": "MetricKind.SENSOR",
       "short_id": "gps_altitude",
       "name": "GPS Altitude",
       "unit_of_measurement": null,
@@ -2024,7 +2024,7 @@
     },
     {
       "topic": "N/+/gps/+/Course",
-      "message_type": "MetricKind.NUMBER",
+      "message_type": "MetricKind.SENSOR",
       "short_id": "gps_course",
       "name": "GPS Course",
       "unit_of_measurement": null,
@@ -2060,7 +2060,7 @@
     },
     {
       "topic": "N/+/gps/+/Speed",
-      "message_type": "MetricKind.NUMBER",
+      "message_type": "MetricKind.SENSOR",
       "short_id": "gps_speed",
       "name": "GPS Speed",
       "unit_of_measurement": null,
@@ -2078,7 +2078,7 @@
     },
     {
       "topic": "N/+/gps/+/NrOfSatellites",
-      "message_type": "MetricKind.NUMBER",
+      "message_type": "MetricKind.SENSOR",
       "short_id": "gps_nrofsatellites",
       "name": "GPS Nr Of Satellites",
       "unit_of_measurement": null,
@@ -2096,7 +2096,7 @@
     },
     {
       "topic": "N/+/gps/+/Position/Latitude",
-      "message_type": "MetricKind.NUMBER",
+      "message_type": "MetricKind.SENSOR",
       "short_id": "gps_latitude",
       "name": "GPS Latitude",
       "unit_of_measurement": null,
@@ -2114,7 +2114,7 @@
     },
     {
       "topic": "N/+/gps/+/Position/Longitude",
-      "message_type": "MetricKind.NUMBER",
+      "message_type": "MetricKind.SENSOR",
       "short_id": "gps_longitude",
       "name": "GPS Longitude",
       "unit_of_measurement": null,
