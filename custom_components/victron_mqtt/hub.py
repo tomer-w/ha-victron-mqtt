@@ -29,7 +29,7 @@ from victron_mqtt import (
     GenericOnOff
 )
 
-from .const import CONF_INSTALLATION_ID, CONF_MODEL, CONF_SERIAL, DOMAIN, CONF_ROOT_TOPIC_PREFIX
+from .const import CONF_INSTALLATION_ID, CONF_MODEL, CONF_SERIAL, CONF_UPDATE_FREQUENCY_SECONDS, DEFAULT_UPDATE_FREQUENCY_SECONDS, DOMAIN, CONF_ROOT_TOPIC_PREFIX
 from .common import VictronBaseEntity
 
 _LOGGER = logging.getLogger(__name__)
@@ -62,6 +62,7 @@ class Hub:
             serial = config.get(CONF_SERIAL, "noserial"),
             topic_prefix = config.get(CONF_ROOT_TOPIC_PREFIX),
         )
+        self.update_frequency_seconds = config.get(CONF_UPDATE_FREQUENCY_SECONDS, DEFAULT_UPDATE_FREQUENCY_SECONDS)
 
     async def start(self):
         try:
@@ -113,14 +114,14 @@ class Hub:
         if metric.metric_kind == MetricKind.SENSOR:
             return VictronSensor(device, metric, info)
         elif metric.metric_kind == MetricKind.BINARY_SENSOR:
-            return VictronBinarySensor(device, metric, info)
+            return VictronBinarySensor(device, metric, info, self.update_frequency_seconds)
         assert isinstance(metric, VictronVenusSwitch), f"Expected metric to be a VictronVenusSwitch. Got {type(metric)}"
         if metric.metric_kind == MetricKind.SWITCH:
-            return VictronSwitch(device, metric, info)
+            return VictronSwitch(device, metric, info, self.update_frequency_seconds)
         elif metric.metric_kind == MetricKind.NUMBER:
-            return VictronNumber( device, metric, info)
+            return VictronNumber(device, metric, info, self.update_frequency_seconds)
         elif metric.metric_kind == MetricKind.SELECT:
-            return VictronSelect(device, metric, info)
+            return VictronSelect(device, metric, info, self.update_frequency_seconds)
         else:
             raise ValueError(f"Unsupported metric kind: {metric.metric_kind}")
 
@@ -133,10 +134,11 @@ class VictronSensor(VictronBaseEntity, SensorEntity):
         device: VictronVenusDevice,
         metric: VictronVenusMetric,
         device_info: DeviceInfo,
+        update_frequency_seconds: int,
     ) -> None:
         """Initialize the sensor based on detauls in the metric."""
         self._attr_native_value = metric.value
-        super().__init__(device, metric, device_info, "sensor")
+        super().__init__(device, metric, device_info, "sensor", update_frequency_seconds)
 
     def __repr__(self) -> str:
         """Return a string representation of the sensor."""
@@ -155,10 +157,11 @@ class VictronSwitch(VictronBaseEntity, SwitchEntity):
         device: VictronVenusDevice,
         switch: VictronVenusSwitch,
         device_info: DeviceInfo,
+        update_frequency_seconds: int,
     ) -> None:
         """Initialize the switch."""
         self._attr_is_on = switch.value == GenericOnOff.On
-        super().__init__(device, switch, device_info, "switch")
+        super().__init__(device, switch, device_info, "switch", update_frequency_seconds)
 
     def __repr__(self) -> str:
         """Return a string representation of the sensor."""
@@ -192,6 +195,7 @@ class VictronNumber(VictronBaseEntity, NumberEntity):
         device: VictronVenusDevice,
         switch: VictronVenusSwitch,
         device_info: DeviceInfo,
+        update_frequency_seconds: int,
     ) -> None:
         """Initialize the number entity."""
         self._attr_native_value = switch.value
@@ -200,7 +204,7 @@ class VictronNumber(VictronBaseEntity, NumberEntity):
         if isinstance(switch.max_value, int) or isinstance(switch.max_value, float):
             self._attr_native_max_value = switch.max_value
         self._attr_native_step = 1 #TODO: Add support for different steps
-        super().__init__(device, switch, device_info, "number")
+        super().__init__(device, switch, device_info, "number", update_frequency_seconds)
 
     def __repr__(self) -> str:
         """Return a string representation of the sensor."""
@@ -231,9 +235,10 @@ class VictronBinarySensor(VictronBaseEntity, BinarySensorEntity):
         device: VictronVenusDevice,
         metric: VictronVenusMetric,
         device_info: DeviceInfo,
+        update_frequency_seconds: int,
     ) -> None:
         self._attr_is_on = bool(metric.value)
-        super().__init__(device, metric, device_info, "binary_sensor")
+        super().__init__(device, metric, device_info, "binary_sensor", update_frequency_seconds)
 
     def __repr__(self) -> str:
         """Return a string representation of the sensor."""
@@ -255,11 +260,12 @@ class VictronSelect(VictronBaseEntity, SelectEntity):
         device: VictronVenusDevice,
         switch: VictronVenusSwitch,
         device_info: DeviceInfo,
+        update_frequency_seconds: int,
     ) -> None:
         """Initialize the switch."""
         self._attr_options = switch.enum_values
         self._attr_current_option = self._map_value_to_state(switch.value)
-        super().__init__(device, switch, device_info, "select")
+        super().__init__(device, switch, device_info, "select", update_frequency_seconds)
 
     def __repr__(self) -> str:
         """Return a string representation of the sensor."""

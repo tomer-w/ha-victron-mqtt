@@ -1,5 +1,6 @@
 import logging
 import asyncio
+import time
 from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.entity import Entity
 from homeassistant.components.sensor.const import SensorDeviceClass, SensorStateClass
@@ -35,6 +36,7 @@ class VictronBaseEntity(Entity):
         metric: VictronVenusMetric,
         device_info: DeviceInfo,
         type: str,
+        update_frequency_seconds: int,
     ) -> None:
         """Initialize the sensor based on detauls in the metric."""
         self._device = device
@@ -51,6 +53,8 @@ class VictronBaseEntity(Entity):
         self._attr_suggested_display_precision = metric.precision
         self._attr_translation_key = metric.generic_short_id.replace('{', '').replace('}', '') # same as in merge_topics.py
         self._attr_translation_placeholders = metric.key_values
+        self._update_frequency_seconds = update_frequency_seconds
+        self._last_update = None
         _LOGGER.info("%s %s added. Based on: %s", type, self, repr(metric))
 
     def __repr__(self) -> str:
@@ -61,10 +65,23 @@ class VictronBaseEntity(Entity):
             f"metric={self._metric.short_id}, "
             f"translation_key={self._attr_translation_key}, "
             f"translation_placeholders={self._attr_translation_placeholders}, "
-            f"value={self._attr_native_value})"
+            f"value={self._attr_native_value}, "
+            f"update_frequency_seconds={self._update_frequency_seconds})"
         )
 
     def _on_update(self, metric: VictronVenusMetric):
+        # Only apply update frequency logic for float values
+        if isinstance(metric.value, float):
+            now = time.time()
+            if self._last_update is not None:
+                elapsed = now - self._last_update
+                if elapsed < self._update_frequency_seconds:
+                    _LOGGER.debug(
+                        "Update for %s skipped due to frequency limit (%.2fs < %ds)",
+                        self._attr_unique_id, elapsed, self._update_frequency_seconds
+                    )
+                    return
+            self._last_update = now
         asyncio.run_coroutine_threadsafe(self._on_update_task(metric), get_event_loop())
 
     def mark_registered_with_homeassistant(self):

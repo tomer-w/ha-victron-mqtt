@@ -16,7 +16,8 @@
           "username": "Username for the Victron Device, default is empty. This is not your VRM username.",
           "password": "Password for the Victron Device, default is empty. This is not your VRM password.",
           "ssl": "Indicates whether to use SSL to connect to the Victron Device. Normally it is disabled.",
-          "root_topic_prefix": "Root topic prefix if used via MQTT gateway."
+          "root_topic_prefix": "Root topic prefix if used via MQTT gateway.",
+          "update_frequency": "Update frequency in seconds. Default is 30 seconds. Set to 0 to update always."
         }
       }
     },

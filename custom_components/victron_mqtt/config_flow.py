@@ -28,8 +28,10 @@ from .const import (
     CONF_MODEL,
     CONF_SERIAL,
     CONF_ROOT_TOPIC_PREFIX,
+    CONF_UPDATE_FREQUENCY_SECONDS,
     DEFAULT_HOST,
     DEFAULT_PORT,
+    DEFAULT_UPDATE_FREQUENCY_SECONDS,
     DOMAIN,
 )
 
@@ -44,6 +46,7 @@ STEP_USER_DATA_SCHEMA = vol.Schema(
         vol.Optional(CONF_PASSWORD): str,
         vol.Required(CONF_SSL): bool,
         vol.Optional(CONF_ROOT_TOPIC_PREFIX): str,
+        vol.Optional(CONF_UPDATE_FREQUENCY_SECONDS, default=DEFAULT_UPDATE_FREQUENCY_SECONDS): int,
     }
 )
 
