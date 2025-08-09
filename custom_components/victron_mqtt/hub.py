@@ -112,7 +112,7 @@ class Hub:
     def creatre_entity(self, device: VictronVenusDevice, metric: VictronVenusMetric, info: DeviceInfo) -> VictronBaseEntity:
         """Create a VictronBaseEntity from a device and metric."""
         if metric.metric_kind == MetricKind.SENSOR:
-            return VictronSensor(device, metric, info)
+            return VictronSensor(device, metric, info, self.update_frequency_seconds)
         elif metric.metric_kind == MetricKind.BINARY_SENSOR:
             return VictronBinarySensor(device, metric, info, self.update_frequency_seconds)
         assert isinstance(metric, VictronVenusSwitch), f"Expected metric to be a VictronVenusSwitch. Got {type(metric)}"
