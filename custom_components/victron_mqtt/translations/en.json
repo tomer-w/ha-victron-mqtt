@@ -8,7 +8,8 @@
           "username": "Username",
           "password": "Password",
           "ssl": "Use SSL",
-          "root_topic_prefix": "Optional root topic prefix"
+          "root_topic_prefix": "Optional root topic prefix",
+          "update_frequency": "Update frequency (seconds)"
         },
         "data_description": {
           "host": "Hostname or IP address of Victron Device, usually mDNS name like 'venus.local'",
