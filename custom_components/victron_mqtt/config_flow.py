@@ -80,6 +80,7 @@ async def validate_input(hass: HomeAssistant, data: dict[str, Any]) -> str:
         installation_id=data.get(CONF_INSTALLATION_ID),
         serial=data.get(CONF_SERIAL, "noserial"),
         topic_prefix=data.get(CONF_ROOT_TOPIC_PREFIX),
+        logger_level=logging.DEBUG,  # Set to DEBUG for detailed logs
     )
 
     await hub.connect()
