@@ -420,6 +420,9 @@
       "system_ac_power_set_point": {
         "name": "AC Power Setpoint"
       },
+      "system_ess_max_charge_current": {
+        "name": "ESS max charge current"
+      },
       "switch_output_dimming": {
         "name": "Switch {output} Dimming"
       }
