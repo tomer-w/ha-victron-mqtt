@@ -65,6 +65,7 @@ class Hub:
         self.update_frequency_seconds = config.get(CONF_UPDATE_FREQUENCY_SECONDS, DEFAULT_UPDATE_FREQUENCY_SECONDS)
 
     async def start(self):
+        _LOGGER.info("Starting hub")
         try:
             await self._hub.connect()
         except CannotConnectError as connect_error:
@@ -72,6 +73,7 @@ class Hub:
             raise ConfigEntryNotReady("Device is offline") from connect_error
 
     async def stop(self):
+        _LOGGER.info("Stopping hub")
         await self._hub.disconnect()
 
     @staticmethod

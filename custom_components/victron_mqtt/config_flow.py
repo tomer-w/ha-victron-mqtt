@@ -12,7 +12,7 @@ from victron_mqtt import (
 )
 import voluptuous as vol
 
-from homeassistant.config_entries import ConfigFlow, ConfigFlowResult
+from homeassistant.config_entries import ConfigFlow, ConfigFlowResult, OptionsFlow, ConfigEntry
 from homeassistant.const import (
     CONF_HOST,
     CONF_PASSWORD,
@@ -38,17 +38,25 @@ from .const import (
 _LOGGER = logging.getLogger(__name__)
 
 
-STEP_USER_DATA_SCHEMA = vol.Schema(
-    {
-        vol.Required(CONF_HOST, default=DEFAULT_HOST): str,
-        vol.Required(CONF_PORT, default=DEFAULT_PORT): int,
-        vol.Optional(CONF_USERNAME): str,
-        vol.Optional(CONF_PASSWORD): str,
-        vol.Required(CONF_SSL): bool,
-        vol.Optional(CONF_ROOT_TOPIC_PREFIX): str,
-        vol.Optional(CONF_UPDATE_FREQUENCY_SECONDS, default=DEFAULT_UPDATE_FREQUENCY_SECONDS): int,
-    }
-)
+def _get_user_schema(defaults: dict[str, Any] | None = None) -> vol.Schema:
+    """Get the user data schema with optional defaults."""
+    if defaults is None:
+        defaults = {}
+    
+    return vol.Schema(
+        {
+            vol.Required(CONF_HOST, default=defaults.get(CONF_HOST, DEFAULT_HOST)): str,
+            vol.Required(CONF_PORT, default=defaults.get(CONF_PORT, DEFAULT_PORT)): int,
+            vol.Optional(CONF_USERNAME, default=defaults.get(CONF_USERNAME, "")): str,
+            vol.Optional(CONF_PASSWORD, default=defaults.get(CONF_PASSWORD, "")): str,
+            vol.Required(CONF_SSL, default=defaults.get(CONF_SSL, False)): bool,
+            vol.Optional(CONF_ROOT_TOPIC_PREFIX, default=defaults.get(CONF_ROOT_TOPIC_PREFIX, "")): str,
+            vol.Optional(CONF_UPDATE_FREQUENCY_SECONDS, default=defaults.get(CONF_UPDATE_FREQUENCY_SECONDS, DEFAULT_UPDATE_FREQUENCY_SECONDS)): int,
+        }
+    )
+
+
+STEP_USER_DATA_SCHEMA = _get_user_schema()
 
 STEP_REAUTH_DATA_SCHEMA = vol.Schema(
     {vol.Optional(CONF_USERNAME): str, vol.Optional(CONF_PASSWORD): str}
@@ -81,6 +89,8 @@ async def validate_input(hass: HomeAssistant, data: dict[str, Any]) -> str:
 class VictronMQTTConfigFlow(ConfigFlow, domain=DOMAIN):
     """Handle a config flow for victronvenus."""
 
+    VERSION = 1
+
     def __init__(self) -> None:
         """Initialize."""
         self.hostname: str | None = None
@@ -88,6 +98,11 @@ class VictronMQTTConfigFlow(ConfigFlow, domain=DOMAIN):
         self.installation_id: str | None = None
         self.friendlyName: str | None = None
         self.modelName: str | None = None
+
+    @staticmethod
+    def async_get_options_flow(config_entry) -> OptionsFlow:
+        """Get the options flow for this handler."""
+        return VictronMQTTOptionsFlow(config_entry)
 
     async def async_step_user(
         self, user_input: dict[str, Any] | None = None
@@ -164,3 +179,44 @@ class VictronMQTTConfigFlow(ConfigFlow, domain=DOMAIN):
                 CONF_MODEL: self.modelName,
             },
         )
+
+
+class VictronMQTTOptionsFlow(OptionsFlow):
+    """Handle options flow for Victron MQTT."""
+
+    def __init__(self, config_entry: ConfigEntry) -> None:
+        """Initialize options flow."""
+        self.config_entry = config_entry
+
+    async def async_step_init(
+        self, user_input: dict[str, Any] | None = None
+    ) -> ConfigFlowResult:
+        """Handle options flow."""
+        if user_input is not None:
+            # Validate the input by combining current config data with user input
+            data = dict(self.config_entry.data)
+            data.update(user_input)
+            try:
+                await validate_input(self.hass, data)
+            except CannotConnectError:
+                return self.async_show_form(
+                    step_id="init",
+                    data_schema=self._get_options_schema(),
+                    errors={"base": "cannot_connect"},
+                )
+            except Exception:
+                return self.async_show_form(
+                    step_id="init", 
+                    data_schema=self._get_options_schema(),
+                    errors={"base": "unknown"},
+                )
+            # Save options only, do not update config entry data or reload
+            return self.async_create_entry(title="", data=user_input)
+        return self.async_show_form(
+            step_id="init",
+            data_schema=self._get_options_schema(),
+        )
+
+    def _get_options_schema(self) -> vol.Schema:
+        """Get the options schema with current values as defaults."""
+        return _get_user_schema(self.config_entry.data)

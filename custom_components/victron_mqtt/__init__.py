@@ -26,7 +26,14 @@ PLATFORMS: list[Platform] = [Platform.BINARY_SENSOR, Platform.NUMBER, Platform.S
 
 __all__ = ["DOMAIN"]
 
-async def get_package_version(package_name):
+async def _update_listener(hass: HomeAssistant, entry: ConfigEntry):
+    """Handle options update."""
+    _LOGGER.info("Options for victron_mqtt have been updated - applying changes")
+    # Reload the integration to apply changes
+    await hass.config_entries.async_reload(entry.entry_id)
+
+
+async def get_package_version(package_name) -> str:
     asyncio_event_loop = get_event_loop()
     version = await asyncio_event_loop.run_in_executor(None, importlib.metadata.version, package_name)
     return version
@@ -36,7 +43,7 @@ async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
     init_event_loop()
     version = getattr(hass.data["integrations"][DOMAIN], "version", 0)
     victron_mqtt_version = await get_package_version("victron_mqtt")
-    _LOGGER.info("Setting up victron_mqtt integration. Version: %s. victron_mqtt package version: %s", version, victron_mqtt_version)
+    _LOGGER.info("Setting up victron_mqtt integration. Version: %s. victron_mqtt package version: %s, config: %s", version, victron_mqtt_version, config)
 
     return True
 
@@ -51,10 +58,15 @@ async def async_setup_entry(
 ) -> bool:
     """Set up victronvenus from a config entry."""
     _sync_library_logging()
+    _LOGGER.info("async_setup_entry called for entry: %s", entry.entry_id)
 
     hub = Hub(hass, entry)
     await hub.start()
     entry.runtime_data = hub
+
+    # Register the update listener
+    entry.async_on_unload(entry.add_update_listener(_update_listener))
+
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
     return True
 
@@ -63,6 +75,7 @@ async def async_unload_entry(
     hass: HomeAssistant, entry: ConfigEntry
 ) -> bool:
     """Unload a config entry."""
+    _LOGGER.info("async_unload_entry called for entry: %s", entry.entry_id)
     hub: Hub = entry.runtime_data
     if hub is not None:
         await hub.stop()
