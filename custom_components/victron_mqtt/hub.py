@@ -45,7 +45,7 @@ class Hub:
             hass: Home Assistant instance
             entry: ConfigEntry containing configuration
         """
-        _LOGGER.info("Initializing hub. ConfigEntry: %s", entry)
+        _LOGGER.info("Initializing hub. ConfigEntry: %s, data: %s", entry, entry.data)
         self.hass = hass
         self.entry = entry
         self.id = entry.unique_id
@@ -65,7 +65,7 @@ class Hub:
         self.update_frequency_seconds = config.get(CONF_UPDATE_FREQUENCY_SECONDS, DEFAULT_UPDATE_FREQUENCY_SECONDS)
 
     async def start(self):
-        _LOGGER.info("Starting hub")
+        _LOGGER.info("Starting hub. Update frequency: %s seconds", self.update_frequency_seconds)
         try:
             await self._hub.connect()
         except CannotConnectError as connect_error:

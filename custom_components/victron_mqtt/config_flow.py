@@ -58,12 +58,8 @@ def _get_user_schema(defaults: dict[str, Any] | None = None) -> vol.Schema:
 
 STEP_USER_DATA_SCHEMA = _get_user_schema()
 
-STEP_REAUTH_DATA_SCHEMA = vol.Schema(
-    {vol.Optional(CONF_USERNAME): str, vol.Optional(CONF_PASSWORD): str}
-)
 
-
-async def validate_input(hass: HomeAssistant, data: dict[str, Any]) -> str:
+async def validate_input(data: dict[str, Any]) -> str:
     """Validate the user input allows us to connect.
 
     Data has the keys from zeroconf values as well as user input.
@@ -85,7 +81,6 @@ async def validate_input(hass: HomeAssistant, data: dict[str, Any]) -> str:
     await hub.connect()
     return hub.installation_id
 
-
 class VictronMQTTConfigFlow(ConfigFlow, domain=DOMAIN):
     """Handle a config flow for victronvenus."""
 
@@ -99,10 +94,6 @@ class VictronMQTTConfigFlow(ConfigFlow, domain=DOMAIN):
         self.friendlyName: str | None = None
         self.modelName: str | None = None
 
-    @staticmethod
-    def async_get_options_flow(config_entry) -> OptionsFlow:
-        """Get the options flow for this handler."""
-        return VictronMQTTOptionsFlow(config_entry)
 
     async def async_step_user(
         self, user_input: dict[str, Any] | None = None
@@ -117,7 +108,7 @@ class VictronMQTTConfigFlow(ConfigFlow, domain=DOMAIN):
             }  # remove None values.
 
             try:
-                installation_id = await validate_input(self.hass, data)
+                installation_id = await validate_input(data)
                 _LOGGER.info("Successfully connected to Victron device: %s", installation_id)
             except CannotConnectError as e:
                 _LOGGER.error("Cannot connect to Victron device: %s", e, exc_info=True)
@@ -148,6 +139,12 @@ class VictronMQTTConfigFlow(ConfigFlow, domain=DOMAIN):
             errors=errors,
         )
 
+    @staticmethod
+    def async_get_options_flow(config_entry) -> OptionsFlow:
+        """Get the options flow for this handler."""
+        _LOGGER.info("Getting options flow handler")
+        return VictronMQTTOptionsFlow()
+
     async def async_step_ssdp(
         self, discovery_info: SsdpServiceInfo
     ) -> ConfigFlowResult:
@@ -164,9 +161,7 @@ class VictronMQTTConfigFlow(ConfigFlow, domain=DOMAIN):
         self._abort_if_unique_id_configured()
 
         try:
-            await validate_input(
-                self.hass, {CONF_HOST: self.hostname, CONF_SERIAL: self.serial}
-            )
+            await validate_input({CONF_HOST: self.hostname, CONF_SERIAL: self.serial})
         except CannotConnectError:
             return await self.async_step_user()
 
@@ -183,21 +178,18 @@ class VictronMQTTConfigFlow(ConfigFlow, domain=DOMAIN):
 
 class VictronMQTTOptionsFlow(OptionsFlow):
     """Handle options flow for Victron MQTT."""
-
-    def __init__(self, config_entry: ConfigEntry) -> None:
-        """Initialize options flow."""
-        self.config_entry = config_entry
-
     async def async_step_init(
         self, user_input: dict[str, Any] | None = None
     ) -> ConfigFlowResult:
         """Handle options flow."""
+        _LOGGER.info("Initializing options flow. current config: %s", self.config_entry.data)
         if user_input is not None:
+            _LOGGER.info("User input received: %s", user_input)
             # Validate the input by combining current config data with user input
             data = dict(self.config_entry.data)
             data.update(user_input)
             try:
-                await validate_input(self.hass, data)
+                await validate_input(data)
             except CannotConnectError:
                 return self.async_show_form(
                     step_id="init",
@@ -210,8 +202,12 @@ class VictronMQTTOptionsFlow(OptionsFlow):
                     data_schema=self._get_options_schema(),
                     errors={"base": "unknown"},
                 )
-            # Save options only, do not update config entry data or reload
-            return self.async_create_entry(title="", data=user_input)
+            _LOGGER.info("Options flow completed successfully. new config: %s", data)
+            # Update the config entry with new data.
+            self.hass.config_entries.async_update_entry(self.config_entry, data=data)
+            # Reload the entry to apply the new options
+            await self.hass.config_entries.async_reload(self.config_entry.entry_id)
+            return self.async_create_entry(title="", data=None)
         return self.async_show_form(
             step_id="init",
             data_schema=self._get_options_schema(),
