@@ -54,13 +54,13 @@ class Hub:
         self._hub = VictronVenusHub(
             host=config.get(CONF_HOST),
             port=config.get(CONF_PORT, 1883),
-            username=config.get(CONF_USERNAME),
-            password=config.get(CONF_PASSWORD),
+            username=config.get(CONF_USERNAME) or None,
+            password=config.get(CONF_PASSWORD) or None,
             use_ssl=config.get(CONF_SSL, False),
-            installation_id=config.get(CONF_INSTALLATION_ID),
-            model_name = config.get(CONF_MODEL),
-            serial = config.get(CONF_SERIAL, "noserial"),
-            topic_prefix = config.get(CONF_ROOT_TOPIC_PREFIX),
+            installation_id=config.get(CONF_INSTALLATION_ID) or None,
+            model_name=config.get(CONF_MODEL) or None,
+            serial=config.get(CONF_SERIAL, "noserial"),
+            topic_prefix=config.get(CONF_ROOT_TOPIC_PREFIX) or None,
         )
         self.update_frequency_seconds = config.get(CONF_UPDATE_FREQUENCY_SECONDS, DEFAULT_UPDATE_FREQUENCY_SECONDS)
 
