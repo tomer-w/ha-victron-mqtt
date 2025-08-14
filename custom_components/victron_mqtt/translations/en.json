@@ -187,6 +187,9 @@
       "inverter_state": {
         "name": "Inverter state"
       },
+      "inverter_input_voltage_phase": {
+        "name": "Inverter input voltage {phase}"
+      },
       "inverter_input_power_phase": {
         "name": "Inverter input power {phase}"
       },
@@ -219,6 +222,9 @@
       },
       "system_dc_consumption": {
         "name": "DC Consumption"
+      },
+      "system_dc_battery_soc": {
+        "name": "DC Battery Charge"
       },
       "system_generator_load_phase": {
         "name": "Genset Load {phase}"
