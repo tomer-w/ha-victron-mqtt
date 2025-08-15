@@ -79,11 +79,9 @@ The integration can be configured in two ways:
    - Username: (optional)
    - Password: (optional)
    - SSL: Enable/disable SSL connection
-documented entities
-If you want to help the community and add more entities, please take a look at the [module](httsimpleithub.com/tomer-w/victron_mqtt) which drives this integration. It is very simple to extend this integration. I wrote a [document](https://github.com/tomer-w/victron_mqtt/blob/main/extending-victron-support.md) about it.
 
 ## Adding entities
-If you want to help the community and add more entities, please take a look at the [module](https://github.com/tomer-w/victron_mqtt) which drives this integration. It is very simple to extend this integration. I wrote a [document](https://github.com/tomer-w/victron_mqtt/blob/main/extending-victron-support.md) about it.
+If you want to help the community and add more entities, please take a look at the [module](https://github.com/tomer-w/victron_mqtt) which drives this integration. It is very simple to extend this integration. I wrote a [document](https://github.com/tomer-w/victron_mqtt/blob/main/CONTRIBUTING.md) about it.
 
 ## Troubleshooting
 
