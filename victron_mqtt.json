@@ -547,6 +547,24 @@
       "key_values": {}
     },
     {
+      "topic": "N/+/solarcharger/+/MppOperationMode",
+      "message_type": "MetricKind.SWITCH",
+      "short_id": "solarcharger_mppt_operation_mode",
+      "name": "Solar Charger MPPT Operation Mode",
+      "unit_of_measurement": null,
+      "metric_type": "MetricType.NONE",
+      "metric_nature": "MetricNature.NONE",
+      "device_type": "Solar Charger",
+      "value_type": "ValueType.ENUM",
+      "precision": null,
+      "enum": "MultiState",
+      "min_max_range": "RangeType.STATIC",
+      "min": null,
+      "max": null,
+      "is_adjustable_suffix": null,
+      "key_values": {}
+    },
+    {
       "topic": "N/+/solarcharger/+/Relay/0/State",
       "message_type": "MetricKind.SWITCH",
       "short_id": "solarcharger_relay_state",
@@ -1105,6 +1123,60 @@
       "key_values": {}
     },
     {
+      "topic": "N/+/system/+/Dc/Battery/Power",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "system_dc_battery_power",
+      "name": "DC Battery Power",
+      "unit_of_measurement": "W",
+      "metric_type": "MetricType.POWER",
+      "metric_nature": "MetricNature.INSTANTANEOUS",
+      "device_type": "System",
+      "value_type": "ValueType.FLOAT",
+      "precision": 1,
+      "enum": null,
+      "min_max_range": "RangeType.STATIC",
+      "min": null,
+      "max": null,
+      "is_adjustable_suffix": null,
+      "key_values": {}
+    },
+    {
+      "topic": "N/+/system/+/Dc/Battery/Voltage",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "system_dc_battery_voltage",
+      "name": "DC Battery Voltage",
+      "unit_of_measurement": "V",
+      "metric_type": "MetricType.VOLTAGE",
+      "metric_nature": "MetricNature.INSTANTANEOUS",
+      "device_type": "System",
+      "value_type": "ValueType.FLOAT",
+      "precision": 1,
+      "enum": null,
+      "min_max_range": "RangeType.STATIC",
+      "min": null,
+      "max": null,
+      "is_adjustable_suffix": null,
+      "key_values": {}
+    },
+    {
+      "topic": "N/+/system/+/Dc/Battery/Current",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "system_dc_battery_current",
+      "name": "DC Battery Current",
+      "unit_of_measurement": "A",
+      "metric_type": "MetricType.CURRENT",
+      "metric_nature": "MetricNature.INSTANTANEOUS",
+      "device_type": "System",
+      "value_type": "ValueType.FLOAT",
+      "precision": 1,
+      "enum": null,
+      "min_max_range": "RangeType.STATIC",
+      "min": null,
+      "max": null,
+      "is_adjustable_suffix": null,
+      "key_values": {}
+    },
+    {
       "topic": "N/+/system/+/Relay/{relay}/State",
       "message_type": "MetricKind.SWITCH",
       "short_id": "system_relay_{relay}",
@@ -1116,6 +1188,42 @@
       "value_type": "ValueType.ENUM",
       "precision": null,
       "enum": "GenericOnOff",
+      "min_max_range": "RangeType.STATIC",
+      "min": null,
+      "max": null,
+      "is_adjustable_suffix": null,
+      "key_values": {}
+    },
+    {
+      "topic": "N/+/system/+/DynamicEss/Strategy",
+      "message_type": "MetricKind.SWITCH",
+      "short_id": "system_dynamicess_strategy",
+      "name": "Dynamic ESS Strategy",
+      "unit_of_measurement": null,
+      "metric_type": "MetricType.NONE",
+      "metric_nature": "MetricNature.NONE",
+      "device_type": "System",
+      "value_type": "ValueType.ENUM",
+      "precision": null,
+      "enum": "DESSStrategy",
+      "min_max_range": "RangeType.STATIC",
+      "min": null,
+      "max": null,
+      "is_adjustable_suffix": null,
+      "key_values": {}
+    },
+    {
+      "topic": "N/+/system/+/DynamicEss/ReactiveStrategy",
+      "message_type": "MetricKind.SWITCH",
+      "short_id": "system_dynamicess_reactive_strategy",
+      "name": "Dynamic ESS Reactive Strategy",
+      "unit_of_measurement": null,
+      "metric_type": "MetricType.NONE",
+      "metric_nature": "MetricNature.NONE",
+      "device_type": "System",
+      "value_type": "ValueType.ENUM",
+      "precision": null,
+      "enum": "DESSReactiveStrategy",
       "min_max_range": "RangeType.STATIC",
       "min": null,
       "max": null,
@@ -1512,6 +1620,24 @@
       "value_type": "ValueType.FLOAT",
       "precision": 1,
       "enum": null,
+      "min_max_range": "RangeType.STATIC",
+      "min": null,
+      "max": null,
+      "is_adjustable_suffix": null,
+      "key_values": {}
+    },
+    {
+      "topic": "N/+/tank/+/FluidType",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "tank_fluid_type",
+      "name": "Fluid Type",
+      "unit_of_measurement": null,
+      "metric_type": "MetricType.NONE",
+      "metric_nature": "MetricNature.NONE",
+      "device_type": "Liquid Tank",
+      "value_type": "ValueType.ENUM",
+      "precision": null,
+      "enum": "FluidType",
       "min_max_range": "RangeType.STATIC",
       "min": null,
       "max": null,
@@ -2186,6 +2312,171 @@
     }
   ],
   "enums": [
+    {
+      "name": "DESSReactiveStrategy",
+      "EnumValues": [
+        {
+          "id": "SCHEDULED_SELFCONSUME",
+          "name": "Scheduled Self-Consume",
+          "value": 1
+        },
+        {
+          "id": "SCHEDULED_CHARGE_ALLOW_GRID",
+          "name": "Scheduled Charge Allow Grid",
+          "value": 2
+        },
+        {
+          "id": "SCHEDULED_CHARGE_ENHANCED",
+          "name": "Scheduled Charge Enhanced",
+          "value": 3
+        },
+        {
+          "id": "SELFCONSUME_ACCEPT_CHARGE",
+          "name": "Self-Consume Accept Charge",
+          "value": 4
+        },
+        {
+          "id": "IDLE_SCHEDULED_FEEDIN",
+          "name": "Idle Scheduled Feed-In",
+          "value": 5
+        },
+        {
+          "id": "SCHEDULED_DISCHARGE",
+          "name": "Scheduled Discharge",
+          "value": 6
+        },
+        {
+          "id": "SELFCONSUME_ACCEPT_DISCHARGE",
+          "name": "Self-Consume Accept Discharge",
+          "value": 7
+        },
+        {
+          "id": "IDLE_MAINTAIN_SURPLUS",
+          "name": "Idle Maintain Surplus",
+          "value": 8
+        },
+        {
+          "id": "IDLE_MAINTAIN_TARGETSOC",
+          "name": "Idle Maintain Target SOC",
+          "value": 9
+        },
+        {
+          "id": "SCHEDULED_CHARGE_SMOOTH_TRANSITION",
+          "name": "Scheduled Charge Smooth Transition",
+          "value": 10
+        },
+        {
+          "id": "SCHEDULED_CHARGE_FEEDIN",
+          "name": "Scheduled Charge Feed-In",
+          "value": 11
+        },
+        {
+          "id": "SCHEDULED_CHARGE_NO_GRID",
+          "name": "Scheduled Charge No Grid",
+          "value": 12
+        },
+        {
+          "id": "SCHEDULED_MINIMUM_DISCHARGE",
+          "name": "Scheduled Minimum Discharge",
+          "value": 13
+        },
+        {
+          "id": "SELFCONSUME_NO_GRID",
+          "name": "Self-Consume No Grid",
+          "value": 14
+        },
+        {
+          "id": "IDLE_NO_OPPORTUNITY",
+          "name": "Idle No Opportunity",
+          "value": 15
+        },
+        {
+          "id": "UNSCHEDULED_CHARGE_CATCHUP_TARGETSOC",
+          "name": "Unscheduled Charge Catch-Up Target SOC",
+          "value": 16
+        },
+        {
+          "id": "SELFCONSUME_INCREASED_DISCHARGE",
+          "name": "Self-Consume Increased Discharge",
+          "value": 17
+        },
+        {
+          "id": "KEEP_BATTERY_CHARGED",
+          "name": "Keep Battery Charged",
+          "value": 18
+        },
+        {
+          "id": "SCHEDULED_DISCHARGE_SMOOTH_TRANSITION",
+          "name": "Scheduled Discharge Smooth Transition",
+          "value": 19
+        },
+        {
+          "id": "DESS_DISABLED",
+          "name": "DESS Disabled",
+          "value": 92
+        },
+        {
+          "id": "SELFCONSUME_UNEXPECTED_EXCEPTION",
+          "name": "Self-Consume Unexpected Exception",
+          "value": 93
+        },
+        {
+          "id": "SELFCONSUME_FAULTY_CHARGERATE",
+          "name": "Self-Consume Faulty Charge Rate",
+          "value": 94
+        },
+        {
+          "id": "UNKNOWN_OPERATING_MODE",
+          "name": "Unknown Operating Mode",
+          "value": 95
+        },
+        {
+          "id": "ESS_LOW_SOC",
+          "name": "ESS Low SOC",
+          "value": 96
+        },
+        {
+          "id": "SELFCONSUME_UNMAPPED_STATE",
+          "name": "Self-Consume Unmapped State",
+          "value": 97
+        },
+        {
+          "id": "SELFCONSUME_UNPREDICTED",
+          "name": "Self-Consume Unpredicted",
+          "value": 98
+        },
+        {
+          "id": "NO_WINDOW",
+          "name": "No Window",
+          "value": 99
+        }
+      ]
+    },
+    {
+      "name": "DESSStrategy",
+      "EnumValues": [
+        {
+          "id": "TARGETSOC",
+          "name": "Target SOC",
+          "value": 0
+        },
+        {
+          "id": "SELFCONSUME",
+          "name": "Self-Consume",
+          "value": 1
+        },
+        {
+          "id": "PROBATTERY",
+          "name": "Pro Battery",
+          "value": 2
+        },
+        {
+          "id": "PROGRID",
+          "name": "Pro Grid",
+          "value": 3
+        }
+      ]
+    },
     {
       "name": "DeviceType",
       "EnumValues": [
