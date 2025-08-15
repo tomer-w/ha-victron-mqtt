@@ -61,13 +61,15 @@ async def async_setup_entry(
     _LOGGER.info("async_setup_entry called for entry: %s", entry.entry_id)
 
     hub = Hub(hass, entry)
-    await hub.start()
     entry.runtime_data = hub
 
     # Register the update listener
     entry.async_on_unload(entry.add_update_listener(_update_listener))
 
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
+    # All platforms should be set up before starting the hub
+    await hub.start()
+    _LOGGER.info("async_setup_entry completed for entry: %s", entry.entry_id)
     return True
 
 

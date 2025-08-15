@@ -1,7 +1,7 @@
 from typing import Any, List
 import logging
 
-from homeassistant.core import HomeAssistant
+from homeassistant.core import HomeAssistant, callback, Event
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.exceptions import ConfigEntryNotReady
 from homeassistant.helpers.device_registry import DeviceInfo
@@ -17,6 +17,7 @@ from homeassistant.const import (
     CONF_PORT,
     CONF_SSL,
     CONF_USERNAME,
+    EVENT_HOMEASSISTANT_STOP,
 )
 
 from victron_mqtt import (
@@ -51,7 +52,7 @@ class Hub:
         self.id = entry.unique_id
 
         config = entry.data
-        self._hub = VictronVenusHub(
+        self._hub: VictronVenusHub = VictronVenusHub(
             host=config.get(CONF_HOST),
             port=config.get(CONF_PORT, 1883),
             username=config.get(CONF_USERNAME) or None,
@@ -62,7 +63,11 @@ class Hub:
             serial=config.get(CONF_SERIAL, "noserial"),
             topic_prefix=config.get(CONF_ROOT_TOPIC_PREFIX) or None,
         )
+        self._hub.on_new_metric = self.on_new_metric
         self.update_frequency_seconds = config.get(CONF_UPDATE_FREQUENCY_SECONDS, DEFAULT_UPDATE_FREQUENCY_SECONDS)
+        self.add_entities_map: dict[MetricKind, AddEntitiesCallback] = {}
+
+        self.hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, self.stop)
 
     async def start(self):
         _LOGGER.info("Starting hub. Update frequency: %s seconds", self.update_frequency_seconds)
@@ -72,9 +77,18 @@ class Hub:
             _LOGGER.error("Cannot connect to the hub")
             raise ConfigEntryNotReady("Device is offline") from connect_error
 
-    async def stop(self):
+    @callback
+    async def stop(self, event: Event):
         _LOGGER.info("Stopping hub")
         await self._hub.disconnect()
+
+    def on_new_metric(self, hub: VictronVenusHub, device: VictronVenusDevice, metric: VictronVenusMetric):
+        _LOGGER.info("New metric received. Hub: %s, Device: %s, Metric: %s", hub, device, metric)
+        device_info = Hub._map_device_info(device)
+        entity = self.creatre_entity(device, metric, device_info)
+        # Add entity dynamically to the platform
+        self.add_entities_map[metric.metric_kind]([entity])
+        entity.mark_registered_with_homeassistant()
 
     @staticmethod
     def _map_device_info(device: VictronVenusDevice) -> DeviceInfo:
@@ -87,29 +101,10 @@ class Hub:
 
         return info
 
-    def add_entities(self, async_add_entities: AddEntitiesCallback, kind: MetricKind):
-        """Get all entities from the hub."""
-        _LOGGER.info("Adding entities of kind: %s", kind)
-        entities: List[VictronBaseEntity] = []
-        for device in self._hub.devices:
-            info = Hub._map_device_info(device)
-
-            # Filter metrics that represent sensors controls
-            sensor_metrics = [m for m in device.metrics if m.metric_kind == kind]
-            if not sensor_metrics:
-                continue
-
-            _LOGGER.info("Setting up entities for device: %s. info: %s", device, info)
-            for metric in sensor_metrics:
-                _LOGGER.debug("Setting up entity: %s", repr(metric))
-                sensor = self.creatre_entity(device, metric, info)
-                entities.append(sensor)
-
-        if entities:
-            async_add_entities(entities)
-            for entity in entities:
-                entity.mark_registered_with_homeassistant()
-
+    def register_add_entities_callback(self, async_add_entities: AddEntitiesCallback, kind: MetricKind):
+        """Register a callback to add entities for a specific metric kind."""
+        _LOGGER.info("Registering AddEntitiesCallback. kind: %s, AddEntitiesCallback: %s", kind, async_add_entities)
+        self.add_entities_map[kind] = async_add_entities
 
     def creatre_entity(self, device: VictronVenusDevice, metric: VictronVenusMetric, info: DeviceInfo) -> VictronBaseEntity:
         """Create a VictronBaseEntity from a device and metric."""

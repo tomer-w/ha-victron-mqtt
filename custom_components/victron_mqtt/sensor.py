@@ -16,4 +16,4 @@ async def async_setup_entry(
 ) -> None:
     """Set up Victron Venus sensors from a config entry."""
     hub: Hub = config_entry.runtime_data
-    hub.add_entities(async_add_entities, MetricKind.SENSOR)
+    hub.register_add_entities_callback(async_add_entities, MetricKind.SENSOR)
