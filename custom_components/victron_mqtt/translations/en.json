@@ -235,6 +235,12 @@
       "system_dc_battery_current": {
         "name": "DC Battery Current"
       },
+      "system_dynamicess_strategy": {
+        "name": "Dynamic ESS Strategy"
+      },
+      "system_dynamicess_reactive_strategy": {
+        "name": "Dynamic ESS Reactive Strategy"
+      },
       "system_generator_load_phase": {
         "name": "Genset Load {phase}"
       },
@@ -409,12 +415,6 @@
       },
       "system_relay_relay": {
         "name": "Relay {relay} state"
-      },
-      "system_dynamicess_strategy": {
-        "name": "Dynamic ESS Strategy"
-      },
-      "system_dynamicess_reactive_strategy": {
-        "name": "Dynamic ESS Reactive Strategy"
       },
       "evcharger_charge": {
         "name": "EV charger charge"
