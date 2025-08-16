@@ -184,6 +184,9 @@
       "charge_mode": {
         "name": "Battery charge mode"
       },
+      "battery_consumed_amphours": {
+        "name": "Battery consumed amp-hours"
+      },
       "inverter_state": {
         "name": "Inverter state"
       },
@@ -418,6 +421,9 @@
       },
       "evcharger_charge": {
         "name": "EV charger charge"
+      },
+      "system_settings_overvoltage_feedin": {
+        "name": "PV DC Overvoltage FeedIn"
       },
       "switch_output_state": {
         "name": "Switch {output} State"
