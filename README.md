@@ -91,6 +91,11 @@ If you want to help the community and add more entities, please take a look at t
    - Verify your Victron device is powered on and connected to your network
    - Check that the hostname/IP is correct.
    - Ensure that MQTT is enabled on your Victron device.
+   - in case venus OS is rooted (i.e. with ssh access enabled):
+     - use port 8883
+     - enable SSL/TLS
+     - use user root
+     - use password that you have defined to protect the instance
 
 2. **Authentication Failed**
    - Double-check the username and password if authentication is enabled.
