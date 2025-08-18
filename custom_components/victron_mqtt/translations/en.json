@@ -238,6 +238,21 @@
       "system_dc_battery_current": {
         "name": "DC Battery Current"
       },
+      "system_dynamicess_available_overhead": {
+        "name": "Dynamic ESS Available Overhead"
+      },
+      "system_dynamicess_schedule_count": {
+        "name": "Dynamic ESS Number Of Schedules"
+      },
+      "system_dynamicess_target_soc": {
+        "name": "Dynamic ESS Target SOC"
+      },
+      "system_dynamicess_minimum_soc": {
+        "name": "Dynamic ESS Target SOC"
+      },
+      "system_dynamicess_restrictions": {
+        "name": "Dynamic ESS Restrictions"
+      },
       "system_dynamicess_strategy": {
         "name": "Dynamic ESS Strategy"
       },
@@ -396,6 +411,12 @@
       "inverter_connected": {
         "name": "Inverter connected"
       },
+      "system_dynamicess_available": {
+        "name": "Dynamic ESS Available"
+      },
+      "system_dynamicess_allow_gridfeedin": {
+        "name": "Dynamic ESS Allow Grid Feed In"
+      },
       "evcharger_connected": {
         "name": "EV charger connected"
       },
@@ -418,6 +439,12 @@
       },
       "system_relay_relay": {
         "name": "Relay {relay} state"
+      },
+      "system_dynamicess_active": {
+        "name": "Dynamic ESS Active"
+      },
+      "system_dynamicess_error": {
+        "name": "Dynamic ESS Error"
       },
       "evcharger_charge": {
         "name": "EV charger charge"
