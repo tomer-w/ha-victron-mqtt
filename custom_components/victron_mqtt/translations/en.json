@@ -248,7 +248,7 @@
         "name": "Dynamic ESS Target SOC"
       },
       "system_dynamicess_minimum_soc": {
-        "name": "Dynamic ESS Target SOC"
+        "name": "Dynamic ESS Minimum SOC"
       },
       "system_dynamicess_restrictions": {
         "name": "Dynamic ESS Restrictions"
@@ -482,6 +482,9 @@
       },
       "system_ess_max_charge_current": {
         "name": "ESS max charge current"
+      },
+      "system_ess_max_charge_voltage": {
+        "name": "ESS max charge voltage"
       },
       "switch_output_dimming": {
         "name": "Switch {output} Dimming"
