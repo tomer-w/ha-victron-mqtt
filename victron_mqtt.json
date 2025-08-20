@@ -1325,7 +1325,7 @@
       "message_type": "MetricKind.SENSOR",
       "short_id": "system_dynamicess_target_soc",
       "name": "Dynamic ESS Target SOC",
-      "unit_of_measurement": null,
+      "unit_of_measurement": "%",
       "metric_type": "MetricType.PERCENTAGE",
       "metric_nature": "MetricNature.INSTANTANEOUS",
       "device_type": "System",
@@ -1342,8 +1342,8 @@
       "topic": "N/+/system/+/DynamicEss/MinimumSoc",
       "message_type": "MetricKind.SENSOR",
       "short_id": "system_dynamicess_minimum_soc",
-      "name": "Dynamic ESS Target SOC",
-      "unit_of_measurement": null,
+      "name": "Dynamic ESS Minimum SOC",
+      "unit_of_measurement": "%",
       "metric_type": "MetricType.PERCENTAGE",
       "metric_nature": "MetricNature.INSTANTANEOUS",
       "device_type": "System",
@@ -2275,6 +2275,24 @@
       "key_values": {}
     },
     {
+      "topic": "N/+/settings/+/Settings/SystemSetup/MaxChargeVoltage",
+      "message_type": "MetricKind.NUMBER",
+      "short_id": "system_ess_max_charge_voltage",
+      "name": "ESS max charge voltage",
+      "unit_of_measurement": "V",
+      "metric_type": "MetricType.VOLTAGE",
+      "metric_nature": "MetricNature.INSTANTANEOUS",
+      "device_type": "System",
+      "value_type": "ValueType.INT",
+      "precision": null,
+      "enum": null,
+      "min_max_range": "RangeType.DYNAMIC",
+      "min": null,
+      "max": null,
+      "is_adjustable_suffix": null,
+      "key_values": {}
+    },
+    {
       "topic": "N/+/dcload/+/Dc/0/Voltage",
       "message_type": "MetricKind.SENSOR",
       "short_id": "dcload_voltage",
@@ -2827,6 +2845,11 @@
           "id": "GPS",
           "name": "Gps",
           "value": "gps"
+        },
+        {
+          "id": "SYSTEM_SETUP",
+          "name": "System Setup",
+          "value": "SystemSetup"
         }
       ]
     },
@@ -3214,6 +3237,10 @@
           "value": 6
         }
       ]
+    },
+    {
+      "name": "VictronDeviceEnum",
+      "EnumValues": []
     }
   ]
 }
