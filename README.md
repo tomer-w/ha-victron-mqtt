@@ -96,6 +96,11 @@ If you want to help the community and add more entities, please take a look at t
    nc -zv <Cerbo IP address> <Cerbo mqtt port, usually 8883>
    ```
    if you are getting timeout or other errors there is real connectivity issue and it is not integration issue.
+   - in case venus OS is rooted (i.e. with ssh access enabled):
+     - use port 8883
+     - enable SSL/TLS
+     - use user root
+     - use password that you have defined to protect the instance
 
 2. **Authentication Failed**
    - Double-check the username and password if authentication is enabled.

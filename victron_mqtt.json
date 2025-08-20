@@ -835,6 +835,24 @@
       "key_values": {}
     },
     {
+      "topic": "N/+/battery/+/ConsumedAmphours",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "battery_consumed_amphours",
+      "name": "Battery consumed amp-hours",
+      "unit_of_measurement": "Ah",
+      "metric_type": "MetricType.ELECTRIC_STORAGE_CAPACITY",
+      "metric_nature": "MetricNature.INSTANTANEOUS",
+      "device_type": "Battery",
+      "value_type": "ValueType.FLOAT",
+      "precision": 1,
+      "enum": null,
+      "min_max_range": "RangeType.STATIC",
+      "min": null,
+      "max": null,
+      "is_adjustable_suffix": null,
+      "key_values": {}
+    },
+    {
       "topic": "N/+/vebus/+/Mode",
       "message_type": "MetricKind.SELECT",
       "short_id": "inverter_mode",
@@ -1195,8 +1213,170 @@
       "key_values": {}
     },
     {
-      "topic": "N/+/system/+/DynamicEss/Strategy",
+      "topic": "N/+/system/+/DynamicEss/Available",
+      "message_type": "MetricKind.BINARY_SENSOR",
+      "short_id": "system_dynamicess_available",
+      "name": "Dynamic ESS Available",
+      "unit_of_measurement": null,
+      "metric_type": "MetricType.NONE",
+      "metric_nature": "MetricNature.NONE",
+      "device_type": "System",
+      "value_type": "ValueType.ENUM",
+      "precision": null,
+      "enum": "GenericOnOff",
+      "min_max_range": "RangeType.STATIC",
+      "min": null,
+      "max": null,
+      "is_adjustable_suffix": null,
+      "key_values": {}
+    },
+    {
+      "topic": "N/+/system/+/DynamicEss/Active",
       "message_type": "MetricKind.SWITCH",
+      "short_id": "system_dynamicess_active",
+      "name": "Dynamic ESS Active",
+      "unit_of_measurement": null,
+      "metric_type": "MetricType.NONE",
+      "metric_nature": "MetricNature.NONE",
+      "device_type": "System",
+      "value_type": "ValueType.ENUM",
+      "precision": null,
+      "enum": "GenericOnOff",
+      "min_max_range": "RangeType.STATIC",
+      "min": null,
+      "max": null,
+      "is_adjustable_suffix": null,
+      "key_values": {}
+    },
+    {
+      "topic": "N/+/system/+/DynamicEss/AllowGridFeedIn",
+      "message_type": "MetricKind.BINARY_SENSOR",
+      "short_id": "system_dynamicess_allow_gridfeedin",
+      "name": "Dynamic ESS Allow Grid Feed In",
+      "unit_of_measurement": null,
+      "metric_type": "MetricType.NONE",
+      "metric_nature": "MetricNature.NONE",
+      "device_type": "System",
+      "value_type": "ValueType.ENUM",
+      "precision": null,
+      "enum": "GenericOnOff",
+      "min_max_range": "RangeType.STATIC",
+      "min": null,
+      "max": null,
+      "is_adjustable_suffix": null,
+      "key_values": {}
+    },
+    {
+      "topic": "N/+/system/+/DynamicEss/AvailableOverhead",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "system_dynamicess_available_overhead",
+      "name": "Dynamic ESS Available Overhead",
+      "unit_of_measurement": "W",
+      "metric_type": "MetricType.POWER",
+      "metric_nature": "MetricNature.INSTANTANEOUS",
+      "device_type": "System",
+      "value_type": "ValueType.FLOAT",
+      "precision": 1,
+      "enum": null,
+      "min_max_range": "RangeType.STATIC",
+      "min": null,
+      "max": null,
+      "is_adjustable_suffix": null,
+      "key_values": {}
+    },
+    {
+      "topic": "N/+/system/+/DynamicEss/ErrorCode",
+      "message_type": "MetricKind.SWITCH",
+      "short_id": "system_dynamicess_error",
+      "name": "Dynamic ESS Error",
+      "unit_of_measurement": null,
+      "metric_type": "MetricType.NONE",
+      "metric_nature": "MetricNature.NONE",
+      "device_type": "System",
+      "value_type": "ValueType.ENUM",
+      "precision": null,
+      "enum": "DESSErrorCode",
+      "min_max_range": "RangeType.STATIC",
+      "min": null,
+      "max": null,
+      "is_adjustable_suffix": null,
+      "key_values": {}
+    },
+    {
+      "topic": "N/+/system/+/DynamicEss/NumberOfSchedules",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "system_dynamicess_schedule_count",
+      "name": "Dynamic ESS Number Of Schedules",
+      "unit_of_measurement": null,
+      "metric_type": "MetricType.NONE",
+      "metric_nature": "MetricNature.INSTANTANEOUS",
+      "device_type": "System",
+      "value_type": "ValueType.INT",
+      "precision": null,
+      "enum": null,
+      "min_max_range": "RangeType.STATIC",
+      "min": null,
+      "max": null,
+      "is_adjustable_suffix": null,
+      "key_values": {}
+    },
+    {
+      "topic": "N/+/system/+/DynamicEss/TargetSoc",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "system_dynamicess_target_soc",
+      "name": "Dynamic ESS Target SOC",
+      "unit_of_measurement": null,
+      "metric_type": "MetricType.PERCENTAGE",
+      "metric_nature": "MetricNature.INSTANTANEOUS",
+      "device_type": "System",
+      "value_type": "ValueType.FLOAT",
+      "precision": 0,
+      "enum": null,
+      "min_max_range": "RangeType.STATIC",
+      "min": null,
+      "max": null,
+      "is_adjustable_suffix": null,
+      "key_values": {}
+    },
+    {
+      "topic": "N/+/system/+/DynamicEss/MinimumSoc",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "system_dynamicess_minimum_soc",
+      "name": "Dynamic ESS Target SOC",
+      "unit_of_measurement": null,
+      "metric_type": "MetricType.PERCENTAGE",
+      "metric_nature": "MetricNature.INSTANTANEOUS",
+      "device_type": "System",
+      "value_type": "ValueType.FLOAT",
+      "precision": 0,
+      "enum": null,
+      "min_max_range": "RangeType.STATIC",
+      "min": null,
+      "max": null,
+      "is_adjustable_suffix": null,
+      "key_values": {}
+    },
+    {
+      "topic": "N/+/system/+/DynamicEss/Restrictions",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "system_dynamicess_restrictions",
+      "name": "Dynamic ESS Restrictions",
+      "unit_of_measurement": null,
+      "metric_type": "MetricType.NONE",
+      "metric_nature": "MetricNature.NONE",
+      "device_type": "System",
+      "value_type": "ValueType.ENUM",
+      "precision": null,
+      "enum": "DESSRestrictions",
+      "min_max_range": "RangeType.STATIC",
+      "min": null,
+      "max": null,
+      "is_adjustable_suffix": null,
+      "key_values": {}
+    },
+    {
+      "topic": "N/+/system/+/DynamicEss/Strategy",
+      "message_type": "MetricKind.SENSOR",
       "short_id": "system_dynamicess_strategy",
       "name": "Dynamic ESS Strategy",
       "unit_of_measurement": null,
@@ -1214,7 +1394,7 @@
     },
     {
       "topic": "N/+/system/+/DynamicEss/ReactiveStrategy",
-      "message_type": "MetricKind.SWITCH",
+      "message_type": "MetricKind.SENSOR",
       "short_id": "system_dynamicess_reactive_strategy",
       "name": "Dynamic ESS Reactive Strategy",
       "unit_of_measurement": null,
@@ -2059,6 +2239,24 @@
       "key_values": {}
     },
     {
+      "topic": "N/+/settings/+/Settings/CGwacs/OvervoltageFeedIn",
+      "message_type": "MetricKind.SWITCH",
+      "short_id": "system_settings_overvoltage_feedin",
+      "name": "PV DC Overvoltage FeedIn",
+      "unit_of_measurement": null,
+      "metric_type": "MetricType.NONE",
+      "metric_nature": "MetricNature.NONE",
+      "device_type": "System",
+      "value_type": "ValueType.ENUM",
+      "precision": null,
+      "enum": "GenericOnOff",
+      "min_max_range": "RangeType.STATIC",
+      "min": null,
+      "max": null,
+      "is_adjustable_suffix": null,
+      "key_values": {}
+    },
+    {
       "topic": "N/+/settings/+/Settings/SystemSetup/MaxChargeCurrent",
       "message_type": "MetricKind.NUMBER",
       "short_id": "system_ess_max_charge_current",
@@ -2176,7 +2374,7 @@
       "metric_nature": "MetricNature.INSTANTANEOUS",
       "device_type": "Gps",
       "value_type": "ValueType.FLOAT",
-      "precision": 2,
+      "precision": null,
       "enum": null,
       "min_max_range": "RangeType.STATIC",
       "min": null,
@@ -2284,7 +2482,7 @@
       "metric_nature": "MetricNature.INSTANTANEOUS",
       "device_type": "Gps",
       "value_type": "ValueType.FLOAT",
-      "precision": 2,
+      "precision": null,
       "enum": null,
       "min_max_range": "RangeType.STATIC",
       "min": null,
@@ -2302,7 +2500,7 @@
       "metric_nature": "MetricNature.INSTANTANEOUS",
       "device_type": "Gps",
       "value_type": "ValueType.FLOAT",
-      "precision": 2,
+      "precision": null,
       "enum": null,
       "min_max_range": "RangeType.STATIC",
       "min": null,
@@ -2312,6 +2510,41 @@
     }
   ],
   "enums": [
+    {
+      "name": "DESSErrorCode",
+      "EnumValues": [
+        {
+          "id": "NO_ERROR",
+          "name": "No Error",
+          "value": 0
+        },
+        {
+          "id": "NO_ESS",
+          "name": "No ESS",
+          "value": 1
+        },
+        {
+          "id": "ESS_MODE",
+          "name": "ESS Mode",
+          "value": 2
+        },
+        {
+          "id": "NO_SCHEDULE",
+          "name": "No Matching Schedule",
+          "value": 3
+        },
+        {
+          "id": "SOC_LOW",
+          "name": "SOC low",
+          "value": 4
+        },
+        {
+          "id": "BATTRY_CAPACITY_NOT_CONFIGURED",
+          "name": "Battery Capacity Not Configured",
+          "value": 5
+        }
+      ]
+    },
     {
       "name": "DESSReactiveStrategy",
       "EnumValues": [
@@ -2449,6 +2682,31 @@
           "id": "NO_WINDOW",
           "name": "No Window",
           "value": 99
+        }
+      ]
+    },
+    {
+      "name": "DESSRestrictions",
+      "EnumValues": [
+        {
+          "id": "NO_RESTRICTIONS",
+          "name": "No Restrictions between battery and the grid",
+          "value": 0
+        },
+        {
+          "id": "GRID_TO_BATTERY_RESTRICTED",
+          "name": "Grid to battey energy flow restricted",
+          "value": 1
+        },
+        {
+          "id": "BATTERY_TO_GRID_RESTRICTED",
+          "name": "Battery to grid energy flow restricted",
+          "value": 2
+        },
+        {
+          "id": "NO_FLOW",
+          "name": "No energy flow between battery and grid",
+          "value": 3
         }
       ]
     },
