@@ -91,6 +91,11 @@ If you want to help the community and add more entities, please take a look at t
    - Verify your Victron device is powered on and connected to your network
    - Check that the hostname/IP is correct.
    - Ensure that MQTT is enabled on your Victron device.
+   - On your HA device, open Terminal window using one of the addons and run the following command:
+   ```
+   nc -zv <Cerbo IP address> <Cerbo mqtt port, usually 8883>
+   ```
+   if you are getting timeout or other errors there is real connectivity issue and it is not integration issue.
 
 2. **Authentication Failed**
    - Double-check the username and password if authentication is enabled.
