@@ -494,6 +494,9 @@
       },
       "switch_output_dimming": {
         "name": "Switch {output} Dimming"
+      },
+      "system_ess_max_inverter_power_limit": {
+        "name": "ESS max inverter power limit"
       }
     }
   }
