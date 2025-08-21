@@ -80,5 +80,5 @@ async def async_unload_entry(
     _LOGGER.info("async_unload_entry called for entry: %s", entry.entry_id)
     hub: Hub = entry.runtime_data
     if hub is not None:
-        await hub.stop()
+        await hub.stop(None)
     return await hass.config_entries.async_unload_platforms(entry, PLATFORMS)
