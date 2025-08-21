@@ -142,6 +142,9 @@
       "solarcharger_max_power_yesterday": {
         "name": "Max Power Yesterday"
       },
+      "solarcharger_mppt_operation_mode": {
+        "name": "Solar Charger MPPT Operation Mode"
+      },
       "battery_voltage": {
         "name": "DC Bus voltage"
       },
@@ -186,6 +189,9 @@
       },
       "battery_consumed_amphours": {
         "name": "Battery consumed amp-hours"
+      },
+      "battery_cell_cell_id_voltage": {
+        "name": "Battery cell {cell_id} voltage"
       },
       "inverter_state": {
         "name": "Inverter state"
@@ -431,9 +437,6 @@
       "solarcharger_mode": {
         "name": "Solar Charger Mode"
       },
-      "solarcharger_mppt_operation_mode": {
-        "name": "Solar Charger MPPT Operation Mode"
-      },
       "solarcharger_relay_state": {
         "name": "Solar Charger Relay State"
       },
@@ -479,6 +482,9 @@
       },
       "system_ac_power_set_point": {
         "name": "AC Power Setpoint"
+      },
+      "system_ess_min_soc_limit": {
+        "name": "ESS min SOC limit"
       },
       "system_ess_max_charge_current": {
         "name": "ESS max charge current"
