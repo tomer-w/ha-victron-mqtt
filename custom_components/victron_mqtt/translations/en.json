@@ -256,6 +256,12 @@
       "system_dynamicess_minimum_soc": {
         "name": "Dynamic ESS Minimum SOC"
       },
+      "system_dynamicess_last_scheduled_start": {
+        "name": "Dynamic ESS Last Scheduled Start"
+      },
+      "system_dynamicess_last_scheduled_end": {
+        "name": "Dynamic ESS Last Scheduled End"
+      },
       "system_dynamicess_restrictions": {
         "name": "Dynamic ESS Restrictions"
       },
