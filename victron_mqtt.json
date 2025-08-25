@@ -1250,7 +1250,7 @@
     },
     {
       "topic": "N/+/system/+/DynamicEss/Active",
-      "message_type": "MetricKind.SWITCH",
+      "message_type": "MetricKind.BINARY_SENSOR",
       "short_id": "system_dynamicess_active",
       "name": "Dynamic ESS Active",
       "unit_of_measurement": null,
@@ -1304,7 +1304,7 @@
     },
     {
       "topic": "N/+/system/+/DynamicEss/ErrorCode",
-      "message_type": "MetricKind.SWITCH",
+      "message_type": "MetricKind.SENSOR",
       "short_id": "system_dynamicess_error",
       "name": "Dynamic ESS Error",
       "unit_of_measurement": null,
