@@ -95,9 +95,9 @@ class VictronBaseEntity(Entity):
             case MetricType.TEMPERATURE:
                 return SensorDeviceClass.TEMPERATURE
             case MetricType.POWER:
-                if metric.unit_of_measurement == "VA":
-                    return SensorDeviceClass.APPARENT_POWER
                 return SensorDeviceClass.POWER
+            case MetricType.APPARENT_POWER:
+                return SensorDeviceClass.APPARENT_POWER
             case MetricType.ENERGY:
                 return SensorDeviceClass.ENERGY
             case MetricType.VOLTAGE:
@@ -106,10 +106,14 @@ class VictronBaseEntity(Entity):
                 return SensorDeviceClass.CURRENT
             case MetricType.FREQUENCY:
                 return SensorDeviceClass.FREQUENCY
-            case MetricType.PERCENTAGE:
-                if metric.device_type == DeviceType.BATTERY:
-                    return SensorDeviceClass.BATTERY
-                return None
+            case MetricType.ELECTRIC_STORAGE_PERCENTAGE:
+                return SensorDeviceClass.BATTERY
+            case MetricType.TEMPERATURE:
+                return SensorDeviceClass.TEMPERATURE
+            case MetricType.SPEED:
+                return SensorDeviceClass.SPEED
+            case MetricType.LIQUID_VOLUME:
+                return SensorDeviceClass.VOLUME
             case _:
                 return None
 
