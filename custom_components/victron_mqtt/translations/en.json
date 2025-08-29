@@ -280,6 +280,18 @@
       "system_grid_power_phase": {
         "name": "Grid Power {phase}"
       },
+      "system_pv_on_output_phases": {
+        "name": "PV on Output phases"
+      },
+      "system_pv_on_output_power_phase": {
+        "name": "PV on Output Power {phase}"
+      },
+      "system_pv_on_output_current_phase": {
+        "name": "PV on Output Current {phase}"
+      },
+      "system_consumption_on_output_phases": {
+        "name": "Consumption On Output phases"
+      },
       "evcharger_current": {
         "name": "EV charger current"
       },
