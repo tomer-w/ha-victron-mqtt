@@ -12,7 +12,9 @@ body:
   attributes:
     label: I have read the documentation and contribution instructions
     options:
-      - label: I have read the [documentation](https://github.com/tomer-w/ha-victron-mqtt) and the [contribution instructions](https://github.com/tomer-w/ha-victron-mqtt/blob/main/CONTRIBUTING.md).
+      - label: I have read the [documentation](https://github.com/tomer-w/victron_mqtt?tab=contributing-ov-file#finding-mqtt-topics-with-mqtt-explorer).
+        required: true
+      - label: I tried to use mqtt-explorer as described in the docs to extract the topics I care about.
         required: true
 - type: textarea
   id: feature-description
@@ -26,20 +28,30 @@ body:
   id: mqtt-topics
   attributes:
     label: Required MQTT topics
-    description: Please provide the MQTT topics that would be needed for this feature.
+    description: Please provide the MQTT topics required for this feature. Remove the installation ID from the topic strings (it is confidential). For each topic, include its meaning and units, and paste an example payload or value you observed in mqtt-explorer.
     placeholder: |
-      List the MQTT topics, e.g.:
-      - N/+/system/+/Dc/Battery/Voltage
-      - N/+/system/+/Dc/Battery/Current
+      Provide each topic using the format below:
+
+      Example format and entries:
+
+      - topic: N/+/battery/+/Dc/0/Voltage
+        meaning: Battery voltage
+        units: V
+        example_value: {"value":13.460000038146973}
+
+      - topic: N/+/battery/+/Dc/0/Current
+        meaning: Battery current (positive = charging, negative = discharging)
+        units: A
+        example_value: {"value":5.12345}
+
+      - topic: N/+/tank/+/Remaining
+        meaning: Remaining capacity of the tank
+        units: %
+        example_value: {"value":75}
+
+      If you have many topics, list them one per bullet using the same fields above (topic, meaning, units, example_value).
   validations:
     required: true
-- type: textarea
-  id: expected-behavior
-  attributes:
-    label: Expected behavior
-    description: A clear and concise description of what you expected to happen with this feature.
-  validations:
-    required: false
 - type: textarea
   id: additional-context
   attributes:
