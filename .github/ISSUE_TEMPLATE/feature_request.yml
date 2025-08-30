@@ -1,0 +1,49 @@
+name: Feature Request
+description: Suggest a new feature
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+- type: markdown
+  attributes:
+    value: |
+      Thanks for suggesting a new feature!
+- type: checkboxes
+  id: docs-read
+  attributes:
+    label: I have read the documentation and contribution instructions
+    options:
+      - label: I have read the [documentation](https://github.com/tomer-w/ha-victron-mqtt) and the [contribution instructions](https://github.com/tomer-w/ha-victron-mqtt/blob/main/CONTRIBUTING.md).
+        required: true
+- type: textarea
+  id: feature-description
+  attributes:
+    label: Describe the feature
+    description: A clear and concise description of the feature you'd like to see.
+    placeholder: Tell us what you want!
+  validations:
+    required: true
+- type: textarea
+  id: mqtt-topics
+  attributes:
+    label: Required MQTT topics
+    description: Please provide the MQTT topics that would be needed for this feature.
+    placeholder: |
+      List the MQTT topics, e.g.:
+      - N/+/system/+/Dc/Battery/Voltage
+      - N/+/system/+/Dc/Battery/Current
+  validations:
+    required: true
+- type: textarea
+  id: expected-behavior
+  attributes:
+    label: Expected behavior
+    description: A clear and concise description of what you expected to happen with this feature.
+  validations:
+    required: false
+- type: textarea
+  id: additional-context
+  attributes:
+    label: Additional context
+    description: Add any other context or screenshots about the feature request here.
+  validations:
+    required: false
