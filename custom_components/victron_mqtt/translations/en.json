@@ -9,7 +9,8 @@
           "password": "Password",
           "ssl": "Use SSL",
           "root_topic_prefix": "Optional root topic prefix",
-          "update_frequency": "Update frequency (seconds)"
+          "update_frequency": "Update frequency (seconds)",
+          "operation_mode": "Operation mode"
         },
         "data_description": {
           "host": "Hostname or IP address of Victron Device, usually mDNS name like 'venus.local'",
@@ -18,7 +19,8 @@
           "password": "Password for the Victron Device, default is empty. This is not your VRM password.",
           "ssl": "Indicates whether to use SSL to connect to the Victron Device. Normally it is disabled.",
           "root_topic_prefix": "Root topic prefix if used via MQTT gateway.",
-          "update_frequency": "Update frequency in seconds. Default is 30 seconds. Set to 0 to update always."
+          "update_frequency": "Update frequency in seconds. Default is 30 seconds. Set to 0 to update always.",
+          "operation_mode": "Operation mode controls which Home Assistant entity types are created. 'read_only' exposes only sensors and binary_sensors (no writable entities), 'full' exposes all entity types (sensors, binary_sensors, numbers, selects, switches), 'experimental' is reserved for future use (behaves like 'full' today)."
         }
       }
     }
@@ -33,7 +35,8 @@
           "password": "Password",
           "ssl": "Use SSL",
           "root_topic_prefix": "Optional root topic prefix",
-          "update_frequency": "Update frequency (seconds)"
+          "update_frequency": "Update frequency (seconds)",
+          "operation_mode": "Operation mode"
         },
         "data_description": {
           "host": "Hostname or IP address of Victron Device, usually mDNS name like 'venus.local'",
@@ -42,7 +45,8 @@
           "password": "Password for the Victron Device, default is empty. This is not your VRM password.",
           "ssl": "Indicates whether to use SSL to connect to the Victron Device. Normally it is disabled.",
           "root_topic_prefix": "Root topic prefix if used via MQTT gateway.",
-          "update_frequency": "Update frequency in seconds. Default is 30 seconds. Set to 0 to update always."
+          "update_frequency": "Update frequency in seconds. Default is 30 seconds. Set to 0 to update always.",
+          "operation_mode": "Operation mode controls which Home Assistant entity types are created. 'read_only' exposes only sensors and binary_sensors (no writable entities), 'full' exposes all entity types (sensors, binary_sensors, numbers, selects, switches), 'experimental' is reserved for future use (behaves like 'full' today)."
         }
       }
     },
@@ -55,6 +59,11 @@
       "already_configured": "Already configured",
       "not_victronvenus": "Not a Victron Venus device"
     }
+  },
+  "operation_mode": {
+    "read_only": "Read-only (sensors & binary sensors only)",
+    "full": "Full (sensors + controllable entities)",
+    "experimental": "Experimental (may be unstable)"
   },
   "entity": {
     "sensor": {
@@ -193,6 +202,9 @@
       "battery_cell_cell_id_voltage": {
         "name": "Battery cell {cell_id} voltage"
       },
+      "inverter_mode": {
+        "name": "Inverter mode"
+      },
       "inverter_state": {
         "name": "Inverter state"
       },
@@ -292,11 +304,17 @@
       "system_consumption_on_output_phases": {
         "name": "Consumption On Output phases"
       },
+      "evcharger_mode": {
+        "name": "EV charger mode"
+      },
       "evcharger_current": {
         "name": "EV charger current"
       },
       "evcharger_power_phase": {
         "name": "EV charger power {phase}"
+      },
+      "evcharger_set_current": {
+        "name": "EV charger set current"
       },
       "pvinverter_voltage_phase": {
         "name": "Voltage {phase}"
@@ -324,6 +342,12 @@
       },
       "temperature_type": {
         "name": "Temperature sensor type"
+      },
+      "temperature_offset": {
+        "name": "Temperature offset"
+      },
+      "temperature_scale": {
+        "name": "Temperature scale factor"
       },
       "tank_level": {
         "name": "Level"
@@ -403,6 +427,18 @@
       "alternator_input_power": {
         "name": "Input Power"
       },
+      "system_ac_power_set_point": {
+        "name": "AC Power Setpoint"
+      },
+      "system_ess_min_soc_limit": {
+        "name": "ESS min SOC limit"
+      },
+      "system_ess_max_charge_current": {
+        "name": "ESS max charge current"
+      },
+      "system_ess_max_charge_voltage": {
+        "name": "ESS max charge voltage"
+      },
       "dcload_voltage": {
         "name": "DC load voltage"
       },
@@ -411,6 +447,9 @@
       },
       "dcload_power": {
         "name": "DC load power"
+      },
+      "switch_output_dimming": {
+        "name": "Switch {output} Dimming"
       },
       "gps_altitude": {
         "name": "GPS Altitude"
@@ -429,14 +468,26 @@
       },
       "gps_longitude": {
         "name": "GPS Longitude"
+      },
+      "system_ess_max_inverter_power_limit": {
+        "name": "ESS max inverter power limit"
       }
     },
     "binary_sensor": {
       "solarcharger_load_state": {
         "name": "Solar Charger Load State"
       },
+      "solarcharger_mode": {
+        "name": "Solar Charger Mode"
+      },
+      "solarcharger_relay_state": {
+        "name": "Solar Charger Relay State"
+      },
       "inverter_connected": {
         "name": "Inverter connected"
+      },
+      "system_relay_relay": {
+        "name": "Relay {relay} state"
       },
       "system_dynamicess_available": {
         "name": "Dynamic ESS Available"
@@ -447,8 +498,17 @@
       "system_dynamicess_allow_gridfeedin": {
         "name": "Dynamic ESS Allow Grid Feed In"
       },
+      "evcharger_charge": {
+        "name": "EV charger charge"
+      },
       "evcharger_connected": {
         "name": "EV charger connected"
+      },
+      "system_settings_overvoltage_feedin": {
+        "name": "PV DC Overvoltage FeedIn"
+      },
+      "switch_output_state": {
+        "name": "Switch {output} State"
       },
       "gps_connected": {
         "name": "GPS Connected"

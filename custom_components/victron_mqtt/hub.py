@@ -1,4 +1,4 @@
-from typing import Any, List
+from typing import Any
 import logging
 
 from homeassistant.core import HomeAssistant, callback, Event
@@ -27,10 +27,11 @@ from victron_mqtt import (
     Switch as VictronVenusSwitch,
     Device as VictronVenusDevice,
     MetricKind,
-    GenericOnOff
+    GenericOnOff,
+    OperationMode
 )
 
-from .const import CONF_INSTALLATION_ID, CONF_MODEL, CONF_SERIAL, CONF_UPDATE_FREQUENCY_SECONDS, DEFAULT_UPDATE_FREQUENCY_SECONDS, DOMAIN, CONF_ROOT_TOPIC_PREFIX
+from .const import CONF_INSTALLATION_ID, CONF_MODEL, CONF_SERIAL, CONF_UPDATE_FREQUENCY_SECONDS, DEFAULT_UPDATE_FREQUENCY_SECONDS, DOMAIN, CONF_ROOT_TOPIC_PREFIX, CONF_OPERATION_MODE
 from .common import VictronBaseEntity
 
 _LOGGER = logging.getLogger(__name__)
@@ -52,6 +53,9 @@ class Hub:
         self.id = entry.unique_id
 
         config = entry.data
+        op = config.get(CONF_OPERATION_MODE, OperationMode.FULL.value)
+        operation_mode: OperationMode = OperationMode(op) if not isinstance(op, OperationMode) else op
+
         self._hub: VictronVenusHub = VictronVenusHub(
             host=config.get(CONF_HOST),
             port=config.get(CONF_PORT, 1883),
@@ -62,6 +66,7 @@ class Hub:
             model_name=config.get(CONF_MODEL) or None,
             serial=config.get(CONF_SERIAL, "noserial"),
             topic_prefix=config.get(CONF_ROOT_TOPIC_PREFIX) or None,
+            operation_mode=operation_mode
         )
         self._hub.on_new_metric = self.on_new_metric
         self.update_frequency_seconds = config.get(CONF_UPDATE_FREQUENCY_SECONDS, DEFAULT_UPDATE_FREQUENCY_SECONDS)

@@ -40,7 +40,15 @@ def main():
             if 'sensor' not in entity:
                 entity['sensor'] = {}
             entity['sensor'][translation_key] = {"name": topic_name}
-            count += 1
+        # to support READ_ONLY we need everything in sensor and in binary_sensor
+        if entity_type == 'switch':
+            if 'binary_sensor' not in entity:
+                entity['binary_sensor'] = {}
+            entity['binary_sensor'][translation_key] = {"name": topic_name}
+        if entity_type in ['number', 'select']:
+            if 'sensor' not in entity:
+                entity['sensor'] = {}
+            entity['sensor'][translation_key] = {"name": topic_name}
     en['entity'] = entity
 
     with open(en_path, 'w', encoding='utf-8') as f:

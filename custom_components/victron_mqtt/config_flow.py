@@ -12,7 +12,7 @@ from victron_mqtt import (
 )
 import voluptuous as vol
 
-from homeassistant.config_entries import ConfigFlow, ConfigFlowResult, OptionsFlow, ConfigEntry
+from homeassistant.config_entries import ConfigFlow, ConfigFlowResult, OptionsFlow
 from homeassistant.const import (
     CONF_HOST,
     CONF_PASSWORD,
@@ -20,9 +20,9 @@ from homeassistant.const import (
     CONF_SSL,
     CONF_USERNAME,
 )
-from homeassistant.core import HomeAssistant
 from homeassistant.helpers.service_info.ssdp import SsdpServiceInfo
-
+from homeassistant.helpers import selector
+from victron_mqtt import OperationMode
 from .const import (
     CONF_INSTALLATION_ID,
     CONF_MODEL,
@@ -33,6 +33,7 @@ from .const import (
     DEFAULT_PORT,
     DEFAULT_UPDATE_FREQUENCY_SECONDS,
     DOMAIN,
+    CONF_OPERATION_MODE,
 )
 
 _LOGGER = logging.getLogger(__name__)
@@ -42,6 +43,10 @@ def _get_user_schema(defaults: dict[str, Any] | None = None) -> vol.Schema:
     """Get the user data schema with optional defaults."""
     if defaults is None:
         defaults = {}
+    # Ensure operation_mode default is a string value (not an Enum instance)
+    op_default = defaults.get(CONF_OPERATION_MODE, OperationMode.FULL.value)
+    if isinstance(op_default, OperationMode):
+        op_default = op_default.value
     
     return vol.Schema(
         {
@@ -50,6 +55,15 @@ def _get_user_schema(defaults: dict[str, Any] | None = None) -> vol.Schema:
             vol.Optional(CONF_USERNAME, default=defaults.get(CONF_USERNAME, "")): str,
             vol.Optional(CONF_PASSWORD, default=defaults.get(CONF_PASSWORD, "")): str,
             vol.Required(CONF_SSL, default=defaults.get(CONF_SSL, False)): bool,
+            vol.Required(CONF_OPERATION_MODE, default=op_default): selector.SelectSelector(
+                selector.SelectSelectorConfig(
+                    options=[
+                        {"value": OperationMode.READ_ONLY.value, "label": "Read-only (sensors & binary sensors only)"},
+                        {"value": OperationMode.FULL.value, "label": "Full (sensors + controllable entities)"},
+                        {"value": OperationMode.EXPERIMENTAL.value, "label": "Experimental (may be unstable)"},
+                    ]
+                )
+            ),
             vol.Optional(CONF_ROOT_TOPIC_PREFIX, default=defaults.get(CONF_ROOT_TOPIC_PREFIX, "")): str,
             vol.Optional(CONF_UPDATE_FREQUENCY_SECONDS, default=defaults.get(CONF_UPDATE_FREQUENCY_SECONDS, DEFAULT_UPDATE_FREQUENCY_SECONDS)): int,
         }
