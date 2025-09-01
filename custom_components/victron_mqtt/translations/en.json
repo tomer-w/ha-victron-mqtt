@@ -190,6 +190,27 @@
       "battery_max_cell_voltage": {
         "name": "Battery maximum cell voltage"
       },
+      "battery_soh": {
+        "name": "Battery State of Health"
+      },
+      "battery_nr_modules_blocking_charge": {
+        "name": "Battery number of modules blocking charge"
+      },
+      "battery_nr_modules_blocking_discharge": {
+        "name": "Battery number of modules blocking discharge"
+      },
+      "battery_nr_modules_online": {
+        "name": "Battery number of modules online"
+      },
+      "battery_nr_modules_offline": {
+        "name": "Battery number of modules offline"
+      },
+      "battery_min_cell_temperature": {
+        "name": "Battery minimum cell temperature"
+      },
+      "battery_max_cell_temperature": {
+        "name": "Battery maximum cell temperature"
+      },
       "battery_time_to_go": {
         "name": "Battery time to go"
       },
@@ -234,6 +255,9 @@
       },
       "inverter_current_limit": {
         "name": "Inverter current limit"
+      },
+      "multiplus_assist_current_boost_factor": {
+        "name": "Assist Current Boost Factor"
       },
       "system_critical_loads_phase": {
         "name": "Critical loads on {phase}"
@@ -304,6 +328,18 @@
       "system_consumption_on_output_phases": {
         "name": "Consumption On Output phases"
       },
+      "system_consumption_phases": {
+        "name": "Consumption phases"
+      },
+      "system_consumption_power_phase": {
+        "name": "Consumption Power {phase}"
+      },
+      "system_consumption_current_phase": {
+        "name": "Consumption Current {phase}"
+      },
+      "system_grid_current_phase": {
+        "name": "Grid Current {phase}"
+      },
       "evcharger_mode": {
         "name": "EV charger mode"
       },
@@ -343,6 +379,12 @@
       "temperature_type": {
         "name": "Temperature sensor type"
       },
+      "temperature_battery_voltage": {
+        "name": "Temperature sensor battery voltage"
+      },
+      "temperature_humidity": {
+        "name": "Humidity"
+      },
       "temperature_offset": {
         "name": "Temperature offset"
       },
@@ -351,6 +393,9 @@
       },
       "tank_level": {
         "name": "Level"
+      },
+      "tank_battery_voltage": {
+        "name": "Tank sensor battery voltage"
       },
       "tank_remaining": {
         "name": "Remaining"
@@ -471,6 +516,75 @@
       },
       "system_ess_max_inverter_power_limit": {
         "name": "ESS max inverter power limit"
+      },
+      "generator_today_runtime": {
+        "name": "Generator today runtime"
+      },
+      "generator_total_runtime": {
+        "name": "Generator total runtime"
+      },
+      "generator_service_counter": {
+        "name": "Generator service counter"
+      },
+      "generator_run_state": {
+        "name": "Generator run state"
+      },
+      "generator_gen_id_start_on_soc": {
+        "name": "Generator start on SOC"
+      },
+      "generator_gen_id_stop_on_soc": {
+        "name": "Generator stop on SOC"
+      },
+      "generator_gen_id_qh_start_on_soc": {
+        "name": "Generator QH start on SOC"
+      },
+      "generator_gen_id_qh_stop_on_soc": {
+        "name": "Generator QH stop on SOC"
+      },
+      "generator_gen_id_start_on_soc_timer": {
+        "name": "Generator start on SOC timer"
+      },
+      "generator_gen_id_stop_on_soc_timer": {
+        "name": "Generator stop on SOC timer"
+      },
+      "generator_gen_id_start_on_voltage": {
+        "name": "Generator start on voltage"
+      },
+      "generator_gen_id_stop_on_voltage": {
+        "name": "Generator stop on voltage"
+      },
+      "generator_gen_id_qh_start_on_voltage": {
+        "name": "Generator QH start on voltage"
+      },
+      "generator_gen_id_qh_stop_on_voltage": {
+        "name": "Generator QH stop on voltage"
+      },
+      "generator_gen_id_start_on_voltage_timer": {
+        "name": "Generator start on voltage timer"
+      },
+      "generator_gen_id_stop_on_voltage_timer": {
+        "name": "Generator stop on voltage timer"
+      },
+      "generator_gen_id_start_on_temp_timer": {
+        "name": "Generator start on temp timer"
+      },
+      "generator_gen_id_stop_on_temp_timer": {
+        "name": "Generator stop on temp timer"
+      },
+      "generator_gen_id_cool_down_timer": {
+        "name": "Generator cool down timer"
+      },
+      "generator_gen_id_warm_up_timer": {
+        "name": "Generator warm up timer"
+      },
+      "generator_gen_id_shut_down_timer": {
+        "name": "Generator shut down timer"
+      },
+      "generator_gen_id_service_interval": {
+        "name": "Generator service interval"
+      },
+      "transfer_switch_generator_current_limit": {
+        "name": "Generator AC current limit"
       }
     },
     "binary_sensor": {
@@ -515,6 +629,24 @@
       },
       "gps_fix": {
         "name": "GPS Fix"
+      },
+      "generator_autorun": {
+        "name": "Generator auto start enabled"
+      },
+      "generator_manual_start": {
+        "name": "Generator manual start"
+      },
+      "generator_gen_id_quiet_hours_enabled": {
+        "name": "Generator quiet hours enabled"
+      },
+      "generator_gen_id_start_on_soc_enabled": {
+        "name": "Generator start on SOC enabled"
+      },
+      "generator_gen_id_start_on_voltage_enabled": {
+        "name": "Generator start on voltage enabled"
+      },
+      "generator_gen_id_start_on_temp_enabled": {
+        "name": "Generator start on high temp enabled"
       }
     },
     "switch": {
@@ -535,6 +667,24 @@
       },
       "switch_output_state": {
         "name": "Switch {output} State"
+      },
+      "generator_autorun": {
+        "name": "Generator auto start enabled"
+      },
+      "generator_manual_start": {
+        "name": "Generator manual start"
+      },
+      "generator_gen_id_quiet_hours_enabled": {
+        "name": "Generator quiet hours enabled"
+      },
+      "generator_gen_id_start_on_soc_enabled": {
+        "name": "Generator start on SOC enabled"
+      },
+      "generator_gen_id_start_on_voltage_enabled": {
+        "name": "Generator start on voltage enabled"
+      },
+      "generator_gen_id_start_on_temp_enabled": {
+        "name": "Generator start on high temp enabled"
       }
     },
     "select": {
@@ -548,6 +698,9 @@
     "number": {
       "inverter_current_limit": {
         "name": "Inverter current limit"
+      },
+      "multiplus_assist_current_boost_factor": {
+        "name": "Assist Current Boost Factor"
       },
       "evcharger_set_current": {
         "name": "EV charger set current"
@@ -575,6 +728,68 @@
       },
       "system_ess_max_inverter_power_limit": {
         "name": "ESS max inverter power limit"
+      },
+      "generator_gen_id_start_on_soc": {
+        "name": "Generator start on SOC"
+      },
+      "generator_gen_id_stop_on_soc": {
+        "name": "Generator stop on SOC"
+      },
+      "generator_gen_id_qh_start_on_soc": {
+        "name": "Generator QH start on SOC"
+      },
+      "generator_gen_id_qh_stop_on_soc": {
+        "name": "Generator QH stop on SOC"
+      },
+      "generator_gen_id_start_on_soc_timer": {
+        "name": "Generator start on SOC timer"
+      },
+      "generator_gen_id_stop_on_soc_timer": {
+        "name": "Generator stop on SOC timer"
+      },
+      "generator_gen_id_start_on_voltage": {
+        "name": "Generator start on voltage"
+      },
+      "generator_gen_id_stop_on_voltage": {
+        "name": "Generator stop on voltage"
+      },
+      "generator_gen_id_qh_start_on_voltage": {
+        "name": "Generator QH start on voltage"
+      },
+      "generator_gen_id_qh_stop_on_voltage": {
+        "name": "Generator QH stop on voltage"
+      },
+      "generator_gen_id_start_on_voltage_timer": {
+        "name": "Generator start on voltage timer"
+      },
+      "generator_gen_id_stop_on_voltage_timer": {
+        "name": "Generator stop on voltage timer"
+      },
+      "generator_gen_id_start_on_temp_timer": {
+        "name": "Generator start on temp timer"
+      },
+      "generator_gen_id_stop_on_temp_timer": {
+        "name": "Generator stop on temp timer"
+      },
+      "generator_gen_id_cool_down_timer": {
+        "name": "Generator cool down timer"
+      },
+      "generator_gen_id_warm_up_timer": {
+        "name": "Generator warm up timer"
+      },
+      "generator_gen_id_shut_down_timer": {
+        "name": "Generator shut down timer"
+      },
+      "generator_gen_id_service_interval": {
+        "name": "Generator service interval"
+      },
+      "transfer_switch_generator_current_limit": {
+        "name": "Generator AC current limit"
+      }
+    },
+    "service": {
+      "generator_service_counter_reset": {
+        "name": "Generator service counter reset"
       }
     }
   }
