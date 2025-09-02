@@ -786,11 +786,6 @@
       "transfer_switch_generator_current_limit": {
         "name": "Generator AC current limit"
       }
-    },
-    "service": {
-      "generator_service_counter_reset": {
-        "name": "Generator service counter reset"
-      }
     }
   }
 }

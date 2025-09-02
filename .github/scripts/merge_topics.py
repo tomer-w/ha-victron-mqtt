@@ -28,7 +28,10 @@ def main():
         else:
             # Fallback for old format
             entity_type = message_type.lower()
-            
+
+        if entity_type == "service":
+            continue
+
         # Add to original entity type
         if entity_type not in entity:
             entity[entity_type] = {}
