@@ -358,7 +358,115 @@
       "metric_nature": "MetricNature.NONE",
       "value_type": "ValueType.ENUM",
       "precision": null,
-      "enum": "SolarChargerState",
+      "enum": "State",
+      "min_max_range": "RangeType.STATIC",
+      "min": null,
+      "max": null,
+      "is_adjustable_suffix": null,
+      "key_values": {},
+      "experimental": false
+    },
+    {
+      "topic": "N/{installation_id}/solarcharger/{device_id}/ErrorCode",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "solarcharger_error_code",
+      "name": "Solar Charger Error Code",
+      "unit_of_measurement": null,
+      "metric_type": "MetricType.NONE",
+      "metric_nature": "MetricNature.NONE",
+      "value_type": "ValueType.ENUM",
+      "precision": null,
+      "enum": "ErrorCode",
+      "min_max_range": "RangeType.STATIC",
+      "min": null,
+      "max": null,
+      "is_adjustable_suffix": null,
+      "key_values": {},
+      "experimental": false
+    },
+    {
+      "topic": "N/{installation_id}/solarcharger/{device_id}/History/Daily/0/MinBatteryVoltage",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "solarcharger_min_battery_voltage_today",
+      "name": "Solar Charger Min Battery Voltage Today",
+      "unit_of_measurement": "V",
+      "metric_type": "MetricType.VOLTAGE",
+      "metric_nature": "MetricNature.INSTANTANEOUS",
+      "value_type": "ValueType.FLOAT",
+      "precision": 3,
+      "enum": null,
+      "min_max_range": "RangeType.STATIC",
+      "min": null,
+      "max": null,
+      "is_adjustable_suffix": null,
+      "key_values": {},
+      "experimental": false
+    },
+    {
+      "topic": "N/{installation_id}/solarcharger/{device_id}/History/Daily/0/MaxBatteryVoltage",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "solarcharger_max_battery_voltage_today",
+      "name": "Solar Charger Max Battery Voltage Today",
+      "unit_of_measurement": "V",
+      "metric_type": "MetricType.VOLTAGE",
+      "metric_nature": "MetricNature.INSTANTANEOUS",
+      "value_type": "ValueType.FLOAT",
+      "precision": 3,
+      "enum": null,
+      "min_max_range": "RangeType.STATIC",
+      "min": null,
+      "max": null,
+      "is_adjustable_suffix": null,
+      "key_values": {},
+      "experimental": false
+    },
+    {
+      "topic": "N/{installation_id}/solarcharger/{device_id}/History/Daily/0/TimeInAbsorption",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "solarcharger_time_in_absorption_today",
+      "name": "Solar Charger Time in Absorption Today",
+      "unit_of_measurement": "s",
+      "metric_type": "MetricType.NONE",
+      "metric_nature": "MetricNature.INSTANTANEOUS",
+      "value_type": "ValueType.INT",
+      "precision": null,
+      "enum": null,
+      "min_max_range": "RangeType.STATIC",
+      "min": null,
+      "max": null,
+      "is_adjustable_suffix": null,
+      "key_values": {},
+      "experimental": false
+    },
+    {
+      "topic": "N/{installation_id}/solarcharger/{device_id}/History/Daily/0/TimeInFloat",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "solarcharger_time_in_float_today",
+      "name": "Solar Charger Time in Float Today",
+      "unit_of_measurement": "s",
+      "metric_type": "MetricType.NONE",
+      "metric_nature": "MetricNature.INSTANTANEOUS",
+      "value_type": "ValueType.INT",
+      "precision": null,
+      "enum": null,
+      "min_max_range": "RangeType.STATIC",
+      "min": null,
+      "max": null,
+      "is_adjustable_suffix": null,
+      "key_values": {},
+      "experimental": false
+    },
+    {
+      "topic": "N/{installation_id}/solarcharger/{device_id}/History/Daily/0/TimeInBulk",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "solarcharger_time_in_bulk_today",
+      "name": "Solar Charger Time in Bulk Today",
+      "unit_of_measurement": "s",
+      "metric_type": "MetricType.NONE",
+      "metric_nature": "MetricNature.INSTANTANEOUS",
+      "value_type": "ValueType.INT",
+      "precision": null,
+      "enum": null,
       "min_max_range": "RangeType.STATIC",
       "min": null,
       "max": null,
@@ -646,6 +754,24 @@
       "metric_nature": "MetricNature.INSTANTANEOUS",
       "value_type": "ValueType.FLOAT",
       "precision": 1,
+      "enum": null,
+      "min_max_range": "RangeType.STATIC",
+      "min": null,
+      "max": null,
+      "is_adjustable_suffix": null,
+      "key_values": {},
+      "experimental": false
+    },
+    {
+      "topic": "N/{installation_id}/battery/{device_id}/Dc/1/Voltage",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "auxiliary_battery_voltage",
+      "name": "Auxiliary battery voltage",
+      "unit_of_measurement": "V",
+      "metric_type": "MetricType.VOLTAGE",
+      "metric_nature": "MetricNature.INSTANTANEOUS",
+      "value_type": "ValueType.FLOAT",
+      "precision": 3,
       "enum": null,
       "min_max_range": "RangeType.STATIC",
       "min": null,
@@ -979,7 +1105,7 @@
       "experimental": false
     },
     {
-      "topic": "N/{installation_id}/battery/{device_id}/Voltages/Cell{cell_id(1-4)}",
+      "topic": "N/{installation_id}/battery/{device_id}/Voltages/Cell{cell_id(1-8)}",
       "message_type": "MetricKind.SENSOR",
       "short_id": "battery_cell_{cell_id}_voltage",
       "name": "Battery cell {cell_id} voltage",
@@ -997,9 +1123,135 @@
       "experimental": false
     },
     {
+      "topic": "N/{installation_id}/battery/{device_id}/Alarms/HighChargeCurrent",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "battery_high_charge_current",
+      "name": "Battery high charge current",
+      "unit_of_measurement": null,
+      "metric_type": "MetricType.NONE",
+      "metric_nature": "MetricNature.NONE",
+      "value_type": "ValueType.ENUM",
+      "precision": null,
+      "enum": "GenericAlarmEnum",
+      "min_max_range": "RangeType.STATIC",
+      "min": null,
+      "max": null,
+      "is_adjustable_suffix": null,
+      "key_values": {},
+      "experimental": false
+    },
+    {
+      "topic": "N/{installation_id}/battery/{device_id}/Alarms/HighDischargeCurrent",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "battery_high_discharge_current",
+      "name": "Battery high discharge current",
+      "unit_of_measurement": null,
+      "metric_type": "MetricType.NONE",
+      "metric_nature": "MetricNature.NONE",
+      "value_type": "ValueType.ENUM",
+      "precision": null,
+      "enum": "GenericAlarmEnum",
+      "min_max_range": "RangeType.STATIC",
+      "min": null,
+      "max": null,
+      "is_adjustable_suffix": null,
+      "key_values": {},
+      "experimental": false
+    },
+    {
+      "topic": "N/{installation_id}/battery/{device_id}/Alarms/CellImbalance",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "battery_cell_imbalance",
+      "name": "Battery cell imbalance",
+      "unit_of_measurement": null,
+      "metric_type": "MetricType.NONE",
+      "metric_nature": "MetricNature.NONE",
+      "value_type": "ValueType.ENUM",
+      "precision": null,
+      "enum": "GenericAlarmEnum",
+      "min_max_range": "RangeType.STATIC",
+      "min": null,
+      "max": null,
+      "is_adjustable_suffix": null,
+      "key_values": {},
+      "experimental": false
+    },
+    {
+      "topic": "N/{installation_id}/battery/{device_id}/Alarms/InternalFailure",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "battery_internal_failure",
+      "name": "Battery internal failure",
+      "unit_of_measurement": null,
+      "metric_type": "MetricType.NONE",
+      "metric_nature": "MetricNature.NONE",
+      "value_type": "ValueType.ENUM",
+      "precision": null,
+      "enum": "GenericAlarmEnum",
+      "min_max_range": "RangeType.STATIC",
+      "min": null,
+      "max": null,
+      "is_adjustable_suffix": null,
+      "key_values": {},
+      "experimental": false
+    },
+    {
+      "topic": "N/{installation_id}/battery/{device_id}/Alarms/HighChargeTemperature",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "battery_high_charge_temperature",
+      "name": "Battery high charge temperature",
+      "unit_of_measurement": null,
+      "metric_type": "MetricType.NONE",
+      "metric_nature": "MetricNature.NONE",
+      "value_type": "ValueType.ENUM",
+      "precision": null,
+      "enum": "GenericAlarmEnum",
+      "min_max_range": "RangeType.STATIC",
+      "min": null,
+      "max": null,
+      "is_adjustable_suffix": null,
+      "key_values": {},
+      "experimental": false
+    },
+    {
+      "topic": "N/{installation_id}/battery/{device_id}/Alarms/LowChargeTemperature",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "battery_low_charge_temperature",
+      "name": "Battery low charge temperature",
+      "unit_of_measurement": null,
+      "metric_type": "MetricType.NONE",
+      "metric_nature": "MetricNature.NONE",
+      "value_type": "ValueType.ENUM",
+      "precision": null,
+      "enum": "GenericAlarmEnum",
+      "min_max_range": "RangeType.STATIC",
+      "min": null,
+      "max": null,
+      "is_adjustable_suffix": null,
+      "key_values": {},
+      "experimental": false
+    },
+    {
+      "topic": "N/{installation_id}/battery/{device_id}/Alarms/LowCellVoltage",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "battery_low_cell_voltage",
+      "name": "Battery low cell voltage",
+      "unit_of_measurement": null,
+      "metric_type": "MetricType.NONE",
+      "metric_nature": "MetricNature.NONE",
+      "value_type": "ValueType.ENUM",
+      "precision": null,
+      "enum": "GenericAlarmEnum",
+      "min_max_range": "RangeType.STATIC",
+      "min": null,
+      "max": null,
+      "is_adjustable_suffix": null,
+      "key_values": {},
+      "experimental": false
+    },
+    {
       "topic": "N/{installation_id}/vebus/{device_id}/Mode",
       "message_type": "MetricKind.SELECT",
-      "short_id": "inverter_mode",
+      "short_id": "vebus_inverter_mode",
       "name": "Inverter mode",
       "unit_of_measurement": null,
       "metric_type": "MetricType.NONE",
@@ -1017,14 +1269,14 @@
     {
       "topic": "N/{installation_id}/vebus/{device_id}/State",
       "message_type": "MetricKind.SENSOR",
-      "short_id": "inverter_state",
+      "short_id": "vebus_inverter_state",
       "name": "Inverter state",
       "unit_of_measurement": null,
       "metric_type": "MetricType.NONE",
       "metric_nature": "MetricNature.NONE",
       "value_type": "ValueType.ENUM",
       "precision": null,
-      "enum": "InverterState",
+      "enum": "State",
       "min_max_range": "RangeType.STATIC",
       "min": null,
       "max": null,
@@ -1035,7 +1287,7 @@
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Ac/ActiveIn/{phase}/V",
       "message_type": "MetricKind.SENSOR",
-      "short_id": "inverter_input_voltage_{phase}",
+      "short_id": "vebus_inverter_input_voltage_{phase}",
       "name": "Inverter input voltage {phase}",
       "unit_of_measurement": "V",
       "metric_type": "MetricType.VOLTAGE",
@@ -1053,7 +1305,7 @@
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Ac/ActiveIn/{phase}/P",
       "message_type": "MetricKind.SENSOR",
-      "short_id": "inverter_input_power_{phase}",
+      "short_id": "vebus_inverter_input_power_{phase}",
       "name": "Inverter input power {phase}",
       "unit_of_measurement": "W",
       "metric_type": "MetricType.POWER",
@@ -1071,7 +1323,7 @@
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Ac/ActiveIn/{phase}/F",
       "message_type": "MetricKind.SENSOR",
-      "short_id": "inverter_input_frequency_{phase}",
+      "short_id": "vebus_inverter_input_frequency_{phase}",
       "name": "Inverter input frequency {phase}",
       "unit_of_measurement": "Hz",
       "metric_type": "MetricType.FREQUENCY",
@@ -1089,7 +1341,7 @@
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Ac/ActiveIn/{phase}/S",
       "message_type": "MetricKind.SENSOR",
-      "short_id": "inverter_input_apparent_power_{phase}",
+      "short_id": "vebus_inverter_input_apparent_power_{phase}",
       "name": "Inverter input apparent power {phase}",
       "unit_of_measurement": "VA",
       "metric_type": "MetricType.APPARENT_POWER",
@@ -1107,7 +1359,7 @@
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Ac/Out/{phase}/P",
       "message_type": "MetricKind.SENSOR",
-      "short_id": "inverter_output_power_{phase}",
+      "short_id": "vebus_inverter_output_power_{phase}",
       "name": "Inverter output power {phase}",
       "unit_of_measurement": "W",
       "metric_type": "MetricType.POWER",
@@ -1125,7 +1377,7 @@
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Ac/Out/{phase}/F",
       "message_type": "MetricKind.SENSOR",
-      "short_id": "inverter_output_frequency_{phase}",
+      "short_id": "vebus_inverter_output_frequency_{phase}",
       "name": "Inverter output frequency {phase}",
       "unit_of_measurement": "Hz",
       "metric_type": "MetricType.FREQUENCY",
@@ -1143,7 +1395,7 @@
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Ac/Out/{phase}/S",
       "message_type": "MetricKind.SENSOR",
-      "short_id": "inverter_output_apparent_power_{phase}",
+      "short_id": "vebus_inverter_output_apparent_power_{phase}",
       "name": "Inverter output apparent power {phase}",
       "unit_of_measurement": "VA",
       "metric_type": "MetricType.APPARENT_POWER",
@@ -1161,7 +1413,7 @@
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Connected",
       "message_type": "MetricKind.BINARY_SENSOR",
-      "short_id": "inverter_connected",
+      "short_id": "vebus_inverter_connected",
       "name": "Inverter connected",
       "unit_of_measurement": null,
       "metric_type": "MetricType.NONE",
@@ -1179,14 +1431,14 @@
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Alarms/Overload",
       "message_type": "MetricKind.SENSOR",
-      "short_id": "inverter_alarm_overload",
+      "short_id": "vebus_inverter_alarm_overload",
       "name": "Inverter overload alarm",
       "unit_of_measurement": null,
       "metric_type": "MetricType.NONE",
       "metric_nature": "MetricNature.NONE",
       "value_type": "ValueType.ENUM",
       "precision": null,
-      "enum": "InverterOverloadAlarmEnum",
+      "enum": "GenericAlarmEnum",
       "min_max_range": "RangeType.STATIC",
       "min": null,
       "max": null,
@@ -1197,7 +1449,7 @@
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Ac/ActiveIn/CurrentLimit",
       "message_type": "MetricKind.NUMBER",
-      "short_id": "inverter_current_limit",
+      "short_id": "vebus_inverter_current_limit",
       "name": "Inverter current limit",
       "unit_of_measurement": "A",
       "metric_type": "MetricType.CURRENT",
@@ -1209,6 +1461,258 @@
       "min": 0,
       "max": 16,
       "is_adjustable_suffix": "CurrentLimitIsAdjustable",
+      "key_values": {},
+      "experimental": false
+    },
+    {
+      "topic": "N/{installation_id}/inverter/{device_id}/Mode",
+      "message_type": "MetricKind.SELECT",
+      "short_id": "inverter_mode",
+      "name": "Inverter mode",
+      "unit_of_measurement": null,
+      "metric_type": "MetricType.NONE",
+      "metric_nature": "MetricNature.NONE",
+      "value_type": "ValueType.ENUM",
+      "precision": null,
+      "enum": "PhoenixInverterMode",
+      "min_max_range": "RangeType.STATIC",
+      "min": null,
+      "max": null,
+      "is_adjustable_suffix": null,
+      "key_values": {},
+      "experimental": false
+    },
+    {
+      "topic": "N/{installation_id}/inverter/{device_id}/State",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "inverter_state",
+      "name": "Inverter state",
+      "unit_of_measurement": null,
+      "metric_type": "MetricType.NONE",
+      "metric_nature": "MetricNature.NONE",
+      "value_type": "ValueType.ENUM",
+      "precision": null,
+      "enum": "State",
+      "min_max_range": "RangeType.STATIC",
+      "min": null,
+      "max": null,
+      "is_adjustable_suffix": null,
+      "key_values": {},
+      "experimental": false
+    },
+    {
+      "topic": "N/{installation_id}/inverter/{device_id}/Ac/Out/{phase}/V",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "inverter_output_voltage_{phase}",
+      "name": "Inverter output voltage {phase}",
+      "unit_of_measurement": "V",
+      "metric_type": "MetricType.VOLTAGE",
+      "metric_nature": "MetricNature.INSTANTANEOUS",
+      "value_type": "ValueType.FLOAT",
+      "precision": 3,
+      "enum": null,
+      "min_max_range": "RangeType.STATIC",
+      "min": null,
+      "max": null,
+      "is_adjustable_suffix": null,
+      "key_values": {},
+      "experimental": false
+    },
+    {
+      "topic": "N/{installation_id}/inverter/{device_id}/Ac/Out/{phase}/P",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "inverter_output_power_{phase}",
+      "name": "Inverter output power {phase}",
+      "unit_of_measurement": "W",
+      "metric_type": "MetricType.POWER",
+      "metric_nature": "MetricNature.INSTANTANEOUS",
+      "value_type": "ValueType.FLOAT",
+      "precision": 1,
+      "enum": null,
+      "min_max_range": "RangeType.STATIC",
+      "min": null,
+      "max": null,
+      "is_adjustable_suffix": null,
+      "key_values": {},
+      "experimental": false
+    },
+    {
+      "topic": "N/{installation_id}/inverter/{device_id}/Ac/Out/{phase}/S",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "inverter_output_apparent_power_{phase}",
+      "name": "Inverter output apparent power {phase}",
+      "unit_of_measurement": "VA",
+      "metric_type": "MetricType.APPARENT_POWER",
+      "metric_nature": "MetricNature.INSTANTANEOUS",
+      "value_type": "ValueType.FLOAT",
+      "precision": 1,
+      "enum": null,
+      "min_max_range": "RangeType.STATIC",
+      "min": null,
+      "max": null,
+      "is_adjustable_suffix": null,
+      "key_values": {},
+      "experimental": false
+    },
+    {
+      "topic": "N/{installation_id}/inverter/{device_id}/Ac/Out/{phase}/I",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "inverter_output_current_{phase}",
+      "name": "Inverter output current {phase}",
+      "unit_of_measurement": "A",
+      "metric_type": "MetricType.CURRENT",
+      "metric_nature": "MetricNature.INSTANTANEOUS",
+      "value_type": "ValueType.FLOAT",
+      "precision": 1,
+      "enum": null,
+      "min_max_range": "RangeType.STATIC",
+      "min": null,
+      "max": null,
+      "is_adjustable_suffix": null,
+      "key_values": {},
+      "experimental": false
+    },
+    {
+      "topic": "N/{installation_id}/inverter/{device_id}/Alarms/Ripple",
+      "message_type": "MetricKind.BINARY_SENSOR",
+      "short_id": "inverter_alarm_ripple",
+      "name": "Inverter alarm Ripple",
+      "unit_of_measurement": null,
+      "metric_type": "MetricType.NONE",
+      "metric_nature": "MetricNature.NONE",
+      "value_type": "ValueType.ENUM",
+      "precision": null,
+      "enum": "GenericOnOff",
+      "min_max_range": "RangeType.STATIC",
+      "min": null,
+      "max": null,
+      "is_adjustable_suffix": null,
+      "key_values": {},
+      "experimental": false
+    },
+    {
+      "topic": "N/{installation_id}/inverter/{device_id}/Alarms/LowVoltageAcOut",
+      "message_type": "MetricKind.BINARY_SENSOR",
+      "short_id": "inverter_alarm_low_voltage_ac_out",
+      "name": "Inverter alarm LowVoltageAcOut",
+      "unit_of_measurement": null,
+      "metric_type": "MetricType.NONE",
+      "metric_nature": "MetricNature.NONE",
+      "value_type": "ValueType.ENUM",
+      "precision": null,
+      "enum": "GenericOnOff",
+      "min_max_range": "RangeType.STATIC",
+      "min": null,
+      "max": null,
+      "is_adjustable_suffix": null,
+      "key_values": {},
+      "experimental": false
+    },
+    {
+      "topic": "N/{installation_id}/inverter/{device_id}/Alarms/LowVoltage",
+      "message_type": "MetricKind.BINARY_SENSOR",
+      "short_id": "inverter_alarm_low_voltage",
+      "name": "Inverter alarm LowVoltage",
+      "unit_of_measurement": null,
+      "metric_type": "MetricType.NONE",
+      "metric_nature": "MetricNature.NONE",
+      "value_type": "ValueType.ENUM",
+      "precision": null,
+      "enum": "GenericOnOff",
+      "min_max_range": "RangeType.STATIC",
+      "min": null,
+      "max": null,
+      "is_adjustable_suffix": null,
+      "key_values": {},
+      "experimental": false
+    },
+    {
+      "topic": "N/{installation_id}/inverter/{device_id}/Alarms/HighVoltageAcOut",
+      "message_type": "MetricKind.BINARY_SENSOR",
+      "short_id": "inverter_alarm_high_voltage_ac_out",
+      "name": "Inverter alarm HighVoltageAcOut",
+      "unit_of_measurement": null,
+      "metric_type": "MetricType.NONE",
+      "metric_nature": "MetricNature.NONE",
+      "value_type": "ValueType.ENUM",
+      "precision": null,
+      "enum": "GenericOnOff",
+      "min_max_range": "RangeType.STATIC",
+      "min": null,
+      "max": null,
+      "is_adjustable_suffix": null,
+      "key_values": {},
+      "experimental": false
+    },
+    {
+      "topic": "N/{installation_id}/inverter/{device_id}/Alarms/HighTemperature",
+      "message_type": "MetricKind.BINARY_SENSOR",
+      "short_id": "inverter_alarm_high_temperature",
+      "name": "Inverter alarm HighTemperature",
+      "unit_of_measurement": null,
+      "metric_type": "MetricType.NONE",
+      "metric_nature": "MetricNature.NONE",
+      "value_type": "ValueType.ENUM",
+      "precision": null,
+      "enum": "GenericOnOff",
+      "min_max_range": "RangeType.STATIC",
+      "min": null,
+      "max": null,
+      "is_adjustable_suffix": null,
+      "key_values": {},
+      "experimental": false
+    },
+    {
+      "topic": "N/{installation_id}/inverter/{device_id}/Alarms/HighVoltage",
+      "message_type": "MetricKind.BINARY_SENSOR",
+      "short_id": "inverter_alarm_high_voltage",
+      "name": "Inverter alarm HighVoltage",
+      "unit_of_measurement": null,
+      "metric_type": "MetricType.NONE",
+      "metric_nature": "MetricNature.NONE",
+      "value_type": "ValueType.ENUM",
+      "precision": null,
+      "enum": "GenericOnOff",
+      "min_max_range": "RangeType.STATIC",
+      "min": null,
+      "max": null,
+      "is_adjustable_suffix": null,
+      "key_values": {},
+      "experimental": false
+    },
+    {
+      "topic": "N/{installation_id}/inverter/{device_id}/Alarms/LowTemperature",
+      "message_type": "MetricKind.BINARY_SENSOR",
+      "short_id": "inverter_alarm_low_temperature",
+      "name": "Inverter alarm LowTemperature",
+      "unit_of_measurement": null,
+      "metric_type": "MetricType.NONE",
+      "metric_nature": "MetricNature.NONE",
+      "value_type": "ValueType.ENUM",
+      "precision": null,
+      "enum": "GenericOnOff",
+      "min_max_range": "RangeType.STATIC",
+      "min": null,
+      "max": null,
+      "is_adjustable_suffix": null,
+      "key_values": {},
+      "experimental": false
+    },
+    {
+      "topic": "N/{installation_id}/inverter/{device_id}/Alarms/Overload",
+      "message_type": "MetricKind.BINARY_SENSOR",
+      "short_id": "inverter_alarm_overload",
+      "name": "Inverter alarm Overload",
+      "unit_of_measurement": null,
+      "metric_type": "MetricType.NONE",
+      "metric_nature": "MetricNature.NONE",
+      "value_type": "ValueType.ENUM",
+      "precision": null,
+      "enum": "GenericOnOff",
+      "min_max_range": "RangeType.STATIC",
+      "min": null,
+      "max": null,
+      "is_adjustable_suffix": null,
       "key_values": {},
       "experimental": false
     },
@@ -2356,7 +2860,7 @@
       "metric_nature": "MetricNature.NONE",
       "value_type": "ValueType.ENUM",
       "precision": null,
-      "enum": "InverterState",
+      "enum": "State",
       "min_max_range": "RangeType.STATIC",
       "min": null,
       "max": null,
@@ -2981,10 +3485,10 @@
       "message_type": "MetricKind.SENSOR",
       "short_id": "generator_today_runtime",
       "name": "Generator today runtime",
-      "unit_of_measurement": "s",
+      "unit_of_measurement": "h",
       "metric_type": "MetricType.TIME",
       "metric_nature": "MetricNature.INSTANTANEOUS",
-      "value_type": "ValueType.INT",
+      "value_type": "ValueType.INT_SECONDS_TO_HOURS",
       "precision": null,
       "enum": null,
       "min_max_range": "RangeType.STATIC",
@@ -2999,10 +3503,10 @@
       "message_type": "MetricKind.SENSOR",
       "short_id": "generator_total_runtime",
       "name": "Generator total runtime",
-      "unit_of_measurement": "s",
+      "unit_of_measurement": "h",
       "metric_type": "MetricType.TIME",
       "metric_nature": "MetricNature.CUMULATIVE",
-      "value_type": "ValueType.INT",
+      "value_type": "ValueType.INT_SECONDS_TO_HOURS",
       "precision": null,
       "enum": null,
       "min_max_range": "RangeType.STATIC",
@@ -3017,10 +3521,10 @@
       "message_type": "MetricKind.SENSOR",
       "short_id": "generator_service_counter",
       "name": "Generator service counter",
-      "unit_of_measurement": "s",
+      "unit_of_measurement": "h",
       "metric_type": "MetricType.TIME",
       "metric_nature": "MetricNature.CUMULATIVE",
-      "value_type": "ValueType.INT",
+      "value_type": "ValueType.INT_SECONDS_TO_HOURS",
       "precision": null,
       "enum": null,
       "min_max_range": "RangeType.STATIC",
@@ -3467,15 +3971,15 @@
       "message_type": "MetricKind.NUMBER",
       "short_id": "generator_{gen_id}_service_interval",
       "name": "Generator service interval",
-      "unit_of_measurement": "s",
+      "unit_of_measurement": "h",
       "metric_type": "MetricType.NONE",
       "metric_nature": "MetricNature.NONE",
-      "value_type": "ValueType.INT",
+      "value_type": "ValueType.INT_SECONDS_TO_HOURS",
       "precision": null,
       "enum": null,
       "min_max_range": "RangeType.STATIC",
       "min": 0,
-      "max": 1800000,
+      "max": 500,
       "is_adjustable_suffix": null,
       "key_values": {},
       "experimental": true
@@ -3497,6 +4001,168 @@
       "is_adjustable_suffix": null,
       "key_values": {},
       "experimental": true
+    },
+    {
+      "topic": "N/{installation_id}/digitalinput/{device_id}/InputState",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "digitalinput_input_state_raw",
+      "name": "Digital input raw state",
+      "unit_of_measurement": null,
+      "metric_type": "MetricType.NONE",
+      "metric_nature": "MetricNature.NONE",
+      "value_type": "ValueType.ENUM",
+      "precision": null,
+      "enum": "DigitalInputInputState",
+      "min_max_range": "RangeType.STATIC",
+      "min": null,
+      "max": null,
+      "is_adjustable_suffix": null,
+      "key_values": {},
+      "experimental": false
+    },
+    {
+      "topic": "N/{installation_id}/digitalinput/{device_id}/Type",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "digitalinput_type",
+      "name": "Digital input type",
+      "unit_of_measurement": null,
+      "metric_type": "MetricType.NONE",
+      "metric_nature": "MetricNature.NONE",
+      "value_type": "ValueType.ENUM",
+      "precision": null,
+      "enum": "DigitalInputType",
+      "min_max_range": "RangeType.STATIC",
+      "min": null,
+      "max": null,
+      "is_adjustable_suffix": null,
+      "key_values": {},
+      "experimental": false
+    },
+    {
+      "topic": "N/{installation_id}/digitalinput/{device_id}/State",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "digitalinput_state",
+      "name": "Digital input state",
+      "unit_of_measurement": null,
+      "metric_type": "MetricType.NONE",
+      "metric_nature": "MetricNature.NONE",
+      "value_type": "ValueType.ENUM",
+      "precision": null,
+      "enum": "DigitalInputState",
+      "min_max_range": "RangeType.STATIC",
+      "min": null,
+      "max": null,
+      "is_adjustable_suffix": null,
+      "key_values": {},
+      "experimental": false
+    },
+    {
+      "topic": "N/{installation_id}/digitalinput/{device_id}/Alarm",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "digitalinput_alarm",
+      "name": "Digital input alarm",
+      "unit_of_measurement": null,
+      "metric_type": "MetricType.NONE",
+      "metric_nature": "MetricNature.NONE",
+      "value_type": "ValueType.ENUM",
+      "precision": null,
+      "enum": "GenericAlarmEnum",
+      "min_max_range": "RangeType.STATIC",
+      "min": null,
+      "max": null,
+      "is_adjustable_suffix": null,
+      "key_values": {},
+      "experimental": false
+    },
+    {
+      "topic": "N/{installation_id}/digitalinput/{device_id}/Settings/InvertTranslation",
+      "message_type": "MetricKind.SWITCH",
+      "short_id": "digitalinput_settings_invert_translation",
+      "name": "Digital input settings invert translation",
+      "unit_of_measurement": null,
+      "metric_type": "MetricType.NONE",
+      "metric_nature": "MetricNature.NONE",
+      "value_type": "ValueType.ENUM",
+      "precision": null,
+      "enum": "GenericOnOff",
+      "min_max_range": "RangeType.STATIC",
+      "min": null,
+      "max": null,
+      "is_adjustable_suffix": null,
+      "key_values": {},
+      "experimental": false
+    },
+    {
+      "topic": "N/{installation_id}/dcsystem/{device_id}/Dc/0/Voltage",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "dcsystem_voltage",
+      "name": "DC System Voltage",
+      "unit_of_measurement": "V",
+      "metric_type": "MetricType.VOLTAGE",
+      "metric_nature": "MetricNature.INSTANTANEOUS",
+      "value_type": "ValueType.FLOAT",
+      "precision": 3,
+      "enum": null,
+      "min_max_range": "RangeType.STATIC",
+      "min": null,
+      "max": null,
+      "is_adjustable_suffix": null,
+      "key_values": {},
+      "experimental": false
+    },
+    {
+      "topic": "N/{installation_id}/dcsystem/{device_id}/Dc/0/Current",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "dcsystem_current",
+      "name": "DC System Current",
+      "unit_of_measurement": "A",
+      "metric_type": "MetricType.CURRENT",
+      "metric_nature": "MetricNature.INSTANTANEOUS",
+      "value_type": "ValueType.FLOAT",
+      "precision": 1,
+      "enum": null,
+      "min_max_range": "RangeType.STATIC",
+      "min": null,
+      "max": null,
+      "is_adjustable_suffix": null,
+      "key_values": {},
+      "experimental": false
+    },
+    {
+      "topic": "N/{installation_id}/dcsystem/{device_id}/Dc/0/Power",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "dcsystem_power",
+      "name": "DC System Power",
+      "unit_of_measurement": "W",
+      "metric_type": "MetricType.POWER",
+      "metric_nature": "MetricNature.INSTANTANEOUS",
+      "value_type": "ValueType.FLOAT",
+      "precision": 1,
+      "enum": null,
+      "min_max_range": "RangeType.STATIC",
+      "min": null,
+      "max": null,
+      "is_adjustable_suffix": null,
+      "key_values": {},
+      "experimental": false
+    },
+    {
+      "topic": "N/{installation_id}/dcsystem/{device_id}/Dc/1/Voltage",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "dcsystem_aux_voltage",
+      "name": "DC System Auxiliary Voltage",
+      "unit_of_measurement": "V",
+      "metric_type": "MetricType.VOLTAGE",
+      "metric_nature": "MetricNature.INSTANTANEOUS",
+      "value_type": "ValueType.FLOAT",
+      "precision": 3,
+      "enum": null,
+      "min_max_range": "RangeType.STATIC",
+      "min": null,
+      "max": null,
+      "is_adjustable_suffix": null,
+      "key_values": {},
+      "experimental": false
     }
   ],
   "enums": [
@@ -3780,12 +4446,12 @@
         },
         {
           "id": "GENERATOR0",
-          "name": "<Not used>",
+          "name": "Generator 0 Settings",
           "value": "Generator0"
         },
         {
           "id": "GENERATOR1",
-          "name": "<Not used>",
+          "name": "Generator 1 Settings",
           "value": "Generator1"
         },
         {
@@ -3832,6 +4498,156 @@
           "id": "TRANSFER_SWITCH",
           "name": "Transfer Switch",
           "value": "TransferSwitch"
+        },
+        {
+          "id": "DIGITAL_INPUT",
+          "name": "Digital Input",
+          "value": "digitalinput"
+        },
+        {
+          "id": "DC_SYSTEM",
+          "name": "DC System",
+          "value": "dcsystem"
+        }
+      ]
+    },
+    {
+      "name": "DigitalInputInputState",
+      "EnumValues": [
+        {
+          "id": "High_Open",
+          "name": "High/Open",
+          "value": 0
+        },
+        {
+          "id": "Low_Closed",
+          "name": "Low/Closed",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "name": "DigitalInputState",
+      "EnumValues": [
+        {
+          "id": "Low",
+          "name": "Low",
+          "value": 0
+        },
+        {
+          "id": "High",
+          "name": "High",
+          "value": 1
+        },
+        {
+          "id": "Off",
+          "name": "Off",
+          "value": 2
+        },
+        {
+          "id": "On",
+          "name": "On",
+          "value": 3
+        },
+        {
+          "id": "No",
+          "name": "No",
+          "value": 4
+        },
+        {
+          "id": "Yes",
+          "name": "Yes",
+          "value": 5
+        },
+        {
+          "id": "Open",
+          "name": "Open",
+          "value": 6
+        },
+        {
+          "id": "Closed",
+          "name": "Closed",
+          "value": 7
+        },
+        {
+          "id": "Ok",
+          "name": "Ok",
+          "value": 8
+        },
+        {
+          "id": "Alarm",
+          "name": "Alarm",
+          "value": 9
+        },
+        {
+          "id": "Running",
+          "name": "Running",
+          "value": 10
+        },
+        {
+          "id": "Stopped",
+          "name": "Stopped",
+          "value": 11
+        }
+      ]
+    },
+    {
+      "name": "DigitalInputType",
+      "EnumValues": [
+        {
+          "id": "Disabled",
+          "name": "Disabled",
+          "value": 0
+        },
+        {
+          "id": "PulseMeter",
+          "name": "Pulse meter",
+          "value": 1
+        },
+        {
+          "id": "DoorAlarm",
+          "name": "Door alarm",
+          "value": 2
+        },
+        {
+          "id": "BilgePump",
+          "name": "Bilge pump",
+          "value": 3
+        },
+        {
+          "id": "BilgeAlarm",
+          "name": "Bilge alarm",
+          "value": 4
+        },
+        {
+          "id": "BurglarAlarm",
+          "name": "Burglar alarm",
+          "value": 5
+        },
+        {
+          "id": "SmokeAlarm",
+          "name": "Smoke alarm",
+          "value": 6
+        },
+        {
+          "id": "FireAlarm",
+          "name": "Fire alarm",
+          "value": 7
+        },
+        {
+          "id": "CO2Alarm",
+          "name": "CO2 alarm",
+          "value": 8
+        },
+        {
+          "id": "Generator",
+          "name": "Generator",
+          "value": 9
+        },
+        {
+          "id": "TouchInputControl",
+          "name": "Touch input control",
+          "value": 10
         }
       ]
     },
@@ -3857,6 +4673,111 @@
           "id": "ExternalControl",
           "name": "External control",
           "value": 3
+        }
+      ]
+    },
+    {
+      "name": "ErrorCode",
+      "EnumValues": [
+        {
+          "id": "NO_ERROR",
+          "name": "No error",
+          "value": 0
+        },
+        {
+          "id": "BATTERY_VOLTAGE_TOO_HIGH",
+          "name": "Battery voltage too high",
+          "value": 2
+        },
+        {
+          "id": "CHARGER_TEMPERATURE_TOO_HIGH",
+          "name": "Charger temperature too high",
+          "value": 17
+        },
+        {
+          "id": "CHARGER_OVER_CURRENT",
+          "name": "Charger over current",
+          "value": 18
+        },
+        {
+          "id": "CHARGER_CURRENT_REVERSED",
+          "name": "Charger current reversed",
+          "value": 19
+        },
+        {
+          "id": "BULK_TIME_LIMIT_EXCEEDED",
+          "name": "Bulk time limit exceeded",
+          "value": 20
+        },
+        {
+          "id": "CURRENT_SENSOR_ISSUE",
+          "name": "Current sensor issue",
+          "value": 21
+        },
+        {
+          "id": "TERMINALS_OVERHEATED",
+          "name": "Terminals overheated",
+          "value": 26
+        },
+        {
+          "id": "CONVERTER_ISSUE",
+          "name": "Converter issue",
+          "value": 28
+        },
+        {
+          "id": "INPUT_VOLTAGE_TOO_HIGH",
+          "name": "Input voltage too high (solar panel)",
+          "value": 33
+        },
+        {
+          "id": "INPUT_CURRENT_TOO_HIGH",
+          "name": "Input current too high (solar panel)",
+          "value": 34
+        },
+        {
+          "id": "INPUT_SHUTDOWN_BATTERY_VOLTAGE_TOO_HIGH",
+          "name": "Input shutdown (battery voltage too high)",
+          "value": 38
+        },
+        {
+          "id": "INPUT_SHUTDOWN_REVERSE_CURRENT",
+          "name": "Input shutdown (reverse current)",
+          "value": 39
+        },
+        {
+          "id": "LOST_COMMUNICATION_WITH_DEVICE",
+          "name": "Lost communication with device",
+          "value": 65
+        },
+        {
+          "id": "SYNCHRONIZED_CHARGING_CONFIG_ISSUE",
+          "name": "Synchronized charging config issue",
+          "value": 66
+        },
+        {
+          "id": "BMS_CONNECTION_LOST",
+          "name": "BMS connection lost",
+          "value": 67
+        },
+        {
+          "id": "NETWORK_MISCONFIGURED",
+          "name": "Network misconfigured",
+          "value": 68
+        },
+        {
+          "id": "FACTORY_CALIBRATION_DATA_LOST",
+          "name": "Factory calibration data lost",
+          "value": 116
+        },
+        {
+          "id": "INVALID_INCOMPATIBLE_FIRMWARE",
+          "name": "Invalid/incompatible firmware",
+          "value": 117
+        },
+        {
+          "id": "USER_SETTINGS_INVALID",
+          "name": "User settings invalid",
+          "value": 119
         }
       ]
     },
@@ -4006,6 +4927,26 @@
       ]
     },
     {
+      "name": "GenericAlarmEnum",
+      "EnumValues": [
+        {
+          "id": "NoAlarm",
+          "name": "No Alarm",
+          "value": 0
+        },
+        {
+          "id": "Warning",
+          "name": "Warning",
+          "value": 1
+        },
+        {
+          "id": "Alarm",
+          "name": "Alarm",
+          "value": 2
+        }
+      ]
+    },
+    {
       "name": "GenericOnOff",
       "EnumValues": [
         {
@@ -4046,27 +4987,52 @@
       ]
     },
     {
-      "name": "InverterOverloadAlarmEnum",
+      "name": "MultiState",
       "EnumValues": [
         {
-          "id": "NoAlarm",
-          "name": "No Alarm",
+          "id": "Off",
+          "name": "Off",
           "value": 0
         },
         {
-          "id": "Warning",
-          "name": "Warning",
+          "id": "VoltageCurrentLimited",
+          "name": "Voltage/current limited",
           "value": 1
         },
         {
-          "id": "Alarm",
-          "name": "Alarm",
+          "id": "MPPTActive",
+          "name": "MPPT active",
           "value": 2
+        },
+        {
+          "id": "NotAvailable",
+          "name": "Not available",
+          "value": 255
         }
       ]
     },
     {
-      "name": "InverterState",
+      "name": "PhoenixInverterMode",
+      "EnumValues": [
+        {
+          "id": "INVERTER",
+          "name": "Inverter",
+          "value": 2
+        },
+        {
+          "id": "OFF",
+          "name": "Off",
+          "value": 4
+        },
+        {
+          "id": "ECO",
+          "name": "Eco",
+          "value": 4
+        }
+      ]
+    },
+    {
+      "name": "State",
       "EnumValues": [
         {
           "id": "Off",
@@ -4134,78 +5100,28 @@
           "value": 244
         },
         {
+          "id": "StartingUp",
+          "name": "Starting Up",
+          "value": 245
+        },
+        {
+          "id": "RepeatedAbsorption",
+          "name": "Repeated Absorption",
+          "value": 246
+        },
+        {
+          "id": "AutoEqualize",
+          "name": "Auto Equalize / Recondition",
+          "value": 247
+        },
+        {
+          "id": "BatterySafe",
+          "name": "Battery Safe",
+          "value": 248
+        },
+        {
           "id": "ExternalControl",
           "name": "External Control",
-          "value": 252
-        }
-      ]
-    },
-    {
-      "name": "MultiState",
-      "EnumValues": [
-        {
-          "id": "Off",
-          "name": "Off",
-          "value": 0
-        },
-        {
-          "id": "VoltageCurrentLimited",
-          "name": "Voltage/current limited",
-          "value": 1
-        },
-        {
-          "id": "MPPTActive",
-          "name": "MPPT active",
-          "value": 2
-        },
-        {
-          "id": "NotAvailable",
-          "name": "Not available",
-          "value": 255
-        }
-      ]
-    },
-    {
-      "name": "SolarChargerState",
-      "EnumValues": [
-        {
-          "id": "Off",
-          "name": "Off",
-          "value": 0
-        },
-        {
-          "id": "Fault",
-          "name": "Fault",
-          "value": 2
-        },
-        {
-          "id": "Bulk",
-          "name": "Bulk",
-          "value": 3
-        },
-        {
-          "id": "Absorption",
-          "name": "Absorption",
-          "value": 4
-        },
-        {
-          "id": "Float",
-          "name": "Float",
-          "value": 5
-        },
-        {
-          "id": "Storage",
-          "name": "Storage",
-          "value": 6
-        },
-        {
-          "id": "Equalize",
-          "name": "Equalize",
-          "value": 7
-        },
-        {
-          "id": "ExternalControl",
-          "name": "External control",
           "value": 252
         }
       ]
