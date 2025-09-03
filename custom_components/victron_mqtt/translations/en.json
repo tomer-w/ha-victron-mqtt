@@ -127,6 +127,24 @@
       "solarcharger_state": {
         "name": "Solar Charger State"
       },
+      "solarcharger_error_code": {
+        "name": "Solar Charger Error Code"
+      },
+      "solarcharger_min_battery_voltage_today": {
+        "name": "Solar Charger Min Battery Voltage Today"
+      },
+      "solarcharger_max_battery_voltage_today": {
+        "name": "Solar Charger Max Battery Voltage Today"
+      },
+      "solarcharger_time_in_absorption_today": {
+        "name": "Solar Charger Time in Absorption Today"
+      },
+      "solarcharger_time_in_float_today": {
+        "name": "Solar Charger Time in Float Today"
+      },
+      "solarcharger_time_in_bulk_today": {
+        "name": "Solar Charger Time in Bulk Today"
+      },
       "solarcharger_power": {
         "name": "PV Power"
       },
@@ -165,6 +183,9 @@
       },
       "battery_temperature": {
         "name": "Battery temperature"
+      },
+      "auxiliary_battery_voltage": {
+        "name": "Auxiliary battery voltage"
       },
       "battery_discharged_energy": {
         "name": "Discharged energy"
@@ -223,38 +244,77 @@
       "battery_cell_cell_id_voltage": {
         "name": "Battery cell {cell_id} voltage"
       },
+      "battery_high_charge_current": {
+        "name": "Battery high charge current"
+      },
+      "battery_high_discharge_current": {
+        "name": "Battery high discharge current"
+      },
+      "battery_cell_imbalance": {
+        "name": "Battery cell imbalance"
+      },
+      "battery_internal_failure": {
+        "name": "Battery internal failure"
+      },
+      "battery_high_charge_temperature": {
+        "name": "Battery high charge temperature"
+      },
+      "battery_low_charge_temperature": {
+        "name": "Battery low charge temperature"
+      },
+      "battery_low_cell_voltage": {
+        "name": "Battery low cell voltage"
+      },
+      "vebus_inverter_mode": {
+        "name": "Inverter mode"
+      },
+      "vebus_inverter_state": {
+        "name": "Inverter state"
+      },
+      "vebus_inverter_input_voltage_phase": {
+        "name": "Inverter input voltage {phase}"
+      },
+      "vebus_inverter_input_power_phase": {
+        "name": "Inverter input power {phase}"
+      },
+      "vebus_inverter_input_frequency_phase": {
+        "name": "Inverter input frequency {phase}"
+      },
+      "vebus_inverter_input_apparent_power_phase": {
+        "name": "Inverter input apparent power {phase}"
+      },
+      "vebus_inverter_output_power_phase": {
+        "name": "Inverter output power {phase}"
+      },
+      "vebus_inverter_output_frequency_phase": {
+        "name": "Inverter output frequency {phase}"
+      },
+      "vebus_inverter_output_apparent_power_phase": {
+        "name": "Inverter output apparent power {phase}"
+      },
+      "vebus_inverter_alarm_overload": {
+        "name": "Inverter overload alarm"
+      },
+      "vebus_inverter_current_limit": {
+        "name": "Inverter current limit"
+      },
       "inverter_mode": {
         "name": "Inverter mode"
       },
       "inverter_state": {
         "name": "Inverter state"
       },
-      "inverter_input_voltage_phase": {
-        "name": "Inverter input voltage {phase}"
-      },
-      "inverter_input_power_phase": {
-        "name": "Inverter input power {phase}"
-      },
-      "inverter_input_frequency_phase": {
-        "name": "Inverter input frequency {phase}"
-      },
-      "inverter_input_apparent_power_phase": {
-        "name": "Inverter input apparent power {phase}"
+      "inverter_output_voltage_phase": {
+        "name": "Inverter output voltage {phase}"
       },
       "inverter_output_power_phase": {
         "name": "Inverter output power {phase}"
       },
-      "inverter_output_frequency_phase": {
-        "name": "Inverter output frequency {phase}"
-      },
       "inverter_output_apparent_power_phase": {
         "name": "Inverter output apparent power {phase}"
       },
-      "inverter_alarm_overload": {
-        "name": "Inverter overload alarm"
-      },
-      "inverter_current_limit": {
-        "name": "Inverter current limit"
+      "inverter_output_current_phase": {
+        "name": "Inverter output current {phase}"
       },
       "multiplus_assist_current_boost_factor": {
         "name": "Assist Current Boost Factor"
@@ -585,6 +645,30 @@
       },
       "transfer_switch_generator_current_limit": {
         "name": "Generator AC current limit"
+      },
+      "digitalinput_input_state_raw": {
+        "name": "Digital input raw state"
+      },
+      "digitalinput_type": {
+        "name": "Digital input type"
+      },
+      "digitalinput_state": {
+        "name": "Digital input state"
+      },
+      "digitalinput_alarm": {
+        "name": "Digital input alarm"
+      },
+      "dcsystem_voltage": {
+        "name": "DC System Voltage"
+      },
+      "dcsystem_current": {
+        "name": "DC System Current"
+      },
+      "dcsystem_power": {
+        "name": "DC System Power"
+      },
+      "dcsystem_aux_voltage": {
+        "name": "DC System Auxiliary Voltage"
       }
     },
     "binary_sensor": {
@@ -597,8 +681,32 @@
       "solarcharger_relay_state": {
         "name": "Solar Charger Relay State"
       },
-      "inverter_connected": {
+      "vebus_inverter_connected": {
         "name": "Inverter connected"
+      },
+      "inverter_alarm_ripple": {
+        "name": "Inverter alarm Ripple"
+      },
+      "inverter_alarm_low_voltage_ac_out": {
+        "name": "Inverter alarm LowVoltageAcOut"
+      },
+      "inverter_alarm_low_voltage": {
+        "name": "Inverter alarm LowVoltage"
+      },
+      "inverter_alarm_high_voltage_ac_out": {
+        "name": "Inverter alarm HighVoltageAcOut"
+      },
+      "inverter_alarm_high_temperature": {
+        "name": "Inverter alarm HighTemperature"
+      },
+      "inverter_alarm_high_voltage": {
+        "name": "Inverter alarm HighVoltage"
+      },
+      "inverter_alarm_low_temperature": {
+        "name": "Inverter alarm LowTemperature"
+      },
+      "inverter_alarm_overload": {
+        "name": "Inverter alarm Overload"
       },
       "system_relay_relay": {
         "name": "Relay {relay} state"
@@ -647,6 +755,9 @@
       },
       "generator_gen_id_start_on_temp_enabled": {
         "name": "Generator start on high temp enabled"
+      },
+      "digitalinput_settings_invert_translation": {
+        "name": "Digital input settings invert translation"
       }
     },
     "switch": {
@@ -685,9 +796,15 @@
       },
       "generator_gen_id_start_on_temp_enabled": {
         "name": "Generator start on high temp enabled"
+      },
+      "digitalinput_settings_invert_translation": {
+        "name": "Digital input settings invert translation"
       }
     },
     "select": {
+      "vebus_inverter_mode": {
+        "name": "Inverter mode"
+      },
       "inverter_mode": {
         "name": "Inverter mode"
       },
@@ -696,7 +813,7 @@
       }
     },
     "number": {
-      "inverter_current_limit": {
+      "vebus_inverter_current_limit": {
         "name": "Inverter current limit"
       },
       "multiplus_assist_current_boost_factor": {
