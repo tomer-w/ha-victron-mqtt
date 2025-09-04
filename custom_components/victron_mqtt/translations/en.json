@@ -265,6 +265,24 @@
       "battery_low_cell_voltage": {
         "name": "Battery low cell voltage"
       },
+      "battery_max_charge_current": {
+        "name": "Battery maximum charge current allowed"
+      },
+      "battery_max_discharge_current": {
+        "name": "Battery maximum discharge current allowed"
+      },
+      "battery_max_charge_voltage": {
+        "name": "Battery maximum charging voltage allowed"
+      },
+      "battery_min_voltage_cell_id": {
+        "name": "Battery minimum voltage cell ID"
+      },
+      "battery_max_voltage_cell_id": {
+        "name": "Battery maximum voltage cell ID"
+      },
+      "battery_cell_voltage_deviation": {
+        "name": "Battery cell voltage deviation"
+      },
       "vebus_inverter_mode": {
         "name": "Inverter mode"
       },
@@ -297,6 +315,21 @@
       },
       "vebus_inverter_current_limit": {
         "name": "Inverter current limit"
+      },
+      "vebus_device_device_number_output_power_l1": {
+        "name": "VE.Bus device {device_number} line 1 output power"
+      },
+      "vebus_device_device_number_output_power_phase": {
+        "name": "VE.Bus device {device_number} line {phase} output power"
+      },
+      "vebus_device_device_number_inverted_power": {
+        "name": "VE.Bus device {device_number} inverted power"
+      },
+      "vebus_device_device_number_input_power_l1": {
+        "name": "VE.Bus device {device_number} line 1 input power"
+      },
+      "vebus_device_device_number_input_power_phase": {
+        "name": "VE.Bus device {device_number} line {phase} input power"
       },
       "inverter_mode": {
         "name": "Inverter mode"
