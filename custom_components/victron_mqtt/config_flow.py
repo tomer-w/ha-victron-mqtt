@@ -9,6 +9,8 @@ from urllib.parse import urlparse
 from victron_mqtt import (
     CannotConnectError,
     Hub as VictronVenusHub,
+    DeviceType,
+    OperationMode
 )
 import voluptuous as vol
 
@@ -21,14 +23,14 @@ from homeassistant.const import (
     CONF_USERNAME,
 )
 from homeassistant.helpers.service_info.ssdp import SsdpServiceInfo
-from homeassistant.helpers import selector
-from victron_mqtt import OperationMode
+from homeassistant.helpers.selector import SelectSelector, SelectSelectorConfig, SelectSelectorMode
 from .const import (
     CONF_INSTALLATION_ID,
     CONF_MODEL,
     CONF_SERIAL,
     CONF_ROOT_TOPIC_PREFIX,
     CONF_UPDATE_FREQUENCY_SECONDS,
+    CONF_EXCLUDED_DEVICES,
     DEFAULT_HOST,
     DEFAULT_PORT,
     DEFAULT_UPDATE_FREQUENCY_SECONDS,
@@ -38,6 +40,11 @@ from .const import (
 
 _LOGGER = logging.getLogger(__name__)
 
+DEVICE_CODES = [
+    {"value": device_type.code, "label": device_type.string}
+    for device_type in DeviceType
+    if device_type.string != "<Not used>"
+]
 
 def _get_user_schema(defaults: dict[str, Any] | None = None) -> vol.Schema:
     """Get the user data schema with optional defaults."""
@@ -55,8 +62,8 @@ def _get_user_schema(defaults: dict[str, Any] | None = None) -> vol.Schema:
             vol.Optional(CONF_USERNAME, default=defaults.get(CONF_USERNAME, "")): str,
             vol.Optional(CONF_PASSWORD, default=defaults.get(CONF_PASSWORD, "")): str,
             vol.Required(CONF_SSL, default=defaults.get(CONF_SSL, False)): bool,
-            vol.Required(CONF_OPERATION_MODE, default=op_default): selector.SelectSelector(
-                selector.SelectSelectorConfig(
+            vol.Required(CONF_OPERATION_MODE, default=op_default): SelectSelector(
+                SelectSelectorConfig(
                     options=[
                         {"value": OperationMode.READ_ONLY.value, "label": "Read-only (sensors & binary sensors only)"},
                         {"value": OperationMode.FULL.value, "label": "Full (sensors + controllable entities)"},
@@ -66,6 +73,13 @@ def _get_user_schema(defaults: dict[str, Any] | None = None) -> vol.Schema:
             ),
             vol.Optional(CONF_ROOT_TOPIC_PREFIX, default=defaults.get(CONF_ROOT_TOPIC_PREFIX, "")): str,
             vol.Optional(CONF_UPDATE_FREQUENCY_SECONDS, default=defaults.get(CONF_UPDATE_FREQUENCY_SECONDS, DEFAULT_UPDATE_FREQUENCY_SECONDS)): int,
+            vol.Optional(CONF_EXCLUDED_DEVICES, default=defaults.get(CONF_EXCLUDED_DEVICES, [])): SelectSelector(
+                SelectSelectorConfig(
+                    options=DEVICE_CODES,
+                    multiple=True,
+                    mode=SelectSelectorMode.DROPDOWN,
+                )
+            ),
         }
     )
 
