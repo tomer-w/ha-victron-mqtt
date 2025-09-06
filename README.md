@@ -61,7 +61,7 @@ This script will fetch the latest version of the integration directly from the r
 
 ## Configuration
 
-The integration can be configured in two ways:
+The integration can be configured in three ways:
 
 ### Method 1: Automatic Discovery
 1. Your Victron device should be automatically discovered if it has MQTT enabled
@@ -69,7 +69,7 @@ The integration can be configured in two ways:
 3. Look for the "Victron MQTT Integration" in the discovered section
 4. Follow the configuration flow
 
-### Method 2: Manual Configuration
+### Method 2: Manual Configuration (Direct Connection)
 1. Go to Settings > Devices & Services
 2. Click "Add Integration"
 3. Search for "Victron MQTT Integration"
@@ -79,6 +79,41 @@ The integration can be configured in two ways:
    - Username: (optional)
    - Password: (optional)
    - SSL: Enable/disable SSL connection
+
+### Method 3: Using Home Assistant MQTT Broker (Bridged Configuration)
+Some users prefer to reduce the direct load on their Victron server and use bridge from the Venus device to a local mosquitto server running as add-on on the HAOS.
+
+#### Prerequisites
+1. Install the [Mosquitto broker add-on](https://github.com/home-assistant/addons/tree/master/mosquitto) from the Home Assistant Add-on Store
+2. Configure a user and password for the MQTT broker in the add-on configuration
+
+#### Configuration Steps
+1. **Configure the Mosquitto Bridge**: Edit the Mosquitto configuration file at `/share/mosquitto/mosquitto.conf` (accessible via File Editor add-on or SSH) and add:
+   ```
+   connection victron
+   address <YOUR_VENUS_IP>:1883
+   topic N/# in 0
+   # TO CHANGE settings via MQTT, one has to write to the "W/" topic!!
+   topic W/# out 0
+   topic R/# out 0
+   start_type automatic
+   allow_anonymous true
+   ```
+   Replace `<YOUR_VENUS_IP>` with your Victron device's IP address.
+
+2. **Restart the Mosquitto Add-on** to apply the bridge configuration
+
+3. **Configure the Integration**: When setting up the Victron MQTT Integration:
+   - Host: `core-mosquitto` (the internal hostname for the HA MQTT broker)
+   - Port: `1883`
+   - Username: Your MQTT broker username
+   - Password: Your MQTT broker password
+   - SSL: Disable (internal connection doesn't require SSL)
+
+#### Benefits of Bridged Configuration
+- Reduces load on the Venus MQTT server
+- Provides a single MQTT broker for all your Home Assistant MQTT devices
+- Allows for better network traffic management
 
 ## Adding entities
 If you want to help the community and add more entities, please take a look at the [module](https://github.com/tomer-w/victron_mqtt) which drives this integration. It is very simple to extend this integration. I wrote a [document](https://github.com/tomer-w/victron_mqtt/blob/main/CONTRIBUTING.md) about it.
@@ -101,6 +136,7 @@ If you want to help the community and add more entities, please take a look at t
      - enable SSL/TLS
      - use user root
      - use password that you have defined to protect the instance
+   - **Alternative**: Consider using the bridged configuration (Method 3) if you're experiencing frequent connectivity issues or want to reduce load on your Venus device.
 
 2. **Authentication Failed**
    - Double-check the username and password if authentication is enabled.
