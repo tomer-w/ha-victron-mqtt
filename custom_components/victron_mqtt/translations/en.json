@@ -76,113 +76,50 @@
   },
   "entity": {
     "sensor": {
-      "system_grid_phases": {
-        "name": "Grid phases"
+      "alternator_dc_current": {
+        "name": "DC Output Current"
       },
-      "grid_voltage_phase": {
-        "name": "Grid voltage on {phase}"
+      "alternator_dc_power": {
+        "name": "DC Output Power"
       },
-      "grid_current_phase": {
-        "name": "Grid current on {phase}"
+      "alternator_dc_voltage": {
+        "name": "DC Output Voltage"
       },
-      "grid_power_phase": {
-        "name": "Grid power on {phase}"
+      "alternator_input_current": {
+        "name": "Input Current"
       },
-      "grid_energy_forward_phase": {
-        "name": "Grid consumption on {phase}"
+      "alternator_input_power": {
+        "name": "Input Power"
       },
-      "grid_energy_reverse_phase": {
-        "name": "Grid feed-in on {phase}"
+      "alternator_input_voltage": {
+        "name": "Input Voltage"
       },
-      "grid_voltage_pen": {
-        "name": "Grid voltage on PEN"
+      "battery_cell_imbalance": {
+        "name": "Battery cell imbalance"
       },
-      "grid_current_n": {
-        "name": "Grid current on N"
+      "battery_high_charge_current": {
+        "name": "Battery high charge current"
       },
-      "grid_frequency": {
-        "name": "Grid frequency"
+      "battery_high_charge_temperature": {
+        "name": "Battery high charge temperature"
       },
-      "grid_voltage_phase_next_phase": {
-        "name": "Grid voltage {phase} to {next_phase}"
+      "battery_high_discharge_current": {
+        "name": "Battery high discharge current"
       },
-      "grid_voltage": {
-        "name": "Grid voltage"
+      "battery_internal_failure": {
+        "name": "Battery internal failure"
       },
-      "grid_current": {
-        "name": "Grid current"
+      "battery_low_cell_voltage": {
+        "name": "Battery low cell voltage"
       },
-      "grid_power": {
-        "name": "Grid power"
+      "battery_low_charge_temperature": {
+        "name": "Battery low charge temperature"
       },
-      "grid_energy_forward": {
-        "name": "Grid consumption"
+      "battery_capacity": {
+        "name": "Battery capacity"
       },
-      "grid_energy_reverse": {
-        "name": "Grid feed-in"
-      },
-      "solarcharger_dc_voltage": {
-        "name": "DC (Batt) Bus voltage"
-      },
-      "solarcharger_dc_current": {
-        "name": "DC (Batt) Bus current"
-      },
-      "solarcharger_load_current": {
-        "name": "Load Bus current"
-      },
-      "solarcharger_voltage": {
-        "name": "PV Bus Voltage"
-      },
-      "solarcharger_state": {
-        "name": "Solar Charger State"
-      },
-      "solarcharger_error_code": {
-        "name": "Solar Charger Error Code"
-      },
-      "solarcharger_min_battery_voltage_today": {
-        "name": "Solar Charger Min Battery Voltage Today"
-      },
-      "solarcharger_max_battery_voltage_today": {
-        "name": "Solar Charger Max Battery Voltage Today"
-      },
-      "solarcharger_time_in_absorption_today": {
-        "name": "Solar Charger Time in Absorption Today"
-      },
-      "solarcharger_time_in_float_today": {
-        "name": "Solar Charger Time in Float Today"
-      },
-      "solarcharger_time_in_bulk_today": {
-        "name": "Solar Charger Time in Bulk Today"
-      },
-      "solarcharger_power": {
-        "name": "PV Power"
-      },
-      "solarcharger_current": {
-        "name": "PV Bus current"
-      },
-      "solarcharger_yield_power": {
-        "name": "PV Yield Power"
-      },
-      "solarcharger_yield_total": {
-        "name": "Total Yield"
-      },
-      "solarcharger_yield_today": {
-        "name": "Yield Today"
-      },
-      "solarcharger_yield_yesterday": {
-        "name": "Yield Yesterday"
-      },
-      "solarcharger_max_power_today": {
-        "name": "Max Power Today"
-      },
-      "solarcharger_max_power_yesterday": {
-        "name": "Max Power Yesterday"
-      },
-      "solarcharger_mppt_operation_mode": {
-        "name": "Solar Charger MPPT Operation Mode"
-      },
-      "battery_voltage": {
-        "name": "DC Bus voltage"
+      "battery_consumed_amphours": {
+        "name": "Battery consumed amp-hours"
       },
       "battery_current": {
         "name": "DC Bus current"
@@ -193,20 +130,32 @@
       "battery_temperature": {
         "name": "Battery temperature"
       },
+      "battery_voltage": {
+        "name": "DC Bus voltage"
+      },
       "auxiliary_battery_voltage": {
         "name": "Auxiliary battery voltage"
-      },
-      "battery_discharged_energy": {
-        "name": "Discharged energy"
-      },
-      "battery_charged_energy": {
-        "name": "Charged energy"
       },
       "battery_automatic_syncs": {
         "name": "Automatic syncs"
       },
-      "battery_capacity": {
-        "name": "Battery capacity"
+      "battery_charged_energy": {
+        "name": "Charged energy"
+      },
+      "battery_discharged_energy": {
+        "name": "Discharged energy"
+      },
+      "charge_mode": {
+        "name": "Battery charge mode"
+      },
+      "battery_max_charge_current": {
+        "name": "Battery maximum charge current allowed"
+      },
+      "battery_max_charge_voltage": {
+        "name": "Battery maximum charging voltage allowed"
+      },
+      "battery_max_discharge_current": {
+        "name": "Battery maximum discharge current allowed"
       },
       "battery_installed_capacity": {
         "name": "Battery installed capacity"
@@ -214,14 +163,26 @@
       "battery_soc": {
         "name": "Battery charge"
       },
-      "battery_min_cell_voltage": {
-        "name": "Battery minimum cell voltage"
+      "battery_soh": {
+        "name": "Battery State of Health"
+      },
+      "battery_max_cell_temperature": {
+        "name": "Battery maximum cell temperature"
       },
       "battery_max_cell_voltage": {
         "name": "Battery maximum cell voltage"
       },
-      "battery_soh": {
-        "name": "Battery State of Health"
+      "battery_max_voltage_cell_id": {
+        "name": "Battery maximum voltage cell ID"
+      },
+      "battery_min_cell_temperature": {
+        "name": "Battery minimum cell temperature"
+      },
+      "battery_min_cell_voltage": {
+        "name": "Battery minimum cell voltage"
+      },
+      "battery_min_voltage_cell_id": {
+        "name": "Battery minimum voltage cell ID"
       },
       "battery_nr_modules_blocking_charge": {
         "name": "Battery number of modules blocking charge"
@@ -229,125 +190,140 @@
       "battery_nr_modules_blocking_discharge": {
         "name": "Battery number of modules blocking discharge"
       },
-      "battery_nr_modules_online": {
-        "name": "Battery number of modules online"
-      },
       "battery_nr_modules_offline": {
         "name": "Battery number of modules offline"
       },
-      "battery_min_cell_temperature": {
-        "name": "Battery minimum cell temperature"
-      },
-      "battery_max_cell_temperature": {
-        "name": "Battery maximum cell temperature"
+      "battery_nr_modules_online": {
+        "name": "Battery number of modules online"
       },
       "battery_time_to_go": {
         "name": "Battery time to go"
       },
-      "charge_mode": {
-        "name": "Battery charge mode"
-      },
-      "battery_consumed_amphours": {
-        "name": "Battery consumed amp-hours"
-      },
       "battery_cell_cell_id_voltage": {
         "name": "Battery cell {cell_id} voltage"
-      },
-      "battery_high_charge_current": {
-        "name": "Battery high charge current"
-      },
-      "battery_high_discharge_current": {
-        "name": "Battery high discharge current"
-      },
-      "battery_cell_imbalance": {
-        "name": "Battery cell imbalance"
-      },
-      "battery_internal_failure": {
-        "name": "Battery internal failure"
-      },
-      "battery_high_charge_temperature": {
-        "name": "Battery high charge temperature"
-      },
-      "battery_low_charge_temperature": {
-        "name": "Battery low charge temperature"
-      },
-      "battery_low_cell_voltage": {
-        "name": "Battery low cell voltage"
-      },
-      "battery_max_charge_current": {
-        "name": "Battery maximum charge current allowed"
-      },
-      "battery_max_discharge_current": {
-        "name": "Battery maximum discharge current allowed"
-      },
-      "battery_max_charge_voltage": {
-        "name": "Battery maximum charging voltage allowed"
-      },
-      "battery_min_voltage_cell_id": {
-        "name": "Battery minimum voltage cell ID"
-      },
-      "battery_max_voltage_cell_id": {
-        "name": "Battery maximum voltage cell ID"
       },
       "battery_cell_voltage_deviation": {
         "name": "Battery cell voltage deviation"
       },
-      "vebus_inverter_mode": {
-        "name": "Inverter mode"
+      "dcload_current": {
+        "name": "DC load current"
       },
-      "vebus_inverter_state": {
-        "name": "Inverter state"
+      "dcload_power": {
+        "name": "DC load power"
       },
-      "vebus_inverter_input_voltage_phase": {
-        "name": "Inverter input voltage {phase}"
+      "dcload_voltage": {
+        "name": "DC load voltage"
       },
-      "vebus_inverter_input_power_phase": {
-        "name": "Inverter input power {phase}"
+      "dcsystem_current": {
+        "name": "DC System Current"
       },
-      "vebus_inverter_input_frequency_phase": {
-        "name": "Inverter input frequency {phase}"
+      "dcsystem_power": {
+        "name": "DC System Power"
       },
-      "vebus_inverter_input_apparent_power_phase": {
-        "name": "Inverter input apparent power {phase}"
+      "dcsystem_voltage": {
+        "name": "DC System Voltage"
       },
-      "vebus_inverter_output_power_phase": {
-        "name": "Inverter output power {phase}"
+      "dcsystem_aux_voltage": {
+        "name": "DC System Auxiliary Voltage"
       },
-      "vebus_inverter_output_frequency_phase": {
-        "name": "Inverter output frequency {phase}"
+      "digitalinput_alarm": {
+        "name": "Digital input alarm"
       },
-      "vebus_inverter_output_apparent_power_phase": {
-        "name": "Inverter output apparent power {phase}"
+      "digitalinput_input_state_raw": {
+        "name": "Digital input raw state"
       },
-      "vebus_inverter_alarm_overload": {
-        "name": "Inverter overload alarm"
+      "digitalinput_state": {
+        "name": "Digital input state"
       },
-      "vebus_inverter_current_limit": {
-        "name": "Inverter current limit"
+      "digitalinput_type": {
+        "name": "Digital input type"
       },
-      "vebus_device_device_number_output_power_l1": {
-        "name": "VE.Bus device {device_number} line 1 output power"
+      "evcharger_power_phase": {
+        "name": "EV charger power {phase}"
       },
-      "vebus_device_device_number_output_power_phase": {
-        "name": "VE.Bus device {device_number} line {phase} output power"
+      "evcharger_current": {
+        "name": "EV charger current"
       },
-      "vebus_device_device_number_inverted_power": {
-        "name": "VE.Bus device {device_number} inverted power"
+      "evcharger_mode": {
+        "name": "EV charger mode"
       },
-      "vebus_device_device_number_input_power_l1": {
-        "name": "VE.Bus device {device_number} line 1 input power"
+      "evcharger_set_current": {
+        "name": "EV charger set current"
       },
-      "vebus_device_device_number_input_power_phase": {
-        "name": "VE.Bus device {device_number} line {phase} input power"
+      "generator_total_runtime": {
+        "name": "Generator total runtime"
       },
-      "inverter_mode": {
-        "name": "Inverter mode"
+      "generator_run_state": {
+        "name": "Generator run state"
       },
-      "inverter_state": {
-        "name": "Inverter state"
+      "generator_service_counter": {
+        "name": "Generator service counter"
       },
-      "inverter_output_voltage_phase": {
-        "name": "Inverter output voltage {phase}"
+      "generator_today_runtime": {
+        "name": "Generator today runtime"
+      },
+      "gps_altitude": {
+        "name": "GPS Altitude"
+      },
+      "gps_course": {
+        "name": "GPS Course"
+      },
+      "gps_nrofsatellites": {
+        "name": "GPS Nr Of Satellites"
+      },
+      "gps_latitude": {
+        "name": "GPS Latitude"
+      },
+      "gps_longitude": {
+        "name": "GPS Longitude"
+      },
+      "gps_speed": {
+        "name": "GPS Speed"
+      },
+      "grid_current": {
+        "name": "Grid current"
+      },
+      "grid_energy_forward": {
+        "name": "Grid consumption"
+      },
+      "grid_energy_reverse": {
+        "name": "Grid feed-in"
+      },
+      "grid_frequency": {
+        "name": "Grid frequency"
+      },
+      "grid_current_n": {
+        "name": "Grid current on N"
+      },
+      "grid_voltage_pen": {
+        "name": "Grid voltage on PEN"
+      },
+      "grid_power": {
+        "name": "Grid power"
+      },
+      "grid_voltage": {
+        "name": "Grid voltage"
+      },
+      "grid_current_phase": {
+        "name": "Grid current on {phase}"
+      },
+      "grid_energy_forward_phase": {
+        "name": "Grid consumption on {phase}"
+      },
+      "grid_energy_reverse_phase": {
+        "name": "Grid feed-in on {phase}"
+      },
+      "grid_power_phase": {
+        "name": "Grid power on {phase}"
+      },
+      "grid_voltage_phase": {
+        "name": "Grid voltage on {phase}"
+      },
+      "grid_voltage_phase_next_phase": {
+        "name": "Grid voltage {phase} to {next_phase}"
+      },
+      "inverter_output_current_phase": {
+        "name": "Inverter output current {phase}"
       },
       "inverter_output_power_phase": {
         "name": "Inverter output power {phase}"
@@ -355,65 +331,236 @@
       "inverter_output_apparent_power_phase": {
         "name": "Inverter output apparent power {phase}"
       },
-      "inverter_output_current_phase": {
-        "name": "Inverter output current {phase}"
+      "inverter_output_voltage_phase": {
+        "name": "Inverter output voltage {phase}"
       },
-      "multiplus_assist_current_boost_factor": {
-        "name": "Assist Current Boost Factor"
+      "inverter_mode": {
+        "name": "Inverter mode"
       },
-      "system_critical_loads_phase": {
-        "name": "Critical loads on {phase}"
+      "inverter_state": {
+        "name": "Inverter state"
+      },
+      "multirssolar_acin_current_phase": {
+        "name": "Current {phase}"
+      },
+      "multirssolar_acin_power_phase": {
+        "name": "Power on {phase}"
+      },
+      "multirssolar_acin_voltage_phase": {
+        "name": "Voltage on {phase}"
+      },
+      "multirssolar_phases": {
+        "name": "Phases"
+      },
+      "multirssolar_acout_output_current_phase": {
+        "name": "AC Out {output} Current on {phase}"
+      },
+      "multirssolar_acout_output_power_phase": {
+        "name": "AC Out {output} Power on {phase}"
+      },
+      "multirssolar_acout_output_voltage_phase": {
+        "name": "AC Out {output} Voltage on {phase}"
+      },
+      "multirssolar_ess_ac_power_set_point": {
+        "name": "ESS AC Power Setpoint"
+      },
+      "multirssolar_inverter_power_setpoint": {
+        "name": "Inverter Power Setpoint"
+      },
+      "multirssolar_mppt_mpptnumber_state": {
+        "name": "MPPT {mpptnumber} state"
+      },
+      "multirssolar_mppt_mpptnumber_power": {
+        "name": "MPPT {mpptnumber} Power"
+      },
+      "multirssolar_mppt_mpptnumber_voltage": {
+        "name": "MPPT {mpptnumber} PV Voltage"
+      },
+      "multirssolar_ess_mode": {
+        "name": "ESS Mode"
+      },
+      "multirssolar_state": {
+        "name": "State"
+      },
+      "multirssolar_pv_power_total": {
+        "name": "PV Power Total"
+      },
+      "multirssolar_total_pv_yield": {
+        "name": "Total PV Yield"
+      },
+      "pvinverter_yield_total": {
+        "name": "Total Yield"
+      },
+      "pvinverter_power_total": {
+        "name": "Power Total"
+      },
+      "pvinverter_current_phase": {
+        "name": "Current {phase}"
+      },
+      "pvinverter_yield_phase": {
+        "name": "Yield {phase}"
+      },
+      "pvinverter_power_phase": {
+        "name": "Power {phase}"
+      },
+      "pvinverter_voltage_phase": {
+        "name": "Voltage {phase}"
+      },
+      "system_ac_power_set_point": {
+        "name": "AC Power Setpoint"
+      },
+      "system_ess_min_soc_limit": {
+        "name": "ESS min SOC limit"
+      },
+      "system_ess_max_inverter_power_limit": {
+        "name": "ESS max inverter power limit"
+      },
+      "generator_gen_id_qh_start_on_voltage": {
+        "name": "Generator QH start on voltage"
+      },
+      "generator_gen_id_qh_stop_on_voltage": {
+        "name": "Generator QH stop on voltage"
+      },
+      "generator_gen_id_start_on_voltage_timer": {
+        "name": "Generator start on voltage timer"
+      },
+      "generator_gen_id_start_on_voltage": {
+        "name": "Generator start on voltage"
+      },
+      "generator_gen_id_stop_on_voltage_timer": {
+        "name": "Generator stop on voltage timer"
+      },
+      "generator_gen_id_stop_on_voltage": {
+        "name": "Generator stop on voltage"
+      },
+      "generator_gen_id_cool_down_timer": {
+        "name": "Generator cool down timer"
+      },
+      "generator_gen_id_shut_down_timer": {
+        "name": "Generator shut down timer"
+      },
+      "generator_gen_id_start_on_temp_timer": {
+        "name": "Generator start on temp timer"
+      },
+      "generator_gen_id_stop_on_temp_timer": {
+        "name": "Generator stop on temp timer"
+      },
+      "generator_gen_id_service_interval": {
+        "name": "Generator service interval"
+      },
+      "generator_gen_id_qh_start_on_soc": {
+        "name": "Generator QH start on SOC"
+      },
+      "generator_gen_id_qh_stop_on_soc": {
+        "name": "Generator QH stop on SOC"
+      },
+      "generator_gen_id_start_on_soc_timer": {
+        "name": "Generator start on SOC timer"
+      },
+      "generator_gen_id_start_on_soc": {
+        "name": "Generator start on SOC"
+      },
+      "generator_gen_id_stop_on_soc_timer": {
+        "name": "Generator stop on SOC timer"
+      },
+      "generator_gen_id_stop_on_soc": {
+        "name": "Generator stop on SOC"
+      },
+      "generator_gen_id_warm_up_timer": {
+        "name": "Generator warm up timer"
+      },
+      "system_ess_max_charge_current": {
+        "name": "ESS max charge current"
+      },
+      "system_ess_max_charge_voltage": {
+        "name": "ESS max charge voltage"
+      },
+      "transfer_switch_generator_current_limit": {
+        "name": "Generator AC current limit"
+      },
+      "solarcharger_dc_current": {
+        "name": "DC (Batt) Bus current"
+      },
+      "solarcharger_dc_voltage": {
+        "name": "DC (Batt) Bus voltage"
+      },
+      "solarcharger_error_code": {
+        "name": "Solar Charger Error Code"
+      },
+      "solarcharger_max_battery_voltage_today": {
+        "name": "Solar Charger Max Battery Voltage Today"
+      },
+      "solarcharger_max_power_today": {
+        "name": "Max Power Today"
+      },
+      "solarcharger_min_battery_voltage_today": {
+        "name": "Solar Charger Min Battery Voltage Today"
+      },
+      "solarcharger_time_in_absorption_today": {
+        "name": "Solar Charger Time in Absorption Today"
+      },
+      "solarcharger_time_in_bulk_today": {
+        "name": "Solar Charger Time in Bulk Today"
+      },
+      "solarcharger_time_in_float_today": {
+        "name": "Solar Charger Time in Float Today"
+      },
+      "solarcharger_yield_today": {
+        "name": "Yield Today"
+      },
+      "solarcharger_max_power_yesterday": {
+        "name": "Max Power Yesterday"
+      },
+      "solarcharger_yield_yesterday": {
+        "name": "Yield Yesterday"
+      },
+      "solarcharger_load_current": {
+        "name": "Load Bus current"
+      },
+      "solarcharger_mppt_operation_mode": {
+        "name": "Solar Charger MPPT Operation Mode"
+      },
+      "solarcharger_voltage": {
+        "name": "PV Bus Voltage"
+      },
+      "solarcharger_state": {
+        "name": "Solar Charger State"
+      },
+      "solarcharger_yield_power": {
+        "name": "PV Yield Power"
+      },
+      "solarcharger_yield_total": {
+        "name": "Total Yield"
+      },
+      "switch_output_dimming": {
+        "name": "Switch {output} Dimming"
+      },
+      "system_consumption_phases": {
+        "name": "Consumption phases"
+      },
+      "system_consumption_current_phase": {
+        "name": "Consumption Current {phase}"
+      },
+      "system_consumption_power_phase": {
+        "name": "Consumption Power {phase}"
       },
       "system_ac_loads_phase": {
         "name": "AC loads on {phase}"
       },
-      "system_dc_consumption": {
-        "name": "DC Consumption"
+      "system_consumption_on_output_phases": {
+        "name": "Consumption On Output phases"
       },
-      "system_dc_battery_soc": {
-        "name": "DC Battery Charge"
-      },
-      "system_dc_battery_power": {
-        "name": "DC Battery Power"
-      },
-      "system_dc_battery_voltage": {
-        "name": "DC Battery Voltage"
-      },
-      "system_dc_battery_current": {
-        "name": "DC Battery Current"
-      },
-      "system_dynamicess_available_overhead": {
-        "name": "Dynamic ESS Available Overhead"
-      },
-      "system_dynamicess_error": {
-        "name": "Dynamic ESS Error"
-      },
-      "system_dynamicess_schedule_count": {
-        "name": "Dynamic ESS Number Of Schedules"
-      },
-      "system_dynamicess_target_soc": {
-        "name": "Dynamic ESS Target SOC"
-      },
-      "system_dynamicess_minimum_soc": {
-        "name": "Dynamic ESS Minimum SOC"
-      },
-      "system_dynamicess_last_scheduled_start": {
-        "name": "Dynamic ESS Last Scheduled Start"
-      },
-      "system_dynamicess_last_scheduled_end": {
-        "name": "Dynamic ESS Last Scheduled End"
-      },
-      "system_dynamicess_restrictions": {
-        "name": "Dynamic ESS Restrictions"
-      },
-      "system_dynamicess_strategy": {
-        "name": "Dynamic ESS Strategy"
-      },
-      "system_dynamicess_reactive_strategy": {
-        "name": "Dynamic ESS Reactive Strategy"
+      "system_critical_loads_phase": {
+        "name": "Critical loads on {phase}"
       },
       "system_generator_load_phase": {
         "name": "Genset Load {phase}"
+      },
+      "system_grid_phases": {
+        "name": "Grid phases"
+      },
+      "system_grid_current_phase": {
+        "name": "Grid Current {phase}"
       },
       "system_grid_power_phase": {
         "name": "Grid Power {phase}"
@@ -421,65 +568,77 @@
       "system_pv_on_output_phases": {
         "name": "PV on Output phases"
       },
-      "system_pv_on_output_power_phase": {
-        "name": "PV on Output Power {phase}"
-      },
       "system_pv_on_output_current_phase": {
         "name": "PV on Output Current {phase}"
       },
-      "system_consumption_on_output_phases": {
-        "name": "Consumption On Output phases"
+      "system_pv_on_output_power_phase": {
+        "name": "PV on Output Power {phase}"
       },
-      "system_consumption_phases": {
-        "name": "Consumption phases"
+      "system_dc_battery_current": {
+        "name": "DC Battery Current"
       },
-      "system_consumption_power_phase": {
-        "name": "Consumption Power {phase}"
+      "system_dc_battery_power": {
+        "name": "DC Battery Power"
       },
-      "system_consumption_current_phase": {
-        "name": "Consumption Current {phase}"
+      "system_dc_battery_soc": {
+        "name": "DC Battery Charge"
       },
-      "system_grid_current_phase": {
-        "name": "Grid Current {phase}"
+      "system_dc_battery_voltage": {
+        "name": "DC Battery Voltage"
       },
-      "evcharger_mode": {
-        "name": "EV charger mode"
+      "solarcharger_power": {
+        "name": "PV Power"
       },
-      "evcharger_current": {
-        "name": "EV charger current"
+      "system_dc_consumption": {
+        "name": "DC Consumption"
       },
-      "evcharger_power_phase": {
-        "name": "EV charger power {phase}"
+      "system_dynamicess_available_overhead": {
+        "name": "Dynamic ESS Available Overhead"
       },
-      "evcharger_set_current": {
-        "name": "EV charger set current"
+      "system_dynamicess_error": {
+        "name": "Dynamic ESS Error"
       },
-      "pvinverter_voltage_phase": {
-        "name": "Voltage {phase}"
+      "system_dynamicess_last_scheduled_end": {
+        "name": "Dynamic ESS Last Scheduled End"
       },
-      "pvinverter_current_phase": {
-        "name": "Current {phase}"
+      "system_dynamicess_last_scheduled_start": {
+        "name": "Dynamic ESS Last Scheduled Start"
       },
-      "pvinverter_power_total": {
-        "name": "Power Total"
+      "system_dynamicess_minimum_soc": {
+        "name": "Dynamic ESS Minimum SOC"
       },
-      "pvinverter_power_phase": {
-        "name": "Power {phase}"
+      "system_dynamicess_schedule_count": {
+        "name": "Dynamic ESS Number Of Schedules"
       },
-      "pvinverter_yield_total": {
-        "name": "Total Yield"
+      "system_dynamicess_reactive_strategy": {
+        "name": "Dynamic ESS Reactive Strategy"
       },
-      "pvinverter_yield_phase": {
-        "name": "Yield {phase}"
+      "system_dynamicess_restrictions": {
+        "name": "Dynamic ESS Restrictions"
       },
-      "temperature_temperature": {
+      "system_dynamicess_strategy": {
+        "name": "Dynamic ESS Strategy"
+      },
+      "system_dynamicess_target_soc": {
+        "name": "Dynamic ESS Target SOC"
+      },
+      "solarcharger_current": {
+        "name": "PV Bus current"
+      },
+      "tank_battery_voltage": {
+        "name": "Tank sensor battery voltage"
+      },
+      "tank_fluid_type": {
+        "name": "Fluid Type"
+      },
+      "tank_level": {
+        "name": "Level"
+      },
+      "tank_remaining": {
+        "name": "Remaining"
+      },
+      "tank_temperature": {
         "name": "Temperature"
-      },
-      "temperature_status": {
-        "name": "Temperature sensor status"
-      },
-      "temperature_type": {
-        "name": "Temperature sensor type"
       },
       "temperature_battery_voltage": {
         "name": "Temperature sensor battery voltage"
@@ -493,227 +652,205 @@
       "temperature_scale": {
         "name": "Temperature scale factor"
       },
-      "tank_level": {
-        "name": "Level"
+      "temperature_status": {
+        "name": "Temperature sensor status"
       },
-      "tank_battery_voltage": {
-        "name": "Tank sensor battery voltage"
-      },
-      "tank_remaining": {
-        "name": "Remaining"
-      },
-      "tank_temperature": {
+      "temperature_temperature": {
         "name": "Temperature"
       },
-      "tank_fluid_type": {
-        "name": "Fluid Type"
+      "temperature_type": {
+        "name": "Temperature sensor type"
       },
-      "multirssolar_phases": {
-        "name": "Phases"
+      "vebus_inverter_current_limit": {
+        "name": "Inverter current limit"
       },
-      "multirssolar_acin_voltage_phase": {
-        "name": "Voltage on {phase}"
+      "vebus_inverter_input_frequency_phase": {
+        "name": "Inverter input frequency {phase}"
       },
-      "multirssolar_acin_current_phase": {
-        "name": "Current {phase}"
+      "vebus_inverter_input_power_phase": {
+        "name": "Inverter input power {phase}"
       },
-      "multirssolar_acin_power_phase": {
-        "name": "Power on {phase}"
+      "vebus_inverter_input_apparent_power_phase": {
+        "name": "Inverter input apparent power {phase}"
       },
-      "multirssolar_acout_output_voltage_phase": {
-        "name": "AC Out {output} Voltage on {phase}"
+      "vebus_inverter_input_voltage_phase": {
+        "name": "Inverter input voltage {phase}"
       },
-      "multirssolar_acout_output_current_phase": {
-        "name": "AC Out {output} Current on {phase}"
+      "vebus_inverter_output_frequency_phase": {
+        "name": "Inverter output frequency {phase}"
       },
-      "multirssolar_acout_output_power_phase": {
-        "name": "AC Out {output} Power on {phase}"
+      "vebus_inverter_output_power_phase": {
+        "name": "Inverter output power {phase}"
       },
-      "multirssolar_state": {
-        "name": "State"
+      "vebus_inverter_output_apparent_power_phase": {
+        "name": "Inverter output apparent power {phase}"
       },
-      "multirssolar_mppt_mpptnumber_voltage": {
-        "name": "MPPT {mpptnumber} PV Voltage"
+      "vebus_inverter_alarm_grid_lost": {
+        "name": "Loss of grid alarm"
       },
-      "multirssolar_mppt_mpptnumber_power": {
-        "name": "MPPT {mpptnumber} Power"
+      "vebus_inverter_alarm_high_dc_current": {
+        "name": "Inverter high DC current alarm"
       },
-      "multirssolar_mppt_mpptnumber_state": {
-        "name": "MPPT {mpptnumber} state"
+      "vebus_inverter_alarm_high_dc_voltage": {
+        "name": "Inverter high DC voltage alarm"
       },
-      "multirssolar_pv_power_total": {
-        "name": "PV Power Total"
+      "vebus_inverter_alarm_high_temperature": {
+        "name": "Inverter high temperature alarm"
       },
-      "multirssolar_total_pv_yield": {
-        "name": "Total PV Yield"
+      "vebus_inverter_alarm_low_battery": {
+        "name": "Inverter low battery alarm"
       },
-      "multirssolar_ess_mode": {
-        "name": "ESS Mode"
+      "vebus_inverter_alarm_overload": {
+        "name": "Inverter overload alarm"
       },
-      "multirssolar_ess_ac_power_set_point": {
-        "name": "ESS AC Power Setpoint"
+      "vebus_inverter_alarm_phase_rotation": {
+        "name": "Inverter phase rotation alarm"
       },
-      "multirssolar_inverter_power_setpoint": {
-        "name": "Inverter Power Setpoint"
+      "vebus_inverter_alarm_ripple": {
+        "name": "Inverter ripple alarm"
       },
-      "alternator_dc_voltage": {
-        "name": "DC Output Voltage"
+      "vebus_inverter_alarm_temperature_sensor": {
+        "name": "Inverter temperature sensor alarm"
       },
-      "alternator_dc_current": {
-        "name": "DC Output Current"
+      "vebus_inverter_alarm_voltage_sensor": {
+        "name": "Inverter voltage sensor alarm"
       },
-      "alternator_dc_power": {
-        "name": "DC Output Power"
+      "vebus_inverter_dc_current": {
+        "name": "Inverter DC current"
       },
-      "alternator_input_voltage": {
-        "name": "Input Voltage"
+      "vebus_inverter_dc_power": {
+        "name": "Inverter DC power"
       },
-      "alternator_input_current": {
-        "name": "Input Current"
+      "vebus_device_device_number_input_power_l1": {
+        "name": "VE.Bus device {device_number} line 1 input power"
       },
-      "alternator_input_power": {
-        "name": "Input Power"
+      "vebus_device_device_number_input_power_phase": {
+        "name": "VE.Bus device {device_number} line {phase} input power"
       },
-      "system_ac_power_set_point": {
-        "name": "AC Power Setpoint"
+      "vebus_device_device_number_inverted_power": {
+        "name": "VE.Bus device {device_number} inverted power"
       },
-      "system_ess_min_soc_limit": {
-        "name": "ESS min SOC limit"
+      "vebus_device_device_number_output_power_l1": {
+        "name": "VE.Bus device {device_number} line 1 output power"
       },
-      "system_ess_max_charge_current": {
-        "name": "ESS max charge current"
+      "vebus_device_device_number_output_power_phase": {
+        "name": "VE.Bus device {device_number} line {phase} output power"
       },
-      "system_ess_max_charge_voltage": {
-        "name": "ESS max charge voltage"
+      "vebus_inverter_mode": {
+        "name": "Inverter mode"
       },
-      "dcload_voltage": {
-        "name": "DC load voltage"
+      "multiplus_assist_current_boost_factor": {
+        "name": "Assist Current Boost Factor"
       },
-      "dcload_current": {
-        "name": "DC load current"
+      "vebus_inverter_state": {
+        "name": "Inverter state"
+      }
+    },
+    "switch": {
+      "digitalinput_settings_invert_translation": {
+        "name": "Digital input settings invert translation"
       },
-      "dcload_power": {
-        "name": "DC load power"
+      "evcharger_charge": {
+        "name": "EV charger charge"
       },
-      "switch_output_dimming": {
-        "name": "Switch {output} Dimming"
+      "generator_autorun": {
+        "name": "Generator auto start enabled"
       },
-      "gps_altitude": {
-        "name": "GPS Altitude"
+      "generator_manual_start": {
+        "name": "Generator manual start"
       },
-      "gps_course": {
-        "name": "GPS Course"
+      "system_settings_overvoltage_feedin": {
+        "name": "PV DC Overvoltage FeedIn"
       },
-      "gps_speed": {
-        "name": "GPS Speed"
+      "generator_gen_id_start_on_voltage_enabled": {
+        "name": "Generator start on voltage enabled"
       },
-      "gps_nrofsatellites": {
-        "name": "GPS Nr Of Satellites"
+      "generator_gen_id_start_on_temp_enabled": {
+        "name": "Generator start on high temp enabled"
       },
-      "gps_latitude": {
-        "name": "GPS Latitude"
+      "generator_gen_id_quiet_hours_enabled": {
+        "name": "Generator quiet hours enabled"
       },
-      "gps_longitude": {
-        "name": "GPS Longitude"
+      "generator_gen_id_start_on_soc_enabled": {
+        "name": "Generator start on SOC enabled"
       },
-      "system_ess_max_inverter_power_limit": {
-        "name": "ESS max inverter power limit"
+      "solarcharger_mode": {
+        "name": "Solar Charger Mode"
       },
-      "generator_today_runtime": {
-        "name": "Generator today runtime"
+      "solarcharger_relay_state": {
+        "name": "Solar Charger Relay State"
       },
-      "generator_total_runtime": {
-        "name": "Generator total runtime"
+      "switch_output_state": {
+        "name": "Switch {output} State"
       },
-      "generator_service_counter": {
-        "name": "Generator service counter"
+      "system_relay_relay": {
+        "name": "Relay {relay} state"
       },
-      "generator_run_state": {
-        "name": "Generator run state"
-      },
-      "generator_gen_id_start_on_soc": {
-        "name": "Generator start on SOC"
-      },
-      "generator_gen_id_stop_on_soc": {
-        "name": "Generator stop on SOC"
-      },
-      "generator_gen_id_qh_start_on_soc": {
-        "name": "Generator QH start on SOC"
-      },
-      "generator_gen_id_qh_stop_on_soc": {
-        "name": "Generator QH stop on SOC"
-      },
-      "generator_gen_id_start_on_soc_timer": {
-        "name": "Generator start on SOC timer"
-      },
-      "generator_gen_id_stop_on_soc_timer": {
-        "name": "Generator stop on SOC timer"
-      },
-      "generator_gen_id_start_on_voltage": {
-        "name": "Generator start on voltage"
-      },
-      "generator_gen_id_stop_on_voltage": {
-        "name": "Generator stop on voltage"
-      },
-      "generator_gen_id_qh_start_on_voltage": {
-        "name": "Generator QH start on voltage"
-      },
-      "generator_gen_id_qh_stop_on_voltage": {
-        "name": "Generator QH stop on voltage"
-      },
-      "generator_gen_id_start_on_voltage_timer": {
-        "name": "Generator start on voltage timer"
-      },
-      "generator_gen_id_stop_on_voltage_timer": {
-        "name": "Generator stop on voltage timer"
-      },
-      "generator_gen_id_start_on_temp_timer": {
-        "name": "Generator start on temp timer"
-      },
-      "generator_gen_id_stop_on_temp_timer": {
-        "name": "Generator stop on temp timer"
-      },
-      "generator_gen_id_cool_down_timer": {
-        "name": "Generator cool down timer"
-      },
-      "generator_gen_id_warm_up_timer": {
-        "name": "Generator warm up timer"
-      },
-      "generator_gen_id_shut_down_timer": {
-        "name": "Generator shut down timer"
-      },
-      "generator_gen_id_service_interval": {
-        "name": "Generator service interval"
-      },
-      "transfer_switch_generator_current_limit": {
-        "name": "Generator AC current limit"
-      },
-      "digitalinput_input_state_raw": {
-        "name": "Digital input raw state"
-      },
-      "digitalinput_type": {
-        "name": "Digital input type"
-      },
-      "digitalinput_state": {
-        "name": "Digital input state"
-      },
-      "digitalinput_alarm": {
-        "name": "Digital input alarm"
-      },
-      "dcsystem_voltage": {
-        "name": "DC System Voltage"
-      },
-      "dcsystem_current": {
-        "name": "DC System Current"
-      },
-      "dcsystem_power": {
-        "name": "DC System Power"
-      },
-      "dcsystem_aux_voltage": {
-        "name": "DC System Auxiliary Voltage"
+      "vebus_inverter_setting_alarm_grid_lost": {
+        "name": "Loss of grid alarm setting"
       }
     },
     "binary_sensor": {
+      "digitalinput_settings_invert_translation": {
+        "name": "Digital input settings invert translation"
+      },
+      "evcharger_connected": {
+        "name": "EV charger connected"
+      },
+      "evcharger_charge": {
+        "name": "EV charger charge"
+      },
+      "generator_autorun": {
+        "name": "Generator auto start enabled"
+      },
+      "generator_manual_start": {
+        "name": "Generator manual start"
+      },
+      "gps_connected": {
+        "name": "GPS Connected"
+      },
+      "gps_fix": {
+        "name": "GPS Fix"
+      },
+      "inverter_alarm_high_temperature": {
+        "name": "Inverter alarm HighTemperature"
+      },
+      "inverter_alarm_high_voltage": {
+        "name": "Inverter alarm HighVoltage"
+      },
+      "inverter_alarm_high_voltage_ac_out": {
+        "name": "Inverter alarm HighVoltageAcOut"
+      },
+      "inverter_alarm_low_temperature": {
+        "name": "Inverter alarm LowTemperature"
+      },
+      "inverter_alarm_low_voltage": {
+        "name": "Inverter alarm LowVoltage"
+      },
+      "inverter_alarm_low_voltage_ac_out": {
+        "name": "Inverter alarm LowVoltageAcOut"
+      },
+      "inverter_alarm_overload": {
+        "name": "Inverter alarm Overload"
+      },
+      "inverter_alarm_ripple": {
+        "name": "Inverter alarm Ripple"
+      },
+      "system_settings_overvoltage_feedin": {
+        "name": "PV DC Overvoltage FeedIn"
+      },
+      "generator_gen_id_start_on_voltage_enabled": {
+        "name": "Generator start on voltage enabled"
+      },
+      "generator_gen_id_start_on_temp_enabled": {
+        "name": "Generator start on high temp enabled"
+      },
+      "generator_gen_id_quiet_hours_enabled": {
+        "name": "Generator quiet hours enabled"
+      },
+      "generator_gen_id_start_on_soc_enabled": {
+        "name": "Generator start on SOC enabled"
+      },
       "solarcharger_load_state": {
         "name": "Solar Charger Load State"
       },
@@ -723,38 +860,8 @@
       "solarcharger_relay_state": {
         "name": "Solar Charger Relay State"
       },
-      "vebus_inverter_connected": {
-        "name": "Inverter connected"
-      },
-      "inverter_alarm_ripple": {
-        "name": "Inverter alarm Ripple"
-      },
-      "inverter_alarm_low_voltage_ac_out": {
-        "name": "Inverter alarm LowVoltageAcOut"
-      },
-      "inverter_alarm_low_voltage": {
-        "name": "Inverter alarm LowVoltage"
-      },
-      "inverter_alarm_high_voltage_ac_out": {
-        "name": "Inverter alarm HighVoltageAcOut"
-      },
-      "inverter_alarm_high_temperature": {
-        "name": "Inverter alarm HighTemperature"
-      },
-      "inverter_alarm_high_voltage": {
-        "name": "Inverter alarm HighVoltage"
-      },
-      "inverter_alarm_low_temperature": {
-        "name": "Inverter alarm LowTemperature"
-      },
-      "inverter_alarm_overload": {
-        "name": "Inverter alarm Overload"
-      },
-      "system_relay_relay": {
-        "name": "Relay {relay} state"
-      },
-      "system_dynamicess_available": {
-        "name": "Dynamic ESS Available"
+      "switch_output_state": {
+        "name": "Switch {output} State"
       },
       "system_dynamicess_active": {
         "name": "Dynamic ESS Active"
@@ -762,113 +869,33 @@
       "system_dynamicess_allow_gridfeedin": {
         "name": "Dynamic ESS Allow Grid Feed In"
       },
-      "evcharger_charge": {
-        "name": "EV charger charge"
-      },
-      "evcharger_connected": {
-        "name": "EV charger connected"
-      },
-      "system_settings_overvoltage_feedin": {
-        "name": "PV DC Overvoltage FeedIn"
-      },
-      "switch_output_state": {
-        "name": "Switch {output} State"
-      },
-      "gps_connected": {
-        "name": "GPS Connected"
-      },
-      "gps_fix": {
-        "name": "GPS Fix"
-      },
-      "generator_autorun": {
-        "name": "Generator auto start enabled"
-      },
-      "generator_manual_start": {
-        "name": "Generator manual start"
-      },
-      "generator_gen_id_quiet_hours_enabled": {
-        "name": "Generator quiet hours enabled"
-      },
-      "generator_gen_id_start_on_soc_enabled": {
-        "name": "Generator start on SOC enabled"
-      },
-      "generator_gen_id_start_on_voltage_enabled": {
-        "name": "Generator start on voltage enabled"
-      },
-      "generator_gen_id_start_on_temp_enabled": {
-        "name": "Generator start on high temp enabled"
-      },
-      "digitalinput_settings_invert_translation": {
-        "name": "Digital input settings invert translation"
-      }
-    },
-    "switch": {
-      "solarcharger_mode": {
-        "name": "Solar Charger Mode"
-      },
-      "solarcharger_relay_state": {
-        "name": "Solar Charger Relay State"
+      "system_dynamicess_available": {
+        "name": "Dynamic ESS Available"
       },
       "system_relay_relay": {
         "name": "Relay {relay} state"
       },
-      "evcharger_charge": {
-        "name": "EV charger charge"
+      "vebus_inverter_connected": {
+        "name": "Inverter connected"
       },
-      "system_settings_overvoltage_feedin": {
-        "name": "PV DC Overvoltage FeedIn"
-      },
-      "switch_output_state": {
-        "name": "Switch {output} State"
-      },
-      "generator_autorun": {
-        "name": "Generator auto start enabled"
-      },
-      "generator_manual_start": {
-        "name": "Generator manual start"
-      },
-      "generator_gen_id_quiet_hours_enabled": {
-        "name": "Generator quiet hours enabled"
-      },
-      "generator_gen_id_start_on_soc_enabled": {
-        "name": "Generator start on SOC enabled"
-      },
-      "generator_gen_id_start_on_voltage_enabled": {
-        "name": "Generator start on voltage enabled"
-      },
-      "generator_gen_id_start_on_temp_enabled": {
-        "name": "Generator start on high temp enabled"
-      },
-      "digitalinput_settings_invert_translation": {
-        "name": "Digital input settings invert translation"
+      "vebus_inverter_setting_alarm_grid_lost": {
+        "name": "Loss of grid alarm setting"
       }
     },
     "select": {
-      "vebus_inverter_mode": {
-        "name": "Inverter mode"
+      "evcharger_mode": {
+        "name": "EV charger mode"
       },
       "inverter_mode": {
         "name": "Inverter mode"
       },
-      "evcharger_mode": {
-        "name": "EV charger mode"
+      "vebus_inverter_mode": {
+        "name": "Inverter mode"
       }
     },
     "number": {
-      "vebus_inverter_current_limit": {
-        "name": "Inverter current limit"
-      },
-      "multiplus_assist_current_boost_factor": {
-        "name": "Assist Current Boost Factor"
-      },
       "evcharger_set_current": {
         "name": "EV charger set current"
-      },
-      "temperature_offset": {
-        "name": "Temperature offset"
-      },
-      "temperature_scale": {
-        "name": "Temperature scale factor"
       },
       "system_ac_power_set_point": {
         "name": "AC Power Setpoint"
@@ -876,41 +903,8 @@
       "system_ess_min_soc_limit": {
         "name": "ESS min SOC limit"
       },
-      "system_ess_max_charge_current": {
-        "name": "ESS max charge current"
-      },
-      "system_ess_max_charge_voltage": {
-        "name": "ESS max charge voltage"
-      },
-      "switch_output_dimming": {
-        "name": "Switch {output} Dimming"
-      },
       "system_ess_max_inverter_power_limit": {
         "name": "ESS max inverter power limit"
-      },
-      "generator_gen_id_start_on_soc": {
-        "name": "Generator start on SOC"
-      },
-      "generator_gen_id_stop_on_soc": {
-        "name": "Generator stop on SOC"
-      },
-      "generator_gen_id_qh_start_on_soc": {
-        "name": "Generator QH start on SOC"
-      },
-      "generator_gen_id_qh_stop_on_soc": {
-        "name": "Generator QH stop on SOC"
-      },
-      "generator_gen_id_start_on_soc_timer": {
-        "name": "Generator start on SOC timer"
-      },
-      "generator_gen_id_stop_on_soc_timer": {
-        "name": "Generator stop on SOC timer"
-      },
-      "generator_gen_id_start_on_voltage": {
-        "name": "Generator start on voltage"
-      },
-      "generator_gen_id_stop_on_voltage": {
-        "name": "Generator stop on voltage"
       },
       "generator_gen_id_qh_start_on_voltage": {
         "name": "Generator QH start on voltage"
@@ -921,8 +915,20 @@
       "generator_gen_id_start_on_voltage_timer": {
         "name": "Generator start on voltage timer"
       },
+      "generator_gen_id_start_on_voltage": {
+        "name": "Generator start on voltage"
+      },
       "generator_gen_id_stop_on_voltage_timer": {
         "name": "Generator stop on voltage timer"
+      },
+      "generator_gen_id_stop_on_voltage": {
+        "name": "Generator stop on voltage"
+      },
+      "generator_gen_id_cool_down_timer": {
+        "name": "Generator cool down timer"
+      },
+      "generator_gen_id_shut_down_timer": {
+        "name": "Generator shut down timer"
       },
       "generator_gen_id_start_on_temp_timer": {
         "name": "Generator start on temp timer"
@@ -930,20 +936,53 @@
       "generator_gen_id_stop_on_temp_timer": {
         "name": "Generator stop on temp timer"
       },
-      "generator_gen_id_cool_down_timer": {
-        "name": "Generator cool down timer"
+      "generator_gen_id_service_interval": {
+        "name": "Generator service interval"
+      },
+      "generator_gen_id_qh_start_on_soc": {
+        "name": "Generator QH start on SOC"
+      },
+      "generator_gen_id_qh_stop_on_soc": {
+        "name": "Generator QH stop on SOC"
+      },
+      "generator_gen_id_start_on_soc_timer": {
+        "name": "Generator start on SOC timer"
+      },
+      "generator_gen_id_start_on_soc": {
+        "name": "Generator start on SOC"
+      },
+      "generator_gen_id_stop_on_soc_timer": {
+        "name": "Generator stop on SOC timer"
+      },
+      "generator_gen_id_stop_on_soc": {
+        "name": "Generator stop on SOC"
       },
       "generator_gen_id_warm_up_timer": {
         "name": "Generator warm up timer"
       },
-      "generator_gen_id_shut_down_timer": {
-        "name": "Generator shut down timer"
+      "system_ess_max_charge_current": {
+        "name": "ESS max charge current"
       },
-      "generator_gen_id_service_interval": {
-        "name": "Generator service interval"
+      "system_ess_max_charge_voltage": {
+        "name": "ESS max charge voltage"
       },
       "transfer_switch_generator_current_limit": {
         "name": "Generator AC current limit"
+      },
+      "switch_output_dimming": {
+        "name": "Switch {output} Dimming"
+      },
+      "temperature_offset": {
+        "name": "Temperature offset"
+      },
+      "temperature_scale": {
+        "name": "Temperature scale factor"
+      },
+      "vebus_inverter_current_limit": {
+        "name": "Inverter current limit"
+      },
+      "multiplus_assist_current_boost_factor": {
+        "name": "Assist Current Boost Factor"
       }
     }
   }
