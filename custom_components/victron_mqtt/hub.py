@@ -24,7 +24,7 @@ from victron_mqtt import (
     CannotConnectError,
     Hub as VictronVenusHub,
     Metric as VictronVenusMetric,
-    Switch as VictronVenusSwitch,
+    WritableMetric as VictronVenusWritableMetric,
     Device as VictronVenusDevice,
     MetricKind,
     GenericOnOff,
@@ -126,7 +126,7 @@ class Hub:
             return VictronSensor(device, metric, info, self.update_frequency_seconds)
         elif metric.metric_kind == MetricKind.BINARY_SENSOR:
             return VictronBinarySensor(device, metric, info, self.update_frequency_seconds)
-        assert isinstance(metric, VictronVenusSwitch), f"Expected metric to be a VictronVenusSwitch. Got {type(metric)}"
+        assert isinstance(metric, VictronVenusWritableMetric), f"Expected metric to be a VictronVenusWritableMetric. Got {type(metric)}"
         if metric.metric_kind == MetricKind.SWITCH:
             return VictronSwitch(device, metric, info, self.update_frequency_seconds)
         elif metric.metric_kind == MetricKind.NUMBER:
@@ -166,13 +166,13 @@ class VictronSwitch(VictronBaseEntity, SwitchEntity):
     def __init__(
         self,
         device: VictronVenusDevice,
-        switch: VictronVenusSwitch,
+        writable_metric: VictronVenusWritableMetric,
         device_info: DeviceInfo,
         update_frequency_seconds: int,
     ) -> None:
         """Initialize the switch."""
-        self._attr_is_on = switch.value == GenericOnOff.On
-        super().__init__(device, switch, device_info, "switch", update_frequency_seconds)
+        self._attr_is_on = writable_metric.value == GenericOnOff.On
+        super().__init__(device, writable_metric, device_info, "switch", update_frequency_seconds)
 
     def __repr__(self) -> str:
         """Return a string representation of the sensor."""
@@ -186,14 +186,14 @@ class VictronSwitch(VictronBaseEntity, SwitchEntity):
 
     async def async_turn_on(self, **kwargs: Any) -> None:
         """Turn the switch on."""
-        assert isinstance(self._metric, VictronVenusSwitch)
+        assert isinstance(self._metric, VictronVenusWritableMetric)
         _LOGGER.info("Turning on switch: %s", self._attr_unique_id)
         self._metric.set(GenericOnOff.On)
         self.async_write_ha_state()
 
     async def async_turn_off(self, **kwargs: Any) -> None:
         """Turn the switch off."""
-        assert isinstance(self._metric, VictronVenusSwitch)
+        assert isinstance(self._metric, VictronVenusWritableMetric)
         _LOGGER.info("Turning off switch: %s", self._attr_unique_id)
         self._metric.set(GenericOnOff.Off)
         self.async_write_ha_state()
@@ -204,19 +204,19 @@ class VictronNumber(VictronBaseEntity, NumberEntity):
     def __init__(
         self,
         device: VictronVenusDevice,
-        switch: VictronVenusSwitch,
+        writable_metric: VictronVenusWritableMetric,
         device_info: DeviceInfo,
         update_frequency_seconds: int,
     ) -> None:
         """Initialize the number entity."""
-        self._attr_native_value = switch.value
-        if isinstance(switch.min_value, int) or isinstance(switch.min_value, float):
-            self._attr_native_min_value = switch.min_value
-        if isinstance(switch.max_value, int) or isinstance(switch.max_value, float):
-            self._attr_native_max_value = switch.max_value
-        if isinstance(switch.increment, int) or isinstance(switch.increment, float):
-            self._attr_native_step = switch.increment
-        super().__init__(device, switch, device_info, "number", update_frequency_seconds)
+        self._attr_native_value = writable_metric.value
+        if isinstance(writable_metric.min_value, int) or isinstance(writable_metric.min_value, float):
+            self._attr_native_min_value = writable_metric.min_value
+        if isinstance(writable_metric.max_value, int) or isinstance(writable_metric.max_value, float):
+            self._attr_native_max_value = writable_metric.max_value
+        if isinstance(writable_metric.step, int) or isinstance(writable_metric.step, float):
+            self._attr_native_step = writable_metric.step
+        super().__init__(device, writable_metric, device_info, "number", update_frequency_seconds)
 
     def __repr__(self) -> str:
         """Return a string representation of the sensor."""
@@ -233,7 +233,7 @@ class VictronNumber(VictronBaseEntity, NumberEntity):
 
     async def async_set_native_value(self, value: float) -> None:
         """Set a new value."""
-        assert isinstance(self._metric, VictronVenusSwitch)
+        assert isinstance(self._metric, VictronVenusWritableMetric)
         _LOGGER.info("Setting number %s on switch: %s", value, self._attr_unique_id)
         self._metric.set(value)
         self.async_write_ha_state()
@@ -270,14 +270,14 @@ class VictronSelect(VictronBaseEntity, SelectEntity):
     def __init__(
         self,
         device: VictronVenusDevice,
-        switch: VictronVenusSwitch,
+        writable_metric: VictronVenusWritableMetric,
         device_info: DeviceInfo,
         update_frequency_seconds: int,
     ) -> None:
         """Initialize the switch."""
-        self._attr_options = switch.enum_values
-        self._attr_current_option = self._map_value_to_state(switch.value)
-        super().__init__(device, switch, device_info, "select", update_frequency_seconds)
+        self._attr_options = writable_metric.enum_values
+        self._attr_current_option = self._map_value_to_state(writable_metric.value)
+        super().__init__(device, writable_metric, device_info, "select", update_frequency_seconds)
 
     def __repr__(self) -> str:
         """Return a string representation of the sensor."""
@@ -294,7 +294,7 @@ class VictronSelect(VictronBaseEntity, SelectEntity):
             _LOGGER.info("Setting switch %s to %s failed as option not supported. supported options are: %s", self._attr_unique_id, option, self._metric.enum_values)
             return
         _LOGGER.info("Setting switch %s to %s", self._attr_unique_id, option)
-        assert isinstance(self._metric, VictronVenusSwitch)
+        assert isinstance(self._metric, VictronVenusWritableMetric)
         self._metric.set(option)
         self.async_write_ha_state()
 

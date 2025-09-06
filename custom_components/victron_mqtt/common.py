@@ -8,7 +8,6 @@ from homeassistant.components.sensor.const import SensorDeviceClass, SensorState
 from victron_mqtt import (
     Device as VictronVenusDevice,
     Metric as VictronVenusMetric,
-    DeviceType,
     MetricNature,
     MetricType,
 )
