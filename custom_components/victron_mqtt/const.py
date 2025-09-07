@@ -16,3 +16,10 @@ DEFAULT_HOST = "venus.local."
 DEFAULT_PORT = 1883
 DEFAULT_UPDATE_FREQUENCY_SECONDS = 30
 
+# Service names
+SERVICE_PUBLISH = "publish"
+
+# Service data attributes
+ATTR_METRIC_ID = "metric_id"
+ATTR_DEVICE_ID = "device_id"
+ATTR_VALUE = "value"

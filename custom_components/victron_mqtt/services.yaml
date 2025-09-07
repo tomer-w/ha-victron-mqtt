@@ -1,0 +1,25 @@
+publish:
+  name: Publish to Victron
+  description: Publish value to predefined Victron topic
+  fields:
+    metric_id:
+      name: Metric ID
+      description: The ID to the metric (e.g. "generator_service_counter_reset")
+      required: true
+      example: "generator_service_counter_reset"
+      selector:
+        text:
+    device_id:
+      name: Device ID
+      description: The ID of the Victron device (e.g., "261" for a MultiPlus)
+      required: true
+      example: "261"
+      selector:
+        text:
+    value:
+      name: Value
+      description: The value to set for the metric
+      required: false
+      example: 230.0
+      selector:
+        text:

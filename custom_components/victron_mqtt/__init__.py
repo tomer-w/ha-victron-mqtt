@@ -11,9 +11,10 @@ from homeassistant.helpers.typing import ConfigType
 import homeassistant.helpers.config_validation as cv
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import Platform
-from homeassistant.core import HomeAssistant
+from homeassistant.core import HomeAssistant, ServiceCall
+from homeassistant.exceptions import HomeAssistantError
 
-from .const import DOMAIN
+from .const import DOMAIN, SERVICE_PUBLISH, ATTR_DEVICE_ID, ATTR_METRIC_ID, ATTR_VALUE
 
 
 _LOGGER = logging.getLogger(__name__)
@@ -25,6 +26,40 @@ CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 PLATFORMS: list[Platform] = [Platform.BINARY_SENSOR, Platform.NUMBER, Platform.SELECT, Platform.SENSOR, Platform.SWITCH]
 
 __all__ = ["DOMAIN"]
+
+async def async_setup_services(hass: HomeAssistant, entry: ConfigEntry) -> None:
+    """Set up services for the Victron MQTT integration."""
+    
+    # Only register services once
+    if hass.services.has_service(DOMAIN, SERVICE_PUBLISH):
+        return
+    
+    async def handle_publish(call: ServiceCall) -> None:
+        """Handle the set_value service call."""
+        metric_id = call.data.get(ATTR_METRIC_ID)
+        device_id = call.data.get(ATTR_DEVICE_ID)
+        value = call.data.get(ATTR_VALUE)
+        
+        if not metric_id:
+            raise HomeAssistantError("metric_id is required")
+        if not device_id:
+            raise HomeAssistantError("device_id is required")
+        
+        # Find the hub instance
+        hub: Hub = entry.runtime_data
+        if hub is None:
+            raise HomeAssistantError("No Victron MQTT hub found")
+        
+        hub.publish(metric_id, device_id, value)
+    
+    # Register the service
+    hass.services.async_register(
+        DOMAIN,
+        SERVICE_PUBLISH,
+        handle_publish,
+    )
+    
+    _LOGGER.info("Victron MQTT services registered")
 
 async def _update_listener(hass: HomeAssistant, entry: ConfigEntry):
     """Handle options update."""
@@ -69,6 +104,10 @@ async def async_setup_entry(
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
     # All platforms should be set up before starting the hub
     await hub.start()
+    
+    # Register services
+    await async_setup_services(hass, entry)
+    
     _LOGGER.info("async_setup_entry completed for entry: %s", entry.entry_id)
     return True
 
@@ -81,4 +120,10 @@ async def async_unload_entry(
     hub: Hub = entry.runtime_data
     if hub is not None:
         await hub.stop(None)
+    
+    # Unregister services if this is the last entry
+    if len(hass.config_entries.async_entries(DOMAIN)) == 1:
+        hass.services.async_remove(DOMAIN, SERVICE_SET_VALUE)
+        _LOGGER.info("Victron MQTT services unregistered")
+    
     return await hass.config_entries.async_unload_platforms(entry, PLATFORMS)

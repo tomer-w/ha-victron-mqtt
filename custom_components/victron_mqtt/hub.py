@@ -3,7 +3,7 @@ import logging
 
 from homeassistant.core import HomeAssistant, callback, Event
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.exceptions import ConfigEntryNotReady
+from homeassistant.exceptions import ConfigEntryNotReady, HomeAssistantError
 from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.components.sensor import SensorEntity
 from homeassistant.components.switch import SwitchEntity
@@ -135,6 +135,15 @@ class Hub:
             return VictronSelect(device, metric, info, self.update_frequency_seconds)
         else:
             raise ValueError(f"Unsupported metric kind: {metric.metric_kind}")
+
+    def publish(self, metric_id: str, device_id: str, value: str | float | int | None) -> None:
+        """Publish a message to the Victron MQTT hub."""
+        _LOGGER.info("Publish service called with: metric_id=%s, device_id=%s, value=%s",
+                      metric_id, device_id, value)
+        try:
+            self._hub.publish(metric_id, device_id, value)
+        except Exception:
+            raise HomeAssistantError(f"Error publishing to Victron MQTT. metric_id: '{metric_id}'")
 
 
 class VictronSensor(VictronBaseEntity, SensorEntity):
