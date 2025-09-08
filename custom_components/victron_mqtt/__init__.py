@@ -2,11 +2,11 @@
 
 from __future__ import annotations
 
+import asyncio
 import logging
 import importlib.metadata
 
 from .hub import Hub
-from .common import get_event_loop, init_event_loop
 from homeassistant.helpers.typing import ConfigType
 import homeassistant.helpers.config_validation as cv
 from homeassistant.config_entries import ConfigEntry
@@ -69,13 +69,11 @@ async def _update_listener(hass: HomeAssistant, entry: ConfigEntry):
 
 
 async def get_package_version(package_name) -> str:
-    asyncio_event_loop = get_event_loop()
-    version = await asyncio_event_loop.run_in_executor(None, importlib.metadata.version, package_name)
+    version = await asyncio.get_event_loop().run_in_executor(None, importlib.metadata.version, package_name)
     return version
 
 async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
     """Set up the integration."""
-    init_event_loop()
     version = getattr(hass.data["integrations"][DOMAIN], "version", 0)
     victron_mqtt_version = await get_package_version("victron_mqtt")
     _LOGGER.info("Setting up victron_mqtt integration. Version: %s. victron_mqtt package version: %s", version, victron_mqtt_version)
@@ -123,7 +121,7 @@ async def async_unload_entry(
     
     # Unregister services if this is the last entry
     if len(hass.config_entries.async_entries(DOMAIN)) == 1:
-        hass.services.async_remove(DOMAIN, SERVICE_SET_VALUE)
+        hass.services.async_remove(DOMAIN, SERVICE_PUBLISH)
         _LOGGER.info("Victron MQTT services unregistered")
     
     return await hass.config_entries.async_unload_platforms(entry, PLATFORMS)

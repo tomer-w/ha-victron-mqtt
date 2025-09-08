@@ -1,5 +1,6 @@
-from typing import Any
 import logging
+from typing import Any
+from datetime import timedelta
 
 from homeassistant.core import HomeAssistant, callback, Event
 from homeassistant.config_entries import ConfigEntry
@@ -11,6 +12,7 @@ from homeassistant.components.number import NumberEntity
 from homeassistant.components.binary_sensor import BinarySensorEntity
 from homeassistant.components.select import SelectEntity
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
+from homeassistant.helpers.event import async_track_time_interval
 from homeassistant.const import (
     CONF_HOST,
     CONF_PASSWORD,
@@ -80,6 +82,10 @@ class Hub:
         self._hub.on_new_metric = self.on_new_metric
         self.update_frequency_seconds = config.get(CONF_UPDATE_FREQUENCY_SECONDS, DEFAULT_UPDATE_FREQUENCY_SECONDS)
         self.add_entities_map: dict[MetricKind, AddEntitiesCallback] = {}
+        
+        # Track all entities for periodic updates
+        self.entities: list[VictronBaseEntity] = []
+        self._update_task_unsub = None
 
         self.hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, self.stop)
 
@@ -87,6 +93,17 @@ class Hub:
         _LOGGER.info("Starting hub. Update frequency: %s seconds", self.update_frequency_seconds)
         try:
             await self._hub.connect()
+            
+            if self.update_frequency_seconds > 0:
+                # Start the periodic update task
+                full_refresh_interval = self.update_frequency_seconds * 2
+                self._update_task_unsub = async_track_time_interval(
+                    self.hass,
+                    self._periodic_update_task,
+                    timedelta(seconds=full_refresh_interval)
+                )
+                _LOGGER.info("Started periodic update task to run every %d seconds(s)", full_refresh_interval)
+
         except CannotConnectError as connect_error:
             _LOGGER.error("Cannot connect to the hub")
             raise ConfigEntryNotReady("Device is offline") from connect_error
@@ -94,12 +111,23 @@ class Hub:
     @callback
     async def stop(self, event: Event):
         _LOGGER.info("Stopping hub")
+        
+        # Cancel the periodic update task
+        if self._update_task_unsub is not None:
+            self._update_task_unsub()
+            self._update_task_unsub = None
+            _LOGGER.info("Stopped periodic update task")
+            
         await self._hub.disconnect()
 
     def on_new_metric(self, hub: VictronVenusHub, device: VictronVenusDevice, metric: VictronVenusMetric):
         _LOGGER.info("New metric received. Hub: %s, Device: %s, Metric: %s", hub, device, metric)
         device_info = Hub._map_device_info(device)
         entity = self.creatre_entity(device, metric, device_info)
+        
+        # Track the entity for periodic updates
+        self.entities.append(entity)
+        
         # Add entity dynamically to the platform
         self.add_entities_map[metric.metric_kind]([entity])
         entity.mark_registered_with_homeassistant()
@@ -119,6 +147,24 @@ class Hub:
         """Register a callback to add entities for a specific metric kind."""
         _LOGGER.info("Registering AddEntitiesCallback. kind: %s, AddEntitiesCallback: %s", kind, async_add_entities)
         self.add_entities_map[kind] = async_add_entities
+
+    async def _periodic_update_task(self, now=None):
+        """Periodic task to update all tracked entities with their latest metric values."""
+        if not self.entities:
+            _LOGGER.info("No entities to update")
+            return
+
+        _LOGGER.info("Running periodic update task for %d entities", len(self.entities))
+        
+        updated_count = 0
+        
+        for entity in self.entities:
+            if entity.update():
+                #_LOGGER.info("Entity updated: %s", entity)
+                updated_count += 1
+
+        if updated_count > 0:
+            _LOGGER.info("Periodic update completed: %d entities updated", updated_count)
 
     def creatre_entity(self, device: VictronVenusDevice, metric: VictronVenusMetric, info: DeviceInfo) -> VictronBaseEntity:
         """Create a VictronBaseEntity from a device and metric."""
@@ -164,10 +210,12 @@ class VictronSensor(VictronBaseEntity, SensorEntity):
         """Return a string representation of the sensor."""
         return f"VictronSensor({super().__repr__()})"
 
-    async def _on_update_task(self, metric: VictronVenusMetric):
+    def _on_update_task(self, metric: VictronVenusMetric) -> bool:
+        if self._attr_native_value == metric.value:
+            return False
         self._attr_native_value = metric.value
-        self.async_write_ha_state()
-
+        self.schedule_update_ha_state()
+        return True
 
 class VictronSwitch(VictronBaseEntity, SwitchEntity):
     """Implementation of a Victron Venus multiple state select using SelectEntity."""
@@ -189,9 +237,13 @@ class VictronSwitch(VictronBaseEntity, SwitchEntity):
             f"VictronSwitch({super().__repr__()}, is_on={self._attr_is_on})"
         )
 
-    async def _on_update_task(self, metric: VictronVenusMetric):
-        self._attr_is_on = metric.value == GenericOnOff.On
-        self.async_write_ha_state()
+    def _on_update_task(self, metric: VictronVenusMetric) -> bool:
+        new_val = metric.value == GenericOnOff.On
+        if self._attr_is_on == new_val:
+            return False
+        self._attr_is_on = new_val
+        self.schedule_update_ha_state()
+        return True
 
     async def async_turn_on(self, **kwargs: Any) -> None:
         """Turn the switch on."""
@@ -231,9 +283,12 @@ class VictronNumber(VictronBaseEntity, NumberEntity):
         """Return a string representation of the sensor."""
         return f"VictronNumber({super().__repr__()}, native_value={self._attr_native_value})"
 
-    async def _on_update_task(self, metric: VictronVenusMetric):
+    def _on_update_task(self, metric: VictronVenusMetric) -> bool:
+        if self._attr_native_value == metric.value:
+            return False
         self._attr_native_value = metric.value
-        self.async_write_ha_state()
+        self.schedule_update_ha_state()
+        return True
 
     @property
     def native_value(self):
@@ -265,9 +320,13 @@ class VictronBinarySensor(VictronBaseEntity, BinarySensorEntity):
         """Return a string representation of the sensor."""
         return f"VictronBinarySensor({super().__repr__()}), is_on={self._attr_is_on})"
 
-    async def _on_update_task(self, metric: VictronVenusMetric):
-        self._attr_is_on = metric.value == GenericOnOff.On
-        self.async_write_ha_state()
+    def _on_update_task(self, metric: VictronVenusMetric) -> bool:
+        new_val = metric.value == GenericOnOff.On
+        if self._attr_is_on == new_val:
+            return False
+        self._attr_is_on = new_val
+        self.schedule_update_ha_state()
+        return True
 
     @property
     def is_on(self) -> bool:
@@ -292,9 +351,13 @@ class VictronSelect(VictronBaseEntity, SelectEntity):
         """Return a string representation of the sensor."""
         return f"VictronSelect({super().__repr__()}, current_option={self._attr_current_option}, options={self._attr_options})"
 
-    async def _on_update_task(self, metric: VictronVenusMetric):
-        self._attr_current_option = self._map_value_to_state(metric.value)
-        self.async_write_ha_state()
+    def _on_update_task(self, metric: VictronVenusMetric) -> bool:
+        new_val = self._map_value_to_state(metric.value)
+        if self._attr_current_option == new_val:
+            return False
+        self._attr_current_option = new_val
+        self.schedule_update_ha_state()
+        return True
 
     async def async_select_option(self, option: str) -> None:
         """Change the selected option."""

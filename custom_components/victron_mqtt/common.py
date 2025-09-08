@@ -1,5 +1,4 @@
 import logging
-import asyncio
 import time
 from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.entity import Entity
@@ -13,18 +12,6 @@ from victron_mqtt import (
 )
 
 _LOGGER = logging.getLogger(__name__)
-
-asyncio_event_loop: asyncio.AbstractEventLoop | None = None
-
-def init_event_loop():
-    global asyncio_event_loop
-    asyncio_event_loop = asyncio.get_event_loop()
-
-def get_event_loop() -> asyncio.AbstractEventLoop:
-    """Get the current asyncio event loop."""
-    global asyncio_event_loop
-    assert asyncio_event_loop is not None
-    return asyncio_event_loop
 
 class VictronBaseEntity(Entity):
     """Implementation of a Victron Venus base entity."""
@@ -69,8 +56,16 @@ class VictronBaseEntity(Entity):
         )
 
     def _on_update(self, metric: VictronVenusMetric):
+        self._update_internal(metric)
+
+    def update(self) -> bool:
+        if not isinstance(self._metric.value, (float, int)):
+            return False
+        return self._update_internal(self._metric)
+
+    def _update_internal(self, metric: VictronVenusMetric) -> bool:
         # Only apply update frequency logic for float values
-        if isinstance(metric.value, float):
+        if isinstance(metric.value, (float, int)):
             now = time.time()
             if self._last_update is not None:
                 elapsed = now - self._last_update
@@ -79,9 +74,9 @@ class VictronBaseEntity(Entity):
                         "Update for %s skipped due to frequency limit (%.2fs < %ds)",
                         self._attr_unique_id, elapsed, self._update_frequency_seconds
                     )
-                    return
+                    return False
             self._last_update = now
-        asyncio.run_coroutine_threadsafe(self._on_update_task(metric), get_event_loop())
+        return self._on_update_task(metric)
 
     def mark_registered_with_homeassistant(self):
         """Mark the sensor as registered with Home Assistant, so that updates can be propagated."""
