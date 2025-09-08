@@ -484,6 +484,9 @@
       "generator_gen_id_warm_up_timer": {
         "name": "Generator warm up timer"
       },
+      "system_relay_relay_custom_name": {
+        "name": "Relay {relay} Custom Name"
+      },
       "system_ess_max_charge_current": {
         "name": "ESS max charge current"
       },
@@ -538,6 +541,18 @@
       "solarcharger_voltage": {
         "name": "PV Bus Voltage"
       },
+      "solarcharger_tracker_tracker_operation_mode": {
+        "name": "PV Tracker {tracker} Operation Mode"
+      },
+      "solarcharger_tracker_tracker_name": {
+        "name": "PV Tracker {tracker} Name"
+      },
+      "solarcharger_tracker_tracker_power": {
+        "name": "PV Tracker {tracker} Power"
+      },
+      "solarcharger_tracker_tracker_voltage": {
+        "name": "PV Tracker {tracker} Voltage"
+      },
       "solarcharger_state": {
         "name": "Solar Charger State"
       },
@@ -549,6 +564,9 @@
       },
       "switch_output_dimming": {
         "name": "Switch {output} Dimming"
+      },
+      "switch_output_custom_name": {
+        "name": "Switch {output} Custom Name"
       },
       "system_ac_active_input_source": {
         "name": "AC Active Input Source"
@@ -604,7 +622,7 @@
       "system_dc_battery_voltage": {
         "name": "DC Battery Voltage"
       },
-      "solarcharger_power": {
+      "system_dc_pv_power": {
         "name": "PV Power"
       },
       "system_dc_consumption": {
