@@ -154,7 +154,7 @@ class Hub:
             _LOGGER.info("No entities to update")
             return
 
-        _LOGGER.info("Running periodic update task for %d entities", len(self.entities))
+        _LOGGER.debug("Running periodic update task for %d entities", len(self.entities))
         
         updated_count = 0
         
@@ -164,7 +164,7 @@ class Hub:
                 updated_count += 1
 
         if updated_count > 0:
-            _LOGGER.info("Periodic update completed: %d entities updated", updated_count)
+            _LOGGER.debug("Periodic update completed: %d entities updated", updated_count)
 
     def creatre_entity(self, device: VictronVenusDevice, metric: VictronVenusMetric, info: DeviceInfo) -> VictronBaseEntity:
         """Create a VictronBaseEntity from a device and metric."""
