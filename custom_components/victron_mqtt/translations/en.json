@@ -66,9 +66,11 @@
   },
   "selector": {
     "operation_mode": {
-      "read_only": "Read-only (sensors & binary sensors only)",
-      "full": "Full (sensors + controllable entities)",
-      "experimental": "Experimental (may be unstable)"
+      "options": {
+        "read_only": "Read-only (sensors & binary sensors only)",
+        "full": "Full (sensors + controllable entities)",
+        "experimental": "Experimental (may be unstable)"
+      }
     }
   },
   "entity": {
