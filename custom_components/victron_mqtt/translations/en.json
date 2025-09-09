@@ -25,11 +25,6 @@
           "excluded_devices": "List of devices to exclude from being monitored."
         }
       }
-    },
-    "operation_mode": {
-      "read_only": "Read-only (sensors & binary sensors only)",
-      "full": "Full (sensors + controllable entities)",
-      "experimental": "Experimental (may be unstable)"
     }
   },
   "options": {
@@ -67,7 +62,9 @@
     "abort": {
       "already_configured": "Already configured",
       "not_victronvenus": "Not a Victron Venus device"
-    },
+    }
+  },
+  "selector": {
     "operation_mode": {
       "read_only": "Read-only (sensors & binary sensors only)",
       "full": "Full (sensors + controllable entities)",
