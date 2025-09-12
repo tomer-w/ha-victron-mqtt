@@ -18,7 +18,7 @@ def main():
     count = 0
     for topic in topics.get('topics', []):
         translation_key = topic.get('short_id').replace('{', '').replace('}', '') # same as in common.py
-        topic_name = topic.get('namegeneric_name')
+        topic_name = topic.get('generic_name')
         message_type = topic.get('message_type')
         is_adjustable_suffix = topic.get('is_adjustable_suffix')
         
