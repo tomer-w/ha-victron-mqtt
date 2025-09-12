@@ -23,7 +23,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "DC Output Current"
     },
     {
       "topic": "N/{installation_id}/alternator/{device_id}/Dc/0/Power",
@@ -42,7 +43,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "DC Output Power"
     },
     {
       "topic": "N/{installation_id}/alternator/{device_id}/Dc/0/Voltage",
@@ -61,7 +63,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "DC Output Voltage"
     },
     {
       "topic": "N/{installation_id}/alternator/{device_id}/In/I",
@@ -80,7 +83,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Input Current"
     },
     {
       "topic": "N/{installation_id}/alternator/{device_id}/In/P",
@@ -99,7 +103,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Input Power"
     },
     {
       "topic": "N/{installation_id}/alternator/{device_id}/In/V",
@@ -118,7 +123,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Input Voltage"
     },
     {
       "topic": "N/{installation_id}/battery/{device_id}/Alarms/CellImbalance",
@@ -137,7 +143,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Battery cell imbalance"
     },
     {
       "topic": "N/{installation_id}/battery/{device_id}/Alarms/HighChargeCurrent",
@@ -156,7 +163,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Battery high charge current"
     },
     {
       "topic": "N/{installation_id}/battery/{device_id}/Alarms/HighChargeTemperature",
@@ -175,7 +183,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Battery high charge temperature"
     },
     {
       "topic": "N/{installation_id}/battery/{device_id}/Alarms/HighDischargeCurrent",
@@ -194,7 +203,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Battery high discharge current"
     },
     {
       "topic": "N/{installation_id}/battery/{device_id}/Alarms/InternalFailure",
@@ -213,7 +223,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Battery internal failure"
     },
     {
       "topic": "N/{installation_id}/battery/{device_id}/Alarms/LowCellVoltage",
@@ -232,7 +243,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Battery low cell voltage"
     },
     {
       "topic": "N/{installation_id}/battery/{device_id}/Alarms/LowChargeTemperature",
@@ -251,7 +263,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Battery low charge temperature"
     },
     {
       "topic": "N/{installation_id}/battery/{device_id}/Capacity",
@@ -270,7 +283,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Battery capacity"
     },
     {
       "topic": "N/{installation_id}/battery/{device_id}/ConsumedAmphours",
@@ -289,7 +303,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Battery consumed amp-hours"
     },
     {
       "topic": "N/{installation_id}/battery/{device_id}/Dc/0/Current",
@@ -308,7 +323,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "DC Bus current"
     },
     {
       "topic": "N/{installation_id}/battery/{device_id}/Dc/0/Power",
@@ -327,7 +343,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Battery power"
     },
     {
       "topic": "N/{installation_id}/battery/{device_id}/Dc/0/Temperature",
@@ -346,7 +363,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Battery temperature"
     },
     {
       "topic": "N/{installation_id}/battery/{device_id}/Dc/0/Voltage",
@@ -365,7 +383,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "DC Bus voltage"
     },
     {
       "topic": "N/{installation_id}/battery/{device_id}/Dc/1/Voltage",
@@ -384,7 +403,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Auxiliary battery voltage"
     },
     {
       "topic": "N/{installation_id}/battery/{device_id}/History/AutomaticSyncs",
@@ -403,7 +423,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Automatic syncs"
     },
     {
       "topic": "N/{installation_id}/battery/{device_id}/History/ChargedEnergy",
@@ -422,7 +443,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Charged energy"
     },
     {
       "topic": "N/{installation_id}/battery/{device_id}/History/DischargedEnergy",
@@ -441,7 +463,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Discharged energy"
     },
     {
       "topic": "N/{installation_id}/battery/{device_id}/Info/ChargeMode",
@@ -460,7 +483,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Battery charge mode"
     },
     {
       "topic": "N/{installation_id}/battery/{device_id}/Info/MaxChargeCurrent",
@@ -479,7 +503,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Battery maximum charge current allowed"
     },
     {
       "topic": "N/{installation_id}/battery/{device_id}/Info/MaxChargeVoltage",
@@ -498,7 +523,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Battery maximum charging voltage allowed"
     },
     {
       "topic": "N/{installation_id}/battery/{device_id}/Info/MaxDischargeCurrent",
@@ -517,7 +543,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Battery maximum discharge current allowed"
     },
     {
       "topic": "N/{installation_id}/battery/{device_id}/InstalledCapacity",
@@ -536,7 +563,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Battery installed capacity"
     },
     {
       "topic": "N/{installation_id}/battery/{device_id}/Soc",
@@ -555,7 +583,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Battery charge"
     },
     {
       "topic": "N/{installation_id}/battery/{device_id}/Soh",
@@ -574,7 +603,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Battery State of Health"
     },
     {
       "topic": "N/{installation_id}/battery/{device_id}/System/MaxCellTemperature",
@@ -593,7 +623,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Battery maximum cell temperature"
     },
     {
       "topic": "N/{installation_id}/battery/{device_id}/System/MaxCellVoltage",
@@ -612,7 +643,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Battery maximum cell voltage"
     },
     {
       "topic": "N/{installation_id}/battery/{device_id}/System/MaxVoltageCellId",
@@ -631,7 +663,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Battery maximum voltage cell ID"
     },
     {
       "topic": "N/{installation_id}/battery/{device_id}/System/MinCellTemperature",
@@ -650,7 +683,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Battery minimum cell temperature"
     },
     {
       "topic": "N/{installation_id}/battery/{device_id}/System/MinCellVoltage",
@@ -669,7 +703,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Battery minimum cell voltage"
     },
     {
       "topic": "N/{installation_id}/battery/{device_id}/System/MinVoltageCellId",
@@ -688,7 +723,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Battery minimum voltage cell ID"
     },
     {
       "topic": "N/{installation_id}/battery/{device_id}/System/NrOfModulesBlockingCharge",
@@ -707,7 +743,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Battery number of modules blocking charge"
     },
     {
       "topic": "N/{installation_id}/battery/{device_id}/System/NrOfModulesBlockingDischarge",
@@ -726,7 +763,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Battery number of modules blocking discharge"
     },
     {
       "topic": "N/{installation_id}/battery/{device_id}/System/NrOfModulesOffline",
@@ -745,7 +783,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Battery number of modules offline"
     },
     {
       "topic": "N/{installation_id}/battery/{device_id}/System/NrOfModulesOnline",
@@ -764,7 +803,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Battery number of modules online"
     },
     {
       "topic": "N/{installation_id}/battery/{device_id}/TimeToGo",
@@ -783,7 +823,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Battery time to go"
     },
     {
       "topic": "N/{installation_id}/battery/{device_id}/Voltages/Cell{cell_id(1-8)}",
@@ -802,7 +843,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Battery cell {cell_id} voltage"
     },
     {
       "topic": "N/{installation_id}/battery/{device_id}/Voltages/Diff",
@@ -821,7 +863,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Battery cell voltage deviation"
     },
     {
       "topic": "N/{installation_id}/dcload/{device_id}/Dc/0/Current",
@@ -840,7 +883,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "DC load current"
     },
     {
       "topic": "N/{installation_id}/dcload/{device_id}/Dc/0/Power",
@@ -859,7 +903,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "DC load power"
     },
     {
       "topic": "N/{installation_id}/dcload/{device_id}/Dc/0/Voltage",
@@ -878,7 +923,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "DC load voltage"
     },
     {
       "topic": "N/{installation_id}/dcsystem/{device_id}/Dc/0/Current",
@@ -897,7 +943,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "DC System Current"
     },
     {
       "topic": "N/{installation_id}/dcsystem/{device_id}/Dc/0/Power",
@@ -916,7 +963,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "DC System Power"
     },
     {
       "topic": "N/{installation_id}/dcsystem/{device_id}/Dc/0/Voltage",
@@ -935,7 +983,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "DC System Voltage"
     },
     {
       "topic": "N/{installation_id}/dcsystem/{device_id}/Dc/1/Voltage",
@@ -954,7 +1003,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "DC System Auxiliary Voltage"
     },
     {
       "topic": "N/{installation_id}/digitalinput/{device_id}/Alarm",
@@ -973,7 +1023,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Digital input alarm"
     },
     {
       "topic": "N/{installation_id}/digitalinput/{device_id}/InputState",
@@ -992,7 +1043,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Digital input raw state"
     },
     {
       "topic": "N/{installation_id}/digitalinput/{device_id}/Settings/InvertTranslation",
@@ -1011,7 +1063,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Digital input settings invert translation"
     },
     {
       "topic": "N/{installation_id}/digitalinput/{device_id}/State",
@@ -1030,7 +1083,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Digital input state"
     },
     {
       "topic": "N/{installation_id}/digitalinput/{device_id}/Type",
@@ -1049,7 +1103,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Digital input type"
     },
     {
       "topic": "N/{installation_id}/evcharger/{device_id}/Ac/{phase}/Power",
@@ -1068,7 +1123,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "EV charger power {phase}"
     },
     {
       "topic": "N/{installation_id}/evcharger/{device_id}/Connected",
@@ -1087,7 +1143,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "EV charger connected"
     },
     {
       "topic": "N/{installation_id}/evcharger/{device_id}/Current",
@@ -1106,7 +1163,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "EV charger current"
     },
     {
       "topic": "N/{installation_id}/evcharger/{device_id}/Mode",
@@ -1125,7 +1183,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "EV charger mode"
     },
     {
       "topic": "N/{installation_id}/evcharger/{device_id}/SetCurrent",
@@ -1144,7 +1203,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "EV charger set current"
     },
     {
       "topic": "N/{installation_id}/evcharger/{device_id}/StartStop",
@@ -1163,7 +1223,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "EV charger charge"
     },
     {
       "topic": "N/{installation_id}/generator/{device_id}/AccumulatedRuntime",
@@ -1182,7 +1243,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": true
+      "experimental": true,
+      "generic_name": "Generator total runtime"
     },
     {
       "topic": "N/{installation_id}/generator/{device_id}/AutoStartEnabled",
@@ -1201,7 +1263,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": true
+      "experimental": true,
+      "generic_name": "Generator auto start enabled"
     },
     {
       "topic": "N/{installation_id}/generator/{device_id}/ManualStart",
@@ -1220,7 +1283,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": true
+      "experimental": true,
+      "generic_name": "Generator manual start"
     },
     {
       "topic": "N/{installation_id}/generator/{device_id}/RunningByConditionCode",
@@ -1239,7 +1303,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": true
+      "experimental": true,
+      "generic_name": "Generator run state"
     },
     {
       "topic": "N/{installation_id}/generator/{device_id}/ServiceCounter",
@@ -1258,7 +1323,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": true
+      "experimental": true,
+      "generic_name": "Generator service counter"
     },
     {
       "topic": "N/{installation_id}/generator/{device_id}/TodayRuntime",
@@ -1277,7 +1343,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": true
+      "experimental": true,
+      "generic_name": "Generator today runtime"
     },
     {
       "topic": "N/{installation_id}/gps/{device_id}/Altitude",
@@ -1296,7 +1363,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "GPS Altitude"
     },
     {
       "topic": "N/{installation_id}/gps/{device_id}/Connected",
@@ -1315,7 +1383,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "GPS Connected"
     },
     {
       "topic": "N/{installation_id}/gps/{device_id}/Course",
@@ -1334,7 +1403,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "GPS Course"
     },
     {
       "topic": "N/{installation_id}/gps/{device_id}/Fix",
@@ -1353,7 +1423,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "GPS Fix"
     },
     {
       "topic": "N/{installation_id}/gps/{device_id}/NrOfSatellites",
@@ -1372,7 +1443,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "GPS Nr Of Satellites"
     },
     {
       "topic": "N/{installation_id}/gps/{device_id}/Position/Latitude",
@@ -1391,7 +1463,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "GPS Latitude"
     },
     {
       "topic": "N/{installation_id}/gps/{device_id}/Position/Longitude",
@@ -1410,7 +1483,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "GPS Longitude"
     },
     {
       "topic": "N/{installation_id}/gps/{device_id}/Speed",
@@ -1429,7 +1503,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "GPS Speed"
     },
     {
       "topic": "N/{installation_id}/grid/{device_id}/Ac/Current",
@@ -1448,7 +1523,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Grid current"
     },
     {
       "topic": "N/{installation_id}/grid/{device_id}/Ac/Energy/Forward",
@@ -1467,7 +1543,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Grid consumption"
     },
     {
       "topic": "N/{installation_id}/grid/{device_id}/Ac/Energy/Reverse",
@@ -1486,7 +1563,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Grid feed-in"
     },
     {
       "topic": "N/{installation_id}/grid/{device_id}/Ac/Frequency",
@@ -1505,7 +1583,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Grid frequency"
     },
     {
       "topic": "N/{installation_id}/grid/{device_id}/Ac/N/Current",
@@ -1524,7 +1603,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Grid current on N"
     },
     {
       "topic": "N/{installation_id}/grid/{device_id}/Ac/PENVoltage",
@@ -1543,7 +1623,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Grid voltage on PEN"
     },
     {
       "topic": "N/{installation_id}/grid/{device_id}/Ac/Power",
@@ -1562,7 +1643,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Grid power"
     },
     {
       "topic": "N/{installation_id}/grid/{device_id}/Ac/Voltage",
@@ -1581,7 +1663,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Grid voltage"
     },
     {
       "topic": "N/{installation_id}/grid/{device_id}/Ac/{phase}/Current",
@@ -1600,7 +1683,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Grid current on {phase}"
     },
     {
       "topic": "N/{installation_id}/grid/{device_id}/Ac/{phase}/Energy/Forward",
@@ -1619,7 +1703,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Grid consumption on {phase}"
     },
     {
       "topic": "N/{installation_id}/grid/{device_id}/Ac/{phase}/Energy/Reverse",
@@ -1638,7 +1723,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Grid feed-in on {phase}"
     },
     {
       "topic": "N/{installation_id}/grid/{device_id}/Ac/{phase}/Power",
@@ -1657,7 +1743,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Grid power on {phase}"
     },
     {
       "topic": "N/{installation_id}/grid/{device_id}/Ac/{phase}/Voltage",
@@ -1676,7 +1763,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Grid voltage on {phase}"
     },
     {
       "topic": "N/{installation_id}/grid/{device_id}/Ac/{phase}/VoltageLineToLine",
@@ -1695,7 +1783,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Grid voltage {phase} to {next_phase}"
     },
     {
       "topic": "N/{installation_id}/inverter/{device_id}/Ac/Out/{phase}/I",
@@ -1714,7 +1803,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Inverter output current {phase}"
     },
     {
       "topic": "N/{installation_id}/inverter/{device_id}/Ac/Out/{phase}/P",
@@ -1733,7 +1823,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Inverter output power {phase}"
     },
     {
       "topic": "N/{installation_id}/inverter/{device_id}/Ac/Out/{phase}/S",
@@ -1752,7 +1843,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Inverter output apparent power {phase}"
     },
     {
       "topic": "N/{installation_id}/inverter/{device_id}/Ac/Out/{phase}/V",
@@ -1771,7 +1863,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Inverter output voltage {phase}"
     },
     {
       "topic": "N/{installation_id}/inverter/{device_id}/Alarms/HighTemperature",
@@ -1790,7 +1883,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Inverter alarm HighTemperature"
     },
     {
       "topic": "N/{installation_id}/inverter/{device_id}/Alarms/HighVoltage",
@@ -1809,7 +1903,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Inverter alarm HighVoltage"
     },
     {
       "topic": "N/{installation_id}/inverter/{device_id}/Alarms/HighVoltageAcOut",
@@ -1828,7 +1923,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Inverter alarm HighVoltageAcOut"
     },
     {
       "topic": "N/{installation_id}/inverter/{device_id}/Alarms/LowTemperature",
@@ -1847,7 +1943,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Inverter alarm LowTemperature"
     },
     {
       "topic": "N/{installation_id}/inverter/{device_id}/Alarms/LowVoltage",
@@ -1866,7 +1963,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Inverter alarm LowVoltage"
     },
     {
       "topic": "N/{installation_id}/inverter/{device_id}/Alarms/LowVoltageAcOut",
@@ -1885,7 +1983,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Inverter alarm LowVoltageAcOut"
     },
     {
       "topic": "N/{installation_id}/inverter/{device_id}/Alarms/Overload",
@@ -1904,7 +2003,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Inverter alarm Overload"
     },
     {
       "topic": "N/{installation_id}/inverter/{device_id}/Alarms/Ripple",
@@ -1923,7 +2023,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Inverter alarm Ripple"
     },
     {
       "topic": "N/{installation_id}/inverter/{device_id}/Mode",
@@ -1942,7 +2043,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Inverter mode"
     },
     {
       "topic": "N/{installation_id}/inverter/{device_id}/State",
@@ -1961,7 +2063,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Inverter state"
     },
     {
       "topic": "N/{installation_id}/multi/{device_id}/Ac/In/1/{phase}/I",
@@ -1980,7 +2083,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Current {phase}"
     },
     {
       "topic": "N/{installation_id}/multi/{device_id}/Ac/In/1/{phase}/P",
@@ -1999,7 +2103,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Power on {phase}"
     },
     {
       "topic": "N/{installation_id}/multi/{device_id}/Ac/In/1/{phase}/V",
@@ -2018,7 +2123,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Voltage on {phase}"
     },
     {
       "topic": "N/{installation_id}/multi/{device_id}/Ac/NumberOfPhases",
@@ -2037,7 +2143,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Phases"
     },
     {
       "topic": "N/{installation_id}/multi/{device_id}/Ac/Out/{output}/{phase}/I",
@@ -2056,7 +2163,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "AC Out {output} Current on {phase}"
     },
     {
       "topic": "N/{installation_id}/multi/{device_id}/Ac/Out/{output}/{phase}/P",
@@ -2075,7 +2183,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "AC Out {output} Power on {phase}"
     },
     {
       "topic": "N/{installation_id}/multi/{device_id}/Ac/Out/{output}/{phase}/V",
@@ -2094,7 +2203,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "AC Out {output} Voltage on {phase}"
     },
     {
       "topic": "N/{installation_id}/multi/{device_id}/Ess/AcPowerSetpoint",
@@ -2113,7 +2223,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "ESS AC Power Setpoint"
     },
     {
       "topic": "N/{installation_id}/multi/{device_id}/Ess/InverterPowerSetpoint",
@@ -2132,7 +2243,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Inverter Power Setpoint"
     },
     {
       "topic": "N/{installation_id}/multi/{device_id}/Pv/{mpptnumber}/MppOperationMode",
@@ -2151,7 +2263,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "MPPT {mpptnumber} state"
     },
     {
       "topic": "N/{installation_id}/multi/{device_id}/Pv/{mpptnumber}/P",
@@ -2170,7 +2283,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "MPPT {mpptnumber} Power"
     },
     {
       "topic": "N/{installation_id}/multi/{device_id}/Pv/{mpptnumber}/V",
@@ -2189,7 +2303,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "MPPT {mpptnumber} PV Voltage"
     },
     {
       "topic": "N/{installation_id}/multi/{device_id}/Settings/Ess/Mode",
@@ -2208,7 +2323,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "ESS Mode"
     },
     {
       "topic": "N/{installation_id}/multi/{device_id}/State",
@@ -2227,7 +2343,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "State"
     },
     {
       "topic": "N/{installation_id}/multi/{device_id}/Yield/Power",
@@ -2246,7 +2363,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "PV Power Total"
     },
     {
       "topic": "N/{installation_id}/multi/{device_id}/Yield/User",
@@ -2265,7 +2383,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Total PV Yield"
     },
     {
       "topic": "N/{installation_id}/pvinverter/{device_id}/Ac/Energy/Forward",
@@ -2284,7 +2403,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Total Yield"
     },
     {
       "topic": "N/{installation_id}/pvinverter/{device_id}/Ac/Power",
@@ -2303,7 +2423,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Power Total"
     },
     {
       "topic": "N/{installation_id}/pvinverter/{device_id}/Ac/{phase}/Current",
@@ -2322,7 +2443,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Current {phase}"
     },
     {
       "topic": "N/{installation_id}/pvinverter/{device_id}/Ac/{phase}/Energy/Forward",
@@ -2341,7 +2463,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Yield {phase}"
     },
     {
       "topic": "N/{installation_id}/pvinverter/{device_id}/Ac/{phase}/Power",
@@ -2360,7 +2483,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Power {phase}"
     },
     {
       "topic": "N/{installation_id}/pvinverter/{device_id}/Ac/{phase}/Voltage",
@@ -2379,7 +2503,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Voltage {phase}"
     },
     {
       "topic": "N/{installation_id}/settings/{device_id}/Settings/CGwacs/AcExportLimit",
@@ -2398,7 +2523,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "AC Export Limit"
     },
     {
       "topic": "N/{installation_id}/settings/{device_id}/Settings/CGwacs/AcInputLimit",
@@ -2417,7 +2543,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "AC Input Limit"
     },
     {
       "topic": "N/{installation_id}/settings/{device_id}/Settings/CGwacs/AcPowerSetPoint",
@@ -2436,7 +2563,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "AC Power Setpoint"
     },
     {
       "topic": "N/{installation_id}/settings/{device_id}/Settings/CGwacs/BatteryLife/MinimumSocLimit",
@@ -2455,7 +2583,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "ESS min SOC limit"
     },
     {
       "topic": "N/{installation_id}/settings/{device_id}/Settings/CGwacs/BatteryLife/State",
@@ -2474,7 +2603,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "ESS BatteryLife State"
     },
     {
       "topic": "N/{installation_id}/settings/{device_id}/Settings/CGwacs/Hub4Mode",
@@ -2493,7 +2623,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "ESS Mode (Hub4)"
     },
     {
       "topic": "N/{installation_id}/settings/{device_id}/Settings/CGwacs/MaxDischargePower",
@@ -2512,7 +2643,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "ESS max inverter power limit"
     },
     {
       "topic": "N/{installation_id}/settings/{device_id}/Settings/CGwacs/MaxFeedInPower",
@@ -2531,7 +2663,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "ESS max feed-in power"
     },
     {
       "topic": "N/{installation_id}/settings/{device_id}/Settings/CGwacs/OvervoltageFeedIn",
@@ -2550,7 +2683,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "PV DC Overvoltage FeedIn"
     },
     {
       "topic": "N/{installation_id}/settings/{device_id}/Settings/Generator{gen_id(0-1)}/BatteryVoltage/Enabled",
@@ -2569,7 +2703,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": true
+      "experimental": true,
+      "generic_name": "Generator start on voltage enabled"
     },
     {
       "topic": "N/{installation_id}/settings/{device_id}/Settings/Generator{gen_id(0-1)}/BatteryVoltage/QuietHoursStartValue",
@@ -2588,7 +2723,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": true
+      "experimental": true,
+      "generic_name": "Generator QH start on voltage"
     },
     {
       "topic": "N/{installation_id}/settings/{device_id}/Settings/Generator{gen_id(0-1)}/BatteryVoltage/QuietHoursStopValue",
@@ -2607,7 +2743,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": true
+      "experimental": true,
+      "generic_name": "Generator QH stop on voltage"
     },
     {
       "topic": "N/{installation_id}/settings/{device_id}/Settings/Generator{gen_id(0-1)}/BatteryVoltage/StartTimer",
@@ -2626,7 +2763,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": true
+      "experimental": true,
+      "generic_name": "Generator start on voltage timer"
     },
     {
       "topic": "N/{installation_id}/settings/{device_id}/Settings/Generator{gen_id(0-1)}/BatteryVoltage/StartValue",
@@ -2645,7 +2783,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": true
+      "experimental": true,
+      "generic_name": "Generator start on voltage"
     },
     {
       "topic": "N/{installation_id}/settings/{device_id}/Settings/Generator{gen_id(0-1)}/BatteryVoltage/StopTimer",
@@ -2664,7 +2803,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": true
+      "experimental": true,
+      "generic_name": "Generator stop on voltage timer"
     },
     {
       "topic": "N/{installation_id}/settings/{device_id}/Settings/Generator{gen_id(0-1)}/BatteryVoltage/StopValue",
@@ -2683,7 +2823,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": true
+      "experimental": true,
+      "generic_name": "Generator stop on voltage"
     },
     {
       "topic": "N/{installation_id}/settings/{device_id}/Settings/Generator{gen_id(0-1)}/CoolDownTime",
@@ -2702,7 +2843,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": true
+      "experimental": true,
+      "generic_name": "Generator cool down timer"
     },
     {
       "topic": "N/{installation_id}/settings/{device_id}/Settings/Generator{gen_id(0-1)}/GeneratorStopTime",
@@ -2721,7 +2863,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": true
+      "experimental": true,
+      "generic_name": "Generator shut down timer"
     },
     {
       "topic": "N/{installation_id}/settings/{device_id}/Settings/Generator{gen_id(0-1)}/InverterHighTemp/Enabled",
@@ -2740,7 +2883,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": true
+      "experimental": true,
+      "generic_name": "Generator start on high temp enabled"
     },
     {
       "topic": "N/{installation_id}/settings/{device_id}/Settings/Generator{gen_id(0-1)}/InverterHighTemp/StartTimer",
@@ -2759,7 +2903,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": true
+      "experimental": true,
+      "generic_name": "Generator start on temp timer"
     },
     {
       "topic": "N/{installation_id}/settings/{device_id}/Settings/Generator{gen_id(0-1)}/InverterHighTemp/StopTimer",
@@ -2778,7 +2923,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": true
+      "experimental": true,
+      "generic_name": "Generator stop on temp timer"
     },
     {
       "topic": "N/{installation_id}/settings/{device_id}/Settings/Generator{gen_id(0-1)}/QuietHours/Enabled",
@@ -2797,7 +2943,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": true
+      "experimental": true,
+      "generic_name": "Generator quiet hours enabled"
     },
     {
       "topic": "N/{installation_id}/settings/{device_id}/Settings/Generator{gen_id(0-1)}/ServiceInterval",
@@ -2816,7 +2963,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": true
+      "experimental": true,
+      "generic_name": "Generator service interval"
     },
     {
       "topic": "N/{installation_id}/settings/{device_id}/Settings/Generator{gen_id(0-1)}/Soc/Enabled",
@@ -2835,7 +2983,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": true
+      "experimental": true,
+      "generic_name": "Generator start on SOC enabled"
     },
     {
       "topic": "N/{installation_id}/settings/{device_id}/Settings/Generator{gen_id(0-1)}/Soc/QuietHoursStartValue",
@@ -2854,7 +3003,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": true
+      "experimental": true,
+      "generic_name": "Generator QH start on SOC"
     },
     {
       "topic": "N/{installation_id}/settings/{device_id}/Settings/Generator{gen_id(0-1)}/Soc/QuietHoursStopValue",
@@ -2873,7 +3023,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": true
+      "experimental": true,
+      "generic_name": "Generator QH stop on SOC"
     },
     {
       "topic": "N/{installation_id}/settings/{device_id}/Settings/Generator{gen_id(0-1)}/Soc/StartTimer",
@@ -2892,7 +3043,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": true
+      "experimental": true,
+      "generic_name": "Generator start on SOC timer"
     },
     {
       "topic": "N/{installation_id}/settings/{device_id}/Settings/Generator{gen_id(0-1)}/Soc/StartValue",
@@ -2911,7 +3063,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": true
+      "experimental": true,
+      "generic_name": "Generator start on SOC"
     },
     {
       "topic": "N/{installation_id}/settings/{device_id}/Settings/Generator{gen_id(0-1)}/Soc/StopTimer",
@@ -2930,7 +3083,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": true
+      "experimental": true,
+      "generic_name": "Generator stop on SOC timer"
     },
     {
       "topic": "N/{installation_id}/settings/{device_id}/Settings/Generator{gen_id(0-1)}/Soc/StopValue",
@@ -2949,7 +3103,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": true
+      "experimental": true,
+      "generic_name": "Generator stop on SOC"
     },
     {
       "topic": "N/{installation_id}/settings/{device_id}/Settings/Generator{gen_id(0-1)}/WarmUpTime",
@@ -2968,7 +3123,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": true
+      "experimental": true,
+      "generic_name": "Generator warm up timer"
     },
     {
       "topic": "N/{installation_id}/settings/{device_id}/Settings/Relay/{relay}/CustomName",
@@ -2987,7 +3143,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Relay {relay} Custom Name"
     },
     {
       "topic": "N/{installation_id}/settings/{device_id}/Settings/SystemSetup/MaxChargeCurrent",
@@ -3006,7 +3163,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "ESS max charge current"
     },
     {
       "topic": "N/{installation_id}/settings/{device_id}/Settings/SystemSetup/MaxChargeVoltage",
@@ -3025,7 +3183,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "ESS max charge voltage"
     },
     {
       "topic": "N/{installation_id}/settings/{device_id}/Settings/TransferSwitch/GeneratorCurrentLimit",
@@ -3044,7 +3203,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": true
+      "experimental": true,
+      "generic_name": "Generator AC current limit"
     },
     {
       "topic": "N/{installation_id}/solarcharger/{device_id}/Dc/0/Current",
@@ -3063,7 +3223,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "DC (Batt) Bus current"
     },
     {
       "topic": "N/{installation_id}/solarcharger/{device_id}/Dc/0/Voltage",
@@ -3082,7 +3243,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "DC (Batt) Bus voltage"
     },
     {
       "topic": "N/{installation_id}/solarcharger/{device_id}/ErrorCode",
@@ -3101,7 +3263,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Solar Charger Error Code"
     },
     {
       "topic": "N/{installation_id}/solarcharger/{device_id}/History/Daily/0/MaxBatteryVoltage",
@@ -3120,7 +3283,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Solar Charger Max Battery Voltage Today"
     },
     {
       "topic": "N/{installation_id}/solarcharger/{device_id}/History/Daily/0/MaxPower",
@@ -3139,7 +3303,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Max Power Today"
     },
     {
       "topic": "N/{installation_id}/solarcharger/{device_id}/History/Daily/0/MinBatteryVoltage",
@@ -3158,7 +3323,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Solar Charger Min Battery Voltage Today"
     },
     {
       "topic": "N/{installation_id}/solarcharger/{device_id}/History/Daily/0/TimeInAbsorption",
@@ -3177,7 +3343,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Solar Charger Time in Absorption Today"
     },
     {
       "topic": "N/{installation_id}/solarcharger/{device_id}/History/Daily/0/TimeInBulk",
@@ -3196,7 +3363,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Solar Charger Time in Bulk Today"
     },
     {
       "topic": "N/{installation_id}/solarcharger/{device_id}/History/Daily/0/TimeInFloat",
@@ -3215,7 +3383,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Solar Charger Time in Float Today"
     },
     {
       "topic": "N/{installation_id}/solarcharger/{device_id}/History/Daily/0/Yield",
@@ -3234,7 +3403,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Yield Today"
     },
     {
       "topic": "N/{installation_id}/solarcharger/{device_id}/History/Daily/1/MaxPower",
@@ -3253,7 +3423,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Max Power Yesterday"
     },
     {
       "topic": "N/{installation_id}/solarcharger/{device_id}/History/Daily/1/Yield",
@@ -3272,7 +3443,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Yield Yesterday"
     },
     {
       "topic": "N/{installation_id}/solarcharger/{device_id}/Load/I",
@@ -3291,7 +3463,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Load Bus current"
     },
     {
       "topic": "N/{installation_id}/solarcharger/{device_id}/Load/State",
@@ -3310,7 +3483,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Solar Charger Load State"
     },
     {
       "topic": "N/{installation_id}/solarcharger/{device_id}/Mode",
@@ -3329,7 +3503,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Solar Charger Mode"
     },
     {
       "topic": "N/{installation_id}/solarcharger/{device_id}/MppOperationMode",
@@ -3348,7 +3523,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Solar Charger MPPT Operation Mode"
     },
     {
       "topic": "N/{installation_id}/solarcharger/{device_id}/Pv/V",
@@ -3367,7 +3543,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "PV Bus Voltage"
     },
     {
       "topic": "N/{installation_id}/solarcharger/{device_id}/Pv/{tracker}/MppOperationMode",
@@ -3386,7 +3563,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "PV Tracker {tracker} Operation Mode"
     },
     {
       "topic": "N/{installation_id}/solarcharger/{device_id}/Pv/{tracker}/Name",
@@ -3405,7 +3583,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "PV Tracker {tracker} Name"
     },
     {
       "topic": "N/{installation_id}/solarcharger/{device_id}/Pv/{tracker}/P",
@@ -3424,7 +3603,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "PV Tracker {tracker} Power"
     },
     {
       "topic": "N/{installation_id}/solarcharger/{device_id}/Pv/{tracker}/V",
@@ -3443,7 +3623,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "PV Tracker {tracker} Voltage"
     },
     {
       "topic": "N/{installation_id}/solarcharger/{device_id}/Relay/0/State",
@@ -3462,7 +3643,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Solar Charger Relay State"
     },
     {
       "topic": "N/{installation_id}/solarcharger/{device_id}/State",
@@ -3481,7 +3663,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Solar Charger State"
     },
     {
       "topic": "N/{installation_id}/solarcharger/{device_id}/Yield/Power",
@@ -3500,7 +3683,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "PV Yield Power"
     },
     {
       "topic": "N/{installation_id}/solarcharger/{device_id}/Yield/User",
@@ -3519,13 +3703,14 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Total Yield"
     },
     {
       "topic": "N/{installation_id}/switch/{device_id}/SwitchableOutput/output_{output(1-4)}/Dimming",
       "message_type": "MetricKind.NUMBER",
       "short_id": "switch_{output}_dimming",
-      "name": "Switch {output} Dimming",
+      "name": "Switch {output:switch_{output}_custom_name} Dimming",
       "unit_of_measurement": null,
       "metric_type": "MetricType.NONE",
       "metric_nature": "MetricNature.NONE",
@@ -3538,7 +3723,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Switch {output} Dimming"
     },
     {
       "topic": "N/{installation_id}/switch/{device_id}/SwitchableOutput/output_{output(1-4)}/Settings/CustomName",
@@ -3557,13 +3743,14 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Switch {output} Custom Name"
     },
     {
       "topic": "N/{installation_id}/switch/{device_id}/SwitchableOutput/output_{output(1-4)}/State",
       "message_type": "MetricKind.SWITCH",
       "short_id": "switch_{output}_state",
-      "name": "Switch {output} State",
+      "name": "Switch {output:switch_{output}_custom_name} State",
       "unit_of_measurement": null,
       "metric_type": "MetricType.NONE",
       "metric_nature": "MetricNature.NONE",
@@ -3576,7 +3763,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Switch {output} State"
     },
     {
       "topic": "N/{installation_id}/system/{device_id}/Ac/ActiveIn/Source",
@@ -3595,7 +3783,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "AC Active Input Source"
     },
     {
       "topic": "N/{installation_id}/system/{device_id}/Ac/Consumption/NumberOfPhases",
@@ -3614,7 +3803,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Consumption phases"
     },
     {
       "topic": "N/{installation_id}/system/{device_id}/Ac/Consumption/{phase}/Current",
@@ -3633,7 +3823,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Consumption Current {phase}"
     },
     {
       "topic": "N/{installation_id}/system/{device_id}/Ac/Consumption/{phase}/Power",
@@ -3652,7 +3843,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Consumption Power {phase}"
     },
     {
       "topic": "N/{installation_id}/system/{device_id}/Ac/ConsumptionOnInput/{phase}/Power",
@@ -3671,7 +3863,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "AC loads on {phase}"
     },
     {
       "topic": "N/{installation_id}/system/{device_id}/Ac/ConsumptionOnOutput/NumberOfPhases",
@@ -3690,7 +3883,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Consumption On Output phases"
     },
     {
       "topic": "N/{installation_id}/system/{device_id}/Ac/ConsumptionOnOutput/{phase}/Power",
@@ -3709,7 +3903,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Critical loads on {phase}"
     },
     {
       "topic": "N/{installation_id}/system/{device_id}/Ac/Genset/{phase}/Power",
@@ -3728,7 +3923,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Genset Load {phase}"
     },
     {
       "topic": "N/{installation_id}/system/{device_id}/Ac/Grid/NumberOfPhases",
@@ -3747,7 +3943,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Grid phases"
     },
     {
       "topic": "N/{installation_id}/system/{device_id}/Ac/Grid/{phase}/Current",
@@ -3766,7 +3963,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Grid Current {phase}"
     },
     {
       "topic": "N/{installation_id}/system/{device_id}/Ac/Grid/{phase}/Power",
@@ -3785,7 +3983,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Grid Power {phase}"
     },
     {
       "topic": "N/{installation_id}/system/{device_id}/Ac/PvOnOutput/NumberOfPhases",
@@ -3804,7 +4003,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "PV on Output phases"
     },
     {
       "topic": "N/{installation_id}/system/{device_id}/Ac/PvOnOutput/{phase}/Current",
@@ -3823,7 +4023,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "PV on Output Current {phase}"
     },
     {
       "topic": "N/{installation_id}/system/{device_id}/Ac/PvOnOutput/{phase}/Power",
@@ -3842,7 +4043,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "PV on Output Power {phase}"
     },
     {
       "topic": "N/{installation_id}/system/{device_id}/Dc/Battery/Current",
@@ -3861,7 +4063,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "DC Battery Current"
     },
     {
       "topic": "N/{installation_id}/system/{device_id}/Dc/Battery/Power",
@@ -3880,7 +4083,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "DC Battery Power"
     },
     {
       "topic": "N/{installation_id}/system/{device_id}/Dc/Battery/Soc",
@@ -3899,7 +4103,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "DC Battery Charge"
     },
     {
       "topic": "N/{installation_id}/system/{device_id}/Dc/Battery/Voltage",
@@ -3918,7 +4123,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "DC Battery Voltage"
     },
     {
       "topic": "N/{installation_id}/system/{device_id}/Dc/Pv/Power",
@@ -3937,7 +4143,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "PV Power"
     },
     {
       "topic": "N/{installation_id}/system/{device_id}/Dc/System/Power",
@@ -3956,7 +4163,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "DC Consumption"
     },
     {
       "topic": "N/{installation_id}/system/{device_id}/DynamicEss/Active",
@@ -3975,7 +4183,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Dynamic ESS Active"
     },
     {
       "topic": "N/{installation_id}/system/{device_id}/DynamicEss/AllowGridFeedIn",
@@ -3994,7 +4203,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Dynamic ESS Allow Grid Feed In"
     },
     {
       "topic": "N/{installation_id}/system/{device_id}/DynamicEss/Available",
@@ -4013,7 +4223,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Dynamic ESS Available"
     },
     {
       "topic": "N/{installation_id}/system/{device_id}/DynamicEss/AvailableOverhead",
@@ -4032,7 +4243,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Dynamic ESS Available Overhead"
     },
     {
       "topic": "N/{installation_id}/system/{device_id}/DynamicEss/ErrorCode",
@@ -4051,7 +4263,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Dynamic ESS Error"
     },
     {
       "topic": "N/{installation_id}/system/{device_id}/DynamicEss/LastScheduledEnd",
@@ -4070,7 +4283,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Dynamic ESS Last Scheduled End"
     },
     {
       "topic": "N/{installation_id}/system/{device_id}/DynamicEss/LastScheduledStart",
@@ -4089,7 +4303,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Dynamic ESS Last Scheduled Start"
     },
     {
       "topic": "N/{installation_id}/system/{device_id}/DynamicEss/MinimumSoc",
@@ -4108,7 +4323,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Dynamic ESS Minimum SOC"
     },
     {
       "topic": "N/{installation_id}/system/{device_id}/DynamicEss/NumberOfSchedules",
@@ -4127,7 +4343,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Dynamic ESS Number Of Schedules"
     },
     {
       "topic": "N/{installation_id}/system/{device_id}/DynamicEss/ReactiveStrategy",
@@ -4146,7 +4363,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Dynamic ESS Reactive Strategy"
     },
     {
       "topic": "N/{installation_id}/system/{device_id}/DynamicEss/Restrictions",
@@ -4165,7 +4383,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Dynamic ESS Restrictions"
     },
     {
       "topic": "N/{installation_id}/system/{device_id}/DynamicEss/Strategy",
@@ -4184,7 +4403,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Dynamic ESS Strategy"
     },
     {
       "topic": "N/{installation_id}/system/{device_id}/DynamicEss/TargetSoc",
@@ -4203,7 +4423,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Dynamic ESS Target SOC"
     },
     {
       "topic": "N/{installation_id}/system/{device_id}/PV/Current",
@@ -4222,7 +4443,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "PV Bus current"
     },
     {
       "topic": "N/{installation_id}/system/{device_id}/Relay/{relay}/State",
@@ -4241,7 +4463,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Relay {relay} state"
     },
     {
       "topic": "N/{installation_id}/tank/{device_id}/BatteryVoltage",
@@ -4260,7 +4483,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Tank sensor battery voltage"
     },
     {
       "topic": "N/{installation_id}/tank/{device_id}/FluidType",
@@ -4279,7 +4503,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Fluid Type"
     },
     {
       "topic": "N/{installation_id}/tank/{device_id}/Level",
@@ -4298,7 +4523,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Level"
     },
     {
       "topic": "N/{installation_id}/tank/{device_id}/Remaining",
@@ -4317,7 +4543,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Remaining"
     },
     {
       "topic": "N/{installation_id}/tank/{device_id}/Temperature",
@@ -4336,7 +4563,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Temperature"
     },
     {
       "topic": "N/{installation_id}/temperature/{device_id}/BatteryVoltage",
@@ -4355,7 +4583,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Temperature sensor battery voltage"
     },
     {
       "topic": "N/{installation_id}/temperature/{device_id}/Humidity",
@@ -4374,7 +4603,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Humidity"
     },
     {
       "topic": "N/{installation_id}/temperature/{device_id}/Offset",
@@ -4393,7 +4623,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Temperature offset"
     },
     {
       "topic": "N/{installation_id}/temperature/{device_id}/Scale",
@@ -4412,7 +4643,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Temperature scale factor"
     },
     {
       "topic": "N/{installation_id}/temperature/{device_id}/Status",
@@ -4431,7 +4663,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Temperature sensor status"
     },
     {
       "topic": "N/{installation_id}/temperature/{device_id}/Temperature",
@@ -4450,7 +4683,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Temperature"
     },
     {
       "topic": "N/{installation_id}/temperature/{device_id}/TemperatureType",
@@ -4469,7 +4703,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Temperature sensor type"
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Ac/ActiveIn/ActiveInput",
@@ -4488,7 +4723,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Inverter active AC input"
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Ac/ActiveIn/CurrentLimit",
@@ -4507,7 +4743,8 @@
       "step": null,
       "is_adjustable_suffix": "CurrentLimitIsAdjustable",
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Inverter current limit"
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Ac/ActiveIn/{phase}/F",
@@ -4526,7 +4763,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Inverter input frequency {phase}"
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Ac/ActiveIn/{phase}/P",
@@ -4545,7 +4783,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Inverter input power {phase}"
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Ac/ActiveIn/{phase}/S",
@@ -4564,7 +4803,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Inverter input apparent power {phase}"
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Ac/ActiveIn/{phase}/V",
@@ -4583,7 +4823,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Inverter input voltage {phase}"
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Ac/Out/{phase}/F",
@@ -4602,7 +4843,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Inverter output frequency {phase}"
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Ac/Out/{phase}/I",
@@ -4621,7 +4863,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Inverter output current {phase}"
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Ac/Out/{phase}/P",
@@ -4640,7 +4883,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Inverter output power {phase}"
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Ac/Out/{phase}/S",
@@ -4659,7 +4903,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Inverter output apparent power {phase}"
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Ac/Out/{phase}/V",
@@ -4678,7 +4923,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Inverter output voltage {phase}"
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Alarms/GridLost",
@@ -4697,7 +4943,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Loss of grid alarm"
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Alarms/HighDcCurrent",
@@ -4716,7 +4963,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Inverter high DC current alarm"
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Alarms/HighDcVoltage",
@@ -4735,7 +4983,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Inverter high DC voltage alarm"
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Alarms/HighTemperature",
@@ -4754,7 +5003,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Inverter high temperature alarm"
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Alarms/LowBattery",
@@ -4773,7 +5023,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Inverter low battery alarm"
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Alarms/Overload",
@@ -4792,7 +5043,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Inverter overload alarm"
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Alarms/PhaseRotation",
@@ -4811,7 +5063,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Inverter phase rotation alarm"
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Alarms/Ripple",
@@ -4830,7 +5083,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Inverter ripple alarm"
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Alarms/TemperatureSensor",
@@ -4849,7 +5103,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Inverter temperature sensor alarm"
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Alarms/VoltageSensor",
@@ -4868,7 +5123,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Inverter voltage sensor alarm"
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Connected",
@@ -4887,7 +5143,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Inverter connected"
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Dc/0/Current",
@@ -4906,7 +5163,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Inverter DC current"
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Dc/0/Power",
@@ -4925,7 +5183,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Inverter DC power"
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Devices/{device_number}/Ac/In/P",
@@ -4944,7 +5203,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": true
+      "experimental": true,
+      "generic_name": "VE.Bus device {device_number} line 1 input power"
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Devices/{device_number}/Ac/In/{phase}/P",
@@ -4963,7 +5223,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": true
+      "experimental": true,
+      "generic_name": "VE.Bus device {device_number} line {phase} input power"
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Devices/{device_number}/Ac/Inverter/P",
@@ -4982,7 +5243,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": true
+      "experimental": true,
+      "generic_name": "VE.Bus device {device_number} inverted power"
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Devices/{device_number}/Ac/Out/P",
@@ -5001,7 +5263,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": true
+      "experimental": true,
+      "generic_name": "VE.Bus device {device_number} line 1 output power"
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Devices/{device_number}/Ac/Out/{phase}/P",
@@ -5020,7 +5283,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": true
+      "experimental": true,
+      "generic_name": "VE.Bus device {device_number} line {phase} output power"
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Energy/AcIn1ToAcOut",
@@ -5039,7 +5303,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Energy from AcIn1 to AcOut"
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Energy/AcIn1ToInverter",
@@ -5058,7 +5323,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Energy from AcIn1 to inverter"
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Energy/AcIn2ToAcOut",
@@ -5077,7 +5343,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Energy from AcIn2 to AcOut"
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Energy/AcIn2ToInverter",
@@ -5096,7 +5363,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Energy from AcIn2 to inverter"
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Energy/AcOutToAcIn1",
@@ -5115,7 +5383,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Energy from AcOut to AcIn1"
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Energy/AcOutToAcIn2",
@@ -5134,7 +5403,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Energy from AcOut to AcIn2"
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Energy/InverterToAcIn1",
@@ -5153,7 +5423,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Energy from Inverter to AcIn1"
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Energy/InverterToAcIn2",
@@ -5172,7 +5443,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Energy from Inverter to AcIn2"
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Energy/InverterToAcOut",
@@ -5191,7 +5463,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Energy from Inverter to AcOut"
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Energy/OutToInverter",
@@ -5210,7 +5483,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Energy from Out to inverter"
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Mode",
@@ -5229,7 +5503,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Inverter mode"
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Settings/Alarm/System/GridLost",
@@ -5248,7 +5523,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Loss of grid alarm setting"
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Settings/AssistCurrentBoostFactor",
@@ -5267,7 +5543,8 @@
       "step": 0.125,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Assist Current Boost Factor"
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/State",
@@ -5286,7 +5563,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": false
+      "experimental": false,
+      "generic_name": "Inverter state"
     },
     {
       "topic": "W/{installation_id}/generator/{device_id}/ServiceCounterReset",
@@ -5305,7 +5583,8 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": true
+      "experimental": true,
+      "generic_name": "Generator service counter reset"
     }
   ],
   "enums": [
