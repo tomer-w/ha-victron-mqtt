@@ -660,6 +660,9 @@
       "solarcharger_current": {
         "name": "PV Bus current"
       },
+      "system_state": {
+        "name": "System state"
+      },
       "tank_battery_voltage": {
         "name": "Tank sensor battery voltage"
       },

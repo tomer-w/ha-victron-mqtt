@@ -4467,6 +4467,26 @@
       "generic_name": "Relay {relay} state"
     },
     {
+      "topic": "N/{installation_id}/system/{device_id}/SystemState/State",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "system_state",
+      "name": "System state",
+      "unit_of_measurement": null,
+      "metric_type": "MetricType.NONE",
+      "metric_nature": "MetricNature.NONE",
+      "value_type": "ValueType.ENUM",
+      "precision": null,
+      "enum": "State",
+      "min_max_range": "RangeType.STATIC",
+      "min": null,
+      "max": null,
+      "step": null,
+      "is_adjustable_suffix": null,
+      "key_values": {},
+      "experimental": false,
+      "generic_name": "System state"
+    },
+    {
       "topic": "N/{installation_id}/tank/{device_id}/BatteryVoltage",
       "message_type": "MetricKind.SENSOR",
       "short_id": "tank_battery_voltage",
@@ -6665,6 +6685,26 @@
           "id": "ExternalControl",
           "name": "External Control",
           "value": 252
+        },
+        {
+          "id": "Discharging",
+          "name": "Discharging",
+          "value": 256
+        },
+        {
+          "id": "SustainAlt",
+          "name": "Sustain Alt",
+          "value": 257
+        },
+        {
+          "id": "Recharging",
+          "name": "Recharging",
+          "value": 258
+        },
+        {
+          "id": "ScheduledRecharging",
+          "name": "Scheduled Recharging",
+          "value": 259
         }
       ]
     },
