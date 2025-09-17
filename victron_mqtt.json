@@ -2387,6 +2387,46 @@
       "generic_name": "Total PV Yield"
     },
     {
+      "topic": "N/{installation_id}/platform/{device_id}/Firmware/Installed/Version",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "platform_venus_firmware_installed_version",
+      "name": "Firmware Venus Installed Version",
+      "unit_of_measurement": null,
+      "metric_type": "MetricType.NONE",
+      "metric_nature": "MetricNature.NONE",
+      "value_type": "ValueType.STRING",
+      "precision": null,
+      "enum": null,
+      "min_max_range": "RangeType.STATIC",
+      "min": null,
+      "max": null,
+      "step": null,
+      "is_adjustable_suffix": null,
+      "key_values": {},
+      "experimental": false,
+      "generic_name": "Firmware Venus Installed Version"
+    },
+    {
+      "topic": "N/{installation_id}/platform/{device_id}/Firmware/Online/AvailableVersion",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "platform_venus_firmware_available_version",
+      "name": "Firmware Venus Available Version",
+      "unit_of_measurement": null,
+      "metric_type": "MetricType.NONE",
+      "metric_nature": "MetricNature.NONE",
+      "value_type": "ValueType.STRING",
+      "precision": null,
+      "enum": null,
+      "min_max_range": "RangeType.STATIC",
+      "min": null,
+      "max": null,
+      "step": null,
+      "is_adjustable_suffix": null,
+      "key_values": {},
+      "experimental": false,
+      "generic_name": "Firmware Venus Available Version"
+    },
+    {
       "topic": "N/{installation_id}/pvinverter/{device_id}/Ac/Energy/Forward",
       "message_type": "MetricKind.SENSOR",
       "short_id": "pvinverter_yield_total",
@@ -5985,6 +6025,11 @@
           "id": "RELAY",
           "name": "<Not used>",
           "value": "Relay"
+        },
+        {
+          "id": "PLATFORM",
+          "name": "Platform",
+          "value": "platform"
         }
       ]
     },

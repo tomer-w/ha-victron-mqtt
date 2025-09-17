@@ -387,6 +387,12 @@
       "multirssolar_total_pv_yield": {
         "name": "Total PV Yield"
       },
+      "platform_venus_firmware_installed_version": {
+        "name": "Firmware Venus Installed Version"
+      },
+      "platform_venus_firmware_available_version": {
+        "name": "Firmware Venus Available Version"
+      },
       "pvinverter_yield_total": {
         "name": "Total Yield"
       },
