@@ -321,6 +321,33 @@
       "grid_voltage_phase_next_phase": {
         "name": "Grid voltage {phase} to {next_phase}"
       },
+      "heatpump_current": {
+        "name": "heatpump current"
+      },
+      "heatpump_energy_forward": {
+        "name": "heatpump consumption"
+      },
+      "heatpump_frequency": {
+        "name": "heatpump frequency"
+      },
+      "heatpump_power": {
+        "name": "heatpump power"
+      },
+      "heatpump_voltage": {
+        "name": "heatpump voltage"
+      },
+      "heatpump_current_phase": {
+        "name": "heatpump current on {phase}"
+      },
+      "heatpump_energy_forward_phase": {
+        "name": "heatpump consumption on {phase}"
+      },
+      "heatpump_power_phase": {
+        "name": "heatpump power on {phase}"
+      },
+      "heatpump_voltage_phase": {
+        "name": "heatpump voltage on {phase}"
+      },
       "inverter_output_current_phase": {
         "name": "Inverter output current {phase}"
       },
