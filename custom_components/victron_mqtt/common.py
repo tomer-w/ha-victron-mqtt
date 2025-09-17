@@ -64,7 +64,10 @@ class VictronBaseEntity(Entity):
         return self._update_internal(self._metric)
 
     def _update_internal(self, metric: VictronVenusMetric) -> bool:
-        # Only apply update frequency logic for float values
+        # Might be that the entity was removed or not added yet
+        if self.hass is None:
+            return False
+        # Only apply update frequency logic for float values        
         if isinstance(metric.value, (float, int)):
             now = time.time()
             if self._last_update is not None:
@@ -78,9 +81,17 @@ class VictronBaseEntity(Entity):
             self._last_update = now
         return self._on_update_task(metric)
 
-    def mark_registered_with_homeassistant(self):
-        """Mark the sensor as registered with Home Assistant, so that updates can be propagated."""
+    async def async_added_to_hass(self) -> None:
+        """Run when entity about to be added to hass."""
+        await super().async_added_to_hass()
+        # Now we can safely register for updates as the entity is fully registered with Home Assistant
         self._metric.on_update = self._on_update
+
+    async def async_will_remove_from_hass(self) -> None:
+        """Run when entity will be removed from hass."""
+        # Remove our update callback by setting a no-op function
+        self._metric.on_update = None
+        await super().async_will_remove_from_hass()
 
     def _map_metric_to_device_class(
         self, metric: VictronVenusMetric

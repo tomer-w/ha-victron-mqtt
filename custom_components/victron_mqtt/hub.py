@@ -130,7 +130,6 @@ class Hub:
         
         # Add entity dynamically to the platform
         self.add_entities_map[metric.metric_kind]([entity])
-        entity.mark_registered_with_homeassistant()
 
     @staticmethod
     def _map_device_info(device: VictronVenusDevice) -> DeviceInfo:
@@ -361,6 +360,7 @@ class VictronSelect(VictronBaseEntity, SelectEntity):
 
     async def async_select_option(self, option: str) -> None:
         """Change the selected option."""
+        assert isinstance(self._metric, VictronVenusWritableMetric)
         assert self._metric.enum_values is not None
         if option not in self._metric.enum_values:
             _LOGGER.info("Setting switch %s to %s failed as option not supported. supported options are: %s", self._attr_unique_id, option, self._metric.enum_values)
