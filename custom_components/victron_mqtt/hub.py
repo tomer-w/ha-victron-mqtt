@@ -150,7 +150,7 @@ class Hub:
     async def _periodic_update_task(self, now=None):
         """Periodic task to update all tracked entities with their latest metric values."""
         if not self.entities:
-            _LOGGER.info("No entities to update")
+            _LOGGER.debug("No entities to update")
             return
 
         _LOGGER.debug("Running periodic update task for %d entities", len(self.entities))
