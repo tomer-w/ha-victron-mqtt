@@ -648,11 +648,11 @@
       "system_dc_battery_power": {
         "name": "DC Battery Power"
       },
-      "system_dc_battery_charge_power": {
-        "name": "DC Battery Charge Power"
+      "system_dc_battery_charge_energy": {
+        "name": "DC Battery Charge Energy"
       },
-      "system_dc_battery_discharge_power": {
-        "name": "DC Battery Discharge Power"
+      "system_dc_battery_discharge_energy": {
+        "name": "DC Battery Discharge Energy"
       },
       "system_dc_battery_soc": {
         "name": "DC Battery Charge"
