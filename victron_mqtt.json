@@ -4739,11 +4739,11 @@
     {
       "topic": "$$func/system/system_dc_battery_charge_power",
       "message_type": "MetricKind.SENSOR",
-      "short_id": "system_dc_battery_charge_power",
-      "name": "DC Battery Charge Power",
-      "unit_of_measurement": "W",
-      "metric_type": "MetricType.POWER",
-      "metric_nature": "MetricNature.INSTANTANEOUS",
+      "short_id": "system_dc_battery_charge_energy",
+      "name": "DC Battery Charge Energy",
+      "unit_of_measurement": "Wh",
+      "metric_type": "MetricType.ENERGY",
+      "metric_nature": "MetricNature.CUMULATIVE",
       "value_type": "ValueType.FLOAT",
       "precision": 1,
       "enum": null,
@@ -4755,19 +4755,19 @@
       "key_values": {},
       "experimental": true,
       "depends_on": [
-        "system_0_system_dc_battery_power"
+        "system_dc_battery_power"
       ],
-      "generic_name": "DC Battery Charge Power",
+      "generic_name": "DC Battery Charge Energy",
       "is_formula": true
     },
     {
       "topic": "$$func/system/system_dc_battery_discharge_power",
       "message_type": "MetricKind.SENSOR",
-      "short_id": "system_dc_battery_discharge_power",
-      "name": "DC Battery Discharge Power",
-      "unit_of_measurement": "W",
-      "metric_type": "MetricType.POWER",
-      "metric_nature": "MetricNature.INSTANTANEOUS",
+      "short_id": "system_dc_battery_discharge_energy",
+      "name": "DC Battery Discharge Energy",
+      "unit_of_measurement": "Wh",
+      "metric_type": "MetricType.ENERGY",
+      "metric_nature": "MetricNature.CUMULATIVE",
       "value_type": "ValueType.FLOAT",
       "precision": 1,
       "enum": null,
@@ -4779,9 +4779,9 @@
       "key_values": {},
       "experimental": true,
       "depends_on": [
-        "system_0_system_dc_battery_power"
+        "system_dc_battery_power"
       ],
-      "generic_name": "DC Battery Discharge Power",
+      "generic_name": "DC Battery Discharge Energy",
       "is_formula": true
     },
     {
