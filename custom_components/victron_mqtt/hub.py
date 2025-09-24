@@ -77,33 +77,18 @@ class Hub:
             serial=config.get(CONF_SERIAL, "noserial"),
             topic_prefix=config.get(CONF_ROOT_TOPIC_PREFIX) or None,
             operation_mode=operation_mode,
-            device_type_exclude_filter=excluded_device_types
+            device_type_exclude_filter=excluded_device_types,
+            update_frequency_seconds=config.get(CONF_UPDATE_FREQUENCY_SECONDS, DEFAULT_UPDATE_FREQUENCY_SECONDS)
         )
         self._hub.on_new_metric = self.on_new_metric
-        self.update_frequency_seconds = config.get(CONF_UPDATE_FREQUENCY_SECONDS, DEFAULT_UPDATE_FREQUENCY_SECONDS)
         self.add_entities_map: dict[MetricKind, AddEntitiesCallback] = {}
         
-        # Track all entities for periodic updates
-        self.entities: list[VictronBaseEntity] = []
-        self._update_task_unsub = None
-
         self.hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, self.stop)
 
     async def start(self):
-        _LOGGER.info("Starting hub. Update frequency: %s seconds", self.update_frequency_seconds)
+        _LOGGER.info("Starting hub.")
         try:
             await self._hub.connect()
-            
-            if self.update_frequency_seconds > 0:
-                # Start the periodic update task
-                full_refresh_interval = self.update_frequency_seconds * 2
-                self._update_task_unsub = async_track_time_interval(
-                    self.hass,
-                    self._periodic_update_task,
-                    timedelta(seconds=full_refresh_interval)
-                )
-                _LOGGER.info("Started periodic update task to run every %d seconds(s)", full_refresh_interval)
-
         except CannotConnectError as connect_error:
             _LOGGER.error("Cannot connect to the hub")
             raise ConfigEntryNotReady("Device is offline") from connect_error
@@ -125,9 +110,6 @@ class Hub:
         device_info = Hub._map_device_info(device)
         entity = self.creatre_entity(device, metric, device_info)
         
-        # Track the entity for periodic updates
-        self.entities.append(entity)
-        
         # Add entity dynamically to the platform
         self.add_entities_map[metric.metric_kind]([entity])
 
@@ -147,37 +129,19 @@ class Hub:
         _LOGGER.info("Registering AddEntitiesCallback. kind: %s, AddEntitiesCallback: %s", kind, async_add_entities)
         self.add_entities_map[kind] = async_add_entities
 
-    async def _periodic_update_task(self, now=None):
-        """Periodic task to update all tracked entities with their latest metric values."""
-        if not self.entities:
-            _LOGGER.debug("No entities to update")
-            return
-
-        _LOGGER.debug("Running periodic update task for %d entities", len(self.entities))
-        
-        updated_count = 0
-        
-        for entity in self.entities:
-            if entity.update():
-                #_LOGGER.info("Entity updated: %s", entity)
-                updated_count += 1
-
-        if updated_count > 0:
-            _LOGGER.debug("Periodic update completed: %d entities updated", updated_count)
-
     def creatre_entity(self, device: VictronVenusDevice, metric: VictronVenusMetric, info: DeviceInfo) -> VictronBaseEntity:
         """Create a VictronBaseEntity from a device and metric."""
         if metric.metric_kind == MetricKind.SENSOR:
-            return VictronSensor(device, metric, info, self.update_frequency_seconds)
+            return VictronSensor(device, metric, info)
         elif metric.metric_kind == MetricKind.BINARY_SENSOR:
-            return VictronBinarySensor(device, metric, info, self.update_frequency_seconds)
+            return VictronBinarySensor(device, metric, info)
         assert isinstance(metric, VictronVenusWritableMetric), f"Expected metric to be a VictronVenusWritableMetric. Got {type(metric)}"
         if metric.metric_kind == MetricKind.SWITCH:
-            return VictronSwitch(device, metric, info, self.update_frequency_seconds)
+            return VictronSwitch(device, metric, info)
         elif metric.metric_kind == MetricKind.NUMBER:
-            return VictronNumber(device, metric, info, self.update_frequency_seconds)
+            return VictronNumber(device, metric, info)
         elif metric.metric_kind == MetricKind.SELECT:
-            return VictronSelect(device, metric, info, self.update_frequency_seconds)
+            return VictronSelect(device, metric, info)
         else:
             raise ValueError(f"Unsupported metric kind: {metric.metric_kind}")
 
@@ -199,22 +163,20 @@ class VictronSensor(VictronBaseEntity, SensorEntity):
         device: VictronVenusDevice,
         metric: VictronVenusMetric,
         device_info: DeviceInfo,
-        update_frequency_seconds: int,
     ) -> None:
         """Initialize the sensor based on detauls in the metric."""
         self._attr_native_value = metric.value
-        super().__init__(device, metric, device_info, "sensor", update_frequency_seconds)
+        super().__init__(device, metric, device_info, "sensor")
 
     def __repr__(self) -> str:
         """Return a string representation of the sensor."""
         return f"VictronSensor({super().__repr__()})"
 
-    def _on_update_task(self, metric: VictronVenusMetric) -> bool:
-        if self._attr_native_value == metric.value:
-            return False
-        self._attr_native_value = metric.value
+    def _on_update_task(self, value: Any) -> None:
+        if self._attr_native_value == value:
+            return
+        self._attr_native_value = value
         self.schedule_update_ha_state()
-        return True
 
 class VictronSwitch(VictronBaseEntity, SwitchEntity):
     """Implementation of a Victron Venus multiple state select using SelectEntity."""
@@ -224,11 +186,10 @@ class VictronSwitch(VictronBaseEntity, SwitchEntity):
         device: VictronVenusDevice,
         writable_metric: VictronVenusWritableMetric,
         device_info: DeviceInfo,
-        update_frequency_seconds: int,
     ) -> None:
         """Initialize the switch."""
         self._attr_is_on = writable_metric.value == GenericOnOff.On
-        super().__init__(device, writable_metric, device_info, "switch", update_frequency_seconds)
+        super().__init__(device, writable_metric, device_info, "switch")
 
     def __repr__(self) -> str:
         """Return a string representation of the sensor."""
@@ -236,13 +197,12 @@ class VictronSwitch(VictronBaseEntity, SwitchEntity):
             f"VictronSwitch({super().__repr__()}, is_on={self._attr_is_on})"
         )
 
-    def _on_update_task(self, metric: VictronVenusMetric) -> bool:
-        new_val = metric.value == GenericOnOff.On
+    def _on_update_task(self, value: Any) -> None:
+        new_val = value == GenericOnOff.On
         if self._attr_is_on == new_val:
-            return False
+            return
         self._attr_is_on = new_val
         self.schedule_update_ha_state()
-        return True
 
     async def async_turn_on(self, **kwargs: Any) -> None:
         """Turn the switch on."""
@@ -266,7 +226,6 @@ class VictronNumber(VictronBaseEntity, NumberEntity):
         device: VictronVenusDevice,
         writable_metric: VictronVenusWritableMetric,
         device_info: DeviceInfo,
-        update_frequency_seconds: int,
     ) -> None:
         """Initialize the number entity."""
         self._attr_native_value = writable_metric.value
@@ -276,18 +235,17 @@ class VictronNumber(VictronBaseEntity, NumberEntity):
             self._attr_native_max_value = writable_metric.max_value
         if isinstance(writable_metric.step, int) or isinstance(writable_metric.step, float):
             self._attr_native_step = writable_metric.step
-        super().__init__(device, writable_metric, device_info, "number", update_frequency_seconds)
+        super().__init__(device, writable_metric, device_info, "number")
 
     def __repr__(self) -> str:
         """Return a string representation of the sensor."""
         return f"VictronNumber({super().__repr__()}, native_value={self._attr_native_value})"
 
-    def _on_update_task(self, metric: VictronVenusMetric) -> bool:
-        if self._attr_native_value == metric.value:
-            return False
-        self._attr_native_value = metric.value
+    def _on_update_task(self, value: Any) -> None:
+        if self._attr_native_value == value:
+            return
+        self._attr_native_value = value
         self.schedule_update_ha_state()
-        return True
 
     @property
     def native_value(self):
@@ -310,22 +268,20 @@ class VictronBinarySensor(VictronBaseEntity, BinarySensorEntity):
         device: VictronVenusDevice,
         metric: VictronVenusMetric,
         device_info: DeviceInfo,
-        update_frequency_seconds: int,
     ) -> None:
         self._attr_is_on = bool(metric.value)
-        super().__init__(device, metric, device_info, "binary_sensor", update_frequency_seconds)
+        super().__init__(device, metric, device_info, "binary_sensor")
 
     def __repr__(self) -> str:
         """Return a string representation of the sensor."""
         return f"VictronBinarySensor({super().__repr__()}), is_on={self._attr_is_on})"
 
-    def _on_update_task(self, metric: VictronVenusMetric) -> bool:
-        new_val = metric.value == GenericOnOff.On
+    def _on_update_task(self, value: Any) -> None:
+        new_val = value == GenericOnOff.On
         if self._attr_is_on == new_val:
-            return False
+            return
         self._attr_is_on = new_val
         self.schedule_update_ha_state()
-        return True
 
     @property
     def is_on(self) -> bool:
@@ -339,24 +295,22 @@ class VictronSelect(VictronBaseEntity, SelectEntity):
         device: VictronVenusDevice,
         writable_metric: VictronVenusWritableMetric,
         device_info: DeviceInfo,
-        update_frequency_seconds: int,
     ) -> None:
         """Initialize the switch."""
         self._attr_options = writable_metric.enum_values
         self._attr_current_option = self._map_value_to_state(writable_metric.value)
-        super().__init__(device, writable_metric, device_info, "select", update_frequency_seconds)
+        super().__init__(device, writable_metric, device_info, "select")
 
     def __repr__(self) -> str:
         """Return a string representation of the sensor."""
         return f"VictronSelect({super().__repr__()}, current_option={self._attr_current_option}, options={self._attr_options})"
 
-    def _on_update_task(self, metric: VictronVenusMetric) -> bool:
-        new_val = self._map_value_to_state(metric.value)
+    def _on_update_task(self, value: Any) -> None:
+        new_val = self._map_value_to_state(value)
         if self._attr_current_option == new_val:
-            return False
+            return
         self._attr_current_option = new_val
         self.schedule_update_ha_state()
-        return True
 
     async def async_select_option(self, option: str) -> None:
         """Change the selected option."""

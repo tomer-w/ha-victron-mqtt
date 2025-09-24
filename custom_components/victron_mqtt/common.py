@@ -1,5 +1,5 @@
 import logging
-import time
+from typing import Any
 from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.entity import Entity
 from homeassistant.components.sensor.const import SensorDeviceClass, SensorStateClass
@@ -22,7 +22,6 @@ class VictronBaseEntity(Entity):
         metric: VictronVenusMetric,
         device_info: DeviceInfo,
         type: str,
-        update_frequency_seconds: int,
     ) -> None:
         """Initialize the sensor based on detauls in the metric."""
         self._device = device
@@ -39,8 +38,6 @@ class VictronBaseEntity(Entity):
         self._attr_suggested_display_precision = metric.precision
         self._attr_translation_key = metric.generic_short_id.replace('{', '').replace('}', '') # same as in merge_topics.py
         self._attr_translation_placeholders = metric.key_values
-        self._update_frequency_seconds = update_frequency_seconds
-        self._last_update = None
         _LOGGER.info("%s %s added. Based on: %s", type, self, repr(metric))
 
     def __repr__(self) -> str:
@@ -51,35 +48,14 @@ class VictronBaseEntity(Entity):
             f"metric={self._metric.short_id}, "
             f"translation_key={self._attr_translation_key}, "
             f"translation_placeholders={self._attr_translation_placeholders}, "
-            f"value={self._attr_native_value}, "
-            f"update_frequency_seconds={self._update_frequency_seconds})"
+            f"value={self._attr_native_value})"
         )
 
-    def _on_update(self, metric: VictronVenusMetric):
-        self._update_internal(metric)
-
-    def update(self) -> bool:
-        if not isinstance(self._metric.value, (float, int)):
-            return False
-        return self._update_internal(self._metric)
-
-    def _update_internal(self, metric: VictronVenusMetric) -> bool:
+    def _on_update(self, metric: VictronVenusMetric, value: Any) -> None:
         # Might be that the entity was removed or not added yet
         if self.hass is None:
-            return False
-        # Only apply update frequency logic for float values        
-        if isinstance(metric.value, (float, int)):
-            now = time.time()
-            if self._last_update is not None:
-                elapsed = now - self._last_update
-                if elapsed < self._update_frequency_seconds:
-                    _LOGGER.debug(
-                        "Update for %s skipped due to frequency limit (%.2fs < %ds)",
-                        self._attr_unique_id, elapsed, self._update_frequency_seconds
-                    )
-                    return False
-            self._last_update = now
-        return self._on_update_task(metric)
+            return
+        self._on_update_task(value)
 
     async def async_added_to_hass(self) -> None:
         """Run when entity about to be added to hass."""
