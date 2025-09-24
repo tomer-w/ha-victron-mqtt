@@ -663,6 +663,9 @@
       "system_dc_pv_power": {
         "name": "PV Power"
       },
+      "system_dc_pv_energy": {
+        "name": "PV Energy"
+      },
       "system_dc_consumption": {
         "name": "DC Consumption"
       },
