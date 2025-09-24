@@ -96,13 +96,6 @@ class Hub:
     @callback
     async def stop(self, event: Event):
         _LOGGER.info("Stopping hub")
-        
-        # Cancel the periodic update task
-        if self._update_task_unsub is not None:
-            self._update_task_unsub()
-            self._update_task_unsub = None
-            _LOGGER.info("Stopped periodic update task")
-            
         await self._hub.disconnect()
 
     def on_new_metric(self, hub: VictronVenusHub, device: VictronVenusDevice, metric: VictronVenusMetric):
