@@ -4851,6 +4851,30 @@
       "is_formula": false
     },
     {
+      "topic": "$$func/system/left_riemann_sum",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "system_dc_pv_energy",
+      "name": "PV Energy",
+      "unit_of_measurement": "kWh",
+      "metric_type": "MetricType.ENERGY",
+      "metric_nature": "MetricNature.CUMULATIVE",
+      "value_type": "ValueType.FLOAT",
+      "precision": 1,
+      "enum": null,
+      "min_max_range": "RangeType.STATIC",
+      "min": null,
+      "max": null,
+      "step": null,
+      "is_adjustable_suffix": null,
+      "key_values": {},
+      "experimental": false,
+      "depends_on": [
+        "system_dc_pv_power"
+      ],
+      "generic_name": "PV Energy",
+      "is_formula": true
+    },
+    {
       "topic": "N/{installation_id}/system/{device_id}/Dc/System/Power",
       "message_type": "MetricKind.SENSOR",
       "short_id": "system_dc_consumption",
