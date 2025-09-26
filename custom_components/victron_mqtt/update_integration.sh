@@ -1,4 +1,4 @@
-﻿#!/bin/bash
+﻿#!/usr/bin/env bash
 
 # ==== CONFIGURATION ====
 GITHUB_USER="tomer-w"
@@ -18,6 +18,14 @@ DEST_FOLDER="/config/custom_components/victron_mqtt"
 RESTART_HA=false
 USE_MAIN=false
 
+# Check for jq; if missing, warn and skip printing commit info when using main
+if ! command -v jq >/dev/null 2>&1; then
+    echo "⚠️  'jq' not found in PATH. Commit info from GitHub will be skipped. To enable it, install jq."
+    JQ_AVAILABLE=false
+else
+    JQ_AVAILABLE=true
+fi
+
 # Parse command line arguments
 for arg in "$@"; do
     case $arg in
@@ -35,7 +43,7 @@ if [ "$USE_MAIN" = true ]; then
     echo "🔀 Using main branch as requested (--main flag)"
     LATEST_TAG="null"
 else
-    LATEST_TAG=$(curl -s "https://api.github.com/repos/$GITHUB_USER/$GITHUB_REPO/releases/latest" | jq -r .tag_name)
+    LATEST_TAG=$(curl -s "https://api.github.com/repos/$GITHUB_USER/$GITHUB_REPO/releases/latest" | jq -r '.tag_name // empty')
 fi
 
 if [ "$LATEST_TAG" == "null" ] || [ -z "$LATEST_TAG" ]; then
@@ -46,6 +54,27 @@ if [ "$LATEST_TAG" == "null" ] || [ -z "$LATEST_TAG" ]; then
     fi
     ZIP_URL="https://github.com/$GITHUB_USER/$GITHUB_REPO/archive/refs/heads/main.zip"
     TMP_FOLDER="$GITHUB_REPO-main"
+    # If we're downloading from main, fetch and print the latest commit info
+    if [ "$JQ_AVAILABLE" = true ]; then
+        echo "🔎 Fetching latest commit info for main..."
+        # Query the GitHub commits API for the main branch
+        COMMIT_INFO=$(curl -s "https://api.github.com/repos/$GITHUB_USER/$GITHUB_REPO/commits/main")
+        if [ -n "$COMMIT_INFO" ] && [ "$(echo "$COMMIT_INFO" | jq -r '.sha // empty')" != "" ]; then
+            COMMIT_SHA=$(echo "$COMMIT_INFO" | jq -r '.sha')
+            # Show only the first line of the commit message
+            COMMIT_MESSAGE=$(echo "$COMMIT_INFO" | jq -r '.commit.message' | head -n1 | tr -d '\r')
+            COMMIT_AUTHOR=$(echo "$COMMIT_INFO" | jq -r '.commit.author.name')
+            COMMIT_DATE=$(echo "$COMMIT_INFO" | jq -r '.commit.author.date')
+            echo "🧾 Latest commit on main: $COMMIT_SHA"
+            echo "📝 Message: $COMMIT_MESSAGE"
+            echo "👤 Author: $COMMIT_AUTHOR"
+            echo "📅 Date: $COMMIT_DATE"
+        else
+            echo "⚠️  Could not fetch latest commit info from GitHub API."
+        fi
+    else
+        echo "ℹ️  Skipping commit info because 'jq' is not available."
+    fi
 else
     echo "⬇️  Found latest release: $LATEST_TAG"
     ZIP_URL="https://github.com/$GITHUB_USER/$GITHUB_REPO/archive/refs/tags/$LATEST_TAG.zip"
