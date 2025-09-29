@@ -321,6 +321,9 @@
       "grid_voltage_phase_next_phase": {
         "name": "Grid voltage {phase} to {next_phase}"
       },
+      "system_heartbeat": {
+        "name": "GX system heartbeat"
+      },
       "heatpump_current": {
         "name": "heatpump current"
       },
