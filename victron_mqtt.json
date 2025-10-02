@@ -3236,7 +3236,9 @@
       "is_adjustable_suffix": null,
       "key_values": {},
       "experimental": true,
-      "depends_on": [],
+      "depends_on": [
+        "generator_{gen_id}_generator_autorun"
+      ],
       "generic_name": "Generator start on voltage enabled",
       "is_formula": false
     },
@@ -3258,7 +3260,9 @@
       "is_adjustable_suffix": null,
       "key_values": {},
       "experimental": true,
-      "depends_on": [],
+      "depends_on": [
+        "generator_{gen_id}_generator_autorun"
+      ],
       "generic_name": "Generator QH start on voltage",
       "is_formula": false
     },
@@ -3280,7 +3284,9 @@
       "is_adjustable_suffix": null,
       "key_values": {},
       "experimental": true,
-      "depends_on": [],
+      "depends_on": [
+        "generator_{gen_id}_generator_autorun"
+      ],
       "generic_name": "Generator QH stop on voltage",
       "is_formula": false
     },
@@ -3302,7 +3308,9 @@
       "is_adjustable_suffix": null,
       "key_values": {},
       "experimental": true,
-      "depends_on": [],
+      "depends_on": [
+        "generator_{gen_id}_generator_autorun"
+      ],
       "generic_name": "Generator start on voltage timer",
       "is_formula": false
     },
@@ -3324,7 +3332,9 @@
       "is_adjustable_suffix": null,
       "key_values": {},
       "experimental": true,
-      "depends_on": [],
+      "depends_on": [
+        "generator_{gen_id}_generator_autorun"
+      ],
       "generic_name": "Generator start on voltage",
       "is_formula": false
     },
@@ -3346,7 +3356,9 @@
       "is_adjustable_suffix": null,
       "key_values": {},
       "experimental": true,
-      "depends_on": [],
+      "depends_on": [
+        "generator_{gen_id}_generator_autorun"
+      ],
       "generic_name": "Generator stop on voltage timer",
       "is_formula": false
     },
@@ -3368,7 +3380,9 @@
       "is_adjustable_suffix": null,
       "key_values": {},
       "experimental": true,
-      "depends_on": [],
+      "depends_on": [
+        "generator_{gen_id}_generator_autorun"
+      ],
       "generic_name": "Generator stop on voltage",
       "is_formula": false
     },
@@ -3390,7 +3404,9 @@
       "is_adjustable_suffix": null,
       "key_values": {},
       "experimental": true,
-      "depends_on": [],
+      "depends_on": [
+        "generator_{gen_id}_generator_autorun"
+      ],
       "generic_name": "Generator cool down timer",
       "is_formula": false
     },
@@ -3412,7 +3428,9 @@
       "is_adjustable_suffix": null,
       "key_values": {},
       "experimental": true,
-      "depends_on": [],
+      "depends_on": [
+        "generator_{gen_id}_generator_autorun"
+      ],
       "generic_name": "Generator shut down timer",
       "is_formula": false
     },
@@ -3434,7 +3452,9 @@
       "is_adjustable_suffix": null,
       "key_values": {},
       "experimental": true,
-      "depends_on": [],
+      "depends_on": [
+        "generator_{gen_id}_generator_autorun"
+      ],
       "generic_name": "Generator start on high temp enabled",
       "is_formula": false
     },
@@ -3456,7 +3476,9 @@
       "is_adjustable_suffix": null,
       "key_values": {},
       "experimental": true,
-      "depends_on": [],
+      "depends_on": [
+        "generator_{gen_id}_generator_autorun"
+      ],
       "generic_name": "Generator start on temp timer",
       "is_formula": false
     },
@@ -3478,7 +3500,9 @@
       "is_adjustable_suffix": null,
       "key_values": {},
       "experimental": true,
-      "depends_on": [],
+      "depends_on": [
+        "generator_{gen_id}_generator_autorun"
+      ],
       "generic_name": "Generator stop on temp timer",
       "is_formula": false
     },
@@ -3500,7 +3524,9 @@
       "is_adjustable_suffix": null,
       "key_values": {},
       "experimental": true,
-      "depends_on": [],
+      "depends_on": [
+        "generator_{gen_id}_generator_autorun"
+      ],
       "generic_name": "Generator quiet hours enabled",
       "is_formula": false
     },
@@ -3522,7 +3548,9 @@
       "is_adjustable_suffix": null,
       "key_values": {},
       "experimental": true,
-      "depends_on": [],
+      "depends_on": [
+        "generator_{gen_id}_generator_autorun"
+      ],
       "generic_name": "Generator service interval",
       "is_formula": false
     },
@@ -3544,7 +3572,9 @@
       "is_adjustable_suffix": null,
       "key_values": {},
       "experimental": true,
-      "depends_on": [],
+      "depends_on": [
+        "generator_{gen_id}_generator_autorun"
+      ],
       "generic_name": "Generator start on SOC enabled",
       "is_formula": false
     },
@@ -3566,7 +3596,9 @@
       "is_adjustable_suffix": null,
       "key_values": {},
       "experimental": true,
-      "depends_on": [],
+      "depends_on": [
+        "generator_{gen_id}_generator_autorun"
+      ],
       "generic_name": "Generator QH start on SOC",
       "is_formula": false
     },
@@ -3588,7 +3620,9 @@
       "is_adjustable_suffix": null,
       "key_values": {},
       "experimental": true,
-      "depends_on": [],
+      "depends_on": [
+        "generator_{gen_id}_generator_autorun"
+      ],
       "generic_name": "Generator QH stop on SOC",
       "is_formula": false
     },
@@ -3610,7 +3644,9 @@
       "is_adjustable_suffix": null,
       "key_values": {},
       "experimental": true,
-      "depends_on": [],
+      "depends_on": [
+        "generator_{gen_id}_generator_autorun"
+      ],
       "generic_name": "Generator start on SOC timer",
       "is_formula": false
     },
@@ -3632,7 +3668,9 @@
       "is_adjustable_suffix": null,
       "key_values": {},
       "experimental": true,
-      "depends_on": [],
+      "depends_on": [
+        "generator_{gen_id}_generator_autorun"
+      ],
       "generic_name": "Generator start on SOC",
       "is_formula": false
     },
@@ -3654,7 +3692,9 @@
       "is_adjustable_suffix": null,
       "key_values": {},
       "experimental": true,
-      "depends_on": [],
+      "depends_on": [
+        "generator_{gen_id}_generator_autorun"
+      ],
       "generic_name": "Generator stop on SOC timer",
       "is_formula": false
     },
@@ -3676,7 +3716,9 @@
       "is_adjustable_suffix": null,
       "key_values": {},
       "experimental": true,
-      "depends_on": [],
+      "depends_on": [
+        "generator_{gen_id}_generator_autorun"
+      ],
       "generic_name": "Generator stop on SOC",
       "is_formula": false
     },
@@ -3698,7 +3740,9 @@
       "is_adjustable_suffix": null,
       "key_values": {},
       "experimental": true,
-      "depends_on": [],
+      "depends_on": [
+        "generator_{gen_id}_generator_autorun"
+      ],
       "generic_name": "Generator warm up timer",
       "is_formula": false
     },
