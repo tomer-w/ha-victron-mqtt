@@ -648,6 +648,9 @@
       "system_control_active_soc_limit": {
         "name": "Active SOC Limit"
       },
+      "system_control_scheduled_soc": {
+        "name": "Scheduled SOC"
+      },
       "system_dc_battery_current": {
         "name": "DC Battery Current"
       },
