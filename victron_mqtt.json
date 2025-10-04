@@ -4781,6 +4781,28 @@
       "is_formula": false
     },
     {
+      "topic": "N/{installation_id}/system/{device_id}/Control/ScheduledSoc",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "system_control_scheduled_soc",
+      "name": "Scheduled SOC",
+      "unit_of_measurement": "%",
+      "metric_type": "MetricType.ELECTRIC_STORAGE_PERCENTAGE",
+      "metric_nature": "MetricNature.INSTANTANEOUS",
+      "value_type": "ValueType.FLOAT",
+      "precision": 1,
+      "enum": null,
+      "min_max_range": "RangeType.STATIC",
+      "min": null,
+      "max": null,
+      "step": null,
+      "is_adjustable_suffix": null,
+      "key_values": {},
+      "experimental": false,
+      "depends_on": [],
+      "generic_name": "Scheduled SOC",
+      "is_formula": false
+    },
+    {
       "topic": "N/{installation_id}/system/{device_id}/Dc/Battery/Current",
       "message_type": "MetricKind.SENSOR",
       "short_id": "system_dc_battery_current",
