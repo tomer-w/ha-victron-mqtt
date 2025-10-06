@@ -6151,6 +6151,28 @@
       "is_formula": false
     },
     {
+      "topic": "N/{installation_id}/vebus/{device_id}/Dc/0/Temperature",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "vebus_inverter_dc_temperature",
+      "name": "Inverter DC temperature",
+      "unit_of_measurement": "\u00b0C",
+      "metric_type": "MetricType.TEMPERATURE",
+      "metric_nature": "MetricNature.INSTANTANEOUS",
+      "value_type": "ValueType.FLOAT",
+      "precision": 1,
+      "enum": null,
+      "min_max_range": "RangeType.STATIC",
+      "min": null,
+      "max": null,
+      "step": null,
+      "is_adjustable_suffix": null,
+      "key_values": {},
+      "experimental": false,
+      "depends_on": [],
+      "generic_name": "Inverter DC temperature",
+      "is_formula": false
+    },
+    {
       "topic": "N/{installation_id}/vebus/{device_id}/Devices/{device_number}/Ac/In/P",
       "message_type": "MetricKind.SENSOR",
       "short_id": "vebus_device_{device_number}_input_power_l1",

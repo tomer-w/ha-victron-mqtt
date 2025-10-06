@@ -819,6 +819,9 @@
       "vebus_inverter_dc_power": {
         "name": "Inverter DC power"
       },
+      "vebus_inverter_dc_temperature": {
+        "name": "Inverter DC temperature"
+      },
       "vebus_device_device_number_input_power_l1": {
         "name": "VE.Bus device {device_number} line 1 input power"
       },
