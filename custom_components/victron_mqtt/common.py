@@ -2,7 +2,7 @@ import logging
 from typing import Any
 from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.entity import Entity
-from homeassistant.components.sensor.const import SensorDeviceClass, SensorStateClass
+from homeassistant.components.sensor.const import SensorDeviceClass, SensorStateClass, UnitOfTime
 
 from victron_mqtt import (
     Device as VictronVenusDevice,
@@ -29,7 +29,7 @@ class VictronBaseEntity(Entity):
         self._device_info = device_info
         self._attr_unique_id = f"{type}.victron_mqtt_{metric.unique_id}"
         self.entity_id = self._attr_unique_id
-        self._attr_native_unit_of_measurement = metric.unit_of_measurement
+        self._attr_native_unit_of_measurement = self._map_metric_to_unit_of_measurement(metric)
         self._attr_device_class = self._map_metric_to_device_class(metric)
         self._attr_state_class = self._map_metric_to_stateclass(metric)
         self._attr_native_value = metric.value
@@ -109,6 +109,17 @@ class VictronBaseEntity(Entity):
             return SensorStateClass.MEASUREMENT
 
         return None
+
+    def _map_metric_to_unit_of_measurement(
+        self, metric: VictronVenusMetric
+    ) -> str | None:
+        if metric.unit_of_measurement == 's':
+            return UnitOfTime.SECONDS
+        if metric.unit_of_measurement == 'm':
+            return UnitOfTime.MINUTES
+        if metric.unit_of_measurement == 'h':
+            return UnitOfTime.HOURS
+        return metric.unit_of_measurement
 
     @property
     def device_info(self) -> DeviceInfo:
