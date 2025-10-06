@@ -99,7 +99,7 @@ class Hub:
         await self._hub.disconnect()
 
     def on_new_metric(self, hub: VictronVenusHub, device: VictronVenusDevice, metric: VictronVenusMetric):
-        _LOGGER.info("New metric received. Hub: %s, Device: %s, Metric: %s", hub, device, metric)
+        _LOGGER.info("New metric received. Device: %s, Metric: %s", device, metric)
         device_info = Hub._map_device_info(device)
         entity = self.creatre_entity(device, metric, device_info)
         
