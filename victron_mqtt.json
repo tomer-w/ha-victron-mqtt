@@ -6829,7 +6829,7 @@
         },
         {
           "id": "GRID_TO_BATTERY_RESTRICTED",
-          "name": "Grid to battey energy flow restricted",
+          "name": "Grid to battery energy flow restricted",
           "value": 1
         },
         {
