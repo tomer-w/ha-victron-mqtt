@@ -1365,7 +1365,7 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": true,
+      "experimental": false,
       "depends_on": [],
       "generic_name": "Generator total runtime",
       "is_formula": false
@@ -1387,7 +1387,7 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": true,
+      "experimental": false,
       "depends_on": [],
       "generic_name": "Generator auto start enabled",
       "is_formula": false
@@ -1409,7 +1409,7 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": true,
+      "experimental": false,
       "depends_on": [],
       "generic_name": "Generator manual start",
       "is_formula": false
@@ -1431,7 +1431,7 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": true,
+      "experimental": false,
       "depends_on": [],
       "generic_name": "Generator run state",
       "is_formula": false
@@ -1453,7 +1453,7 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": true,
+      "experimental": false,
       "depends_on": [],
       "generic_name": "Generator service counter",
       "is_formula": false
@@ -1475,7 +1475,7 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": true,
+      "experimental": false,
       "depends_on": [],
       "generic_name": "Generator today runtime",
       "is_formula": false
@@ -3235,7 +3235,7 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": true,
+      "experimental": false,
       "depends_on": [
         "generator_{gen_id}_generator_autorun"
       ],
@@ -3259,7 +3259,7 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": true,
+      "experimental": false,
       "depends_on": [
         "generator_{gen_id}_generator_autorun"
       ],
@@ -3283,7 +3283,7 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": true,
+      "experimental": false,
       "depends_on": [
         "generator_{gen_id}_generator_autorun"
       ],
@@ -3307,7 +3307,7 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": true,
+      "experimental": false,
       "depends_on": [
         "generator_{gen_id}_generator_autorun"
       ],
@@ -3331,7 +3331,7 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": true,
+      "experimental": false,
       "depends_on": [
         "generator_{gen_id}_generator_autorun"
       ],
@@ -3355,7 +3355,7 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": true,
+      "experimental": false,
       "depends_on": [
         "generator_{gen_id}_generator_autorun"
       ],
@@ -3379,7 +3379,7 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": true,
+      "experimental": false,
       "depends_on": [
         "generator_{gen_id}_generator_autorun"
       ],
@@ -3403,7 +3403,7 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": true,
+      "experimental": false,
       "depends_on": [
         "generator_{gen_id}_generator_autorun"
       ],
@@ -3427,7 +3427,7 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": true,
+      "experimental": false,
       "depends_on": [
         "generator_{gen_id}_generator_autorun"
       ],
@@ -3451,7 +3451,7 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": true,
+      "experimental": false,
       "depends_on": [
         "generator_{gen_id}_generator_autorun"
       ],
@@ -3475,7 +3475,7 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": true,
+      "experimental": false,
       "depends_on": [
         "generator_{gen_id}_generator_autorun"
       ],
@@ -3499,7 +3499,7 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": true,
+      "experimental": false,
       "depends_on": [
         "generator_{gen_id}_generator_autorun"
       ],
@@ -3523,7 +3523,7 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": true,
+      "experimental": false,
       "depends_on": [
         "generator_{gen_id}_generator_autorun"
       ],
@@ -3547,7 +3547,7 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": true,
+      "experimental": false,
       "depends_on": [
         "generator_{gen_id}_generator_autorun"
       ],
@@ -3571,7 +3571,7 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": true,
+      "experimental": false,
       "depends_on": [
         "generator_{gen_id}_generator_autorun"
       ],
@@ -3595,7 +3595,7 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": true,
+      "experimental": false,
       "depends_on": [
         "generator_{gen_id}_generator_autorun"
       ],
@@ -3619,7 +3619,7 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": true,
+      "experimental": false,
       "depends_on": [
         "generator_{gen_id}_generator_autorun"
       ],
@@ -3643,7 +3643,7 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": true,
+      "experimental": false,
       "depends_on": [
         "generator_{gen_id}_generator_autorun"
       ],
@@ -3667,7 +3667,7 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": true,
+      "experimental": false,
       "depends_on": [
         "generator_{gen_id}_generator_autorun"
       ],
@@ -3691,7 +3691,7 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": true,
+      "experimental": false,
       "depends_on": [
         "generator_{gen_id}_generator_autorun"
       ],
@@ -3715,7 +3715,7 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": true,
+      "experimental": false,
       "depends_on": [
         "generator_{gen_id}_generator_autorun"
       ],
@@ -3739,7 +3739,7 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": true,
+      "experimental": false,
       "depends_on": [
         "generator_{gen_id}_generator_autorun"
       ],
@@ -3829,7 +3829,7 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": true,
+      "experimental": false,
       "depends_on": [],
       "generic_name": "Generator AC current limit",
       "is_formula": false
@@ -6189,7 +6189,7 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": true,
+      "experimental": false,
       "depends_on": [],
       "generic_name": "VE.Bus device {device_number} line 1 input power",
       "is_formula": false
@@ -6211,7 +6211,7 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": true,
+      "experimental": false,
       "depends_on": [],
       "generic_name": "VE.Bus device {device_number} line {phase} input power",
       "is_formula": false
@@ -6233,7 +6233,7 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": true,
+      "experimental": false,
       "depends_on": [],
       "generic_name": "VE.Bus device {device_number} inverted power",
       "is_formula": false
@@ -6255,7 +6255,7 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": true,
+      "experimental": false,
       "depends_on": [],
       "generic_name": "VE.Bus device {device_number} line 1 output power",
       "is_formula": false
@@ -6277,7 +6277,7 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": true,
+      "experimental": false,
       "depends_on": [],
       "generic_name": "VE.Bus device {device_number} line {phase} output power",
       "is_formula": false
@@ -6607,7 +6607,7 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": true,
+      "experimental": false,
       "depends_on": [],
       "generic_name": "Generator service counter reset",
       "is_formula": false
@@ -6829,7 +6829,7 @@
         },
         {
           "id": "GRID_TO_BATTERY_RESTRICTED",
-          "name": "Grid to battey energy flow restricted",
+          "name": "Grid to battery energy flow restricted",
           "value": 1
         },
         {
