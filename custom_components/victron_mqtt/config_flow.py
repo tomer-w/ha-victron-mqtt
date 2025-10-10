@@ -95,8 +95,10 @@ async def validate_input(data: dict[str, Any]) -> str:
     Returns the installation id upon success.
     """
     _LOGGER.info("Validating input: %s", data)
+    host = data.get(CONF_HOST)
+    assert host is not None
     hub = VictronVenusHub(
-        host=data.get(CONF_HOST),
+        host=host,
         port=data.get(CONF_PORT, DEFAULT_PORT),
         username=data.get(CONF_USERNAME) or None,
         password=data.get(CONF_PASSWORD) or None,
@@ -107,12 +109,14 @@ async def validate_input(data: dict[str, Any]) -> str:
     )
 
     await hub.connect()
+    assert hub.installation_id is not None
     return hub.installation_id
 
-class VictronMQTTConfigFlow(ConfigFlow, domain=DOMAIN):
+class VictronMQTTConfigFlow(ConfigFlow):
     """Handle a config flow for victronvenus."""
 
     VERSION = 1
+    DOMAIN = DOMAIN
 
     def __init__(self) -> None:
         """Initialize."""
