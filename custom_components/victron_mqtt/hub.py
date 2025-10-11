@@ -91,8 +91,7 @@ class Hub:
         try:
             await self._hub.connect()
         except CannotConnectError as connect_error:
-            _LOGGER.error("Cannot connect to the hub")
-            raise ConfigEntryNotReady("Device is offline") from connect_error
+            raise ConfigEntryNotReady(f"Cannot connect to the hub: {connect_error}") from connect_error
 
     @callback
     async def stop(self, event: Event):

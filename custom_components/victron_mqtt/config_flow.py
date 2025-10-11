@@ -112,11 +112,10 @@ async def validate_input(data: dict[str, Any]) -> str:
     assert hub.installation_id is not None
     return hub.installation_id
 
-class VictronMQTTConfigFlow(ConfigFlow):
+class VictronMQTTConfigFlow(ConfigFlow, domain=DOMAIN):
     """Handle a config flow for victronvenus."""
 
     VERSION = 1
-    DOMAIN = DOMAIN
 
     def __init__(self) -> None:
         """Initialize."""
