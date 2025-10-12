@@ -101,7 +101,7 @@ async def async_setup_entry(
     try:
         await hub.start()
     except Exception as exc:
-        _LOGGER.error("hub.start() failed for entry %s: %s", entry.entry_id, exc, exc_info=True)
+        _LOGGER.error("hub.start() failed for entry %s: %s", entry.entry_id, exc)
         # Clean up partial setup to avoid double setup issues
         await async_unload_entry(hass, entry)
         raise
