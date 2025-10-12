@@ -93,6 +93,9 @@
       "alternator_input_voltage": {
         "name": "Input Voltage"
       },
+      "alternator_state": {
+        "name": "Alternator State"
+      },
       "battery_cell_imbalance": {
         "name": "Battery cell imbalance"
       },
@@ -878,6 +881,9 @@
       }
     },
     "switch": {
+      "alternator_mode": {
+        "name": "Alternator Mode"
+      },
       "digitalinput_settings_invert_translation": {
         "name": "Digital input settings invert translation"
       },
@@ -922,6 +928,9 @@
       }
     },
     "binary_sensor": {
+      "alternator_mode": {
+        "name": "Alternator Mode"
+      },
       "digitalinput_settings_invert_translation": {
         "name": "Digital input settings invert translation"
       },
