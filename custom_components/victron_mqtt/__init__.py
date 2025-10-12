@@ -96,16 +96,21 @@ async def async_setup_entry(
     hub = Hub(hass, entry)
     entry.runtime_data = hub
 
+    await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
+    # All platforms should be set up before starting the hub
+    try:
+        await hub.start()
+    except Exception as exc:
+        _LOGGER.error("hub.start() failed for entry %s: %s", entry.entry_id, exc, exc_info=True)
+        # Clean up partial setup to avoid double setup issues
+        await async_unload_entry(hass, entry)
+        raise
+
     # Register the update listener
     entry.async_on_unload(entry.add_update_listener(_update_listener))
 
-    await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
-    # All platforms should be set up before starting the hub
-    await hub.start()
-    
     # Register services
     await async_setup_services(hass, entry)
-    
     _LOGGER.info("async_setup_entry completed for entry: %s", entry.entry_id)
     return True
 
