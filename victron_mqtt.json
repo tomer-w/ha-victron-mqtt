@@ -73,7 +73,7 @@
       "is_formula": false
     },
     {
-      "topic": "N/{installation_id}/alternator/{device_id}/In/I",
+      "topic": "N/{installation_id}/alternator/{device_id}/Dc/In/I",
       "message_type": "MetricKind.SENSOR",
       "short_id": "alternator_input_current",
       "name": "Input Current",
@@ -95,7 +95,7 @@
       "is_formula": false
     },
     {
-      "topic": "N/{installation_id}/alternator/{device_id}/In/P",
+      "topic": "N/{installation_id}/alternator/{device_id}/Dc/In/P",
       "message_type": "MetricKind.SENSOR",
       "short_id": "alternator_input_power",
       "name": "Input Power",
@@ -117,7 +117,7 @@
       "is_formula": false
     },
     {
-      "topic": "N/{installation_id}/alternator/{device_id}/In/V",
+      "topic": "N/{installation_id}/alternator/{device_id}/Dc/In/V",
       "message_type": "MetricKind.SENSOR",
       "short_id": "alternator_input_voltage",
       "name": "Input Voltage",
@@ -136,6 +136,50 @@
       "experimental": false,
       "depends_on": [],
       "generic_name": "Input Voltage",
+      "is_formula": false
+    },
+    {
+      "topic": "N/{installation_id}/alternator/{device_id}/Mode",
+      "message_type": "MetricKind.SWITCH",
+      "short_id": "alternator_mode",
+      "name": "Alternator Mode",
+      "unit_of_measurement": null,
+      "metric_type": "MetricType.NONE",
+      "metric_nature": "MetricNature.NONE",
+      "value_type": "ValueType.ENUM",
+      "precision": null,
+      "enum": "ChargerMode",
+      "min_max_range": "RangeType.STATIC",
+      "min": null,
+      "max": null,
+      "step": null,
+      "is_adjustable_suffix": null,
+      "key_values": {},
+      "experimental": false,
+      "depends_on": [],
+      "generic_name": "Alternator Mode",
+      "is_formula": false
+    },
+    {
+      "topic": "N/{installation_id}/alternator/{device_id}/State",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "alternator_state",
+      "name": "Alternator State",
+      "unit_of_measurement": null,
+      "metric_type": "MetricType.NONE",
+      "metric_nature": "MetricNature.NONE",
+      "value_type": "ValueType.ENUM",
+      "precision": null,
+      "enum": "State",
+      "min_max_range": "RangeType.STATIC",
+      "min": null,
+      "max": null,
+      "step": null,
+      "is_adjustable_suffix": null,
+      "key_values": {},
+      "experimental": false,
+      "depends_on": [],
+      "generic_name": "Alternator State",
       "is_formula": false
     },
     {
@@ -4152,7 +4196,7 @@
       "metric_nature": "MetricNature.NONE",
       "value_type": "ValueType.ENUM",
       "precision": null,
-      "enum": "GenericOnOff",
+      "enum": "ChargerMode",
       "min_max_range": "RangeType.STATIC",
       "min": null,
       "max": null,
@@ -6641,6 +6685,21 @@
           "id": "NotConnected",
           "name": "Not connected",
           "value": 240
+        }
+      ]
+    },
+    {
+      "name": "ChargerMode",
+      "EnumValues": [
+        {
+          "id": "On",
+          "name": "On",
+          "value": 1
+        },
+        {
+          "id": "Off",
+          "name": "Off",
+          "value": 4
         }
       ]
     },
