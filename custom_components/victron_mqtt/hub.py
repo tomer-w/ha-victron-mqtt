@@ -79,7 +79,6 @@ class Hub:
             operation_mode=operation_mode,
             device_type_exclude_filter=excluded_device_types,
             update_frequency_seconds=config.get(CONF_UPDATE_FREQUENCY_SECONDS, DEFAULT_UPDATE_FREQUENCY_SECONDS),
-            connect_timeout=timedelta.max,
         )
         self._hub.on_new_metric = self.on_new_metric
         self.add_entities_map: dict[MetricKind, AddEntitiesCallback] = {}
