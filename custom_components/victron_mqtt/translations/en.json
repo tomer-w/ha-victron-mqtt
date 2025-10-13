@@ -468,6 +468,9 @@
       "system_ess_max_feed_in_power": {
         "name": "ESS max feed-in power"
       },
+      "system_settings_dess_mode": {
+        "name": "DESS Mode"
+      },
       "generator_gen_id_qh_start_on_voltage": {
         "name": "Generator QH start on voltage"
       },
@@ -1034,6 +1037,9 @@
       },
       "system_ess_mode": {
         "name": "ESS Mode (Hub4)"
+      },
+      "system_settings_dess_mode": {
+        "name": "DESS Mode"
       },
       "vebus_inverter_mode": {
         "name": "Inverter mode"

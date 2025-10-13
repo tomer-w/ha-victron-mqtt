@@ -3263,6 +3263,28 @@
       "is_formula": false
     },
     {
+      "topic": "N/{installation_id}/settings/{device_id}/Settings/DynamicEss/Mode",
+      "message_type": "MetricKind.SELECT",
+      "short_id": "system_settings_dess_mode",
+      "name": "DESS Mode",
+      "unit_of_measurement": null,
+      "metric_type": "MetricType.NONE",
+      "metric_nature": "MetricNature.NONE",
+      "value_type": "ValueType.ENUM",
+      "precision": null,
+      "enum": "DESSMode",
+      "min_max_range": "RangeType.STATIC",
+      "min": null,
+      "max": null,
+      "step": null,
+      "is_adjustable_suffix": null,
+      "key_values": {},
+      "experimental": false,
+      "depends_on": [],
+      "generic_name": "DESS Mode",
+      "is_formula": false
+    },
+    {
       "topic": "N/{installation_id}/settings/{device_id}/Settings/Generator{gen_id(0-1)}/BatteryVoltage/Enabled",
       "message_type": "MetricKind.SWITCH",
       "short_id": "generator_{gen_id}_start_on_voltage_enabled",
@@ -6739,6 +6761,36 @@
       ]
     },
     {
+      "name": "DESSMode",
+      "EnumValues": [
+        {
+          "id": "OFF",
+          "name": "Off",
+          "value": 0
+        },
+        {
+          "id": "AUTO_VRM",
+          "name": "Auto / VRM",
+          "value": 1
+        },
+        {
+          "id": "BUY",
+          "name": "Buy",
+          "value": 2
+        },
+        {
+          "id": "SELL",
+          "name": "Sell",
+          "value": 3
+        },
+        {
+          "id": "NODE_RED",
+          "name": "Node-RED",
+          "value": 4
+        }
+      ]
+    },
+    {
       "name": "DESSReactiveStrategy",
       "EnumValues": [
         {
@@ -7060,6 +7112,11 @@
           "id": "HEATPUMP",
           "name": "Heat Pump",
           "value": "heatpump"
+        },
+        {
+          "id": "DYNAMIC_ESS",
+          "name": "Dynamic ESS",
+          "value": "DynamicEss"
         }
       ]
     },
