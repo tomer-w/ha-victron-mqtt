@@ -1,6 +1,5 @@
 import logging
 from typing import Any
-from datetime import timedelta
 
 from homeassistant.core import HomeAssistant, callback, Event
 from homeassistant.config_entries import ConfigEntry
@@ -12,7 +11,6 @@ from homeassistant.components.number import NumberEntity
 from homeassistant.components.binary_sensor import BinarySensorEntity
 from homeassistant.components.select import SelectEntity
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
-from homeassistant.helpers.event import async_track_time_interval
 from homeassistant.const import (
     CONF_HOST,
     CONF_PASSWORD,
@@ -29,7 +27,6 @@ from victron_mqtt import (
     WritableMetric as VictronVenusWritableMetric,
     Device as VictronVenusDevice,
     MetricKind,
-    GenericOnOff,
     OperationMode,
     DeviceType
 )
@@ -38,6 +35,11 @@ from .const import CONF_INSTALLATION_ID, CONF_MODEL, CONF_SERIAL, CONF_UPDATE_FR
 from .common import VictronBaseEntity
 
 _LOGGER = logging.getLogger(__name__)
+
+# Not using GenericOnOff as some switches use different enums.
+# It has to be with value "On" to be on and "Off" to be off.
+SWITCH_ON = "On" 
+SWITCH_OFF = "Off"
 
 class Hub:
     """Victron MQTT Hub for managing communication and sensors."""
@@ -180,7 +182,7 @@ class VictronSwitch(VictronBaseEntity, SwitchEntity):
         device_info: DeviceInfo,
     ) -> None:
         """Initialize the switch."""
-        self._attr_is_on = writable_metric.value == GenericOnOff.On
+        self._attr_is_on = str(writable_metric.value) == SWITCH_ON
         super().__init__(device, writable_metric, device_info, "switch")
 
     def __repr__(self) -> str:
@@ -190,7 +192,7 @@ class VictronSwitch(VictronBaseEntity, SwitchEntity):
         )
 
     def _on_update_task(self, value: Any) -> None:
-        new_val = value == GenericOnOff.On
+        new_val = str(value) == SWITCH_ON
         if self._attr_is_on == new_val:
             return
         self._attr_is_on = new_val
@@ -200,14 +202,14 @@ class VictronSwitch(VictronBaseEntity, SwitchEntity):
         """Turn the switch on."""
         assert isinstance(self._metric, VictronVenusWritableMetric)
         _LOGGER.info("Turning on switch: %s", self._attr_unique_id)
-        self._metric.set(GenericOnOff.On)
+        self._metric.set(SWITCH_ON)
         self.async_write_ha_state()
 
     async def async_turn_off(self, **kwargs: Any) -> None:
         """Turn the switch off."""
         assert isinstance(self._metric, VictronVenusWritableMetric)
         _LOGGER.info("Turning off switch: %s", self._attr_unique_id)
-        self._metric.set(GenericOnOff.Off)
+        self._metric.set(SWITCH_OFF)
         self.async_write_ha_state()
 
 class VictronNumber(VictronBaseEntity, NumberEntity):
@@ -269,7 +271,7 @@ class VictronBinarySensor(VictronBaseEntity, BinarySensorEntity):
         return f"VictronBinarySensor({super().__repr__()}), is_on={self._attr_is_on})"
 
     def _on_update_task(self, value: Any) -> None:
-        new_val = value == GenericOnOff.On
+        new_val = str(value) == SWITCH_ON
         if self._attr_is_on == new_val:
             return
         self._attr_is_on = new_val
