@@ -25,7 +25,11 @@ jobs:
         id: get_release
         run: |
           latest=$(curl -s https://pypi.org/pypi/victron_mqtt/json | jq -r .info.version)
+          description=$(curl -s https://pypi.org/pypi/victron_mqtt/json | jq -r .info.description)
           echo "latest_version=$latest" >> $GITHUB_OUTPUT
+          echo "description<<EOF" >> $GITHUB_OUTPUT
+          echo "$description" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
 
       - name: Check if update is needed
         id: check_update
@@ -87,7 +91,12 @@ jobs:
           branch: update/victron-mqtt-${{ steps.get_release.outputs.latest_version }}
           delete-branch: true
           title: "Update victron_mqtt to ${{ steps.get_release.outputs.latest_version }} and merge topics"
-          body: "This PR updates victron_mqtt to ${{ steps.get_release.outputs.latest_version }} and merges new topics into translations."
+          body: |
+            This PR updates victron_mqtt to ${{ steps.get_release.outputs.latest_version }} and merges new topics into translations.
+            
+            ## Changes in victron_mqtt ${{ steps.get_release.outputs.latest_version }}
+            
+            ${{ steps.get_release.outputs.description }}
           commit-message: "Update victron_mqtt to ${{ steps.get_release.outputs.latest_version }} and merge topics"
           base: main
           labels: "dependencies"
