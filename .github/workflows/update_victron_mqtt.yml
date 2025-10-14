@@ -27,8 +27,8 @@ jobs:
           latest=$(curl -s https://pypi.org/pypi/victron_mqtt/json | jq -r .info.version)
           echo "latest_version=$latest" >> $GITHUB_OUTPUT
           
-          # Get release notes from GitHub
-          release_notes=$(curl -s "https://api.github.com/repos/tomer-w/victron_mqtt/releases/tags/$latest" | jq -r '.body // "No release notes available"')
+          # Get release notes from GitHub (GitHub tags use 'v' prefix)
+          release_notes=$(curl -s "https://api.github.com/repos/tomer-w/victron_mqtt/releases/tags/v$latest" | jq -r '.body // "No release notes available"')
           echo "release_notes<<EOF" >> $GITHUB_OUTPUT
           echo "$release_notes" >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
