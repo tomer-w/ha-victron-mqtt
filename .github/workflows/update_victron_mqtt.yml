@@ -25,10 +25,12 @@ jobs:
         id: get_release
         run: |
           latest=$(curl -s https://pypi.org/pypi/victron_mqtt/json | jq -r .info.version)
-          description=$(curl -s https://pypi.org/pypi/victron_mqtt/json | jq -r .info.description)
           echo "latest_version=$latest" >> $GITHUB_OUTPUT
-          echo "description<<EOF" >> $GITHUB_OUTPUT
-          echo "$description" >> $GITHUB_OUTPUT
+          
+          # Get release notes from GitHub
+          release_notes=$(curl -s "https://api.github.com/repos/tomer-w/victron_mqtt/releases/tags/$latest" | jq -r '.body // "No release notes available"')
+          echo "release_notes<<EOF" >> $GITHUB_OUTPUT
+          echo "$release_notes" >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
 
       - name: Check if update is needed
@@ -96,7 +98,7 @@ jobs:
             
             ## Changes in victron_mqtt ${{ steps.get_release.outputs.latest_version }}
             
-            ${{ steps.get_release.outputs.description }}
+            ${{ steps.get_release.outputs.release_notes }}
           commit-message: "Update victron_mqtt to ${{ steps.get_release.outputs.latest_version }} and merge topics"
           base: main
           labels: "dependencies"
