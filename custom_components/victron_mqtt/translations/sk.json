@@ -1,0 +1,1150 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "data": {
+          "host": "Názov hostiteľa alebo IP adresa Victron GX/Venus",
+          "port": "Port MQTT",
+          "username": "Používateľské meno",
+          "password": "Heslo",
+          "ssl": "Použiť SSL",
+          "root_topic_prefix": "Voliteľná predpona koreňovej témy",
+          "update_frequency": "Frekvencia aktualizácie (sekundy)",
+          "operation_mode": "Prevádzkový režim",
+          "excluded_devices": "Vylúčené zariadenia"
+        },
+        "data_description": {
+          "host": "Názov hostiteľa alebo IP adresa zariadenia Victron, zvyčajne názov mDNS ako 'venus.local'",
+          "port": "Port MQTT na hostiteľovi. Normálne je to 1883.",
+          "username": "Používateľské meno pre zariadenie Victron, predvolene je prázdne. Toto nie je vaše VRM používateľské meno.",
+          "password": "Heslo pre zariadenie Victron, predvolene je prázdne. Toto nie je vaše VRM heslo.",
+          "ssl": "Určuje, či sa má použiť SSL na pripojenie k zariadeniu Victron. Normálne je vypnuté.",
+          "root_topic_prefix": "Predpona koreňovej témy, ak sa používa cez bránu MQTT.",
+          "update_frequency": "Frekvencia aktualizácie v sekundách. Predvolená hodnota je 30 sekúnd. Nastavte na 0 pre neustálu aktualizáciu.",
+          "operation_mode": "Prevádzkový režim riadi, ktoré typy entít Home Assistant sa vytvárajú. 'read_only' (iba na čítanie) sprístupňuje iba senzory a binárne senzory (žiadne zapisovateľné entity), 'full' (plný) sprístupňuje všetky typy entít (senzory, binárne senzory, čísla, výbery, prepínače), 'experimental' (experimentálny) je vyhradený pre budúce použitie (dnes sa správa ako 'plný').",
+          "excluded_devices": "Zoznam zariadení, ktoré sa majú vylúčiť z monitorovania."
+        }
+      }
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "data": {
+          "host": "Názov hostiteľa alebo IP adresa Victron Venus",
+          "port": "Port MQTT",
+          "username": "Používateľské meno",
+          "password": "Heslo",
+          "ssl": "Použiť SSL",
+          "root_topic_prefix": "Voliteľná predpona koreňovej témy",
+          "update_frequency": "Frekvencia aktualizácie (sekundy)",
+          "operation_mode": "Prevádzkový režim",
+          "excluded_devices": "Vylúčené zariadenia"
+        },
+        "data_description": {
+          "host": "Názov hostiteľa alebo IP adresa zariadenia Victron, zvyčajne názov mDNS ako 'venus.local'",
+          "port": "Port MQTT na hostiteľovi. Normálne je to 1883.",
+          "username": "Používateľské meno pre zariadenie Victron, predvolene je prázdne. Toto nie je vaše VRM používateľské meno.",
+          "password": "Heslo pre zariadenie Victron, predvolene je prázdne. Toto nie je vaše VRM heslo.",
+          "ssl": "Určuje, či sa má použiť SSL na pripojenie k zariadeniu Victron. Normálne je vypnuté.",
+          "root_topic_prefix": "Predpona koreňovej témy, ak sa používa cez bránu MQTT.",
+          "update_frequency": "Frekvencia aktualizácie v sekundách. Predvolená hodnota je 30 sekúnd. Nastavte na 0 pre neustálu aktualizáciu.",
+          "operation_mode": "Prevádzkový režim riadi, ktoré typy entít Home Assistant sa vytvárajú. 'read_only' (iba na čítanie) sprístupňuje iba senzory a binárne senzory (žiadne zapisovateľné entity), 'full' (plný) sprístupňuje všetky typy entít (senzory, binárne senzory, čísla, výbery, prepínače), 'experimental' (experimentálny) je vyhradený pre budúce použitie (dnes sa správa ako 'plný').",
+          "excluded_devices": "Zoznam zariadení, ktoré sa majú vylúčiť z monitorovania."
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Nepodarilo sa pripojiť k hostiteľovi",
+      "invalid_auth": "Problém s autentifikáciou",
+      "unknown": "Neznáma chyba"
+    },
+    "abort": {
+      "already_configured": "Už nakonfigurované",
+      "not_victronvenus": "Nie je to zariadenie Victron Venus"
+    }
+  },
+  "selector": {
+    "operation_mode": {
+      "options": {
+        "read_only": "Iba na čítanie (len senzory a binárne senzory)",
+        "full": "Plný (senzory + ovládateľné entity)",
+        "experimental": "Experimentálny (môže byť nestabilný)"
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "alternator_dc_current": {
+        "name": "DC výstupný prúd"
+      },
+      "alternator_dc_power": {
+        "name": "DC výstupný výkon"
+      },
+      "alternator_dc_voltage": {
+        "name": "DC výstupné napätie"
+      },
+      "alternator_input_current": {
+        "name": "Vstupný prúd"
+      },
+      "alternator_input_power": {
+        "name": "Vstupný výkon"
+      },
+      "alternator_input_voltage": {
+        "name": "Vstupné napätie"
+      },
+      "alternator_state": {
+        "name": "Stav alternátora"
+      },
+      "battery_cell_imbalance": {
+        "name": "Nevyváženosť článkov batérie"
+      },
+      "battery_high_charge_current": {
+        "name": "Vysoký nabíjací prúd batérie"
+      },
+      "battery_high_charge_temperature": {
+        "name": "Vysoká teplota nabíjania batérie"
+      },
+      "battery_high_discharge_current": {
+        "name": "Vysoký vybíjací prúd batérie"
+      },
+      "battery_internal_failure": {
+        "name": "Vnútorná porucha batérie"
+      },
+      "battery_low_cell_voltage": {
+        "name": "Nízke napätie článku batérie"
+      },
+      "battery_low_charge_temperature": {
+        "name": "Nízka teplota nabíjania batérie"
+      },
+      "battery_capacity": {
+        "name": "Kapacita batérie"
+      },
+      "battery_consumed_amphours": {
+        "name": "Spotrebované ampérhodiny batérie"
+      },
+      "battery_current": {
+        "name": "Prúd DC zbernice"
+      },
+      "battery_power": {
+        "name": "Výkon batérie"
+      },
+      "battery_temperature": {
+        "name": "Teplota batérie"
+      },
+      "battery_voltage": {
+        "name": "Napätie DC zbernice"
+      },
+      "auxiliary_battery_voltage": {
+        "name": "Napätie pomocnej batérie"
+      },
+      "battery_automatic_syncs": {
+        "name": "Automatické synchronizácie"
+      },
+      "battery_charged_energy": {
+        "name": "Nabitá energia"
+      },
+      "battery_discharged_energy": {
+        "name": "Vybitá energia"
+      },
+      "charge_mode": {
+        "name": "Režim nabíjania batérie"
+      },
+      "battery_max_charge_current": {
+        "name": "Maximálny povolený nabíjací prúd batérie"
+      },
+      "battery_max_charge_voltage": {
+        "name": "Maximálne povolené nabíjacie napätie batérie"
+      },
+      "battery_max_discharge_current": {
+        "name": "Maximálny povolený vybíjací prúd batérie"
+      },
+      "battery_installed_capacity": {
+        "name": "Inštalovaná kapacita batérie"
+      },
+      "battery_soc": {
+        "name": "Stav nabitia batérie (SOC)"
+      },
+      "battery_soh": {
+        "name": "Stav zdravia batérie (SOH)"
+      },
+      "battery_max_cell_temperature": {
+        "name": "Maximálna teplota článku batérie"
+      },
+      "battery_max_cell_voltage": {
+        "name": "Maximálne napätie článku batérie"
+      },
+      "battery_max_voltage_cell_id": {
+        "name": "ID článku s maximálnym napätím"
+      },
+      "battery_min_cell_temperature": {
+        "name": "Minimálna teplota článku batérie"
+      },
+      "battery_min_cell_voltage": {
+        "name": "Minimálne napätie článku batérie"
+      },
+      "battery_min_voltage_cell_id": {
+        "name": "ID článku s minimálnym napätím"
+      },
+      "battery_nr_modules_blocking_charge": {
+        "name": "Počet modulov batérie blokujúcich nabíjanie"
+      },
+      "battery_nr_modules_blocking_discharge": {
+        "name": "Počet modulov batérie blokujúcich vybíjanie"
+      },
+      "battery_nr_modules_offline": {
+        "name": "Počet offline modulov batérie"
+      },
+      "battery_nr_modules_online": {
+        "name": "Počet online modulov batérie"
+      },
+      "battery_time_to_go": {
+        "name": "Zostávajúci čas batérie"
+      },
+      "battery_cell_cell_id_voltage": {
+        "name": "Napätie článku batérie {cell_id}"
+      },
+      "battery_cell_voltage_deviation": {
+        "name": "Odchýlka napätia článkov batérie"
+      },
+      "dcload_current": {
+        "name": "Prúd DC záťaže"
+      },
+      "dcload_power": {
+        "name": "Výkon DC záťaže"
+      },
+      "dcload_voltage": {
+        "name": "Napätie DC záťaže"
+      },
+      "dcsystem_current": {
+        "name": "Prúd DC systému"
+      },
+      "dcsystem_power": {
+        "name": "Výkon DC systému"
+      },
+      "dcsystem_voltage": {
+        "name": "Napätie DC systému"
+      },
+      "dcsystem_aux_voltage": {
+        "name": "Pomocné napätie DC systému"
+      },
+      "digitalinput_alarm": {
+        "name": "Alarm digitálneho vstupu"
+      },
+      "digitalinput_input_state_raw": {
+        "name": "Nespracovaný stav digitálneho vstupu"
+      },
+      "digitalinput_state": {
+        "name": "Stav digitálneho vstupu"
+      },
+      "digitalinput_type": {
+        "name": "Typ digitálneho vstupu"
+      },
+      "evcharger_power_phase": {
+        "name": "Výkon EV nabíjačky {phase}"
+      },
+      "evcharger_current": {
+        "name": "Prúd EV nabíjačky"
+      },
+      "evcharger_mode": {
+        "name": "Režim EV nabíjačky"
+      },
+      "evcharger_set_current": {
+        "name": "Nastavený prúd EV nabíjačky"
+      },
+      "generator_total_runtime": {
+        "name": "Celková doba chodu generátora"
+      },
+      "generator_run_state": {
+        "name": "Stav chodu generátora"
+      },
+      "generator_service_counter": {
+        "name": "Počítadlo servisu generátora"
+      },
+      "generator_today_runtime": {
+        "name": "Dnešná doba chodu generátora"
+      },
+      "gps_altitude": {
+        "name": "GPS nadmorská výška"
+      },
+      "gps_course": {
+        "name": "GPS kurz"
+      },
+      "gps_nrofsatellites": {
+        "name": "GPS počet satelitov"
+      },
+      "gps_latitude": {
+        "name": "GPS zemepisná šírka"
+      },
+      "gps_longitude": {
+        "name": "GPS zemepisná dĺžka"
+      },
+      "gps_speed": {
+        "name": "GPS rýchlosť"
+      },
+      "grid_current": {
+        "name": "Prúd zo siete"
+      },
+      "grid_energy_forward": {
+        "name": "Spotreba zo siete"
+      },
+      "grid_energy_reverse": {
+        "name": "Dodávka do siete"
+      },
+      "grid_frequency": {
+        "name": "Frekvencia siete"
+      },
+      "grid_current_n": {
+        "name": "Prúd zo siete na N"
+      },
+      "grid_voltage_pen": {
+        "name": "Napätie siete na PEN"
+      },
+      "grid_power": {
+        "name": "Výkon zo siete"
+      },
+      "grid_voltage": {
+        "name": "Napätie siete"
+      },
+      "grid_current_phase": {
+        "name": "Prúd zo siete na {phase}"
+      },
+      "grid_energy_forward_phase": {
+        "name": "Spotreba zo siete na {phase}"
+      },
+      "grid_energy_reverse_phase": {
+        "name": "Dodávka do siete na {phase}"
+      },
+      "grid_power_phase": {
+        "name": "Výkon zo siete na {phase}"
+      },
+      "grid_voltage_phase": {
+        "name": "Napätie siete na {phase}"
+      },
+      "grid_voltage_phase_next_phase": {
+        "name": "Napätie siete {phase} voči {next_phase}"
+      },
+      "system_heartbeat": {
+        "name": "Tep systému GX"
+      },
+      "heatpump_current": {
+        "name": "Prúd tepelného čerpadla"
+      },
+      "heatpump_energy_forward": {
+        "name": "Spotreba tepelného čerpadla"
+      },
+      "heatpump_frequency": {
+        "name": "Frekvencia tepelného čerpadla"
+      },
+      "heatpump_power": {
+        "name": "Výkon tepelného čerpadla"
+      },
+      "heatpump_voltage": {
+        "name": "Napätie tepelného čerpadla"
+      },
+      "heatpump_current_phase": {
+        "name": "Prúd tepelného čerpadla na {phase}"
+      },
+      "heatpump_energy_forward_phase": {
+        "name": "Spotreba tepelného čerpadla na {phase}"
+      },
+      "heatpump_power_phase": {
+        "name": "Výkon tepelného čerpadla na {phase}"
+      },
+      "heatpump_voltage_phase": {
+        "name": "Napätie tepelného čerpadla na {phase}"
+      },
+      "inverter_output_current_phase": {
+        "name": "Výstupný prúd meniča {phase}"
+      },
+      "inverter_output_power_phase": {
+        "name": "Výstupný výkon meniča {phase}"
+      },
+      "inverter_output_apparent_power_phase": {
+        "name": "Zdanlivý výstupný výkon meniča {phase}"
+      },
+      "inverter_output_voltage_phase": {
+        "name": "Výstupné napätie meniča {phase}"
+      },
+      "inverter_mode": {
+        "name": "Režim meniča"
+      },
+      "inverter_state": {
+        "name": "Stav meniča"
+      },
+      "multirssolar_acin_current_phase": {
+        "name": "Prúd {phase}"
+      },
+      "multirssolar_acin_power_phase": {
+        "name": "Výkon na {phase}"
+      },
+      "multirssolar_acin_voltage_phase": {
+        "name": "Napätie na {phase}"
+      },
+      "multirssolar_phases": {
+        "name": "Fázy"
+      },
+      "multirssolar_acout_output_current_phase": {
+        "name": "AC výstup {output} prúd na {phase}"
+      },
+      "multirssolar_acout_output_power_phase": {
+        "name": "AC výstup {output} výkon na {phase}"
+      },
+      "multirssolar_acout_output_voltage_phase": {
+        "name": "AC výstup {output} napätie na {phase}"
+      },
+      "multirssolar_ess_ac_power_set_point": {
+        "name": "Nastavená hodnota AC výkonu ESS"
+      },
+      "multirssolar_inverter_power_setpoint": {
+        "name": "Nastavená hodnota výkonu meniča"
+      },
+      "multirssolar_mppt_mpptnumber_state": {
+        "name": "Stav MPPT {mpptnumber}"
+      },
+      "multirssolar_mppt_mpptnumber_power": {
+        "name": "Výkon MPPT {mpptnumber}"
+      },
+      "multirssolar_mppt_mpptnumber_voltage": {
+        "name": "FV napätie MPPT {mpptnumber}"
+      },
+      "multirssolar_ess_mode": {
+        "name": "Režim ESS"
+      },
+      "multirssolar_state": {
+        "name": "Stav"
+      },
+      "multirssolar_pv_power_total": {
+        "name": "Celkový FV výkon"
+      },
+      "multirssolar_total_pv_yield": {
+        "name": "Celkový FV výnos"
+      },
+      "platform_venus_firmware_installed_version": {
+        "name": "Inštalovaná verzia firmvéru Venus"
+      },
+      "platform_venus_firmware_available_version": {
+        "name": "Dostupná verzia firmvéru Venus"
+      },
+      "pvinverter_yield_total": {
+        "name": "Celkový výnos"
+      },
+      "pvinverter_power_total": {
+        "name": "Celkový výkon"
+      },
+      "pvinverter_current_phase": {
+        "name": "Prúd {phase}"
+      },
+      "pvinverter_yield_phase": {
+        "name": "Výnos {phase}"
+      },
+      "pvinverter_power_phase": {
+        "name": "Výkon {phase}"
+      },
+      "pvinverter_voltage_phase": {
+        "name": "Napätie {phase}"
+      },
+      "system_ac_export_limit": {
+        "name": "Limit exportu do AC siete"
+      },
+      "system_ac_input_limit": {
+        "name": "Limit vstupu z AC siete"
+      },
+      "system_ac_power_set_point": {
+        "name": "Nastavená hodnota AC výkonu"
+      },
+      "system_ess_min_soc_limit": {
+        "name": "Limit minimálneho SOC pre ESS"
+      },
+      "system_ess_batterylife_state": {
+        "name": "Stav ESS BatteryLife"
+      },
+      "system_ess_mode": {
+        "name": "Režim ESS (Hub4)"
+      },
+      "system_ess_max_inverter_power_limit": {
+        "name": "Limit maximálneho výkonu meniča ESS"
+      },
+      "system_ess_max_feed_in_power": {
+        "name": "Maximálny výkon dodávky do siete ESS"
+      },
+      "system_settings_dess_mode": {
+        "name": "Režim DESS"
+      },
+      "generator_gen_id_qh_start_on_voltage": {
+        "name": "Generátor QH štart pri napätí"
+      },
+      "generator_gen_id_qh_stop_on_voltage": {
+        "name": "Generátor QH stop pri napätí"
+      },
+      "generator_gen_id_start_on_voltage_timer": {
+        "name": "Časovač štartu generátora pri napätí"
+      },
+      "generator_gen_id_start_on_voltage": {
+        "name": "Štart generátora pri napätí"
+      },
+      "generator_gen_id_stop_on_voltage_timer": {
+        "name": "Časovač stopu generátora pri napätí"
+      },
+      "generator_gen_id_stop_on_voltage": {
+        "name": "Stop generátora pri napätí"
+      },
+      "generator_gen_id_cool_down_timer": {
+        "name": "Časovač ochladzovania generátora"
+      },
+      "generator_gen_id_shut_down_timer": {
+        "name": "Časovač vypnutia generátora"
+      },
+      "generator_gen_id_start_on_temp_timer": {
+        "name": "Časovač štartu generátora pri teplote"
+      },
+      "generator_gen_id_stop_on_temp_timer": {
+        "name": "Časovač stopu generátora pri teplote"
+      },
+      "generator_gen_id_service_interval": {
+        "name": "Servisný interval generátora"
+      },
+      "generator_gen_id_qh_start_on_soc": {
+        "name": "Generátor QH štart pri SOC"
+      },
+      "generator_gen_id_qh_stop_on_soc": {
+        "name": "Generátor QH stop pri SOC"
+      },
+      "generator_gen_id_start_on_soc_timer": {
+        "name": "Časovač štartu generátora pri SOC"
+      },
+      "generator_gen_id_start_on_soc": {
+        "name": "Štart generátora pri SOC"
+      },
+      "generator_gen_id_stop_on_soc_timer": {
+        "name": "Časovač stopu generátora pri SOC"
+      },
+      "generator_gen_id_stop_on_soc": {
+        "name": "Stop generátora pri SOC"
+      },
+      "generator_gen_id_warm_up_timer": {
+        "name": "Časovač zahrievania generátora"
+      },
+      "system_relay_relay_custom_name": {
+        "name": "Vlastný názov relé {relay}"
+      },
+      "system_ess_max_charge_current": {
+        "name": "Maximálny nabíjací prúd ESS"
+      },
+      "system_ess_max_charge_voltage": {
+        "name": "Maximálne nabíjacie napätie ESS"
+      },
+      "transfer_switch_generator_current_limit": {
+        "name": "Limit AC prúdu generátora"
+      },
+      "solarcharger_dc_current": {
+        "name": "Prúd DC (Batt) zbernice"
+      },
+      "solarcharger_dc_voltage": {
+        "name": "Napätie DC (Batt) zbernice"
+      },
+      "solarcharger_error_code": {
+        "name": "Chybový kód solárnej nabíjačky"
+      },
+      "solarcharger_max_battery_voltage_today": {
+        "name": "Dnešné maximálne napätie batérie solárnej nabíjačky"
+      },
+      "solarcharger_max_power_today": {
+        "name": "Dnešný maximálny výkon"
+      },
+      "solarcharger_min_battery_voltage_today": {
+        "name": "Dnešné minimálne napätie batérie solárnej nabíjačky"
+      },
+      "solarcharger_time_in_absorption_today": {
+        "name": "Dnešný čas v absorpcii solárnej nabíjačky"
+      },
+      "solarcharger_time_in_bulk_today": {
+        "name": "Dnešný čas v bulk fáze solárnej nabíjačky"
+      },
+      "solarcharger_time_in_float_today": {
+        "name": "Dnešný čas vo float fáze solárnej nabíjačky"
+      },
+      "solarcharger_yield_today": {
+        "name": "Dnešný výnos"
+      },
+      "solarcharger_max_power_yesterday": {
+        "name": "Včerajší maximálny výkon"
+      },
+      "solarcharger_yield_yesterday": {
+        "name": "Včerajší výnos"
+      },
+      "solarcharger_load_current": {
+        "name": "Prúd záťažovej zbernice"
+      },
+      "solarcharger_mppt_operation_mode": {
+        "name": "Prevádzkový režim MPPT solárnej nabíjačky"
+      },
+      "solarcharger_voltage": {
+        "name": "Napätie FV zbernice"
+      },
+      "solarcharger_tracker_tracker_operation_mode": {
+        "name": "Prevádzkový režim FV sledovača {tracker}"
+      },
+      "solarcharger_tracker_tracker_name": {
+        "name": "Názov FV sledovača {tracker}"
+      },
+      "solarcharger_tracker_tracker_power": {
+        "name": "Výkon FV sledovača {tracker}"
+      },
+      "solarcharger_tracker_tracker_voltage": {
+        "name": "Napätie FV sledovača {tracker}"
+      },
+      "solarcharger_state": {
+        "name": "Stav solárnej nabíjačky"
+      },
+      "solarcharger_yield_power": {
+        "name": "Výkon FV"
+      },
+      "solarcharger_yield_total": {
+        "name": "Celkový výnos"
+      },
+      "switch_output_dimming": {
+        "name": "Stmievanie prepínača {output}"
+      },
+      "switch_output_custom_name": {
+        "name": "Vlastný názov prepínača {output}"
+      },
+      "system_ac_active_input_source": {
+        "name": "Aktívny AC vstupný zdroj"
+      },
+      "system_consumption_phases": {
+        "name": "Fázy spotreby"
+      },
+      "system_consumption_current_phase": {
+        "name": "Prúd spotreby {phase}"
+      },
+      "system_consumption_power_phase": {
+        "name": "Výkon spotreby {phase}"
+      },
+      "system_ac_loads_phase": {
+        "name": "AC záťaže na {phase}"
+      },
+      "system_consumption_on_output_phases": {
+        "name": "Spotreba na výstupných fázach"
+      },
+      "system_critical_loads_phase": {
+        "name": "Kritické záťaže na {phase}"
+      },
+      "system_generator_load_phase": {
+        "name": "Záťaž generátora {phase}"
+      },
+      "system_grid_phases": {
+        "name": "Fázy siete"
+      },
+      "system_grid_current_phase": {
+        "name": "Prúd siete {phase}"
+      },
+      "system_grid_power_phase": {
+        "name": "Výkon siete {phase}"
+      },
+      "system_pv_on_output_phases": {
+        "name": "FV na výstupných fázach"
+      },
+      "system_pv_on_output_current_phase": {
+        "name": "Prúd FV na výstupe {phase}"
+      },
+      "system_pv_on_output_power_phase": {
+        "name": "Výkon FV na výstupe {phase}"
+      },
+      "system_control_active_soc_limit": {
+        "name": "Aktívny limit SOC"
+      },
+      "system_control_scheduled_soc": {
+        "name": "Plánovaný SOC"
+      },
+      "system_dc_battery_current": {
+        "name": "DC prúd batérie"
+      },
+      "system_dc_battery_power": {
+        "name": "DC výkon batérie"
+      },
+      "system_dc_battery_charge_energy": {
+        "name": "Energia nabíjania DC batérie"
+      },
+      "system_dc_battery_discharge_energy": {
+        "name": "Energia vybíjania DC batérie"
+      },
+      "system_dc_battery_soc": {
+        "name": "DC stav nabitia batérie"
+      },
+      "system_dc_battery_voltage": {
+        "name": "DC napätie batérie"
+      },
+      "system_dc_pv_power": {
+        "name": "FV výkon"
+      },
+      "system_dc_pv_energy": {
+        "name": "FV energia"
+      },
+      "system_dc_consumption": {
+        "name": "DC spotreba"
+      },
+      "system_dynamicess_available_overhead": {
+        "name": "Dostupná rezerva Dynamic ESS"
+      },
+      "system_dynamicess_error": {
+        "name": "Chyba Dynamic ESS"
+      },
+      "system_dynamicess_last_scheduled_end": {
+        "name": "Posledný plánovaný koniec Dynamic ESS"
+      },
+      "system_dynamicess_last_scheduled_start": {
+        "name": "Posledný plánovaný štart Dynamic ESS"
+      },
+      "system_dynamicess_minimum_soc": {
+        "name": "Minimálny SOC Dynamic ESS"
+      },
+      "system_dynamicess_schedule_count": {
+        "name": "Počet plánov Dynamic ESS"
+      },
+      "system_dynamicess_reactive_strategy": {
+        "name": "Reaktívna stratégia Dynamic ESS"
+      },
+      "system_dynamicess_restrictions": {
+        "name": "Obmedzenia Dynamic ESS"
+      },
+      "system_dynamicess_strategy": {
+        "name": "Stratégia Dynamic ESS"
+      },
+      "system_dynamicess_target_soc": {
+        "name": "Cieľový SOC Dynamic ESS"
+      },
+      "solarcharger_current": {
+        "name": "Prúd FV zbernice"
+      },
+      "system_state": {
+        "name": "Stav systému"
+      },
+      "tank_battery_voltage": {
+        "name": "Napätie batérie snímača nádrže"
+      },
+      "tank_fluid_type": {
+        "name": "Typ kvapaliny"
+      },
+      "tank_level": {
+        "name": "Hladina"
+      },
+      "tank_remaining": {
+        "name": "Zostávajúce množstvo"
+      },
+      "tank_temperature": {
+        "name": "Teplota"
+      },
+      "temperature_battery_voltage": {
+        "name": "Napätie batérie snímača teploty"
+      },
+      "temperature_humidity": {
+        "name": "Vlhkosť"
+      },
+      "temperature_offset": {
+        "name": "Posun teploty"
+      },
+      "temperature_scale": {
+        "name": "Faktor mierky teploty"
+      },
+      "temperature_status": {
+        "name": "Stav snímača teploty"
+      },
+      "temperature_temperature": {
+        "name": "Teplota"
+      },
+      "temperature_type": {
+        "name": "Typ snímača teploty"
+      },
+      "vebus_inverter_active_input": {
+        "name": "Aktívny AC vstup meniča"
+      },
+      "vebus_inverter_current_limit": {
+        "name": "Limit prúdu meniča"
+      },
+      "vebus_inverter_input_frequency_phase": {
+        "name": "Vstupná frekvencia meniča {phase}"
+      },
+      "vebus_inverter_input_power_phase": {
+        "name": "Vstupný výkon meniča {phase}"
+      },
+      "vebus_inverter_input_apparent_power_phase": {
+        "name": "Zdanlivý vstupný výkon meniča {phase}"
+      },
+      "vebus_inverter_input_voltage_phase": {
+        "name": "Vstupné napätie meniča {phase}"
+      },
+      "vebus_inverter_output_frequency_phase": {
+        "name": "Výstupná frekvencia meniča {phase}"
+      },
+      "vebus_inverter_output_current_phase": {
+        "name": "Výstupný prúd meniča {phase}"
+      },
+      "vebus_inverter_output_power_phase": {
+        "name": "Výstupný výkon meniča {phase}"
+      },
+      "vebus_inverter_output_apparent_power_phase": {
+        "name": "Zdanlivý výstupný výkon meniča {phase}"
+      },
+      "vebus_inverter_output_voltage_phase": {
+        "name": "Výstupné napätie meniča {phase}"
+      },
+      "vebus_inverter_alarm_grid_lost": {
+        "name": "Alarm straty siete"
+      },
+      "vebus_inverter_alarm_high_dc_current": {
+        "name": "Alarm vysokého DC prúdu meniča"
+      },
+      "vebus_inverter_alarm_high_dc_voltage": {
+        "name": "Alarm vysokého DC napätia meniča"
+      },
+      "vebus_inverter_alarm_high_temperature": {
+        "name": "Alarm vysokej teploty meniča"
+      },
+      "vebus_inverter_alarm_low_battery": {
+        "name": "Alarm nízkeho stavu batérie meniča"
+      },
+      "vebus_inverter_alarm_overload": {
+        "name": "Alarm preťaženia meniča"
+      },
+      "vebus_inverter_alarm_phase_rotation": {
+        "name": "Alarm rotácie fáz meniča"
+      },
+      "vebus_inverter_alarm_ripple": {
+        "name": "Alarm zvlnenia meniča"
+      },
+      "vebus_inverter_alarm_temperature_sensor": {
+        "name": "Alarm snímača teploty meniča"
+      },
+      "vebus_inverter_alarm_voltage_sensor": {
+        "name": "Alarm snímača napätia meniča"
+      },
+      "vebus_inverter_dc_current": {
+        "name": "DC prúd meniča"
+      },
+      "vebus_inverter_dc_power": {
+        "name": "DC výkon meniča"
+      },
+      "vebus_inverter_dc_temperature": {
+        "name": "DC teplota meniča"
+      },
+      "vebus_device_device_number_input_power_l1": {
+        "name": "Vstupný výkon linky 1 zariadenia VE.Bus {device_number}"
+      },
+      "vebus_device_device_number_input_power_phase": {
+        "name": "Vstupný výkon linky {phase} zariadenia VE.Bus {device_number}"
+      },
+      "vebus_device_device_number_inverted_power": {
+        "name": "Invertovaný výkon zariadenia VE.Bus {device_number}"
+      },
+      "vebus_device_device_number_output_power_l1": {
+        "name": "Výstupný výkon linky 1 zariadenia VE.Bus {device_number}"
+      },
+      "vebus_device_device_number_output_power_phase": {
+        "name": "Výstupný výkon linky {phase} zariadenia VE.Bus {device_number}"
+      },
+      "vebus_energy_ac_in1_to_ac_out": {
+        "name": "Energia z AcIn1 do AcOut"
+      },
+      "vebus_energy_ac_in1_to_inverter": {
+        "name": "Energia z AcIn1 do meniča"
+      },
+      "vebus_energy_ac_in2_to_ac_out": {
+        "name": "Energia z AcIn2 do AcOut"
+      },
+      "vebus_energy_ac_in2_to_inverter": {
+        "name": "Energia z AcIn2 do meniča"
+      },
+      "vebus_energy_ac_out_to_ac_in1": {
+        "name": "Energia z AcOut do AcIn1"
+      },
+      "vebus_energy_ac_out_to_ac_in2": {
+        "name": "Energia z AcOut do AcIn2"
+      },
+      "vebus_energy_inverter_to_ac_in1": {
+        "name": "Energia z meniča do AcIn1"
+      },
+      "vebus_energy_inverter_to_ac_in2": {
+        "name": "Energia z meniča do AcIn2"
+      },
+      "vebus_energy_inverter_to_ac_out": {
+        "name": "Energia z meniča do AcOut"
+      },
+      "vebus_energy_out_to_inverter": {
+        "name": "Energia z výstupu do meniča"
+      },
+      "vebus_inverter_mode": {
+        "name": "Režim meniča"
+      },
+      "multiplus_assist_current_boost_factor": {
+        "name": "Faktor zosilnenia prúdu asistencie"
+      },
+      "vebus_inverter_state": {
+        "name": "Stav meniča"
+      }
+    },
+    "switch": {
+      "alternator_mode": {
+        "name": "Režim alternátora"
+      },
+      "digitalinput_settings_invert_translation": {
+        "name": "Invertovať preklad nastavení digitálneho vstupu"
+      },
+      "evcharger_charge": {
+        "name": "Nabíjanie EV nabíjačky"
+      },
+      "generator_autorun": {
+        "name": "Povolený automatický štart generátora"
+      },
+      "generator_manual_start": {
+        "name": "Manuálny štart generátora"
+      },
+      "system_settings_overvoltage_feedin": {
+        "name": "Dodávka pri FV DC prepätí"
+      },
+      "generator_gen_id_start_on_voltage_enabled": {
+        "name": "Povolený štart generátora pri napätí"
+      },
+      "generator_gen_id_start_on_temp_enabled": {
+        "name": "Povolený štart generátora pri vysokej teplote"
+      },
+      "generator_gen_id_quiet_hours_enabled": {
+        "name": "Povolené tiché hodiny generátora"
+      },
+      "generator_gen_id_start_on_soc_enabled": {
+        "name": "Povolený štart generátora pri SOC"
+      },
+      "solarcharger_mode": {
+        "name": "Režim solárnej nabíjačky"
+      },
+      "solarcharger_relay_state": {
+        "name": "Stav relé solárnej nabíjačky"
+      },
+      "switch_output_state": {
+        "name": "Stav prepínača {output}"
+      },
+      "system_relay_relay": {
+        "name": "Stav relé {relay}"
+      },
+      "vebus_inverter_setting_alarm_grid_lost": {
+        "name": "Nastavenie alarmu straty siete"
+      }
+    },
+    "binary_sensor": {
+      "alternator_mode": {
+        "name": "Režim alternátora"
+      },
+      "digitalinput_settings_invert_translation": {
+        "name": "Invertovať preklad nastavení digitálneho vstupu"
+      },
+      "evcharger_connected": {
+        "name": "EV nabíjačka pripojená"
+      },
+      "evcharger_charge": {
+        "name": "Nabíjanie EV nabíjačky"
+      },
+      "generator_autorun": {
+        "name": "Povolený automatický štart generátora"
+      },
+      "generator_manual_start": {
+        "name": "Manuálny štart generátora"
+      },
+      "gps_connected": {
+        "name": "GPS pripojené"
+      },
+      "gps_fix": {
+        "name": "GPS fixácia"
+      },
+      "inverter_alarm_high_temperature": {
+        "name": "Alarm meniča: Vysoká teplota"
+      },
+      "inverter_alarm_high_voltage": {
+        "name": "Alarm meniča: Vysoké napätie"
+      },
+      "inverter_alarm_high_voltage_ac_out": {
+        "name": "Alarm meniča: Vysoké napätie na AC výstupe"
+      },
+      "inverter_alarm_low_temperature": {
+        "name": "Alarm meniča: Nízka teplota"
+      },
+      "inverter_alarm_low_voltage": {
+        "name": "Alarm meniča: Nízke napätie"
+      },
+      "inverter_alarm_low_voltage_ac_out": {
+        "name": "Alarm meniča: Nízke napätie na AC výstupe"
+      },
+      "inverter_alarm_overload": {
+        "name": "Alarm meniča: Preťaženie"
+      },
+      "inverter_alarm_ripple": {
+        "name": "Alarm meniča: Zvlnenie"
+      },
+      "system_settings_overvoltage_feedin": {
+        "name": "Dodávka pri FV DC prepätí"
+      },
+      "generator_gen_id_start_on_voltage_enabled": {
+        "name": "Povolený štart generátora pri napätí"
+      },
+      "generator_gen_id_start_on_temp_enabled": {
+        "name": "Povolený štart generátora pri vysokej teplote"
+      },
+      "generator_gen_id_quiet_hours_enabled": {
+        "name": "Povolené tiché hodiny generátora"
+      },
+      "generator_gen_id_start_on_soc_enabled": {
+        "name": "Povolený štart generátora pri SOC"
+      },
+      "solarcharger_load_state": {
+        "name": "Stav záťaže solárnej nabíjačky"
+      },
+      "solarcharger_mode": {
+        "name": "Režim solárnej nabíjačky"
+      },
+      "solarcharger_relay_state": {
+        "name": "Stav relé solárnej nabíjačky"
+      },
+      "switch_output_state": {
+        "name": "Stav prepínača {output}"
+      },
+      "system_dynamicess_active": {
+        "name": "Dynamic ESS aktívny"
+      },
+      "system_dynamicess_allow_gridfeedin": {
+        "name": "Povoliť dodávku do siete Dynamic ESS"
+      },
+      "system_dynamicess_available": {
+        "name": "Dynamic ESS dostupný"
+      },
+      "system_relay_relay": {
+        "name": "Stav relé {relay}"
+      },
+      "vebus_inverter_connected": {
+        "name": "Menič pripojený"
+      },
+      "vebus_inverter_setting_alarm_grid_lost": {
+        "name": "Nastavenie alarmu straty siete"
+      }
+    },
+    "select": {
+      "evcharger_mode": {
+        "name": "Režim EV nabíjačky"
+      },
+      "inverter_mode": {
+        "name": "Režim meniča"
+      },
+      "system_ess_batterylife_state": {
+        "name": "Stav ESS BatteryLife"
+      },
+      "system_ess_mode": {
+        "name": "Režim ESS (Hub4)"
+      },
+      "system_settings_dess_mode": {
+        "name": "Režim DESS"
+      },
+      "vebus_inverter_mode": {
+        "name": "Režim meniča"
+      }
+    },
+    "number": {
+      "evcharger_set_current": {
+        "name": "Nastavený prúd EV nabíjačky"
+      },
+      "system_ac_export_limit": {
+        "name": "Limit exportu do AC siete"
+      },
+      "system_ac_input_limit": {
+        "name": "Limit vstupu z AC siete"
+      },
+      "system_ac_power_set_point": {
+        "name": "Nastavená hodnota AC výkonu"
+      },
+      "system_ess_min_soc_limit": {
+        "name": "Limit minimálneho SOC pre ESS"
+      },
+      "system_ess_max_inverter_power_limit": {
+        "name": "Limit maximálneho výkonu meniča ESS"
+      },
+      "system_ess_max_feed_in_power": {
+        "name": "Maximálny výkon dodávky do siete ESS"
+      },
+      "generator_gen_id_qh_start_on_voltage": {
+        "name": "Generátor QH štart pri napätí"
+      },
+      "generator_gen_id_qh_stop_on_voltage": {
+        "name": "Generátor QH stop pri napätí"
+      },
+      "generator_gen_id_start_on_voltage_timer": {
+        "name": "Časovač štartu generátora pri napätí"
+      },
+      "generator_gen_id_start_on_voltage": {
+        "name": "Štart generátora pri napätí"
+      },
+      "generator_gen_id_stop_on_voltage_timer": {
+        "name": "Časovač stopu generátora pri napätí"
+      },
+      "generator_gen_id_stop_on_voltage": {
+        "name": "Stop generátora pri napätí"
+      },
+      "generator_gen_id_cool_down_timer": {
+        "name": "Časovač ochladzovania generátora"
+      },
+      "generator_gen_id_shut_down_timer": {
+        "name": "Časovač vypnutia generátora"
+      },
+      "generator_gen_id_start_on_temp_timer": {
+        "name": "Časovač štartu generátora pri teplote"
+      },
+      "generator_gen_id_stop_on_temp_timer": {
+        "name": "Časovač stopu generátora pri teplote"
+      },
+      "generator_gen_id_service_interval": {
+        "name": "Servisný interval generátora"
+      },
+      "generator_gen_id_qh_start_on_soc": {
+        "name": "Generátor QH štart pri SOC"
+      },
+      "generator_gen_id_qh_stop_on_soc": {
+        "name": "Generátor QH stop pri SOC"
+      },
+      "generator_gen_id_start_on_soc_timer": {
+        "name": "Časovač štartu generátora pri SOC"
+      },
+      "generator_gen_id_start_on_soc": {
+        "name": "Štart generátora pri SOC"
+      },
+      "generator_gen_id_stop_on_soc_timer": {
+        "name": "Časovač stopu generátora pri SOC"
+      },
+      "generator_gen_id_stop_on_soc": {
+        "name": "Stop generátora pri SOC"
+      },
+      "generator_gen_id_warm_up_timer": {
+        "name": "Časovač zahrievania generátora"
+      },
+      "system_ess_max_charge_current": {
+        "name": "Maximálny nabíjací prúd ESS"
+      },
+      "system_ess_max_charge_voltage": {
+        "name": "Maximálne nabíjacie napätie ESS"
+      },
+      "transfer_switch_generator_current_limit": {
+        "name": "Limit AC prúdu generátora"
+      },
+      "switch_output_dimming": {
+        "name": "Stmievanie prepínača {output}"
+      },
+      "temperature_offset": {
+        "name": "Posun teploty"
+      },
+      "temperature_scale": {
+        "name": "Faktor mierky teploty"
+      },
+      "vebus_inverter_current_limit": {
+        "name": "Limit prúdu meniča"
+      },
+      "multiplus_assist_current_boost_factor": {
+        "name": "Faktor zosilnenia prúdu asistencie"
+      }
+    }
+  }
+}
