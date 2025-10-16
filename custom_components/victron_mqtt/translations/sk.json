@@ -456,6 +456,9 @@
       "system_ess_min_soc_limit": {
         "name": "Limit minimálneho SOC pre ESS"
       },
+      "system_ess_schedule_charge_slot_days": {
+        "name": "ESS BatteryLife Naplánované nabíjanie {slot} dní"
+      },
       "system_ess_batterylife_state": {
         "name": "Stav ESS BatteryLife"
       },
@@ -675,11 +678,14 @@
       "system_dc_battery_voltage": {
         "name": "DC napätie batérie"
       },
+      "system_dc_pv_current": {
+        "name": "FV celkový prúd"
+      },
       "system_dc_pv_power": {
-        "name": "FV výkon"
+        "name": "FV celkový výkon"
       },
       "system_dc_pv_energy": {
-        "name": "FV energia"
+        "name": "FV celková energia"
       },
       "system_dc_consumption": {
         "name": "DC spotreba"
@@ -785,6 +791,12 @@
       },
       "vebus_inverter_output_apparent_power_phase": {
         "name": "Zdanlivý výstupný výkon meniča {phase}"
+      },
+      "vebus_inverter_ignoreacin1_state": {
+        "name": "Stav IgnoreAcIn1"
+      },
+      "vebus_inverter_ignoreacin1_onoff_control": {
+        "name": "Nastavenie stavu IgnoreAcIn1"
       },
       "vebus_inverter_output_voltage_phase": {
         "name": "Výstupné napätie meniča {phase}"
@@ -1031,6 +1043,9 @@
       },
       "inverter_mode": {
         "name": "Režim meniča"
+      },
+      "system_ess_schedule_charge_slot_days": {
+        "name": "ESS BatteryLife Naplánované nabíjanie {slot} dní"
       },
       "system_ess_batterylife_state": {
         "name": "Stav ESS BatteryLife"
