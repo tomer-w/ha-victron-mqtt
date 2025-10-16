@@ -3153,6 +3153,28 @@
       "is_formula": false
     },
     {
+      "topic": "N/{installation_id}/settings/{device_id}/Settings/CGwacs/BatteryLife/Schedule/Charge/{slot}/Day",
+      "message_type": "MetricKind.SELECT",
+      "short_id": "system_ess_schedule_charge_{slot}_days",
+      "name": "ESS BatteryLife Schedule charge {slot} days",
+      "unit_of_measurement": null,
+      "metric_type": "MetricType.NONE",
+      "metric_nature": "MetricNature.NONE",
+      "value_type": "ValueType.ENUM",
+      "precision": null,
+      "enum": "ChargeSchedule",
+      "min_max_range": "RangeType.STATIC",
+      "min": null,
+      "max": null,
+      "step": null,
+      "is_adjustable_suffix": null,
+      "key_values": {},
+      "experimental": false,
+      "depends_on": [],
+      "generic_name": "ESS BatteryLife Schedule charge {slot} days",
+      "is_formula": false
+    },
+    {
       "topic": "N/{installation_id}/settings/{device_id}/Settings/CGwacs/BatteryLife/State",
       "message_type": "MetricKind.SELECT",
       "short_id": "system_ess_batterylife_state",
@@ -6707,6 +6729,66 @@
           "id": "NotConnected",
           "name": "Not connected",
           "value": 240
+        }
+      ]
+    },
+    {
+      "name": "ChargeSchedule",
+      "EnumValues": [
+        {
+          "id": "Disabled",
+          "name": "Disabled",
+          "value": -7
+        },
+        {
+          "id": "Sunday",
+          "name": "Sunday",
+          "value": 0
+        },
+        {
+          "id": "Monday",
+          "name": "Monday",
+          "value": 1
+        },
+        {
+          "id": "Tuesday",
+          "name": "Tuesday",
+          "value": 2
+        },
+        {
+          "id": "Wednesday",
+          "name": "Wednesday",
+          "value": 3
+        },
+        {
+          "id": "Thursday",
+          "name": "Thursday",
+          "value": 4
+        },
+        {
+          "id": "Friday",
+          "name": "Friday",
+          "value": 5
+        },
+        {
+          "id": "Saturday",
+          "name": "Saturday",
+          "value": 6
+        },
+        {
+          "id": "EveryDay",
+          "name": "Every day",
+          "value": 7
+        },
+        {
+          "id": "Weekdays",
+          "name": "Weekdays",
+          "value": 8
+        },
+        {
+          "id": "Weekends",
+          "name": "Weekends",
+          "value": 9
         }
       ]
     },

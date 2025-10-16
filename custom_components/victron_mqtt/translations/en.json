@@ -456,6 +456,9 @@
       "system_ess_min_soc_limit": {
         "name": "ESS min SOC limit"
       },
+      "system_ess_schedule_charge_slot_days": {
+        "name": "ESS BatteryLife Schedule charge {slot} days"
+      },
       "system_ess_batterylife_state": {
         "name": "ESS BatteryLife State"
       },
@@ -1031,6 +1034,9 @@
       },
       "inverter_mode": {
         "name": "Inverter mode"
+      },
+      "system_ess_schedule_charge_slot_days": {
+        "name": "ESS BatteryLife Schedule charge {slot} days"
       },
       "system_ess_batterylife_state": {
         "name": "ESS BatteryLife State"
