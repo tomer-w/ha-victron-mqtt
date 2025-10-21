@@ -678,9 +678,6 @@
       "system_dc_battery_voltage": {
         "name": "DC Battery Voltage"
       },
-      "system_dc_pv_current": {
-        "name": "PV Current"
-      },
       "system_dc_pv_power": {
         "name": "PV Power"
       },
@@ -791,12 +788,6 @@
       },
       "vebus_inverter_output_apparent_power_phase": {
         "name": "Inverter output apparent power {phase}"
-      },
-      "vebus_inverter_ignoreacin1_state": {
-        "name": "State IgnoreAcIn1"
-      },
-      "vebus_inverter_ignoreacin1_onoff_control": {
-        "name": "Set IgnoreAcIn1 state"
       },
       "vebus_inverter_output_voltage_phase": {
         "name": "Inverter output voltage {phase}"
