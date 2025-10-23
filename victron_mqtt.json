@@ -1361,7 +1361,7 @@
       "enum": null,
       "min_max_range": "RangeType.STATIC",
       "min": 0,
-      "max": 16,
+      "max": 32,
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
