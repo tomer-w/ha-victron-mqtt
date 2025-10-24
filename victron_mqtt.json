@@ -5027,6 +5027,28 @@
       "is_formula": false
     },
     {
+      "topic": "N/{installation_id}/system/{device_id}/Dc/Pv/Current",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "system_dc_pv_current",
+      "name": "PV Current",
+      "unit_of_measurement": "A",
+      "metric_type": "MetricType.CURRENT",
+      "metric_nature": "MetricNature.INSTANTANEOUS",
+      "value_type": "ValueType.FLOAT",
+      "precision": 1,
+      "enum": null,
+      "min_max_range": "RangeType.STATIC",
+      "min": null,
+      "max": null,
+      "step": null,
+      "is_adjustable_suffix": null,
+      "key_values": {},
+      "experimental": false,
+      "depends_on": [],
+      "generic_name": "PV Current",
+      "is_formula": false
+    },
+    {
       "topic": "N/{installation_id}/system/{device_id}/Dc/Pv/Power",
       "message_type": "MetricKind.SENSOR",
       "short_id": "system_dc_pv_power",
@@ -5843,6 +5865,28 @@
       "is_formula": false
     },
     {
+      "topic": "N/{installation_id}/vebus/{device_id}/Ac/Control/IgnoreAcIn1",
+      "message_type": "MetricKind.SWITCH",
+      "short_id": "vebus_inverter_ignoreacin1_onoff_control",
+      "name": "Control IgnoreAcIn1",
+      "unit_of_measurement": null,
+      "metric_type": "MetricType.NONE",
+      "metric_nature": "MetricNature.NONE",
+      "value_type": "ValueType.ENUM",
+      "precision": null,
+      "enum": "GenericOnOff",
+      "min_max_range": "RangeType.STATIC",
+      "min": null,
+      "max": null,
+      "step": null,
+      "is_adjustable_suffix": null,
+      "key_values": {},
+      "experimental": false,
+      "depends_on": [],
+      "generic_name": "Control IgnoreAcIn1",
+      "is_formula": false
+    },
+    {
       "topic": "N/{installation_id}/vebus/{device_id}/Ac/Out/{phase}/F",
       "message_type": "MetricKind.SENSOR",
       "short_id": "vebus_inverter_output_frequency_{phase}",
@@ -5950,6 +5994,28 @@
       "experimental": false,
       "depends_on": [],
       "generic_name": "Inverter output voltage {phase}",
+      "is_formula": false
+    },
+    {
+      "topic": "N/{installation_id}/vebus/{device_id}/Ac/State/IgnoreAcIn1",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "vebus_inverter_ignoreacin1_state",
+      "name": "State of IgnoreAcIn1",
+      "unit_of_measurement": null,
+      "metric_type": "MetricType.NONE",
+      "metric_nature": "MetricNature.NONE",
+      "value_type": "ValueType.ENUM",
+      "precision": null,
+      "enum": "GenericOnOff",
+      "min_max_range": "RangeType.STATIC",
+      "min": null,
+      "max": null,
+      "step": null,
+      "is_adjustable_suffix": null,
+      "key_values": {},
+      "experimental": false,
+      "depends_on": [],
+      "generic_name": "State of IgnoreAcIn1",
       "is_formula": false
     },
     {
@@ -6736,9 +6802,54 @@
       "name": "ChargeSchedule",
       "EnumValues": [
         {
-          "id": "Disabled",
-          "name": "Disabled",
+          "id": "DisabledSunday",
+          "name": "Disabled (Sunday)",
+          "value": -10
+        },
+        {
+          "id": "DisabledWeekend",
+          "name": "Disabled (Weekend)",
+          "value": -9
+        },
+        {
+          "id": "DisabledWeekdays",
+          "name": "Disabled (Weekdays)",
+          "value": -8
+        },
+        {
+          "id": "DisabledEveryDay",
+          "name": "Disabled (Every day)",
           "value": -7
+        },
+        {
+          "id": "DisabledSaturday",
+          "name": "Disabled (Saturday)",
+          "value": -6
+        },
+        {
+          "id": "DisabledFriday",
+          "name": "Disabled (Friday)",
+          "value": -5
+        },
+        {
+          "id": "DisabledThursday",
+          "name": "Disabled (Thursday)",
+          "value": -4
+        },
+        {
+          "id": "DisabledWednesday",
+          "name": "Disabled (Wednesday)",
+          "value": -3
+        },
+        {
+          "id": "DisabledTuesday",
+          "name": "Disabled (Tuesday)",
+          "value": -2
+        },
+        {
+          "id": "DisabledMonday",
+          "name": "Disabled (Monday)",
+          "value": -1
         },
         {
           "id": "Sunday",
