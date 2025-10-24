@@ -75,6 +75,33 @@
   },
   "entity": {
     "sensor": {
+      "acload_current": {
+        "name": "Load current"
+      },
+      "acload_energy_forward": {
+        "name": "Load consumption"
+      },
+      "acload_frequency": {
+        "name": "Load frequency"
+      },
+      "acload_power": {
+        "name": "Load power"
+      },
+      "acload_voltage": {
+        "name": "Load voltage"
+      },
+      "acload_current_phase": {
+        "name": "Load current on {phase}"
+      },
+      "acload_energy_forward_phase": {
+        "name": "Load consumption on {phase}"
+      },
+      "acload_power_phase": {
+        "name": "Load power on {phase}"
+      },
+      "acload_voltage_phase": {
+        "name": "Load voltage on {phase}"
+      },
       "alternator_dc_current": {
         "name": "DC Output Current"
       },
