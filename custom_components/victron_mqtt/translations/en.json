@@ -16,7 +16,7 @@
         "data_description": {
           "host": "Hostname or IP address of Victron Device, usually mDNS name like 'venus.local'",
           "port": "The MQTT port on the host. Normally it is 1883.",
-          "username": "Username for the Victron Device, default is empty. This is not your VRM username.",
+          "username": "Username for the MQTT server, default is empty. Not needed by Victron devices. This is only needed if you use route your mqtt messages through non Victron server and it does require username.",
           "password": "Password for the Victron Device, default is empty. This is not your VRM password.",
           "ssl": "Indicates whether to use SSL to connect to the Victron Device. Normally it is disabled.",
           "root_topic_prefix": "Root topic prefix if used via MQTT gateway.",
@@ -44,7 +44,7 @@
         "data_description": {
           "host": "Hostname or IP address of Victron Device, usually mDNS name like 'venus.local'",
           "port": "The MQTT port on the host. Normally it is 1883.",
-          "username": "Username for the Victron Device, default is empty. This is not your VRM username.",
+          "username": "Username for the MQTT server, default is empty. Not needed by Victron devices. This is only needed if you use route your mqtt messages through non Victron server and it does require username.",
           "password": "Password for the Victron Device, default is empty. This is not your VRM password.",
           "ssl": "Indicates whether to use SSL to connect to the Victron Device. Normally it is disabled.",
           "root_topic_prefix": "Root topic prefix if used via MQTT gateway.",
