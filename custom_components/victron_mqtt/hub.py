@@ -31,7 +31,7 @@ from victron_mqtt import (
     DeviceType
 )
 
-from .const import CONF_INSTALLATION_ID, CONF_MODEL, CONF_SERIAL, CONF_UPDATE_FREQUENCY_SECONDS, DEFAULT_UPDATE_FREQUENCY_SECONDS, DOMAIN, CONF_ROOT_TOPIC_PREFIX, CONF_OPERATION_MODE, CONF_EXCLUDED_DEVICES
+from .const import CONF_INSTALLATION_ID, CONF_MODEL, CONF_SERIAL, CONF_SIMPLE_NAMING, CONF_UPDATE_FREQUENCY_SECONDS, DEFAULT_UPDATE_FREQUENCY_SECONDS, DOMAIN, CONF_ROOT_TOPIC_PREFIX, CONF_OPERATION_MODE, CONF_EXCLUDED_DEVICES
 from .common import VictronBaseEntity
 
 _LOGGER = logging.getLogger(__name__)
@@ -60,6 +60,7 @@ class Hub:
         config = entry.data
         op = config.get(CONF_OPERATION_MODE, OperationMode.FULL.value)
         operation_mode: OperationMode = OperationMode(op) if not isinstance(op, OperationMode) else op
+        self.simple_naming = config.get(CONF_SIMPLE_NAMING, False)
 
         # Convert string device type exclusions to DeviceType instances
         excluded_device_strings = config.get(CONF_EXCLUDED_DEVICES, [])
@@ -101,16 +102,17 @@ class Hub:
 
     def on_new_metric(self, hub: VictronVenusHub, device: VictronVenusDevice, metric: VictronVenusMetric):
         _LOGGER.info("New metric received. Device: %s, Metric: %s", device, metric)
-        device_info = Hub._map_device_info(device)
-        entity = self.creatre_entity(device, metric, device_info)
-        
+        assert hub.installation_id is not None
+        device_info = Hub._map_device_info(device, hub.installation_id)
+        entity = self.create_entity(device, metric, device_info, hub.installation_id)
+
         # Add entity dynamically to the platform
         self.add_entities_map[metric.metric_kind]([entity])
 
     @staticmethod
-    def _map_device_info(device: VictronVenusDevice) -> DeviceInfo:
+    def _map_device_info(device: VictronVenusDevice, installation_id: str) -> DeviceInfo:
         info: DeviceInfo = {}
-        info["identifiers"] = {(DOMAIN, device.unique_id)}
+        info["identifiers"] = {(DOMAIN, f"{installation_id}_{device.unique_id}")}
         info["manufacturer"] = device.manufacturer if device.manufacturer is not None else "Victron Energy"
         info["name"] = f"{device.name} (ID: {device.device_id})" if device.device_id != "0" else device.name
         info["model"] = device.model
@@ -123,19 +125,19 @@ class Hub:
         _LOGGER.info("Registering AddEntitiesCallback. kind: %s, AddEntitiesCallback: %s", kind, async_add_entities)
         self.add_entities_map[kind] = async_add_entities
 
-    def creatre_entity(self, device: VictronVenusDevice, metric: VictronVenusMetric, info: DeviceInfo) -> VictronBaseEntity:
+    def create_entity(self, device: VictronVenusDevice, metric: VictronVenusMetric, info: DeviceInfo, installation_id: str) -> VictronBaseEntity:
         """Create a VictronBaseEntity from a device and metric."""
         if metric.metric_kind == MetricKind.SENSOR:
-            return VictronSensor(device, metric, info)
+            return VictronSensor(device, metric, info, self.simple_naming, installation_id)
         elif metric.metric_kind == MetricKind.BINARY_SENSOR:
-            return VictronBinarySensor(device, metric, info)
+            return VictronBinarySensor(device, metric, info, self.simple_naming, installation_id)
         assert isinstance(metric, VictronVenusWritableMetric), f"Expected metric to be a VictronVenusWritableMetric. Got {type(metric)}"
         if metric.metric_kind == MetricKind.SWITCH:
-            return VictronSwitch(device, metric, info)
+            return VictronSwitch(device, metric, info, self.simple_naming, installation_id)
         elif metric.metric_kind == MetricKind.NUMBER:
-            return VictronNumber(device, metric, info)
+            return VictronNumber(device, metric, info, self.simple_naming, installation_id)
         elif metric.metric_kind == MetricKind.SELECT:
-            return VictronSelect(device, metric, info)
+            return VictronSelect(device, metric, info, self.simple_naming, installation_id)
         else:
             raise ValueError(f"Unsupported metric kind: {metric.metric_kind}")
 
@@ -157,10 +159,12 @@ class VictronSensor(VictronBaseEntity, SensorEntity):
         device: VictronVenusDevice,
         metric: VictronVenusMetric,
         device_info: DeviceInfo,
+        simple_naming: bool,
+        installation_id: str
     ) -> None:
         """Initialize the sensor based on detauls in the metric."""
         self._attr_native_value = metric.value
-        super().__init__(device, metric, device_info, "sensor")
+        super().__init__(device, metric, device_info, "sensor", simple_naming, installation_id)
 
     def __repr__(self) -> str:
         """Return a string representation of the sensor."""
@@ -180,10 +184,12 @@ class VictronSwitch(VictronBaseEntity, SwitchEntity):
         device: VictronVenusDevice,
         writable_metric: VictronVenusWritableMetric,
         device_info: DeviceInfo,
+        simple_naming: bool,
+        installation_id: str
     ) -> None:
         """Initialize the switch."""
         self._attr_is_on = str(writable_metric.value) == SWITCH_ON
-        super().__init__(device, writable_metric, device_info, "switch")
+        super().__init__(device, writable_metric, device_info, "switch", simple_naming, installation_id)
 
     def __repr__(self) -> str:
         """Return a string representation of the sensor."""
@@ -220,6 +226,8 @@ class VictronNumber(VictronBaseEntity, NumberEntity):
         device: VictronVenusDevice,
         writable_metric: VictronVenusWritableMetric,
         device_info: DeviceInfo,
+        simple_naming: bool,
+        installation_id: str
     ) -> None:
         """Initialize the number entity."""
         self._attr_native_value = writable_metric.value
@@ -229,7 +237,7 @@ class VictronNumber(VictronBaseEntity, NumberEntity):
             self._attr_native_max_value = writable_metric.max_value
         if isinstance(writable_metric.step, int) or isinstance(writable_metric.step, float):
             self._attr_native_step = writable_metric.step
-        super().__init__(device, writable_metric, device_info, "number")
+        super().__init__(device, writable_metric, device_info, "number", simple_naming, installation_id)
 
     def __repr__(self) -> str:
         """Return a string representation of the sensor."""
@@ -262,9 +270,11 @@ class VictronBinarySensor(VictronBaseEntity, BinarySensorEntity):
         device: VictronVenusDevice,
         metric: VictronVenusMetric,
         device_info: DeviceInfo,
+        simple_naming: bool,
+        installation_id: str
     ) -> None:
         self._attr_is_on = bool(metric.value)
-        super().__init__(device, metric, device_info, "binary_sensor")
+        super().__init__(device, metric, device_info, "binary_sensor", simple_naming, installation_id)
 
     def __repr__(self) -> str:
         """Return a string representation of the sensor."""
@@ -289,11 +299,13 @@ class VictronSelect(VictronBaseEntity, SelectEntity):
         device: VictronVenusDevice,
         writable_metric: VictronVenusWritableMetric,
         device_info: DeviceInfo,
+        simple_naming: bool,
+        installation_id: str
     ) -> None:
         """Initialize the switch."""
         self._attr_options = writable_metric.enum_values
         self._attr_current_option = self._map_value_to_state(writable_metric.value)
-        super().__init__(device, writable_metric, device_info, "select")
+        super().__init__(device, writable_metric, device_info, "select", simple_naming, installation_id)
 
     def __repr__(self) -> str:
         """Return a string representation of the sensor."""

@@ -31,6 +31,7 @@ from .const import (
     CONF_ROOT_TOPIC_PREFIX,
     CONF_UPDATE_FREQUENCY_SECONDS,
     CONF_EXCLUDED_DEVICES,
+    CONF_SIMPLE_NAMING,
     DEFAULT_HOST,
     DEFAULT_PORT,
     DEFAULT_UPDATE_FREQUENCY_SECONDS,
@@ -71,6 +72,7 @@ def _get_user_schema(defaults: dict[str, Any] | None = None) -> vol.Schema:
                     ]
                 )
             ),
+            vol.Optional(CONF_SIMPLE_NAMING, default=defaults.get(CONF_SIMPLE_NAMING, False)): bool,
             vol.Optional(CONF_ROOT_TOPIC_PREFIX, default=defaults.get(CONF_ROOT_TOPIC_PREFIX, "")): str,
             vol.Optional(CONF_UPDATE_FREQUENCY_SECONDS, default=defaults.get(CONF_UPDATE_FREQUENCY_SECONDS, DEFAULT_UPDATE_FREQUENCY_SECONDS)): int,
             vol.Optional(CONF_EXCLUDED_DEVICES, default=defaults.get(CONF_EXCLUDED_DEVICES, [])): SelectSelector(
@@ -192,7 +194,8 @@ class VictronMQTTConfigFlow(ConfigFlow, domain=DOMAIN):
         self._abort_if_unique_id_configured()
 
         try:
-            await validate_input({CONF_HOST: self.hostname, CONF_SERIAL: self.serial})
+            sensed_installation_id = await validate_input({CONF_HOST: self.hostname, CONF_SERIAL: self.serial, CONF_INSTALLATION_ID: self.installation_id})
+            assert sensed_installation_id == self.installation_id
         except CannotConnectError:
             return await self.async_step_user()
 

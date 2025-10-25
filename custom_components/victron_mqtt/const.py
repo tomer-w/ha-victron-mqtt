@@ -8,6 +8,7 @@ CONF_ROOT_TOPIC_PREFIX = "root_topic_prefix"
 CONF_UPDATE_FREQUENCY_SECONDS = "update_frequency"
 CONF_OPERATION_MODE = "operation_mode"
 CONF_EXCLUDED_DEVICES = "excluded_devices"
+CONF_SIMPLE_NAMING = "simple_naming"
 
 DEVICE_MESSAGE = "device"
 SENSOR_MESSAGE = "sensor"

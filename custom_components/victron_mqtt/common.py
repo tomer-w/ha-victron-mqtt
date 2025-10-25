@@ -22,13 +22,19 @@ class VictronBaseEntity(Entity):
         metric: VictronVenusMetric,
         device_info: DeviceInfo,
         type: str,
+        simple_naming: bool,
+        installation_id: str,
     ) -> None:
         """Initialize the sensor based on detauls in the metric."""
         self._device = device
         self._metric = metric
         self._device_info = device_info
-        self._attr_unique_id = f"{type}.victron_mqtt_{metric.unique_id}"
-        self.entity_id = self._attr_unique_id
+        if simple_naming:
+            entity_id = f"{type}.victron_mqtt_{metric.unique_id}"
+        else:
+            entity_id = f"{type}.victron_mqtt_{installation_id}_{metric.unique_id}"
+        self._attr_unique_id = entity_id
+        self.entity_id = entity_id
         self._attr_native_unit_of_measurement = self._map_metric_to_unit_of_measurement(metric)
         self._attr_device_class = self._map_metric_to_device_class(metric)
         self._attr_state_class = self._map_metric_to_stateclass(metric)
