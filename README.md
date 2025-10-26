@@ -75,10 +75,26 @@ The integration can be configured in three ways:
 3. Search for "Victron MQTT Integration"
 4. Enter the following details:
    - Host: Your Victron device's hostname or IP (default: venus.local)
-   - Port: MQTT port (default: 1883)
-   - Username: (optional)
-   - Password: (optional)
-   - SSL: Enable/disable SSL connection
+   - Port: (See below)
+   - Username: (See below)
+   - Password: (See below)
+   - SSL: (See below)
+
+Your Victron can be configured to use different levels of security. On the Victron Console (or Remote console) go to the Settings / General menu. The option “Local Network Security Profile” can have one of three options: “Unsecured”, “Weak” or “Secured”. If it is set to “Weak” or “Secured” you will have had to specify a password when setting the option.
+
+Specify values for the Port, Username, Password and SSL options based on the setting of this security profile.
+
+- If the security profile is set to Unsecured”, use the following values:
+   - Port: The unsecure MQTT port number (usually 1883)
+   - User name: Leave blank
+   - Password: Leave blank
+   - SSL: Disabled
+
+- If the security profile is either “Weak” or “Secured”, use the following values:
+   - Port: The secure MQTT port number (usually 8883)
+   - User name: Leave blank
+   - Password: The password defined when setting the security profile
+   - SSL: Enabled
 
 ### Method 3: Using Home Assistant MQTT Broker (Bridged Configuration)
 Some users prefer to reduce the direct load on their Victron server and use bridge from the Venus device to a local mosquitto server running as add-on on the HAOS.
