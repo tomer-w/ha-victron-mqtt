@@ -37,6 +37,7 @@ from .const import (
     DEFAULT_UPDATE_FREQUENCY_SECONDS,
     DOMAIN,
     CONF_OPERATION_MODE,
+    CONF_ELEVATED_TRACING,
 )
 
 _LOGGER = logging.getLogger(__name__)
@@ -82,6 +83,7 @@ def _get_user_schema(defaults: dict[str, Any] | None = None) -> vol.Schema:
                     mode=SelectSelectorMode.DROPDOWN,
                 )
             ),
+            vol.Optional(CONF_ELEVATED_TRACING, default=defaults.get(CONF_ELEVATED_TRACING, "")): str,
         }
     )
 
@@ -108,6 +110,7 @@ async def validate_input(data: dict[str, Any]) -> str:
         installation_id=data.get(CONF_INSTALLATION_ID) or None,
         serial=data.get(CONF_SERIAL, "noserial"),
         topic_prefix=data.get(CONF_ROOT_TOPIC_PREFIX) or None,
+        topic_log_info = data.get(CONF_ELEVATED_TRACING) or None,
     )
 
     await hub.connect()

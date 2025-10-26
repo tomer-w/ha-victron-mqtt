@@ -31,7 +31,7 @@ from victron_mqtt import (
     DeviceType
 )
 
-from .const import CONF_INSTALLATION_ID, CONF_MODEL, CONF_SERIAL, CONF_SIMPLE_NAMING, CONF_UPDATE_FREQUENCY_SECONDS, DEFAULT_UPDATE_FREQUENCY_SECONDS, DOMAIN, CONF_ROOT_TOPIC_PREFIX, CONF_OPERATION_MODE, CONF_EXCLUDED_DEVICES
+from .const import CONF_INSTALLATION_ID, CONF_MODEL, CONF_SERIAL, CONF_SIMPLE_NAMING, CONF_UPDATE_FREQUENCY_SECONDS, DEFAULT_UPDATE_FREQUENCY_SECONDS, DOMAIN, CONF_ROOT_TOPIC_PREFIX, CONF_OPERATION_MODE, CONF_EXCLUDED_DEVICES, CONF_ELEVATED_TRACING
 from .common import VictronBaseEntity
 
 _LOGGER = logging.getLogger(__name__)
@@ -79,6 +79,7 @@ class Hub:
             model_name=config.get(CONF_MODEL) or None,
             serial=config.get(CONF_SERIAL, "noserial"),
             topic_prefix=config.get(CONF_ROOT_TOPIC_PREFIX) or None,
+            topic_log_info = config.get(CONF_ELEVATED_TRACING) or None,
             operation_mode=operation_mode,
             device_type_exclude_filter=excluded_device_types,
             update_frequency_seconds=config.get(CONF_UPDATE_FREQUENCY_SECONDS, DEFAULT_UPDATE_FREQUENCY_SECONDS),
