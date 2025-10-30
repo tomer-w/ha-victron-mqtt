@@ -3087,6 +3087,28 @@
       "is_formula": false
     },
     {
+      "topic": "N/{installation_id}/platform/{device_id}/Device/Reboot",
+      "message_type": "MetricKind.BUTTON",
+      "short_id": "platform_device_reboot",
+      "name": "Platform device reboot",
+      "unit_of_measurement": null,
+      "metric_type": "MetricType.NONE",
+      "metric_nature": "MetricNature.NONE",
+      "value_type": "ValueType.ENUM",
+      "precision": null,
+      "enum": "GenericOnOff",
+      "min_max_range": "RangeType.STATIC",
+      "min": null,
+      "max": null,
+      "step": null,
+      "is_adjustable_suffix": null,
+      "key_values": {},
+      "experimental": true,
+      "depends_on": [],
+      "generic_name": "Platform device reboot",
+      "is_formula": false
+    },
+    {
       "topic": "N/{installation_id}/platform/{device_id}/Firmware/Installed/Version",
       "message_type": "MetricKind.SENSOR",
       "short_id": "platform_venus_firmware_installed_version",
