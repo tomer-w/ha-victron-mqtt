@@ -23,7 +23,7 @@ _VICTRON_MQTT_LOGGER = logging.getLogger("victron_mqtt")
 # Config schema - this integration is config entry only
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
-PLATFORMS: list[Platform] = [Platform.BINARY_SENSOR, Platform.NUMBER, Platform.SELECT, Platform.SENSOR, Platform.SWITCH, Platform.BUTTON]
+PLATFORMS: list[Platform] = [Platform.BINARY_SENSOR, Platform.NUMBER, Platform.SELECT, Platform.SENSOR, Platform.SWITCH, Platform.BUTTON, Platform.TIME]
 
 __all__ = ["DOMAIN"]
 

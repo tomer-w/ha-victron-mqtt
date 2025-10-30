@@ -38,7 +38,6 @@ class VictronBaseEntity(Entity):
         self._attr_native_unit_of_measurement = self._map_metric_to_unit_of_measurement(metric)
         self._attr_device_class = self._map_metric_to_device_class(metric)
         self._attr_state_class = self._map_metric_to_stateclass(metric)
-        self._attr_native_value = metric.value
         self._attr_should_poll = False
         self._attr_has_entity_name = True
         self._attr_suggested_display_precision = metric.precision
@@ -53,8 +52,7 @@ class VictronBaseEntity(Entity):
             f"unique_id={self._attr_unique_id}, "
             f"metric={self._metric.short_id}, "
             f"translation_key={self._attr_translation_key}, "
-            f"translation_placeholders={self._attr_translation_placeholders}, "
-            f"value={self._attr_native_value})"
+            f"translation_placeholders={self._attr_translation_placeholders})"
         )
 
     def _on_update(self, metric: VictronVenusMetric, value: Any) -> None:

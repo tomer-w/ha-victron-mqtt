@@ -1,4 +1,5 @@
 import logging
+from datetime import time
 from typing import Any
 
 from homeassistant.core import HomeAssistant, callback, Event
@@ -11,6 +12,7 @@ from homeassistant.components.number import NumberEntity
 from homeassistant.components.binary_sensor import BinarySensorEntity
 from homeassistant.components.select import SelectEntity
 from homeassistant.components.button import ButtonEntity
+from homeassistant.components.time import TimeEntity
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.const import (
     CONF_HOST,
@@ -142,6 +144,8 @@ class Hub:
             return VictronSelect(device, metric, info, self.simple_naming, installation_id)
         elif metric.metric_kind == MetricKind.BUTTON:
             return VictronButton(device, metric, info, self.simple_naming, installation_id)
+        elif metric.metric_kind == MetricKind.TIME:
+            return VictronTime(device, metric, info, self.simple_naming, installation_id)
         else:
             raise ValueError(f"Unsupported metric kind: {metric.metric_kind}")
 
@@ -172,7 +176,7 @@ class VictronSensor(VictronBaseEntity, SensorEntity):
 
     def __repr__(self) -> str:
         """Return a string representation of the sensor."""
-        return f"VictronSensor({super().__repr__()})"
+        return f"VictronSensor({super().__repr__()}, native_value={self._attr_native_value})"
 
     def _on_update_task(self, value: Any) -> None:
         if self._attr_native_value == value:
@@ -208,19 +212,17 @@ class VictronSwitch(VictronBaseEntity, SwitchEntity):
         self._attr_is_on = new_val
         self.schedule_update_ha_state()
 
-    async def async_turn_on(self, **kwargs: Any) -> None:
+    def turn_on(self, **kwargs: Any) -> None:
         """Turn the switch on."""
         assert isinstance(self._metric, VictronVenusWritableMetric)
         _LOGGER.info("Turning on switch: %s", self._attr_unique_id)
         self._metric.set(SWITCH_ON)
-        self.async_write_ha_state()
 
-    async def async_turn_off(self, **kwargs: Any) -> None:
+    def turn_off(self, **kwargs: Any) -> None:
         """Turn the switch off."""
         assert isinstance(self._metric, VictronVenusWritableMetric)
         _LOGGER.info("Turning off switch: %s", self._attr_unique_id)
         self._metric.set(SWITCH_OFF)
-        self.async_write_ha_state()
 
 class VictronNumber(VictronBaseEntity, NumberEntity):
     """Implementation of a Victron Venus number entity."""
@@ -258,12 +260,11 @@ class VictronNumber(VictronBaseEntity, NumberEntity):
         """Return the current value."""
         return self._metric.value
 
-    async def async_set_native_value(self, value: float) -> None:
+    def set_native_value(self, value: float) -> None:
         """Set a new value."""
         assert isinstance(self._metric, VictronVenusWritableMetric)
         _LOGGER.info("Setting number %s on switch: %s", value, self._attr_unique_id)
         self._metric.set(value)
-        self.async_write_ha_state()
 
 
 class VictronBinarySensor(VictronBaseEntity, BinarySensorEntity):
@@ -322,7 +323,7 @@ class VictronSelect(VictronBaseEntity, SelectEntity):
         self._attr_current_option = new_val
         self.schedule_update_ha_state()
 
-    async def async_select_option(self, option: str) -> None:
+    def select_option(self, option: str) -> None:
         """Change the selected option."""
         assert isinstance(self._metric, VictronVenusWritableMetric)
         assert self._metric.enum_values is not None
@@ -332,7 +333,6 @@ class VictronSelect(VictronBaseEntity, SelectEntity):
         _LOGGER.info("Setting switch %s to %s", self._attr_unique_id, option)
         assert isinstance(self._metric, VictronVenusWritableMetric)
         self._metric.set(option)
-        self.async_write_ha_state()
 
     def _map_value_to_state(self, value) -> str:
         """Map metric value to switch state."""
@@ -356,15 +356,67 @@ class VictronButton(VictronBaseEntity, ButtonEntity):
     def _on_update_task(self, value: Any) -> None:
         pass
 
-    async def async_press(self) -> None:
+    def press(self) -> None:
         """Press the button."""
         assert isinstance(self._metric, VictronVenusWritableMetric)
         _LOGGER.info("Pressing button: %s", self._attr_unique_id)
         self._metric.set(SWITCH_ON)
-        self.async_write_ha_state()
 
     def __repr__(self) -> str:
         """Return a string representation of the sensor."""
         return (
             f"VictronButton({super().__repr__()})"
         )
+
+
+class VictronTime(VictronBaseEntity, TimeEntity):
+    """Implementation of a Victron Venus time entity (represented as a sensor)."""
+
+    @staticmethod
+    def victorn_time_to_time(value: int | None) -> time | None:
+        """Convert seconds since midnight to time object."""
+        if value is None:
+            return None
+        total_seconds = int(value)
+        hours = total_seconds // 3600
+        minutes = (total_seconds % 3600) // 60
+        seconds = total_seconds % 60
+        return time(hour=hours, minute=minutes, second=seconds)
+
+    @staticmethod
+    def time_to_victorn_time(value: time) -> int:
+        """Convert time object to seconds since midnight."""
+        return value.hour * 3600 + value.minute * 60 + value.second
+
+    def __init__(
+        self,
+        device: VictronVenusDevice,
+        writable_metric: VictronVenusWritableMetric,
+        device_info: DeviceInfo,
+        simple_naming: bool,
+        installation_id: str
+    ) -> None:
+        """Initialize the time entity based on details in the metric."""      
+        self._attr_native_value = VictronTime.victorn_time_to_time(writable_metric.value)
+        super().__init__(device, writable_metric, device_info, "time", simple_naming, installation_id)
+
+    def __repr__(self) -> str:
+        """Return a string representation of the time entity."""
+        return f"VictronTime({super().__repr__()}, native_value={self._attr_native_value})"
+
+    def _on_update_task(self, value: Any) -> None:
+        """Convert seconds since midnight to time object and update state."""
+        time_value = VictronTime.victorn_time_to_time(value)
+        if self._attr_native_value == time_value:
+            return
+            
+        self._attr_native_value = time_value
+        self.schedule_update_ha_state()
+
+    def set_value(self, value: time) -> None:
+        """Convert time object to seconds since midnight and set the metric value."""
+        assert isinstance(self._metric, VictronVenusWritableMetric)
+        # Convert time object back to seconds since midnight
+        total_seconds = VictronTime.time_to_victorn_time(value)
+        _LOGGER.info("Setting time %s (%d seconds) on entity: %s", value, total_seconds, self._attr_unique_id)
+        self._metric.set(total_seconds)
