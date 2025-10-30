@@ -353,6 +353,9 @@ class VictronButton(VictronBaseEntity, ButtonEntity):
     ) -> None:
         super().__init__(device, metric, device_info, "button", simple_naming, installation_id)
 
+    def _on_update_task(self, value: Any) -> None:
+        pass
+
     async def async_press(self) -> None:
         """Press the button."""
         assert isinstance(self._metric, VictronVenusWritableMetric)
