@@ -494,6 +494,12 @@
       "system_ess_schedule_charge_slot_days": {
         "name": "ESS BatteryLife Schedule charge {slot} days"
       },
+      "system_ess_schedule_charge_slot_duration": {
+        "name": "ESS BatteryLife Schedule charge {slot} Duration"
+      },
+      "system_ess_schedule_charge_slot_soc": {
+        "name": "ESS BatteryLife Schedule charge {slot} SOC"
+      },
       "system_ess_batterylife_state": {
         "name": "ESS BatteryLife State"
       },
@@ -1114,6 +1120,12 @@
       "system_ess_min_soc_limit": {
         "name": "ESS min SOC limit"
       },
+      "system_ess_schedule_charge_slot_duration": {
+        "name": "ESS BatteryLife Schedule charge {slot} Duration"
+      },
+      "system_ess_schedule_charge_slot_soc": {
+        "name": "ESS BatteryLife Schedule charge {slot} SOC"
+      },
       "system_ess_max_inverter_power_limit": {
         "name": "ESS max inverter power limit"
       },
@@ -1202,6 +1214,11 @@
     "button": {
       "platform_device_reboot": {
         "name": "Platform device reboot"
+      }
+    },
+    "time": {
+      "system_ess_schedule_charge_slot_start": {
+        "name": "ESS BatteryLife Schedule charge {slot} Start"
       }
     }
   }
