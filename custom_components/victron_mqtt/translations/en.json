@@ -1198,6 +1198,11 @@
       "multiplus_assist_current_boost_factor": {
         "name": "Assist Current Boost Factor"
       }
+    },
+    "button": {
+      "platform_device_reboot": {
+        "name": "Platform device reboot"
+      }
     }
   }
 }
