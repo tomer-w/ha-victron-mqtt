@@ -10,6 +10,7 @@ from homeassistant.components.switch import SwitchEntity
 from homeassistant.components.number import NumberEntity
 from homeassistant.components.binary_sensor import BinarySensorEntity
 from homeassistant.components.select import SelectEntity
+from homeassistant.components.button import ButtonEntity
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.const import (
     CONF_HOST,
@@ -139,6 +140,8 @@ class Hub:
             return VictronNumber(device, metric, info, self.simple_naming, installation_id)
         elif metric.metric_kind == MetricKind.SELECT:
             return VictronSelect(device, metric, info, self.simple_naming, installation_id)
+        elif metric.metric_kind == MetricKind.BUTTON:
+            return VictronButton(device, metric, info, self.simple_naming, installation_id)
         else:
             raise ValueError(f"Unsupported metric kind: {metric.metric_kind}")
 
@@ -335,3 +338,30 @@ class VictronSelect(VictronBaseEntity, SelectEntity):
         """Map metric value to switch state."""
         #for now jut return the same thing
         return str(value)
+
+
+class VictronButton(VictronBaseEntity, ButtonEntity):
+    """Implementation of a Victron Venus button using ButtonEntity."""
+
+    def __init__(
+        self,
+        device: VictronVenusDevice,
+        metric: VictronVenusMetric,
+        device_info: DeviceInfo,
+        simple_naming: bool,
+        installation_id: str
+    ) -> None:
+        super().__init__(device, metric, device_info, "button", simple_naming, installation_id)
+
+    async def async_press(self) -> None:
+        """Press the button."""
+        assert isinstance(self._metric, VictronVenusWritableMetric)
+        _LOGGER.info("Pressing button: %s", self._attr_unique_id)
+        self._metric.set(SWITCH_ON)
+        self.async_write_ha_state()
+
+    def __repr__(self) -> str:
+        """Return a string representation of the sensor."""
+        return (
+            f"VictronButton({super().__repr__()})"
+        )
