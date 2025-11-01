@@ -119,7 +119,7 @@ class VictronBaseEntity(Entity):
     ) -> str | None:
         if metric.unit_of_measurement == 's':
             return UnitOfTime.SECONDS
-        if metric.unit_of_measurement == 'm':
+        if metric.unit_of_measurement == 'min':
             return UnitOfTime.MINUTES
         if metric.unit_of_measurement == 'h':
             return UnitOfTime.HOURS

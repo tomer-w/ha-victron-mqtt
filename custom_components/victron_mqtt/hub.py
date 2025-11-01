@@ -374,19 +374,18 @@ class VictronTime(VictronBaseEntity, TimeEntity):
 
     @staticmethod
     def victorn_time_to_time(value: int | None) -> time | None:
-        """Convert seconds since midnight to time object."""
+        """Convert minutes since midnight to time object."""
         if value is None:
             return None
-        total_seconds = int(value)
-        hours = total_seconds // 3600
-        minutes = (total_seconds % 3600) // 60
-        seconds = total_seconds % 60
-        return time(hour=hours, minute=minutes, second=seconds)
+        total_minutes = int(value)
+        hours = total_minutes // 60
+        minutes = total_minutes % 60
+        return time(hour=hours, minute=minutes)
 
     @staticmethod
     def time_to_victorn_time(value: time) -> int:
-        """Convert time object to seconds since midnight."""
-        return value.hour * 3600 + value.minute * 60 + value.second
+        """Convert time object to minutes since midnight."""
+        return value.hour * 60 + value.minute
 
     def __init__(
         self,
@@ -398,6 +397,7 @@ class VictronTime(VictronBaseEntity, TimeEntity):
     ) -> None:
         """Initialize the time entity based on details in the metric."""      
         self._attr_native_value = VictronTime.victorn_time_to_time(writable_metric.value)
+        assert writable_metric.unit_of_measurement == "min"
         super().__init__(device, writable_metric, device_info, "time", simple_naming, installation_id)
 
     def __repr__(self) -> str:
@@ -405,7 +405,7 @@ class VictronTime(VictronBaseEntity, TimeEntity):
         return f"VictronTime({super().__repr__()}, native_value={self._attr_native_value})"
 
     def _on_update_task(self, value: Any) -> None:
-        """Convert seconds since midnight to time object and update state."""
+        """Convert minutes since midnight to time object and update state."""
         time_value = VictronTime.victorn_time_to_time(value)
         if self._attr_native_value == time_value:
             return
@@ -414,9 +414,9 @@ class VictronTime(VictronBaseEntity, TimeEntity):
         self.schedule_update_ha_state()
 
     def set_value(self, value: time) -> None:
-        """Convert time object to seconds since midnight and set the metric value."""
+        """Convert time object to minutes since midnight and set the metric value."""
         assert isinstance(self._metric, VictronVenusWritableMetric)
-        # Convert time object back to seconds since midnight
-        total_seconds = VictronTime.time_to_victorn_time(value)
-        _LOGGER.info("Setting time %s (%d seconds) on entity: %s", value, total_seconds, self._attr_unique_id)
-        self._metric.set(total_seconds)
+        # Convert time object back to minutes since midnight
+        total_minutes = VictronTime.time_to_victorn_time(value)
+        _LOGGER.info("Setting time %s (%d minutes) on entity: %s", value, total_minutes, self._attr_unique_id)
+        self._metric.set(total_minutes)
