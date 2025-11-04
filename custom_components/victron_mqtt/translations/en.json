@@ -407,6 +407,9 @@
       "inverter_state": {
         "name": "Inverter state"
       },
+      "multi_active_input": {
+        "name": "Active AC Input"
+      },
       "multirssolar_acin_current_phase": {
         "name": "Current {phase}"
       },
@@ -428,11 +431,44 @@
       "multirssolar_acout_output_voltage_phase": {
         "name": "AC Out {output} Voltage on {phase}"
       },
-      "multirssolar_ess_ac_power_set_point": {
+      "multi_acin1_to_acout": {
+        "name": "ACin1 to ACout"
+      },
+      "multi_acin1_to_inverter": {
+        "name": "ACin1 to Inverter"
+      },
+      "multi_acout_to_acin1": {
+        "name": "ACout to ACin1"
+      },
+      "multi_inverter_to_acin1": {
+        "name": "Inverter to ACin1"
+      },
+      "multi_inverter_to_acout": {
+        "name": "Inverter to ACout"
+      },
+      "multi_acout_to_inverter": {
+        "name": "ACout to Inverter"
+      },
+      "multi_solar_to_acin1": {
+        "name": "Solar to ACin1"
+      },
+      "multi_solar_to_acout": {
+        "name": "Solar to ACout"
+      },
+      "multi_solar_to_battery": {
+        "name": "Solar to Battery"
+      },
+      "multi_ess_ac_power_setpoint": {
         "name": "ESS AC Power Setpoint"
       },
       "multirssolar_inverter_power_setpoint": {
         "name": "Inverter Power Setpoint"
+      },
+      "multi_mppt_mppt_id_yield_today": {
+        "name": "MPPT {mppt_id} Yield today"
+      },
+      "multi_mppt_mppt_id_yield_yesterday": {
+        "name": "MPPT {mppt_id} Yield yesterday"
       },
       "multirssolar_mppt_mpptnumber_state": {
         "name": "MPPT {mpptnumber} state"
@@ -442,6 +478,9 @@
       },
       "multirssolar_mppt_mpptnumber_voltage": {
         "name": "MPPT {mpptnumber} PV Voltage"
+      },
+      "multi_ess_min_soc_limit": {
+        "name": "ESS Minimum SoC Limit"
       },
       "multirssolar_ess_mode": {
         "name": "ESS Mode"
@@ -949,6 +988,18 @@
       "generator_manual_start": {
         "name": "Generator manual start"
       },
+      "multi_disable_charge": {
+        "name": "ESS Disable Charge"
+      },
+      "multi_disable_feed_in": {
+        "name": "ESS Disable Feed In"
+      },
+      "multi_relay0_state": {
+        "name": "Relay on Multi RS State"
+      },
+      "system_ess_schedule_charge_slot_enabled": {
+        "name": "ESS BatteryLife Schedule charge {slot} enabled"
+      },
       "system_settings_overvoltage_feedin": {
         "name": "PV DC Overvoltage FeedIn"
       },
@@ -1032,6 +1083,18 @@
       "inverter_alarm_ripple": {
         "name": "Inverter alarm Ripple"
       },
+      "multi_disable_charge": {
+        "name": "ESS Disable Charge"
+      },
+      "multi_disable_feed_in": {
+        "name": "ESS Disable Feed In"
+      },
+      "multi_relay0_state": {
+        "name": "Relay on Multi RS State"
+      },
+      "system_ess_schedule_charge_slot_enabled": {
+        "name": "ESS BatteryLife Schedule charge {slot} enabled"
+      },
       "system_settings_overvoltage_feedin": {
         "name": "PV DC Overvoltage FeedIn"
       },
@@ -1107,6 +1170,9 @@
     "number": {
       "evcharger_set_current": {
         "name": "EV charger set current"
+      },
+      "multi_ess_min_soc_limit": {
+        "name": "ESS Minimum SoC Limit"
       },
       "system_ac_export_limit": {
         "name": "AC Export Limit"
