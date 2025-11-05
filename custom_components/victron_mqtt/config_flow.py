@@ -61,8 +61,9 @@ def _get_user_schema(defaults: dict[str, Any] | None = None) -> vol.Schema:
         {
             vol.Required(CONF_HOST, default=defaults.get(CONF_HOST, DEFAULT_HOST)): str,
             vol.Required(CONF_PORT, default=defaults.get(CONF_PORT, DEFAULT_PORT)): int,
-            vol.Optional(CONF_USERNAME, default=defaults.get(CONF_USERNAME, "")): str,
-            vol.Optional(CONF_PASSWORD, default=defaults.get(CONF_PASSWORD, "")): str,
+            # Using suggested_value to be able to set empty string as default
+            vol.Optional(CONF_USERNAME, description={"suggested_value": f"{defaults.get(CONF_USERNAME, '')}"}): str,
+            vol.Optional(CONF_PASSWORD, description={"suggested_value": f"{defaults.get(CONF_PASSWORD, '')}"}): str,
             vol.Required(CONF_SSL, default=defaults.get(CONF_SSL, False)): bool,
             vol.Required(CONF_OPERATION_MODE, default=op_default): SelectSelector(
                 SelectSelectorConfig(
@@ -74,7 +75,7 @@ def _get_user_schema(defaults: dict[str, Any] | None = None) -> vol.Schema:
                 )
             ),
             vol.Optional(CONF_SIMPLE_NAMING, default=defaults.get(CONF_SIMPLE_NAMING, False)): bool,
-            vol.Optional(CONF_ROOT_TOPIC_PREFIX, default=defaults.get(CONF_ROOT_TOPIC_PREFIX, "")): str,
+            vol.Optional(CONF_ROOT_TOPIC_PREFIX, description={"suggested_value": f"{defaults.get(CONF_ROOT_TOPIC_PREFIX, '')}"}): str,
             vol.Optional(CONF_UPDATE_FREQUENCY_SECONDS, default=defaults.get(CONF_UPDATE_FREQUENCY_SECONDS, DEFAULT_UPDATE_FREQUENCY_SECONDS)): int,
             vol.Optional(CONF_EXCLUDED_DEVICES, default=defaults.get(CONF_EXCLUDED_DEVICES, [])): SelectSelector(
                 SelectSelectorConfig(
@@ -83,7 +84,7 @@ def _get_user_schema(defaults: dict[str, Any] | None = None) -> vol.Schema:
                     mode=SelectSelectorMode.DROPDOWN,
                 )
             ),
-            vol.Optional(CONF_ELEVATED_TRACING, default=defaults.get(CONF_ELEVATED_TRACING, "")): str,
+            vol.Optional(CONF_ELEVATED_TRACING, description={"suggested_value": f"{defaults.get(CONF_ELEVATED_TRACING, '')}"}): str,
         }
     )
 
@@ -222,11 +223,8 @@ class VictronMQTTOptionsFlow(OptionsFlow):
         _LOGGER.info("Initializing options flow. current config: %s", self.config_entry.data)
         if user_input is not None:
             _LOGGER.info("User input received: %s", user_input)
-            # Validate the input by combining current config data with user input
-            data = dict(self.config_entry.data)
-            data.update(user_input)
             try:
-                await validate_input(data)
+                await validate_input(user_input)
             except CannotConnectError:
                 return self.async_show_form(
                     step_id="init",
@@ -239,9 +237,9 @@ class VictronMQTTOptionsFlow(OptionsFlow):
                     data_schema=self._get_options_schema(),
                     errors={"base": "unknown"},
                 )
-            _LOGGER.info("Options flow completed successfully. new config: %s", data)
+            _LOGGER.info("Options flow completed successfully. new config: %s", user_input)
             # Update the config entry with new data.
-            self.hass.config_entries.async_update_entry(self.config_entry, data=data)
+            self.hass.config_entries.async_update_entry(self.config_entry, data=user_input)
             # Reload the entry to apply the new options
             await self.hass.config_entries.async_reload(self.config_entry.entry_id)
             return self.async_create_entry(title="", data=None)
