@@ -23,21 +23,25 @@ from homeassistant.const import (
     CONF_USERNAME,
 )
 from homeassistant.helpers.service_info.ssdp import SsdpServiceInfo
-from homeassistant.helpers.selector import SelectSelector, SelectSelectorConfig, SelectSelectorMode
+from homeassistant.helpers.selector import (
+    SelectSelector,
+    SelectSelectorConfig,
+    SelectSelectorMode,
+)
 from .const import (
+    CONF_ELEVATED_TRACING,
+    CONF_EXCLUDED_DEVICES,
     CONF_INSTALLATION_ID,
     CONF_MODEL,
-    CONF_SERIAL,
+    CONF_OPERATION_MODE,
     CONF_ROOT_TOPIC_PREFIX,
-    CONF_UPDATE_FREQUENCY_SECONDS,
-    CONF_EXCLUDED_DEVICES,
+    CONF_SERIAL,
     CONF_SIMPLE_NAMING,
+    CONF_UPDATE_FREQUENCY_SECONDS,
     DEFAULT_HOST,
     DEFAULT_PORT,
     DEFAULT_UPDATE_FREQUENCY_SECONDS,
     DOMAIN,
-    CONF_OPERATION_MODE,
-    CONF_ELEVATED_TRACING,
 )
 
 _LOGGER = logging.getLogger(__name__)
@@ -56,7 +60,7 @@ def _get_user_schema(defaults: dict[str, Any] | None = None) -> vol.Schema:
     op_default = defaults.get(CONF_OPERATION_MODE, OperationMode.FULL.value)
     if isinstance(op_default, OperationMode):
         op_default = op_default.value
-    
+
     return vol.Schema(
         {
             vol.Required(CONF_HOST, default=defaults.get(CONF_HOST, DEFAULT_HOST)): str,
@@ -165,7 +169,7 @@ class VictronMQTTConfigFlow(ConfigFlow, domain=DOMAIN):
                 else:
                     title = f"Victron OS {unique_id}"
                 return self.async_create_entry(title=title, data=data)
-        
+
         if len(errors) > 0:
             _LOGGER.warning("showing form with errors: %s", errors)
         else:
@@ -177,7 +181,7 @@ class VictronMQTTConfigFlow(ConfigFlow, domain=DOMAIN):
         )
 
     @staticmethod
-    def async_get_options_flow(config_entry) -> OptionsFlow:
+    def async_get_options_flow(config_entry) -> VictronMQTTOptionsFlow:
         """Get the options flow for this handler."""
         _LOGGER.info("Getting options flow handler")
         return VictronMQTTOptionsFlow()
@@ -191,7 +195,6 @@ class VictronMQTTConfigFlow(ConfigFlow, domain=DOMAIN):
         self.installation_id = discovery_info.upnp["X_VrmPortalId"]
         self.modelName = discovery_info.upnp["modelName"]
         self.friendlyName = discovery_info.upnp["friendlyName"]
-        
         _LOGGER.info("SSDP: hostname=%s, serial=%s, installation_id=%s, modelName=%s, friendlyName=%s", self.hostname, self.serial, self.installation_id, self.modelName, self.friendlyName)
 
         await self.async_set_unique_id(self.installation_id)
@@ -216,6 +219,7 @@ class VictronMQTTConfigFlow(ConfigFlow, domain=DOMAIN):
 
 class VictronMQTTOptionsFlow(OptionsFlow):
     """Handle options flow for Victron MQTT."""
+
     async def async_step_init(
         self, user_input: dict[str, Any] | None = None
     ) -> ConfigFlowResult:
@@ -233,7 +237,7 @@ class VictronMQTTOptionsFlow(OptionsFlow):
                 )
             except Exception:
                 return self.async_show_form(
-                    step_id="init", 
+                    step_id="init",
                     data_schema=self._get_options_schema(),
                     errors={"base": "unknown"},
                 )

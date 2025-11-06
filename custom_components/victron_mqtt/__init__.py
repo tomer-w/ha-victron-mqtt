@@ -29,36 +29,36 @@ __all__ = ["DOMAIN"]
 
 async def async_setup_services(hass: HomeAssistant, entry: ConfigEntry) -> None:
     """Set up services for the Victron MQTT integration."""
-    
+
     # Only register services once
     if hass.services.has_service(DOMAIN, SERVICE_PUBLISH):
         return
-    
+
     async def handle_publish(call: ServiceCall) -> None:
         """Handle the set_value service call."""
         metric_id = call.data.get(ATTR_METRIC_ID)
         device_id = call.data.get(ATTR_DEVICE_ID)
         value = call.data.get(ATTR_VALUE)
-        
+
         if not metric_id:
             raise HomeAssistantError("metric_id is required")
         if not device_id:
             raise HomeAssistantError("device_id is required")
-        
+
         # Find the hub instance
         hub: Hub = entry.runtime_data
         if hub is None:
             raise HomeAssistantError("No Victron MQTT hub found")
-        
+
         hub.publish(metric_id, device_id, value)
-    
+
     # Register the service
     hass.services.async_register(
         DOMAIN,
         SERVICE_PUBLISH,
         handle_publish,
     )
-    
+
     _LOGGER.info("Victron MQTT services registered")
 
 async def _update_listener(hass: HomeAssistant, entry: ConfigEntry):
@@ -123,10 +123,10 @@ async def async_unload_entry(
     hub: Hub = entry.runtime_data
     if hub is not None:
         await hub.stop(None)
-    
+
     # Unregister services if this is the last entry
     if len(hass.config_entries.async_entries(DOMAIN)) == 1:
         hass.services.async_remove(DOMAIN, SERVICE_PUBLISH)
         _LOGGER.info("Victron MQTT services unregistered")
-    
+
     return await hass.config_entries.async_unload_platforms(entry, PLATFORMS)

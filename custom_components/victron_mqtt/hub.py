@@ -1,3 +1,4 @@
+"""Main Hub class."""
 import logging
 from datetime import time
 from typing import Any
@@ -41,20 +42,21 @@ _LOGGER = logging.getLogger(__name__)
 
 # Not using GenericOnOff as some switches use different enums.
 # It has to be with value "On" to be on and "Off" to be off.
-SWITCH_ON = "On" 
+SWITCH_ON = "On"
 SWITCH_OFF = "Off"
 
 class Hub:
     """Victron MQTT Hub for managing communication and sensors."""
 
     def __init__(self, hass: HomeAssistant, entry: ConfigEntry) -> None:
-        """
-        Initialize Victron MQTT Hub.
-                
+        """Initialize Victron MQTT Hub.
+
         Args:
             hass: Home Assistant instance
             entry: ConfigEntry containing configuration
+
         """
+
         _LOGGER.info("Initializing hub. ConfigEntry: %s, data: %s", entry, entry.data)
         self.hass = hass
         self.entry = entry
@@ -87,12 +89,13 @@ class Hub:
             device_type_exclude_filter=excluded_device_types,
             update_frequency_seconds=config.get(CONF_UPDATE_FREQUENCY_SECONDS, DEFAULT_UPDATE_FREQUENCY_SECONDS),
         )
-        self._hub.on_new_metric = self.on_new_metric
+        self._hub.on_new_metric = self._on_new_metric
         self.add_entities_map: dict[MetricKind, AddEntitiesCallback] = {}
-        
+
         self.hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, self.stop)
 
     async def start(self):
+        """Start the Victron MQTT hub."""
         _LOGGER.info("Starting hub.")
         try:
             await self._hub.connect()
@@ -101,10 +104,11 @@ class Hub:
 
     @callback
     async def stop(self, event: Event):
+        """Stop the Victron MQTT hub."""
         _LOGGER.info("Stopping hub")
         await self._hub.disconnect()
 
-    def on_new_metric(self, hub: VictronVenusHub, device: VictronVenusDevice, metric: VictronVenusMetric):
+    def _on_new_metric(self, hub: VictronVenusHub, device: VictronVenusDevice, metric: VictronVenusMetric):
         _LOGGER.info("New metric received. Device: %s, Metric: %s", device, metric)
         assert hub.installation_id is not None
         device_info = Hub._map_device_info(device, hub.installation_id)
@@ -278,6 +282,7 @@ class VictronBinarySensor(VictronBaseEntity, BinarySensorEntity):
         simple_naming: bool,
         installation_id: str
     ) -> None:
+        """Initialize the binary sensor."""
         self._attr_is_on = bool(metric.value)
         super().__init__(device, metric, device_info, "binary_sensor", simple_naming, installation_id)
 
@@ -294,6 +299,7 @@ class VictronBinarySensor(VictronBaseEntity, BinarySensorEntity):
 
     @property
     def is_on(self) -> bool:
+        """Return the current state of the binary sensor."""
         return self._attr_is_on
 
 class VictronSelect(VictronBaseEntity, SelectEntity):
@@ -351,6 +357,7 @@ class VictronButton(VictronBaseEntity, ButtonEntity):
         simple_naming: bool,
         installation_id: str
     ) -> None:
+        """Initialize the button."""
         super().__init__(device, metric, device_info, "button", simple_naming, installation_id)
 
     def _on_update_task(self, value: Any) -> None:
@@ -395,7 +402,7 @@ class VictronTime(VictronBaseEntity, TimeEntity):
         simple_naming: bool,
         installation_id: str
     ) -> None:
-        """Initialize the time entity based on details in the metric."""      
+        """Initialize the time entity based on details in the metric."""
         self._attr_native_value = VictronTime.victorn_time_to_time(writable_metric.value)
         assert writable_metric.unit_of_measurement == "min"
         super().__init__(device, writable_metric, device_info, "time", simple_naming, installation_id)
@@ -409,7 +416,7 @@ class VictronTime(VictronBaseEntity, TimeEntity):
         time_value = VictronTime.victorn_time_to_time(value)
         if self._attr_native_value == time_value:
             return
-            
+
         self._attr_native_value = time_value
         self.schedule_update_ha_state()
 
