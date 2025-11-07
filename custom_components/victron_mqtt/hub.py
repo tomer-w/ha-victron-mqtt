@@ -1,20 +1,28 @@
 """Main Hub class."""
-import logging
+
 from datetime import time
+import logging
 from typing import Any
 
-from homeassistant.core import HomeAssistant, Event
-from homeassistant.config_entries import ConfigEntry
-from homeassistant.exceptions import ConfigEntryNotReady
-from homeassistant.helpers.device_registry import DeviceInfo
+from victron_mqtt import (
+    CannotConnectError,
+    Device as VictronVenusDevice,
+    DeviceType,
+    Hub as VictronVenusHub,
+    Metric as VictronVenusMetric,
+    MetricKind,
+    OperationMode,
+    WritableMetric as VictronVenusWritableMetric,
+)
+
+from homeassistant.components.binary_sensor import BinarySensorEntity
+from homeassistant.components.button import ButtonEntity
+from homeassistant.components.number import NumberEntity
+from homeassistant.components.select import SelectEntity
 from homeassistant.components.sensor import SensorEntity
 from homeassistant.components.switch import SwitchEntity
-from homeassistant.components.number import NumberEntity
-from homeassistant.components.binary_sensor import BinarySensorEntity
-from homeassistant.components.select import SelectEntity
-from homeassistant.components.button import ButtonEntity
 from homeassistant.components.time import TimeEntity
-from homeassistant.helpers.entity_platform import AddEntitiesCallback
+from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import (
     CONF_HOST,
     CONF_PASSWORD,
@@ -23,20 +31,25 @@ from homeassistant.const import (
     CONF_USERNAME,
     EVENT_HOMEASSISTANT_STOP,
 )
+from homeassistant.core import Event, HomeAssistant
+from homeassistant.exceptions import ConfigEntryNotReady
+from homeassistant.helpers.device_registry import DeviceInfo
+from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
-from victron_mqtt import (
-    CannotConnectError,
-    Hub as VictronVenusHub,
-    Metric as VictronVenusMetric,
-    WritableMetric as VictronVenusWritableMetric,
-    Device as VictronVenusDevice,
-    MetricKind,
-    OperationMode,
-    DeviceType
-)
-
-from .const import CONF_INSTALLATION_ID, CONF_MODEL, CONF_SERIAL, CONF_SIMPLE_NAMING, CONF_UPDATE_FREQUENCY_SECONDS, DEFAULT_UPDATE_FREQUENCY_SECONDS, DOMAIN, CONF_ROOT_TOPIC_PREFIX, CONF_OPERATION_MODE, CONF_EXCLUDED_DEVICES, CONF_ELEVATED_TRACING
 from .common import VictronBaseEntity
+from .const import (
+    CONF_ELEVATED_TRACING,
+    CONF_EXCLUDED_DEVICES,
+    CONF_INSTALLATION_ID,
+    CONF_MODEL,
+    CONF_OPERATION_MODE,
+    CONF_ROOT_TOPIC_PREFIX,
+    CONF_SERIAL,
+    CONF_SIMPLE_NAMING,
+    CONF_UPDATE_FREQUENCY_SECONDS,
+    DEFAULT_UPDATE_FREQUENCY_SECONDS,
+    DOMAIN,
+)
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -44,6 +57,7 @@ _LOGGER = logging.getLogger(__name__)
 # It has to be with value "On" to be on and "Off" to be off.
 SWITCH_ON = "On"
 SWITCH_OFF = "Off"
+
 
 class Hub:
     """Victron MQTT Hub for managing communication and sensors."""
@@ -64,14 +78,22 @@ class Hub:
 
         config = entry.data
         op = config.get(CONF_OPERATION_MODE, OperationMode.FULL.value)
-        operation_mode: OperationMode = OperationMode(op) if not isinstance(op, OperationMode) else op
+        operation_mode: OperationMode = (
+            OperationMode(op) if not isinstance(op, OperationMode) else op
+        )
         self.simple_naming = config.get(CONF_SIMPLE_NAMING, False)
 
         # Convert string device type exclusions to DeviceType instances
         excluded_device_strings = config.get(CONF_EXCLUDED_DEVICES, [])
-        excluded_device_types: list[DeviceType] = [dt.code for device_string in excluded_device_strings if (dt := DeviceType.from_code(device_string)) is not None]
+        excluded_device_types: list[DeviceType] = [
+            dt.code
+            for device_string in excluded_device_strings
+            if (dt := DeviceType.from_code(device_string)) is not None
+        ]
 
-        _LOGGER.info("Final excluded device types: %s", [dt.code for dt in excluded_device_types])
+        _LOGGER.info(
+            "Final excluded device types: %s", [dt.code for dt in excluded_device_types]
+        )
 
         host = config.get(CONF_HOST)
         assert host is not None
@@ -86,10 +108,12 @@ class Hub:
             model_name=config.get(CONF_MODEL) or None,
             serial=config.get(CONF_SERIAL, "noserial"),
             topic_prefix=config.get(CONF_ROOT_TOPIC_PREFIX) or None,
-            topic_log_info = config.get(CONF_ELEVATED_TRACING) or None,
+            topic_log_info=config.get(CONF_ELEVATED_TRACING) or None,
             operation_mode=operation_mode,
             device_type_exclude_filter=excluded_device_types,
-            update_frequency_seconds=config.get(CONF_UPDATE_FREQUENCY_SECONDS, DEFAULT_UPDATE_FREQUENCY_SECONDS),
+            update_frequency_seconds=config.get(
+                CONF_UPDATE_FREQUENCY_SECONDS, DEFAULT_UPDATE_FREQUENCY_SECONDS
+            ),
         )
         self._hub.on_new_metric = self._on_new_metric
         self.add_entities_map: dict[MetricKind, AddEntitiesCallback] = {}
@@ -102,14 +126,21 @@ class Hub:
         try:
             await self._hub.connect()
         except CannotConnectError as connect_error:
-            raise ConfigEntryNotReady(f"Cannot connect to the hub: {connect_error}") from connect_error
+            raise ConfigEntryNotReady(
+                f"Cannot connect to the hub: {connect_error}"
+            ) from connect_error
 
     async def stop(self, event: Event | None = None):
         """Stop the Victron MQTT hub."""
         _LOGGER.info("Stopping hub")
         await self._hub.disconnect()
 
-    def _on_new_metric(self, hub: VictronVenusHub, device: VictronVenusDevice, metric: VictronVenusMetric):
+    def _on_new_metric(
+        self,
+        hub: VictronVenusHub,
+        device: VictronVenusDevice,
+        metric: VictronVenusMetric,
+    ):
         _LOGGER.info("New metric received. Device: %s, Metric: %s", device, metric)
         assert hub.installation_id is not None
         device_info = Hub._map_device_info(device, hub.installation_id)
@@ -119,46 +150,88 @@ class Hub:
         self.add_entities_map[metric.metric_kind]([entity])
 
     @staticmethod
-    def _map_device_info(device: VictronVenusDevice, installation_id: str) -> DeviceInfo:
+    def _map_device_info(
+        device: VictronVenusDevice, installation_id: str
+    ) -> DeviceInfo:
         info: DeviceInfo = {}
         info["identifiers"] = {(DOMAIN, f"{installation_id}_{device.unique_id}")}
-        info["manufacturer"] = device.manufacturer if device.manufacturer is not None else "Victron Energy"
-        info["name"] = f"{device.name} (ID: {device.device_id})" if device.device_id != "0" else device.name
+        info["manufacturer"] = (
+            device.manufacturer if device.manufacturer is not None else "Victron Energy"
+        )
+        info["name"] = (
+            f"{device.name} (ID: {device.device_id})"
+            if device.device_id != "0"
+            else device.name
+        )
         info["model"] = device.model
         info["serial_number"] = device.serial_number
 
         return info
 
-    def register_add_entities_callback(self, async_add_entities: AddEntitiesCallback, kind: MetricKind):
+    def register_add_entities_callback(
+        self, async_add_entities: AddEntitiesCallback, kind: MetricKind
+    ):
         """Register a callback to add entities for a specific metric kind."""
-        _LOGGER.info("Registering AddEntitiesCallback. kind: %s, AddEntitiesCallback: %s", kind, async_add_entities)
+        _LOGGER.info(
+            "Registering AddEntitiesCallback. kind: %s, AddEntitiesCallback: %s",
+            kind,
+            async_add_entities,
+        )
         self.add_entities_map[kind] = async_add_entities
 
-    def create_entity(self, device: VictronVenusDevice, metric: VictronVenusMetric, info: DeviceInfo, installation_id: str) -> VictronBaseEntity:
+    def create_entity(
+        self,
+        device: VictronVenusDevice,
+        metric: VictronVenusMetric,
+        info: DeviceInfo,
+        installation_id: str,
+    ) -> VictronBaseEntity:
         """Create a VictronBaseEntity from a device and metric."""
         if metric.metric_kind == MetricKind.SENSOR:
-            return VictronSensor(device, metric, info, self.simple_naming, installation_id)
-        elif metric.metric_kind == MetricKind.BINARY_SENSOR:
-            return VictronBinarySensor(device, metric, info, self.simple_naming, installation_id)
-        assert isinstance(metric, VictronVenusWritableMetric), f"Expected metric to be a VictronVenusWritableMetric. Got {type(metric)}"
+            return VictronSensor(
+                device, metric, info, self.simple_naming, installation_id
+            )
+        if metric.metric_kind == MetricKind.BINARY_SENSOR:
+            return VictronBinarySensor(
+                device, metric, info, self.simple_naming, installation_id
+            )
+        assert isinstance(metric, VictronVenusWritableMetric), (
+            f"Expected metric to be a VictronVenusWritableMetric. Got {type(metric)}"
+        )
         if metric.metric_kind == MetricKind.SWITCH:
-            return VictronSwitch(device, metric, info, self.simple_naming, installation_id)
-        elif metric.metric_kind == MetricKind.NUMBER:
-            return VictronNumber(device, metric, info, self.simple_naming, installation_id)
-        elif metric.metric_kind == MetricKind.SELECT:
-            return VictronSelect(device, metric, info, self.simple_naming, installation_id)
-        elif metric.metric_kind == MetricKind.BUTTON:
-            return VictronButton(device, metric, info, self.simple_naming, installation_id)
-        elif metric.metric_kind == MetricKind.TIME:
-            return VictronTime(device, metric, info, self.simple_naming, installation_id)
-        else:
-            raise ValueError(f"Unsupported metric kind: {metric.metric_kind}")
+            return VictronSwitch(
+                device, metric, info, self.simple_naming, installation_id
+            )
+        if metric.metric_kind == MetricKind.NUMBER:
+            return VictronNumber(
+                device, metric, info, self.simple_naming, installation_id
+            )
+        if metric.metric_kind == MetricKind.SELECT:
+            return VictronSelect(
+                device, metric, info, self.simple_naming, installation_id
+            )
+        if metric.metric_kind == MetricKind.BUTTON:
+            return VictronButton(
+                device, metric, info, self.simple_naming, installation_id
+            )
+        if metric.metric_kind == MetricKind.TIME:
+            return VictronTime(
+                device, metric, info, self.simple_naming, installation_id
+            )
+        raise ValueError(f"Unsupported metric kind: {metric.metric_kind}")
 
-    def publish(self, metric_id: str, device_id: str, value: str | float | int | None) -> None:
+    def publish(
+        self, metric_id: str, device_id: str, value: str | float | None
+    ) -> None:
         """Publish a message to the Victron MQTT hub."""
-        _LOGGER.info("Publish service called with: metric_id=%s, device_id=%s, value=%s",
-                      metric_id, device_id, value)
+        _LOGGER.info(
+            "Publish service called with: metric_id=%s, device_id=%s, value=%s",
+            metric_id,
+            device_id,
+            value,
+        )
         self._hub.publish(metric_id, device_id, value)
+
 
 class VictronSensor(VictronBaseEntity, SensorEntity):
     """Implementation of a Victron Venus sensor."""
@@ -169,11 +242,13 @@ class VictronSensor(VictronBaseEntity, SensorEntity):
         metric: VictronVenusMetric,
         device_info: DeviceInfo,
         simple_naming: bool,
-        installation_id: str
+        installation_id: str,
     ) -> None:
         """Initialize the sensor based on detauls in the metric."""
         self._attr_native_value = metric.value
-        super().__init__(device, metric, device_info, "sensor", simple_naming, installation_id)
+        super().__init__(
+            device, metric, device_info, "sensor", simple_naming, installation_id
+        )
 
     def __repr__(self) -> str:
         """Return a string representation of the sensor."""
@@ -185,6 +260,7 @@ class VictronSensor(VictronBaseEntity, SensorEntity):
         self._attr_native_value = value
         self.schedule_update_ha_state()
 
+
 class VictronSwitch(VictronBaseEntity, SwitchEntity):
     """Implementation of a Victron Venus multiple state select using SelectEntity."""
 
@@ -194,17 +270,22 @@ class VictronSwitch(VictronBaseEntity, SwitchEntity):
         writable_metric: VictronVenusWritableMetric,
         device_info: DeviceInfo,
         simple_naming: bool,
-        installation_id: str
+        installation_id: str,
     ) -> None:
         """Initialize the switch."""
         self._attr_is_on = str(writable_metric.value) == SWITCH_ON
-        super().__init__(device, writable_metric, device_info, "switch", simple_naming, installation_id)
+        super().__init__(
+            device,
+            writable_metric,
+            device_info,
+            "switch",
+            simple_naming,
+            installation_id,
+        )
 
     def __repr__(self) -> str:
         """Return a string representation of the sensor."""
-        return (
-            f"VictronSwitch({super().__repr__()}, is_on={self._attr_is_on})"
-        )
+        return f"VictronSwitch({super().__repr__()}, is_on={self._attr_is_on})"
 
     def _on_update_task(self, value: Any) -> None:
         new_val = str(value) == SWITCH_ON
@@ -225,6 +306,7 @@ class VictronSwitch(VictronBaseEntity, SwitchEntity):
         _LOGGER.info("Turning off switch: %s", self._attr_unique_id)
         self._metric.set(SWITCH_OFF)
 
+
 class VictronNumber(VictronBaseEntity, NumberEntity):
     """Implementation of a Victron Venus number entity."""
 
@@ -234,7 +316,7 @@ class VictronNumber(VictronBaseEntity, NumberEntity):
         writable_metric: VictronVenusWritableMetric,
         device_info: DeviceInfo,
         simple_naming: bool,
-        installation_id: str
+        installation_id: str,
     ) -> None:
         """Initialize the number entity."""
         self._attr_native_value = writable_metric.value
@@ -244,7 +326,14 @@ class VictronNumber(VictronBaseEntity, NumberEntity):
             self._attr_native_max_value = writable_metric.max_value
         if isinstance(writable_metric.step, int | float):
             self._attr_native_step = writable_metric.step
-        super().__init__(device, writable_metric, device_info, "number", simple_naming, installation_id)
+        super().__init__(
+            device,
+            writable_metric,
+            device_info,
+            "number",
+            simple_naming,
+            installation_id,
+        )
 
     def __repr__(self) -> str:
         """Return a string representation of the sensor."""
@@ -277,11 +366,13 @@ class VictronBinarySensor(VictronBaseEntity, BinarySensorEntity):
         metric: VictronVenusMetric,
         device_info: DeviceInfo,
         simple_naming: bool,
-        installation_id: str
+        installation_id: str,
     ) -> None:
         """Initialize the binary sensor."""
         self._attr_is_on = bool(metric.value)
-        super().__init__(device, metric, device_info, "binary_sensor", simple_naming, installation_id)
+        super().__init__(
+            device, metric, device_info, "binary_sensor", simple_naming, installation_id
+        )
 
     def __repr__(self) -> str:
         """Return a string representation of the sensor."""
@@ -300,6 +391,7 @@ class VictronBinarySensor(VictronBaseEntity, BinarySensorEntity):
         assert self._attr_is_on is not None
         return self._attr_is_on
 
+
 class VictronSelect(VictronBaseEntity, SelectEntity):
     """Implementation of a Victron Venus multiple state select using SelectEntity."""
 
@@ -309,13 +401,20 @@ class VictronSelect(VictronBaseEntity, SelectEntity):
         writable_metric: VictronVenusWritableMetric,
         device_info: DeviceInfo,
         simple_naming: bool,
-        installation_id: str
+        installation_id: str,
     ) -> None:
         """Initialize the switch."""
         assert writable_metric.enum_values is not None
         self._attr_options = writable_metric.enum_values
         self._attr_current_option = self._map_value_to_state(writable_metric.value)
-        super().__init__(device, writable_metric, device_info, "select", simple_naming, installation_id)
+        super().__init__(
+            device,
+            writable_metric,
+            device_info,
+            "select",
+            simple_naming,
+            installation_id,
+        )
 
     def __repr__(self) -> str:
         """Return a string representation of the sensor."""
@@ -333,7 +432,12 @@ class VictronSelect(VictronBaseEntity, SelectEntity):
         assert isinstance(self._metric, VictronVenusWritableMetric)
         assert self._metric.enum_values is not None
         if option not in self._metric.enum_values:
-            _LOGGER.info("Setting switch %s to %s failed as option not supported. supported options are: %s", self._attr_unique_id, option, self._metric.enum_values)
+            _LOGGER.info(
+                "Setting switch %s to %s failed as option not supported. supported options are: %s",
+                self._attr_unique_id,
+                option,
+                self._metric.enum_values,
+            )
             return
         _LOGGER.info("Setting switch %s to %s", self._attr_unique_id, option)
         assert isinstance(self._metric, VictronVenusWritableMetric)
@@ -341,7 +445,7 @@ class VictronSelect(VictronBaseEntity, SelectEntity):
 
     def _map_value_to_state(self, value) -> str:
         """Map metric value to switch state."""
-        #for now jut return the same thing
+        # for now jut return the same thing
         return str(value)
 
 
@@ -354,10 +458,12 @@ class VictronButton(VictronBaseEntity, ButtonEntity):
         metric: VictronVenusMetric,
         device_info: DeviceInfo,
         simple_naming: bool,
-        installation_id: str
+        installation_id: str,
     ) -> None:
         """Initialize the button."""
-        super().__init__(device, metric, device_info, "button", simple_naming, installation_id)
+        super().__init__(
+            device, metric, device_info, "button", simple_naming, installation_id
+        )
 
     def _on_update_task(self, value: Any) -> None:
         pass
@@ -370,9 +476,7 @@ class VictronButton(VictronBaseEntity, ButtonEntity):
 
     def __repr__(self) -> str:
         """Return a string representation of the sensor."""
-        return (
-            f"VictronButton({super().__repr__()})"
-        )
+        return f"VictronButton({super().__repr__()})"
 
 
 class VictronTime(VictronBaseEntity, TimeEntity):
@@ -399,16 +503,22 @@ class VictronTime(VictronBaseEntity, TimeEntity):
         writable_metric: VictronVenusWritableMetric,
         device_info: DeviceInfo,
         simple_naming: bool,
-        installation_id: str
+        installation_id: str,
     ) -> None:
         """Initialize the time entity based on details in the metric."""
-        self._attr_native_value = VictronTime.victorn_time_to_time(writable_metric.value)
+        self._attr_native_value = VictronTime.victorn_time_to_time(
+            writable_metric.value
+        )
         assert writable_metric.unit_of_measurement == "min"
-        super().__init__(device, writable_metric, device_info, "time", simple_naming, installation_id)
+        super().__init__(
+            device, writable_metric, device_info, "time", simple_naming, installation_id
+        )
 
     def __repr__(self) -> str:
         """Return a string representation of the time entity."""
-        return f"VictronTime({super().__repr__()}, native_value={self._attr_native_value})"
+        return (
+            f"VictronTime({super().__repr__()}, native_value={self._attr_native_value})"
+        )
 
     def _on_update_task(self, value: Any) -> None:
         """Convert minutes since midnight to time object and update state."""
@@ -424,5 +534,10 @@ class VictronTime(VictronBaseEntity, TimeEntity):
         assert isinstance(self._metric, VictronVenusWritableMetric)
         # Convert time object back to minutes since midnight
         total_minutes = VictronTime.time_to_victorn_time(value)
-        _LOGGER.info("Setting time %s (%d minutes) on entity: %s", value, total_minutes, self._attr_unique_id)
+        _LOGGER.info(
+            "Setting time %s (%d minutes) on entity: %s",
+            value,
+            total_minutes,
+            self._attr_unique_id,
+        )
         self._metric.set(total_minutes)

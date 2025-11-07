@@ -2,12 +2,15 @@
 
 This module is light-weight and only registers the sensors with Home Assistant. The sensor class is implemented in the victronvenus_sensor module.
 """
+
+from victron_mqtt import MetricKind
+
+from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
-from homeassistant.config_entries import ConfigEntry
 
 from .hub import Hub
-from victron_mqtt import MetricKind
+
 
 async def async_setup_entry(
     hass: HomeAssistant,

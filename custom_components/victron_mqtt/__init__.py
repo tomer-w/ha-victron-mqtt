@@ -1,16 +1,12 @@
 """The victron_mqtt integration."""
 
-# Future imports
 from __future__ import annotations
 
-# Standard library imports
 import asyncio
 import importlib.metadata
 import logging
 from typing import TYPE_CHECKING
 
-# Third-party imports
-import homeassistant.helpers.config_validation as cv
 from homeassistant.const import Platform
 from homeassistant.exceptions import HomeAssistantError
 
@@ -19,7 +15,6 @@ if TYPE_CHECKING:
     from homeassistant.core import HomeAssistant, ServiceCall
     from homeassistant.helpers.typing import ConfigType
 
-# Local application imports
 from .const import ATTR_DEVICE_ID, ATTR_METRIC_ID, ATTR_VALUE, DOMAIN, SERVICE_PUBLISH
 from .hub import Hub
 
@@ -27,9 +22,18 @@ _LOGGER = logging.getLogger(__name__)
 _VICTRON_MQTT_LOGGER = logging.getLogger("victron_mqtt")
 
 # Config schema - this integration is config entry only
-PLATFORMS: list[Platform] = [Platform.BINARY_SENSOR, Platform.NUMBER, Platform.SELECT, Platform.SENSOR, Platform.SWITCH, Platform.BUTTON, Platform.TIME]
+PLATFORMS: list[Platform] = [
+    Platform.BINARY_SENSOR,
+    Platform.BUTTON,
+    Platform.NUMBER,
+    Platform.SELECT,
+    Platform.SENSOR,
+    Platform.SWITCH,
+    Platform.TIME,
+]
 
 __all__ = ["DOMAIN"]
+
 
 async def async_setup_services(hass: HomeAssistant, entry: ConfigEntry) -> None:
     """Set up services for the Victron MQTT integration."""
@@ -65,6 +69,7 @@ async def async_setup_services(hass: HomeAssistant, entry: ConfigEntry) -> None:
 
     _LOGGER.info("Victron MQTT services registered")
 
+
 async def _update_listener(hass: HomeAssistant, entry: ConfigEntry):
     """Handle options update."""
     _LOGGER.info("Options for victron_mqtt have been updated - applying changes")
@@ -73,15 +78,23 @@ async def _update_listener(hass: HomeAssistant, entry: ConfigEntry):
 
 
 async def get_package_version(package_name) -> str:
-    return await asyncio.get_event_loop().run_in_executor(None, importlib.metadata.version, package_name)
+    return await asyncio.get_event_loop().run_in_executor(
+        None, importlib.metadata.version, package_name
+    )
+
 
 async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
     """Set up the integration."""
     version = getattr(hass.data["integrations"][DOMAIN], "version", 0)
     victron_mqtt_version = await get_package_version("victron_mqtt")
-    _LOGGER.info("Setting up victron_mqtt integration. Version: %s. victron_mqtt package version: %s", version, victron_mqtt_version)
+    _LOGGER.info(
+        "Setting up victron_mqtt integration. Version: %s. victron_mqtt package version: %s",
+        version,
+        victron_mqtt_version,
+    )
 
     return True
+
 
 def _sync_library_logging():
     """Sync the log level of the library to match integration logging."""
@@ -89,9 +102,8 @@ def _sync_library_logging():
     _VICTRON_MQTT_LOGGER.setLevel(lib_level)
     _VICTRON_MQTT_LOGGER.propagate = True  # Let it go through HA logging
 
-async def async_setup_entry(
-    hass: HomeAssistant, entry: ConfigEntry
-) -> bool:
+
+async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Set up victronvenus from a config entry."""
     _sync_library_logging()
     _LOGGER.debug("async_setup_entry called for entry: %s", entry.entry_id)
@@ -104,7 +116,9 @@ async def async_setup_entry(
     try:
         await hub.start()
     except Exception as exc:
-        _LOGGER.error("hub.start() failed for entry %s: %s", entry.entry_id, exc)
+        _LOGGER.error(
+            "Failure: hub.start() failed for entry %s: %s", entry.entry_id, exc
+        )
         # Clean up partial setup to avoid double setup issues
         await async_unload_entry(hass, entry)
         raise
@@ -118,9 +132,7 @@ async def async_setup_entry(
     return True
 
 
-async def async_unload_entry(
-    hass: HomeAssistant, entry: ConfigEntry
-) -> bool:
+async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Unload a config entry."""
     _LOGGER.debug("async_unload_entry called for entry: %s", entry.entry_id)
     hub: Hub = entry.runtime_data

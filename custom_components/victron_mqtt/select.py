@@ -1,10 +1,13 @@
 """Support for Victron Venus switches with 4 states."""
+
+from victron_mqtt import MetricKind
+
+from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
-from homeassistant.config_entries import ConfigEntry
 
 from .hub import Hub
-from victron_mqtt import MetricKind
+
 
 async def async_setup_entry(
     hass: HomeAssistant,
