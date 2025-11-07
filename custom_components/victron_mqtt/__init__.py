@@ -1,28 +1,32 @@
 """The victron_mqtt integration."""
 
+# Future imports
 from __future__ import annotations
 
+# Standard library imports
 import asyncio
-import logging
 import importlib.metadata
+import logging
+from typing import TYPE_CHECKING
 
-from .hub import Hub
-from homeassistant.helpers.typing import ConfigType
+# Third-party imports
 import homeassistant.helpers.config_validation as cv
-from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import Platform
-from homeassistant.core import HomeAssistant, ServiceCall
 from homeassistant.exceptions import HomeAssistantError
 
-from .const import DOMAIN, SERVICE_PUBLISH, ATTR_DEVICE_ID, ATTR_METRIC_ID, ATTR_VALUE
+if TYPE_CHECKING:
+    from homeassistant.config_entries import ConfigEntry
+    from homeassistant.core import HomeAssistant, ServiceCall
+    from homeassistant.helpers.typing import ConfigType
 
+# Local application imports
+from .const import ATTR_DEVICE_ID, ATTR_METRIC_ID, ATTR_VALUE, DOMAIN, SERVICE_PUBLISH
+from .hub import Hub
 
 _LOGGER = logging.getLogger(__name__)
 _VICTRON_MQTT_LOGGER = logging.getLogger("victron_mqtt")
 
 # Config schema - this integration is config entry only
-CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
-
 PLATFORMS: list[Platform] = [Platform.BINARY_SENSOR, Platform.NUMBER, Platform.SELECT, Platform.SENSOR, Platform.SWITCH, Platform.BUTTON, Platform.TIME]
 
 __all__ = ["DOMAIN"]
@@ -69,8 +73,7 @@ async def _update_listener(hass: HomeAssistant, entry: ConfigEntry):
 
 
 async def get_package_version(package_name) -> str:
-    version = await asyncio.get_event_loop().run_in_executor(None, importlib.metadata.version, package_name)
-    return version
+    return await asyncio.get_event_loop().run_in_executor(None, importlib.metadata.version, package_name)
 
 async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
     """Set up the integration."""

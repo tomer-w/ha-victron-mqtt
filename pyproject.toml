@@ -27,6 +27,7 @@ select = [
     "BLE001",
     "B904",
     "SIM101",
+    "I001",
 ]
 
 ignore = [

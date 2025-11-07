@@ -1,11 +1,15 @@
 """Support for Victron Venus binary sensors."""
 
-from victron_mqtt import MetricKind
-
-from .hub import Hub
+# Home Assistant imports
+from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
-from homeassistant.config_entries import ConfigEntry
+
+from victron_mqtt import MetricKind
+
+# Local application imports
+from .hub import Hub
+
 
 async def async_setup_entry(
     hass: HomeAssistant,
