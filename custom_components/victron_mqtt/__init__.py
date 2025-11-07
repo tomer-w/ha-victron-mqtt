@@ -91,7 +91,7 @@ async def async_setup_entry(
 ) -> bool:
     """Set up victronvenus from a config entry."""
     _sync_library_logging()
-    _LOGGER.info("async_setup_entry called for entry: %s", entry.entry_id)
+    _LOGGER.debug("async_setup_entry called for entry: %s", entry.entry_id)
 
     hub = Hub(hass, entry)
     entry.runtime_data = hub
@@ -111,7 +111,7 @@ async def async_setup_entry(
 
     # Register services
     await async_setup_services(hass, entry)
-    _LOGGER.info("async_setup_entry completed for entry: %s", entry.entry_id)
+    _LOGGER.debug("sync_setup_entry completed for entry: %s", entry.entry_id)
     return True
 
 
@@ -119,10 +119,10 @@ async def async_unload_entry(
     hass: HomeAssistant, entry: ConfigEntry
 ) -> bool:
     """Unload a config entry."""
-    _LOGGER.info("async_unload_entry called for entry: %s", entry.entry_id)
+    _LOGGER.debug("async_unload_entry called for entry: %s", entry.entry_id)
     hub: Hub = entry.runtime_data
     if hub is not None:
-        await hub.stop(None)
+        await hub.stop()
 
     # Unregister services if this is the last entry
     if len(hass.config_entries.async_entries(DOMAIN)) == 1:

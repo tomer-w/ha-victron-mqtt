@@ -14,7 +14,7 @@ from victron_mqtt import (
 )
 import voluptuous as vol
 
-from homeassistant.config_entries import ConfigFlow, ConfigFlowResult, OptionsFlow
+from homeassistant.config_entries import ConfigFlow, ConfigFlowResult, OptionsFlow, ConfigEntry
 from homeassistant.const import (
     CONF_HOST,
     CONF_PASSWORD,
@@ -152,10 +152,10 @@ class VictronMQTTConfigFlow(ConfigFlow, domain=DOMAIN):
                 installation_id = await validate_input(data)
                 _LOGGER.info("Successfully connected to Victron device: %s", installation_id)
             except CannotConnectError as e:
-                _LOGGER.error("Cannot connect to Victron device: %s", e, exc_info=True)
+                _LOGGER.exception("Cannot connect to Victron device: %s", e)
                 errors["base"] = "cannot_connect"
             except Exception as e:
-                _LOGGER.error("General error connecting to Victron device: %s", e, exc_info=True)
+                _LOGGER.exception("General error connecting to Victron device: %s", e)
                 errors["base"] = "unknown"
             else:
                 data[CONF_INSTALLATION_ID] = installation_id
@@ -171,9 +171,9 @@ class VictronMQTTConfigFlow(ConfigFlow, domain=DOMAIN):
                 return self.async_create_entry(title=title, data=data)
 
         if len(errors) > 0:
-            _LOGGER.warning("showing form with errors: %s", errors)
+            _LOGGER.warning("Showing form with errors: %s", errors)
         else:
-            _LOGGER.info("showing form without errors")
+            _LOGGER.info("Showing form without errors")
         return self.async_show_form(
             step_id="user",
             data_schema=STEP_USER_DATA_SCHEMA,
@@ -181,7 +181,7 @@ class VictronMQTTConfigFlow(ConfigFlow, domain=DOMAIN):
         )
 
     @staticmethod
-    def async_get_options_flow(config_entry) -> VictronMQTTOptionsFlow:
+    def async_get_options_flow(config_entry: ConfigEntry) -> VictronMQTTOptionsFlow:
         """Get the options flow for this handler."""
         _LOGGER.info("Getting options flow handler")
         return VictronMQTTOptionsFlow()
@@ -234,12 +234,6 @@ class VictronMQTTOptionsFlow(OptionsFlow):
                     step_id="init",
                     data_schema=self._get_options_schema(),
                     errors={"base": "cannot_connect"},
-                )
-            except Exception:
-                return self.async_show_form(
-                    step_id="init",
-                    data_schema=self._get_options_schema(),
-                    errors={"base": "unknown"},
                 )
             _LOGGER.info("Options flow completed successfully. new config: %s", user_input)
             # Update the config entry with new data.

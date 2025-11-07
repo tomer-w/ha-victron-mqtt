@@ -3,9 +3,9 @@ import logging
 from datetime import time
 from typing import Any
 
-from homeassistant.core import HomeAssistant, callback, Event
+from homeassistant.core import HomeAssistant, Event
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.exceptions import ConfigEntryNotReady, HomeAssistantError
+from homeassistant.exceptions import ConfigEntryNotReady
 from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.components.sensor import SensorEntity
 from homeassistant.components.switch import SwitchEntity
@@ -69,13 +69,15 @@ class Hub:
 
         # Convert string device type exclusions to DeviceType instances
         excluded_device_strings = config.get(CONF_EXCLUDED_DEVICES, [])
-        excluded_device_types = []
-        for device_string in excluded_device_strings:
-            excluded_device_types.append(DeviceType.from_code(device_string))
+        excluded_device_types: list[DeviceType] = [dt.code for device_string in excluded_device_strings if (dt := DeviceType.from_code(device_string)) is not None]
+
         _LOGGER.info("Final excluded device types: %s", [dt.code for dt in excluded_device_types])
 
+        host = config.get(CONF_HOST)
+        assert host is not None
+
         self._hub: VictronVenusHub = VictronVenusHub(
-            host=config.get(CONF_HOST),
+            host=host,
             port=config.get(CONF_PORT, 1883),
             username=config.get(CONF_USERNAME) or None,
             password=config.get(CONF_PASSWORD) or None,
@@ -96,14 +98,13 @@ class Hub:
 
     async def start(self):
         """Start the Victron MQTT hub."""
-        _LOGGER.info("Starting hub.")
+        _LOGGER.info("Starting hub")
         try:
             await self._hub.connect()
         except CannotConnectError as connect_error:
             raise ConfigEntryNotReady(f"Cannot connect to the hub: {connect_error}") from connect_error
 
-    @callback
-    async def stop(self, event: Event):
+    async def stop(self, event: Event | None = None):
         """Stop the Victron MQTT hub."""
         _LOGGER.info("Stopping hub")
         await self._hub.disconnect()
@@ -157,11 +158,7 @@ class Hub:
         """Publish a message to the Victron MQTT hub."""
         _LOGGER.info("Publish service called with: metric_id=%s, device_id=%s, value=%s",
                       metric_id, device_id, value)
-        try:
-            self._hub.publish(metric_id, device_id, value)
-        except Exception:
-            raise HomeAssistantError(f"Error publishing to Victron MQTT. metric_id: '{metric_id}'")
-
+        self._hub.publish(metric_id, device_id, value)
 
 class VictronSensor(VictronBaseEntity, SensorEntity):
     """Implementation of a Victron Venus sensor."""
@@ -241,11 +238,11 @@ class VictronNumber(VictronBaseEntity, NumberEntity):
     ) -> None:
         """Initialize the number entity."""
         self._attr_native_value = writable_metric.value
-        if isinstance(writable_metric.min_value, int) or isinstance(writable_metric.min_value, float):
+        if isinstance(writable_metric.min_value, int | float):
             self._attr_native_min_value = writable_metric.min_value
-        if isinstance(writable_metric.max_value, int) or isinstance(writable_metric.max_value, float):
+        if isinstance(writable_metric.max_value, int | float):
             self._attr_native_max_value = writable_metric.max_value
-        if isinstance(writable_metric.step, int) or isinstance(writable_metric.step, float):
+        if isinstance(writable_metric.step, int | float):
             self._attr_native_step = writable_metric.step
         super().__init__(device, writable_metric, device_info, "number", simple_naming, installation_id)
 
@@ -300,6 +297,7 @@ class VictronBinarySensor(VictronBaseEntity, BinarySensorEntity):
     @property
     def is_on(self) -> bool:
         """Return the current state of the binary sensor."""
+        assert self._attr_is_on is not None
         return self._attr_is_on
 
 class VictronSelect(VictronBaseEntity, SelectEntity):
@@ -314,6 +312,7 @@ class VictronSelect(VictronBaseEntity, SelectEntity):
         installation_id: str
     ) -> None:
         """Initialize the switch."""
+        assert writable_metric.enum_values is not None
         self._attr_options = writable_metric.enum_values
         self._attr_current_option = self._map_value_to_state(writable_metric.value)
         super().__init__(device, writable_metric, device_info, "select", simple_naming, installation_id)

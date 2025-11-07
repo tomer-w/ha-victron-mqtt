@@ -22,6 +22,11 @@ select = [
     "TRY004", # Prefer TypeError exception for invalid type
     "UP",  # pyupgrade
     "W",  # pycodestyle
+    "PERF401",
+    "G201",
+    "BLE001",
+    "B904",
+    "SIM101",
 ]
 
 ignore = [
