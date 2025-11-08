@@ -26,3 +26,9 @@ SERVICE_PUBLISH = "publish"
 ATTR_METRIC_ID = "metric_id"
 ATTR_DEVICE_ID = "device_id"
 ATTR_VALUE = "value"
+
+# Not using GenericOnOff as some switches use different enums.
+# It has to be with value "On" to be on and "Off" to be off.
+SWITCH_ON = "On"
+SWITCH_OFF = "Off"
+

@@ -1,27 +1,7 @@
 """Main Hub class."""
 
-from datetime import time
 import logging
-from typing import Any
 
-from victron_mqtt import (
-    CannotConnectError,
-    Device as VictronVenusDevice,
-    DeviceType,
-    Hub as VictronVenusHub,
-    Metric as VictronVenusMetric,
-    MetricKind,
-    OperationMode,
-    WritableMetric as VictronVenusWritableMetric,
-)
-
-from homeassistant.components.binary_sensor import BinarySensorEntity
-from homeassistant.components.button import ButtonEntity
-from homeassistant.components.number import NumberEntity
-from homeassistant.components.select import SelectEntity
-from homeassistant.components.sensor import SensorEntity
-from homeassistant.components.switch import SwitchEntity
-from homeassistant.components.time import TimeEntity
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import (
     CONF_HOST,
@@ -36,6 +16,27 @@ from homeassistant.exceptions import ConfigEntryNotReady
 from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
+from victron_mqtt import (
+    CannotConnectError,
+    DeviceType,
+    MetricKind,
+    OperationMode,
+)
+from victron_mqtt import (
+    Device as VictronVenusDevice,
+)
+from victron_mqtt import (
+    Hub as VictronVenusHub,
+)
+from victron_mqtt import (
+    Metric as VictronVenusMetric,
+)
+from victron_mqtt import (
+    WritableMetric as VictronVenusWritableMetric,
+)
+
+from .binary_sensor import VictronBinarySensor
+from .button import VictronButton
 from .common import VictronBaseEntity
 from .const import (
     CONF_ELEVATED_TRACING,
@@ -50,13 +51,13 @@ from .const import (
     DEFAULT_UPDATE_FREQUENCY_SECONDS,
     DOMAIN,
 )
+from .number import VictronNumber
+from .select import VictronSelect
+from .sensor import VictronSensor
+from .switch import VictronSwitch
+from .time import VictronTime
 
 _LOGGER = logging.getLogger(__name__)
-
-# Not using GenericOnOff as some switches use different enums.
-# It has to be with value "On" to be on and "Off" to be off.
-SWITCH_ON = "On"
-SWITCH_OFF = "Off"
 
 
 class Hub:
@@ -233,311 +234,3 @@ class Hub:
         self._hub.publish(metric_id, device_id, value)
 
 
-class VictronSensor(VictronBaseEntity, SensorEntity):
-    """Implementation of a Victron Venus sensor."""
-
-    def __init__(
-        self,
-        device: VictronVenusDevice,
-        metric: VictronVenusMetric,
-        device_info: DeviceInfo,
-        simple_naming: bool,
-        installation_id: str,
-    ) -> None:
-        """Initialize the sensor based on detauls in the metric."""
-        self._attr_native_value = metric.value
-        super().__init__(
-            device, metric, device_info, "sensor", simple_naming, installation_id
-        )
-
-    def __repr__(self) -> str:
-        """Return a string representation of the sensor."""
-        return f"VictronSensor({super().__repr__()}, native_value={self._attr_native_value})"
-
-    def _on_update_task(self, value: Any) -> None:
-        if self._attr_native_value == value:
-            return
-        self._attr_native_value = value
-        self.schedule_update_ha_state()
-
-
-class VictronSwitch(VictronBaseEntity, SwitchEntity):
-    """Implementation of a Victron Venus multiple state select using SelectEntity."""
-
-    def __init__(
-        self,
-        device: VictronVenusDevice,
-        writable_metric: VictronVenusWritableMetric,
-        device_info: DeviceInfo,
-        simple_naming: bool,
-        installation_id: str,
-    ) -> None:
-        """Initialize the switch."""
-        self._attr_is_on = str(writable_metric.value) == SWITCH_ON
-        super().__init__(
-            device,
-            writable_metric,
-            device_info,
-            "switch",
-            simple_naming,
-            installation_id,
-        )
-
-    def __repr__(self) -> str:
-        """Return a string representation of the sensor."""
-        return f"VictronSwitch({super().__repr__()}, is_on={self._attr_is_on})"
-
-    def _on_update_task(self, value: Any) -> None:
-        new_val = str(value) == SWITCH_ON
-        if self._attr_is_on == new_val:
-            return
-        self._attr_is_on = new_val
-        self.schedule_update_ha_state()
-
-    def turn_on(self, **kwargs: Any) -> None:
-        """Turn the switch on."""
-        assert isinstance(self._metric, VictronVenusWritableMetric)
-        _LOGGER.info("Turning on switch: %s", self._attr_unique_id)
-        self._metric.set(SWITCH_ON)
-
-    def turn_off(self, **kwargs: Any) -> None:
-        """Turn the switch off."""
-        assert isinstance(self._metric, VictronVenusWritableMetric)
-        _LOGGER.info("Turning off switch: %s", self._attr_unique_id)
-        self._metric.set(SWITCH_OFF)
-
-
-class VictronNumber(VictronBaseEntity, NumberEntity):
-    """Implementation of a Victron Venus number entity."""
-
-    def __init__(
-        self,
-        device: VictronVenusDevice,
-        writable_metric: VictronVenusWritableMetric,
-        device_info: DeviceInfo,
-        simple_naming: bool,
-        installation_id: str,
-    ) -> None:
-        """Initialize the number entity."""
-        self._attr_native_value = writable_metric.value
-        if isinstance(writable_metric.min_value, int | float):
-            self._attr_native_min_value = writable_metric.min_value
-        if isinstance(writable_metric.max_value, int | float):
-            self._attr_native_max_value = writable_metric.max_value
-        if isinstance(writable_metric.step, int | float):
-            self._attr_native_step = writable_metric.step
-        super().__init__(
-            device,
-            writable_metric,
-            device_info,
-            "number",
-            simple_naming,
-            installation_id,
-        )
-
-    def __repr__(self) -> str:
-        """Return a string representation of the sensor."""
-        return f"VictronNumber({super().__repr__()}, native_value={self._attr_native_value})"
-
-    def _on_update_task(self, value: Any) -> None:
-        if self._attr_native_value == value:
-            return
-        self._attr_native_value = value
-        self.schedule_update_ha_state()
-
-    @property
-    def native_value(self):
-        """Return the current value."""
-        return self._metric.value
-
-    def set_native_value(self, value: float) -> None:
-        """Set a new value."""
-        assert isinstance(self._metric, VictronVenusWritableMetric)
-        _LOGGER.info("Setting number %s on switch: %s", value, self._attr_unique_id)
-        self._metric.set(value)
-
-
-class VictronBinarySensor(VictronBaseEntity, BinarySensorEntity):
-    """Implementation of a Victron Venus binary sensor."""
-
-    def __init__(
-        self,
-        device: VictronVenusDevice,
-        metric: VictronVenusMetric,
-        device_info: DeviceInfo,
-        simple_naming: bool,
-        installation_id: str,
-    ) -> None:
-        """Initialize the binary sensor."""
-        self._attr_is_on = bool(metric.value)
-        super().__init__(
-            device, metric, device_info, "binary_sensor", simple_naming, installation_id
-        )
-
-    def __repr__(self) -> str:
-        """Return a string representation of the sensor."""
-        return f"VictronBinarySensor({super().__repr__()}), is_on={self._attr_is_on})"
-
-    def _on_update_task(self, value: Any) -> None:
-        new_val = str(value) == SWITCH_ON
-        if self._attr_is_on == new_val:
-            return
-        self._attr_is_on = new_val
-        self.schedule_update_ha_state()
-
-    @property
-    def is_on(self) -> bool:
-        """Return the current state of the binary sensor."""
-        assert self._attr_is_on is not None
-        return self._attr_is_on
-
-
-class VictronSelect(VictronBaseEntity, SelectEntity):
-    """Implementation of a Victron Venus multiple state select using SelectEntity."""
-
-    def __init__(
-        self,
-        device: VictronVenusDevice,
-        writable_metric: VictronVenusWritableMetric,
-        device_info: DeviceInfo,
-        simple_naming: bool,
-        installation_id: str,
-    ) -> None:
-        """Initialize the switch."""
-        assert writable_metric.enum_values is not None
-        self._attr_options = writable_metric.enum_values
-        self._attr_current_option = self._map_value_to_state(writable_metric.value)
-        super().__init__(
-            device,
-            writable_metric,
-            device_info,
-            "select",
-            simple_naming,
-            installation_id,
-        )
-
-    def __repr__(self) -> str:
-        """Return a string representation of the sensor."""
-        return f"VictronSelect({super().__repr__()}, current_option={self._attr_current_option}, options={self._attr_options})"
-
-    def _on_update_task(self, value: Any) -> None:
-        new_val = self._map_value_to_state(value)
-        if self._attr_current_option == new_val:
-            return
-        self._attr_current_option = new_val
-        self.schedule_update_ha_state()
-
-    def select_option(self, option: str) -> None:
-        """Change the selected option."""
-        assert isinstance(self._metric, VictronVenusWritableMetric)
-        assert self._metric.enum_values is not None
-        if option not in self._metric.enum_values:
-            _LOGGER.info(
-                "Setting switch %s to %s failed as option not supported. supported options are: %s",
-                self._attr_unique_id,
-                option,
-                self._metric.enum_values,
-            )
-            return
-        _LOGGER.info("Setting switch %s to %s", self._attr_unique_id, option)
-        assert isinstance(self._metric, VictronVenusWritableMetric)
-        self._metric.set(option)
-
-    def _map_value_to_state(self, value) -> str:
-        """Map metric value to switch state."""
-        # for now jut return the same thing
-        return str(value)
-
-
-class VictronButton(VictronBaseEntity, ButtonEntity):
-    """Implementation of a Victron Venus button using ButtonEntity."""
-
-    def __init__(
-        self,
-        device: VictronVenusDevice,
-        metric: VictronVenusMetric,
-        device_info: DeviceInfo,
-        simple_naming: bool,
-        installation_id: str,
-    ) -> None:
-        """Initialize the button."""
-        super().__init__(
-            device, metric, device_info, "button", simple_naming, installation_id
-        )
-
-    def _on_update_task(self, value: Any) -> None:
-        pass
-
-    def press(self) -> None:
-        """Press the button."""
-        assert isinstance(self._metric, VictronVenusWritableMetric)
-        _LOGGER.info("Pressing button: %s", self._attr_unique_id)
-        self._metric.set(SWITCH_ON)
-
-    def __repr__(self) -> str:
-        """Return a string representation of the sensor."""
-        return f"VictronButton({super().__repr__()})"
-
-
-class VictronTime(VictronBaseEntity, TimeEntity):
-    """Implementation of a Victron Venus time entity (represented as a sensor)."""
-
-    @staticmethod
-    def victorn_time_to_time(value: int | None) -> time | None:
-        """Convert minutes since midnight to time object."""
-        if value is None:
-            return None
-        total_minutes = int(value)
-        hours = total_minutes // 60
-        minutes = total_minutes % 60
-        return time(hour=hours, minute=minutes)
-
-    @staticmethod
-    def time_to_victorn_time(value: time) -> int:
-        """Convert time object to minutes since midnight."""
-        return value.hour * 60 + value.minute
-
-    def __init__(
-        self,
-        device: VictronVenusDevice,
-        writable_metric: VictronVenusWritableMetric,
-        device_info: DeviceInfo,
-        simple_naming: bool,
-        installation_id: str,
-    ) -> None:
-        """Initialize the time entity based on details in the metric."""
-        self._attr_native_value = VictronTime.victorn_time_to_time(
-            writable_metric.value
-        )
-        assert writable_metric.unit_of_measurement == "min"
-        super().__init__(
-            device, writable_metric, device_info, "time", simple_naming, installation_id
-        )
-
-    def __repr__(self) -> str:
-        """Return a string representation of the time entity."""
-        return (
-            f"VictronTime({super().__repr__()}, native_value={self._attr_native_value})"
-        )
-
-    def _on_update_task(self, value: Any) -> None:
-        """Convert minutes since midnight to time object and update state."""
-        time_value = VictronTime.victorn_time_to_time(value)
-        if self._attr_native_value == time_value:
-            return
-
-        self._attr_native_value = time_value
-        self.schedule_update_ha_state()
-
-    def set_value(self, value: time) -> None:
-        """Convert time object to minutes since midnight and set the metric value."""
-        assert isinstance(self._metric, VictronVenusWritableMetric)
-        # Convert time object back to minutes since midnight
-        total_minutes = VictronTime.time_to_victorn_time(value)
-        _LOGGER.info(
-            "Setting time %s (%d minutes) on entity: %s",
-            value,
-            total_minutes,
-            self._attr_unique_id,
-        )
-        self._metric.set(total_minutes)

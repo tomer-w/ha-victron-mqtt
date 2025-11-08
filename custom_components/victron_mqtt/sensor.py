@@ -1,15 +1,32 @@
 """Support for Victron Venus sensors.
 
-This module is light-weight and only registers the sensors with Home Assistant. The sensor class is implemented in the victronvenus_sensor module.
+Light-weight platform file registering sensor entities. The actual entity
+implementation is in this file; import of `Hub` is type-only to avoid a
+runtime circular dependency with `hub.py`.
 """
 
-from victron_mqtt import MetricKind
+from typing import TYPE_CHECKING, Any
 
+from homeassistant.components.sensor import SensorEntity
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
+from homeassistant.helpers.entity import DeviceInfo
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
-from .hub import Hub
+from victron_mqtt import (
+    Device as VictronVenusDevice,
+)
+from victron_mqtt import (
+    Metric as VictronVenusMetric,
+)
+from victron_mqtt import (
+    MetricKind,
+)
+
+from .common import VictronBaseEntity
+
+if TYPE_CHECKING:  # pragma: no cover - type checking only
+    from .hub import Hub  # noqa: F401
 
 
 async def async_setup_entry(
@@ -20,3 +37,31 @@ async def async_setup_entry(
     """Set up Victron Venus sensors from a config entry."""
     hub: Hub = config_entry.runtime_data
     hub.register_add_entities_callback(async_add_entities, MetricKind.SENSOR)
+
+
+class VictronSensor(VictronBaseEntity, SensorEntity):
+    """Implementation of a Victron Venus sensor."""
+
+    def __init__(
+        self,
+        device: VictronVenusDevice,
+        metric: VictronVenusMetric,
+        device_info: DeviceInfo,
+        simple_naming: bool,
+        installation_id: str,
+    ) -> None:
+        """Initialize the sensor based on detauls in the metric."""
+        self._attr_native_value = metric.value
+        super().__init__(
+            device, metric, device_info, "sensor", simple_naming, installation_id
+        )
+
+    def __repr__(self) -> str:
+        """Return a string representation of the sensor."""
+        return f"VictronSensor({super().__repr__()}, native_value={self._attr_native_value})"
+
+    def _on_update_task(self, value: Any) -> None:
+        if self._attr_native_value == value:
+            return
+        self._attr_native_value = value
+        self.schedule_update_ha_state()
