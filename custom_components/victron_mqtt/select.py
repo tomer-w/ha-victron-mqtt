@@ -3,28 +3,25 @@
 import logging
 from typing import TYPE_CHECKING, Any
 
+from victron_mqtt import (
+    Device as VictronVenusDevice,
+    MetricKind,
+    WritableMetric as VictronVenusWritableMetric,
+)
+
 from homeassistant.components.select import SelectEntity
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity import DeviceInfo
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
-from victron_mqtt import (
-    Device as VictronVenusDevice,
-)
-from victron_mqtt import (
-    MetricKind,
-)
-from victron_mqtt import (
-    WritableMetric as VictronVenusWritableMetric,
-)
-
 from .entity import VictronBaseEntity
 
 if TYPE_CHECKING:  # pragma: no cover - type checking only
-    from .hub import Hub  # noqa: F401
+    from .hub import Hub
 
 _LOGGER = logging.getLogger(__name__)
+
 
 async def async_setup_entry(
     hass: HomeAssistant,
@@ -92,5 +89,3 @@ class VictronSelect(VictronBaseEntity, SelectEntity):
         """Map metric value to switch state."""
         # for now jut return the same thing
         return str(value)
-
-

@@ -3,26 +3,22 @@
 import logging
 from typing import TYPE_CHECKING, Any
 
+from victron_mqtt import (
+    Device as VictronVenusDevice,
+    MetricKind,
+    WritableMetric as VictronVenusWritableMetric,
+)
+
 from homeassistant.components.number import NumberEntity
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity import DeviceInfo
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
-from victron_mqtt import (
-    Device as VictronVenusDevice,
-)
-from victron_mqtt import (
-    MetricKind,
-)
-from victron_mqtt import (
-    WritableMetric as VictronVenusWritableMetric,
-)
-
 from .entity import VictronBaseEntity
 
 if TYPE_CHECKING:  # pragma: no cover - type checking only
-    from .hub import Hub  # noqa: F401
+    from .hub import Hub
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -86,5 +82,3 @@ class VictronNumber(VictronBaseEntity, NumberEntity):
         assert isinstance(self._metric, VictronVenusWritableMetric)
         _LOGGER.info("Setting number %s on switch: %s", value, self._attr_unique_id)
         self._metric.set(value)
-
-

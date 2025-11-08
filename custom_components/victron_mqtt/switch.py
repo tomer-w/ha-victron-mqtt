@@ -3,30 +3,25 @@
 import logging
 from typing import TYPE_CHECKING, Any
 
+from victron_mqtt import (
+    Device as VictronVenusDevice,
+    MetricKind,
+    WritableMetric as VictronVenusWritableMetric,
+)
+
 from homeassistant.components.switch import SwitchEntity
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity import DeviceInfo
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
-from victron_mqtt import (
-    Device as VictronVenusDevice,
-)
-from victron_mqtt import (
-    MetricKind,
-)
-from victron_mqtt import (
-    WritableMetric as VictronVenusWritableMetric,
-)
-
 from .const import SWITCH_OFF, SWITCH_ON
 from .entity import VictronBaseEntity
 
 if TYPE_CHECKING:  # pragma: no cover - type checking only
-    from .hub import Hub  # noqa: F401
+    from .hub import Hub
 
 _LOGGER = logging.getLogger(__name__)
-
 
 
 async def async_setup_entry(
@@ -84,5 +79,3 @@ class VictronSwitch(VictronBaseEntity, SwitchEntity):
         assert isinstance(self._metric, VictronVenusWritableMetric)
         _LOGGER.info("Turning off switch: %s", self._attr_unique_id)
         self._metric.set(SWITCH_OFF)
-
-

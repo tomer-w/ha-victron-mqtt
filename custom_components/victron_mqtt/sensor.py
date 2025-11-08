@@ -7,26 +7,22 @@ runtime circular dependency with `hub.py`.
 
 from typing import TYPE_CHECKING, Any
 
+from victron_mqtt import (
+    Device as VictronVenusDevice,
+    Metric as VictronVenusMetric,
+    MetricKind,
+)
+
 from homeassistant.components.sensor import SensorEntity
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity import DeviceInfo
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
-from victron_mqtt import (
-    Device as VictronVenusDevice,
-)
-from victron_mqtt import (
-    Metric as VictronVenusMetric,
-)
-from victron_mqtt import (
-    MetricKind,
-)
-
 from .entity import VictronBaseEntity
 
 if TYPE_CHECKING:  # pragma: no cover - type checking only
-    from .hub import Hub  # noqa: F401
+    from .hub import Hub
 
 
 async def async_setup_entry(

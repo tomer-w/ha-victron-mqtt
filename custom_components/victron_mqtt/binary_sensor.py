@@ -3,27 +3,23 @@
 import logging
 from typing import TYPE_CHECKING, Any
 
+from victron_mqtt import (
+    Device as VictronVenusDevice,
+    Metric as VictronVenusMetric,
+    MetricKind,
+)
+
 from homeassistant.components.binary_sensor import BinarySensorEntity
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity import DeviceInfo
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
-from victron_mqtt import (
-    Device as VictronVenusDevice,
-)
-from victron_mqtt import (
-    Metric as VictronVenusMetric,
-)
-from victron_mqtt import (
-    MetricKind,
-)
-
 from .const import SWITCH_ON
 from .entity import VictronBaseEntity
 
 if TYPE_CHECKING:  # pragma: no cover - type checking only
-    from .hub import Hub  # noqa: F401
+    from .hub import Hub
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -72,5 +68,3 @@ class VictronBinarySensor(VictronBaseEntity, BinarySensorEntity):
         """Return the current state of the binary sensor."""
         assert self._attr_is_on is not None
         return self._attr_is_on
-
-

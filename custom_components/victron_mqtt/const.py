@@ -31,4 +31,3 @@ ATTR_VALUE = "value"
 # It has to be with value "On" to be on and "Off" to be off.
 SWITCH_ON = "On"
 SWITCH_OFF = "Off"
-
