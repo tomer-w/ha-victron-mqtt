@@ -31,7 +31,7 @@ class VictronBaseEntity(Entity):
         simple_naming: bool,
         installation_id: str,
     ) -> None:
-        """Initialize the sensor based on detauls in the metric."""
+        """Initialize the entity."""
         self._device = device
         self._metric = metric
         self._device_info = device_info
@@ -91,8 +91,6 @@ class VictronBaseEntity(Entity):
         self, metric: VictronVenusMetric
     ) -> SensorDeviceClass | None:
         match metric.metric_type:
-            case MetricType.TEMPERATURE:
-                return SensorDeviceClass.TEMPERATURE
             case MetricType.POWER:
                 return SensorDeviceClass.POWER
             case MetricType.APPARENT_POWER:
