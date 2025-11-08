@@ -1,20 +1,24 @@
 """Common code for Victron Venus integration."""
 
-from abc import abstractmethod
 import logging
+from abc import abstractmethod
 from typing import Any
-
-from victron_mqtt import (
-    Device as VictronVenusDevice,
-    Metric as VictronVenusMetric,
-    MetricNature,
-    MetricType,
-)
 
 from homeassistant.components.sensor import SensorDeviceClass, SensorStateClass
 from homeassistant.const import UnitOfTime
 from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.entity import Entity
+
+from victron_mqtt import (
+    Device as VictronVenusDevice,
+)
+from victron_mqtt import (
+    Metric as VictronVenusMetric,
+)
+from victron_mqtt import (
+    MetricNature,
+    MetricType,
+)
 
 _LOGGER = logging.getLogger(__name__)
 

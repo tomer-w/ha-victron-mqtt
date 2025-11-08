@@ -3,20 +3,14 @@
 # Future imports
 from __future__ import annotations
 
+import logging
+
 # Standard library imports
 from collections.abc import Sequence
-import logging
 from types import MappingProxyType
 from typing import Any
 from urllib.parse import urlparse
 
-# Third-party imports
-from victron_mqtt import (
-    CannotConnectError,
-    DeviceType,
-    Hub as VictronVenusHub,
-    OperationMode,
-)
 import voluptuous as vol
 
 # Home Assistant imports
@@ -40,6 +34,16 @@ from homeassistant.helpers.selector import (
     SelectSelectorMode,
 )
 from homeassistant.helpers.service_info.ssdp import SsdpServiceInfo
+
+# Third-party imports
+from victron_mqtt import (
+    CannotConnectError,
+    DeviceType,
+    OperationMode,
+)
+from victron_mqtt import (
+    Hub as VictronVenusHub,
+)
 
 # Local application imports
 from .const import (

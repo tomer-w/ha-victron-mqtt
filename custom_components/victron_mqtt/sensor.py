@@ -23,7 +23,7 @@ from victron_mqtt import (
     MetricKind,
 )
 
-from .common import VictronBaseEntity
+from .entity import VictronBaseEntity
 
 if TYPE_CHECKING:  # pragma: no cover - type checking only
     from .hub import Hub  # noqa: F401

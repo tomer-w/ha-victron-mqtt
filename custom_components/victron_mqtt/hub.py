@@ -37,7 +37,6 @@ from victron_mqtt import (
 
 from .binary_sensor import VictronBinarySensor
 from .button import VictronButton
-from .common import VictronBaseEntity
 from .const import (
     CONF_ELEVATED_TRACING,
     CONF_EXCLUDED_DEVICES,
@@ -51,6 +50,7 @@ from .const import (
     DEFAULT_UPDATE_FREQUENCY_SECONDS,
     DOMAIN,
 )
+from .entity import VictronBaseEntity
 from .number import VictronNumber
 from .select import VictronSelect
 from .sensor import VictronSensor
