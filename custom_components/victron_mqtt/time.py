@@ -14,7 +14,7 @@ from homeassistant.components.time import TimeEntity
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.device_registry import DeviceInfo
-from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
+from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
 from .entity import VictronBaseEntity
 
@@ -27,7 +27,7 @@ _LOGGER = logging.getLogger(__name__)
 async def async_setup_entry(
     hass: HomeAssistant,
     config_entry: ConfigEntry,
-    async_add_entities: AddConfigEntryEntitiesCallback,
+    async_add_entities: AddEntitiesCallback,
 ) -> None:
     """Set up Victron Venus buttons from a config entry."""
 
