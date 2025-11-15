@@ -188,26 +188,38 @@ class Hub:
             return VictronBinarySensor(
                 device, metric, info, self.simple_naming, installation_id
             )
-        assert isinstance(metric, VictronVenusWritableMetric), (
-            f"Expected metric to be a VictronVenusWritableMetric. Got {type(metric)}"
-        )
         if metric.metric_kind == MetricKind.SWITCH:
+            assert isinstance(metric, VictronVenusWritableMetric), (
+                f"Expected metric to be a VictronVenusWritableMetric. Got {type(metric)}"
+            )
             return VictronSwitch(
                 device, metric, info, self.simple_naming, installation_id
             )
         if metric.metric_kind == MetricKind.NUMBER:
+            assert isinstance(metric, VictronVenusWritableMetric), (
+                f"Expected metric to be a VictronVenusWritableMetric. Got {type(metric)}"
+            )
             return VictronNumber(
                 device, metric, info, self.simple_naming, installation_id
             )
         if metric.metric_kind == MetricKind.SELECT:
+            assert isinstance(metric, VictronVenusWritableMetric), (
+                f"Expected metric to be a VictronVenusWritableMetric. Got {type(metric)}"
+            )
             return VictronSelect(
                 device, metric, info, self.simple_naming, installation_id
             )
         if metric.metric_kind == MetricKind.BUTTON:
+            assert isinstance(metric, VictronVenusWritableMetric), (
+                f"Expected metric to be a VictronVenusWritableMetric. Got {type(metric)}"
+            )
             return VictronButton(
                 device, metric, info, self.simple_naming, installation_id
             )
         if metric.metric_kind == MetricKind.TIME:
+            assert isinstance(metric, VictronVenusWritableMetric), (
+                f"Expected metric to be a VictronVenusWritableMetric. Got {type(metric)}"
+            )
             return VictronTime(
                 device, metric, info, self.simple_naming, installation_id
             )
