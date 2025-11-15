@@ -26,7 +26,7 @@ from homeassistant.const import (
 )
 from homeassistant.core import HomeAssistant
 from homeassistant.data_entry_flow import FlowResultType
-from homeassistant.helpers.service_info.ssdp import SsdpServiceInfo
+from homeassistant.components.ssdp import SsdpServiceInfo
 
 PATCH_CONFIG_FLOW_NAME = "custom_components.victron_mqtt.config_flow"
 
