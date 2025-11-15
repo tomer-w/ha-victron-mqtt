@@ -7,17 +7,21 @@ runtime circular dependency with `hub.py`.
 
 from typing import TYPE_CHECKING, Any
 
-from victron_mqtt import (
-    Device as VictronVenusDevice,
-    Metric as VictronVenusMetric,
-    MetricKind,
-)
-
 from homeassistant.components.sensor import SensorEntity
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
+
+from victron_mqtt import (
+    Device as VictronVenusDevice,
+)
+from victron_mqtt import (
+    Metric as VictronVenusMetric,
+)
+from victron_mqtt import (
+    MetricKind,
+)
 
 from .entity import VictronBaseEntity
 
