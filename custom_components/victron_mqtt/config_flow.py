@@ -39,7 +39,7 @@ from homeassistant.helpers.selector import (
     SelectSelectorConfig,
     SelectSelectorMode,
 )
-from homeassistant.helpers.service_info.ssdp import SsdpServiceInfo
+from homeassistant.components.ssdp import SsdpServiceInfo
 
 # Local application imports
 from .const import (
