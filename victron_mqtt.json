@@ -4554,7 +4554,7 @@
       "min_max_range": "RangeType.DYNAMIC",
       "min": null,
       "max": null,
-      "step": null,
+      "step": 0.1,
       "is_adjustable_suffix": null,
       "key_values": {},
       "experimental": false,
@@ -7814,13 +7814,13 @@
           "value": 0
         },
         {
-          "id": "GRID_TO_BATTERY_RESTRICTED",
-          "name": "Grid to battery energy flow restricted",
+          "id": "BATTERY_TO_GRID_RESTRICTED",
+          "name": "Battery to grid energy flow restricted",
           "value": 1
         },
         {
-          "id": "BATTERY_TO_GRID_RESTRICTED",
-          "name": "Battery to grid energy flow restricted",
+          "id": "GRID_TO_BATTERY_RESTRICTED",
+          "name": "Grid to battery energy flow restricted",
           "value": 2
         },
         {
