@@ -161,6 +161,12 @@
       "battery_current": {
         "name": "DC Bus current"
       },
+      "battery_mid_voltage": {
+        "name": "DC Bus mid voltage"
+      },
+      "battery_mid_voltage_deviation": {
+        "name": "DC Bus mid voltage deviation"
+      },
       "battery_power": {
         "name": "Battery power"
       },
@@ -739,6 +745,9 @@
       },
       "system_control_scheduled_soc": {
         "name": "Scheduled SOC"
+      },
+      "system_dc_alternator_power": {
+        "name": "DC Alternator Power"
       },
       "system_dc_battery_current": {
         "name": "DC Battery Current"
