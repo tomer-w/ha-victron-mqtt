@@ -79,7 +79,7 @@ class Hub:
         # Convert string device type exclusions to DeviceType instances
         excluded_device_strings = config.get(CONF_EXCLUDED_DEVICES, [])
         excluded_device_types: list[DeviceType] = [
-            dt.code
+            dt
             for device_string in excluded_device_strings
             if (dt := DeviceType.from_code(device_string)) is not None
         ]
