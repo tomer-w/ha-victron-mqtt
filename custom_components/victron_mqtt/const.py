@@ -37,5 +37,5 @@ SWITCH_ON = "On"
 SWITCH_OFF = "Off"
 
 # Entity IDs which needs special treatment
-ENTITIES_CATEGORY_DIAGNOSTIC = ["system_heartbeat"]
-ENTITIES_DISABLE_BY_DEFAULT = ["system_heartbeat"]
+ENTITIES_CATEGORY_DIAGNOSTIC = ["system_heartbeat", "solarcharger_device_off_reason"]
+ENTITIES_DISABLE_BY_DEFAULT = ["system_heartbeat", "solarcharger_device_off_reason"]
