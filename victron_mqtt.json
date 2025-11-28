@@ -997,6 +997,28 @@
       "is_formula": false
     },
     {
+      "topic": "N/{installation_id}/battery/{device_id}/System/MaxTemperatureCellId",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "battery_max_temperature_cell_id",
+      "name": "Battery maximum temperature cell ID",
+      "unit_of_measurement": null,
+      "metric_type": "MetricType.NONE",
+      "metric_nature": "MetricNature.NONE",
+      "value_type": "ValueType.STRING",
+      "precision": null,
+      "enum": null,
+      "min_max_range": "RangeType.STATIC",
+      "min": null,
+      "max": null,
+      "step": null,
+      "is_adjustable_suffix": null,
+      "key_values": {},
+      "experimental": false,
+      "depends_on": [],
+      "generic_name": "Battery maximum temperature cell ID",
+      "is_formula": false
+    },
+    {
       "topic": "N/{installation_id}/battery/{device_id}/System/MaxVoltageCellId",
       "message_type": "MetricKind.SENSOR",
       "short_id": "battery_max_voltage_cell_id",
@@ -1060,6 +1082,28 @@
       "experimental": false,
       "depends_on": [],
       "generic_name": "Battery minimum cell voltage",
+      "is_formula": false
+    },
+    {
+      "topic": "N/{installation_id}/battery/{device_id}/System/MinTemperatureCellId",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "battery_min_temperature_cell_id",
+      "name": "Battery minimum temperature cell ID",
+      "unit_of_measurement": null,
+      "metric_type": "MetricType.NONE",
+      "metric_nature": "MetricNature.NONE",
+      "value_type": "ValueType.STRING",
+      "precision": null,
+      "enum": null,
+      "min_max_range": "RangeType.STATIC",
+      "min": null,
+      "max": null,
+      "step": null,
+      "is_adjustable_suffix": null,
+      "key_values": {},
+      "experimental": false,
+      "depends_on": [],
+      "generic_name": "Battery minimum temperature cell ID",
       "is_formula": false
     },
     {
@@ -1632,6 +1676,28 @@
       "experimental": false,
       "depends_on": [],
       "generic_name": "EV charger charge",
+      "is_formula": false
+    },
+    {
+      "topic": "N/{installation_id}/evcharger/{device_id}/Status",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "evcharger_status",
+      "name": "EV charger status",
+      "unit_of_measurement": null,
+      "metric_type": "MetricType.NONE",
+      "metric_nature": "MetricNature.NONE",
+      "value_type": "ValueType.ENUM",
+      "precision": null,
+      "enum": "EvChargerStatus",
+      "min_max_range": "RangeType.STATIC",
+      "min": null,
+      "max": null,
+      "step": null,
+      "is_adjustable_suffix": null,
+      "key_values": {},
+      "experimental": false,
+      "depends_on": [],
+      "generic_name": "EV charger status",
       "is_formula": false
     },
     {
@@ -4670,6 +4736,28 @@
       "experimental": false,
       "depends_on": [],
       "generic_name": "DC (Batt) Bus voltage",
+      "is_formula": false
+    },
+    {
+      "topic": "N/{installation_id}/solarcharger/{device_id}/DeviceOffReason",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "solarcharger_device_off_reason",
+      "name": "Solar Charger Device Off Reason",
+      "unit_of_measurement": null,
+      "metric_type": "MetricType.NONE",
+      "metric_nature": "MetricNature.NONE",
+      "value_type": "ValueType.BITMASK",
+      "precision": null,
+      "enum": "SolarChargerDeviceOffReason",
+      "min_max_range": "RangeType.STATIC",
+      "min": null,
+      "max": null,
+      "step": null,
+      "is_adjustable_suffix": null,
+      "key_values": {},
+      "experimental": false,
+      "depends_on": [],
+      "generic_name": "Solar Charger Device Off Reason",
       "is_formula": false
     },
     {
@@ -8442,6 +8530,131 @@
       ]
     },
     {
+      "name": "EvChargerStatus",
+      "EnumValues": [
+        {
+          "id": "Disconnected",
+          "name": "Disconnected",
+          "value": 0
+        },
+        {
+          "id": "Connected",
+          "name": "Connected",
+          "value": 1
+        },
+        {
+          "id": "Charging",
+          "name": "Charging",
+          "value": 2
+        },
+        {
+          "id": "Charged",
+          "name": "Charged",
+          "value": 3
+        },
+        {
+          "id": "WaitingForSun",
+          "name": "Waiting for sun",
+          "value": 4
+        },
+        {
+          "id": "WaitingForRFID",
+          "name": "Waiting for RFID",
+          "value": 5
+        },
+        {
+          "id": "WaitingForStart",
+          "name": "Waiting for start",
+          "value": 6
+        },
+        {
+          "id": "LowSoc",
+          "name": "Low SOC",
+          "value": 7
+        },
+        {
+          "id": "GroundTestError",
+          "name": "Ground test error",
+          "value": 8
+        },
+        {
+          "id": "WeldedContactsTestError",
+          "name": "Welded contacts test error",
+          "value": 9
+        },
+        {
+          "id": "CPInputTestError",
+          "name": "CP input test error",
+          "value": 10
+        },
+        {
+          "id": "ResidualCurrentDetected",
+          "name": "Residual current detected",
+          "value": 11
+        },
+        {
+          "id": "UndervoltageDetected",
+          "name": "Undervoltage detected",
+          "value": 12
+        },
+        {
+          "id": "OvervoltageDetected",
+          "name": "Overvoltage detected",
+          "value": 13
+        },
+        {
+          "id": "OverheatingDetected",
+          "name": "Overheating detected",
+          "value": 14
+        },
+        {
+          "id": "Reserved15",
+          "name": "Reserved",
+          "value": 15
+        },
+        {
+          "id": "Reserved16",
+          "name": "Reserved",
+          "value": 16
+        },
+        {
+          "id": "Reserved17",
+          "name": "Reserved",
+          "value": 17
+        },
+        {
+          "id": "Reserved18",
+          "name": "Reserved",
+          "value": 18
+        },
+        {
+          "id": "Reserved19",
+          "name": "reserved",
+          "value": 19
+        },
+        {
+          "id": "ChargingLimit",
+          "name": "Charging limit",
+          "value": 20
+        },
+        {
+          "id": "StartCharging",
+          "name": "Start charging",
+          "value": 21
+        },
+        {
+          "id": "SwitchingTo3Phase",
+          "name": "Switching to 3 phase",
+          "value": 22
+        },
+        {
+          "id": "SwitchingTo1Phase",
+          "name": "Switching to 1 phase",
+          "value": 23
+        }
+      ]
+    },
+    {
       "name": "FluidType",
       "EnumValues": [
         {
@@ -8668,6 +8881,81 @@
           "id": "ECO",
           "name": "Eco",
           "value": 5
+        }
+      ]
+    },
+    {
+      "name": "SolarChargerDeviceOffReason",
+      "EnumValues": [
+        {
+          "id": "NONE",
+          "name": "-",
+          "value": 0
+        },
+        {
+          "id": "NoInputPower",
+          "name": "No/Low input power",
+          "value": 1
+        },
+        {
+          "id": "SwitchedOffPowerSwitch",
+          "name": "Switched off (power switch)",
+          "value": 2
+        },
+        {
+          "id": "SwitchedOffDeviceModeRegister",
+          "name": "Switched off (device mode register)",
+          "value": 4
+        },
+        {
+          "id": "RemoteInput",
+          "name": "Remote input",
+          "value": 8
+        },
+        {
+          "id": "ProtectiveAction",
+          "name": "Protection active",
+          "value": 16
+        },
+        {
+          "id": "NeedToken",
+          "name": "Need token for operation",
+          "value": 32
+        },
+        {
+          "id": "SignalFromBMS",
+          "name": "Signal from BMS",
+          "value": 64
+        },
+        {
+          "id": "EngineShutdow",
+          "name": "Engine shutdown on low input voltage",
+          "value": 128
+        },
+        {
+          "id": "AnalysingInputVoltage",
+          "name": "Analysing input voltage",
+          "value": 256
+        },
+        {
+          "id": "LowTemperature",
+          "name": "Low temperature",
+          "value": 512
+        },
+        {
+          "id": "NoPanelPower",
+          "name": "No/Low panel power",
+          "value": 1024
+        },
+        {
+          "id": "NoBatteryPower",
+          "name": "No/Low battery power",
+          "value": 2048
+        },
+        {
+          "id": "ActiveAlarm",
+          "name": "Active alarm",
+          "value": 32768
         }
       ]
     },

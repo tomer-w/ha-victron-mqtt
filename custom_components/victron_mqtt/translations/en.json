@@ -215,6 +215,9 @@
       "battery_max_cell_voltage": {
         "name": "Battery maximum cell voltage"
       },
+      "battery_max_temperature_cell_id": {
+        "name": "Battery maximum temperature cell ID"
+      },
       "battery_max_voltage_cell_id": {
         "name": "Battery maximum voltage cell ID"
       },
@@ -223,6 +226,9 @@
       },
       "battery_min_cell_voltage": {
         "name": "Battery minimum cell voltage"
+      },
+      "battery_min_temperature_cell_id": {
+        "name": "Battery minimum temperature cell ID"
       },
       "battery_min_voltage_cell_id": {
         "name": "Battery minimum voltage cell ID"
@@ -292,6 +298,9 @@
       },
       "evcharger_set_current": {
         "name": "EV charger set current"
+      },
+      "evcharger_status": {
+        "name": "EV charger status"
       },
       "generator_total_runtime": {
         "name": "Generator total runtime"
@@ -631,6 +640,9 @@
       },
       "solarcharger_dc_voltage": {
         "name": "DC (Batt) Bus voltage"
+      },
+      "solarcharger_device_off_reason": {
+        "name": "Solar Charger Device Off Reason"
       },
       "solarcharger_error_code": {
         "name": "Solar Charger Error Code"
