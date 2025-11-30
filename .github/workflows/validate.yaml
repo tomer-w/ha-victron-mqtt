@@ -33,6 +33,6 @@ jobs:
         - name: Install dependencies
           run: |
             python -m pip install --upgrade pip
-            pip install pytest pytest-asyncio homeassistant pytest-homeassistant-custom-component
+            pip install pytest pytest-asyncio homeassistant pytest-homeassistant-custom-component victron_mqtt
         - name: Run tests
           run: pytest tests/
