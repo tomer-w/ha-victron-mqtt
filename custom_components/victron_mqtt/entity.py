@@ -16,7 +16,11 @@ from homeassistant.const import EntityCategory, UnitOfTime
 from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.entity import Entity
 
-from .const import ENTITIES_DISABLE_BY_DEFAULT, ENTITIES_CATEGORY_DIAGNOSTIC, ENTITY_PREFIX
+from .const import (
+    ENTITIES_CATEGORY_DIAGNOSTIC,
+    ENTITIES_DISABLE_BY_DEFAULT,
+    ENTITY_PREFIX,
+)
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -29,7 +33,7 @@ class VictronBaseEntity(Entity):
         device: VictronVenusDevice,
         metric: VictronVenusMetric,
         device_info: DeviceInfo,
-        type: str,
+        entity_platform: str,
         simple_naming: bool,
         installation_id: str,
     ) -> None:
@@ -38,9 +42,9 @@ class VictronBaseEntity(Entity):
         self._metric = metric
         self._device_info = device_info
         if simple_naming:
-            entity_id = f"{type}.{ENTITY_PREFIX}_{metric.unique_id}"
+            entity_id = f"{entity_platform}.{ENTITY_PREFIX}_{metric.unique_id}"
         else:
-            entity_id = f"{type}.{ENTITY_PREFIX}_{installation_id}_{metric.unique_id}"
+            entity_id = f"{entity_platform}.{ENTITY_PREFIX}_{installation_id}_{metric.unique_id}"
         self._attr_unique_id = entity_id
         self.entity_id = entity_id
         self._attr_native_unit_of_measurement = self._map_metric_to_unit_of_measurement(
@@ -56,8 +60,14 @@ class VictronBaseEntity(Entity):
         )  # same as in merge_topics.py
         self._attr_translation_placeholders = metric.key_values
         # Specific changes related to HA
-        self._attr_entity_category = EntityCategory.DIAGNOSTIC if metric.generic_short_id in ENTITIES_CATEGORY_DIAGNOSTIC else None
-        self._attr_entity_registry_enabled_default = False if metric.generic_short_id in ENTITIES_DISABLE_BY_DEFAULT else True
+        self._attr_entity_category = (
+            EntityCategory.DIAGNOSTIC
+            if metric.generic_short_id in ENTITIES_CATEGORY_DIAGNOSTIC
+            else None
+        )
+        self._attr_entity_registry_enabled_default = (
+            metric.generic_short_id not in ENTITIES_DISABLE_BY_DEFAULT
+        )
 
         _LOGGER.info("%s %s added. Based on: %s", type, self, repr(metric))
 
