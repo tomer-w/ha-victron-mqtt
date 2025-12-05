@@ -2,10 +2,11 @@
 
 from datetime import time
 import logging
-from typing import TYPE_CHECKING, Any
+from typing import Any
 
 from victron_mqtt import (
     Device as VictronVenusDevice,
+    Metric as VictronVenusMetric,
     MetricKind,
     WritableMetric as VictronVenusWritableMetric,
 )
@@ -17,9 +18,7 @@ from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .entity import VictronBaseEntity
-
-if TYPE_CHECKING:  # pragma: no cover - type checking only
-    from .hub import Hub
+from .hub import Hub
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -29,10 +28,30 @@ async def async_setup_entry(
     config_entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
-    """Set up Victron Venus buttons from a config entry."""
-
+    """Set up Victron Venus sensors from a config entry."""
     hub: Hub = config_entry.runtime_data
-    hub.register_add_entities_callback(async_add_entities, MetricKind.TIME)
+
+    def on_new_metric(
+        device: VictronVenusDevice,
+        metric: VictronVenusMetric,
+        device_info: DeviceInfo,
+        installation_id: str,
+    ) -> None:
+        """Handle new sensor metric discovery."""
+        async_add_entities(
+            [
+                VictronTime(
+                    device,
+                    metric,
+                    device_info,
+                    hub.simple_naming,
+                    installation_id,
+                )
+            ]
+        )
+
+    hub.register_new_metric_callback(MetricKind.TIME, on_new_metric)
+
 
 
 class VictronTime(VictronBaseEntity, TimeEntity):
@@ -68,12 +87,6 @@ class VictronTime(VictronBaseEntity, TimeEntity):
         assert writable_metric.unit_of_measurement == "min"
         super().__init__(
             device, writable_metric, device_info, "time", simple_naming, installation_id
-        )
-
-    def __repr__(self) -> str:
-        """Return a string representation of the time entity."""
-        return (
-            f"VictronTime({super().__repr__()}, native_value={self._attr_native_value})"
         )
 
     def _on_update_task(self, value: Any) -> None:

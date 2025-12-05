@@ -1,10 +1,11 @@
 """Support for Victron Venus switches with 4 states."""
 
 import logging
-from typing import TYPE_CHECKING, Any
+from typing import Any
 
 from victron_mqtt import (
     Device as VictronVenusDevice,
+    Metric as VictronVenusMetric,
     MetricKind,
     WritableMetric as VictronVenusWritableMetric,
 )
@@ -16,9 +17,7 @@ from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .entity import VictronBaseEntity
-
-if TYPE_CHECKING:  # pragma: no cover - type checking only
-    from .hub import Hub
+from .hub import Hub
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -28,10 +27,29 @@ async def async_setup_entry(
     config_entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
-    """Set up Victron Venus switches from a config entry."""
-
+    """Set up Victron Venus sensors from a config entry."""
     hub: Hub = config_entry.runtime_data
-    hub.register_add_entities_callback(async_add_entities, MetricKind.SELECT)
+
+    def on_new_metric(
+        device: VictronVenusDevice,
+        metric: VictronVenusMetric,
+        device_info: DeviceInfo,
+        installation_id: str,
+    ) -> None:
+        """Handle new sensor metric discovery."""
+        async_add_entities(
+            [
+                VictronSelect(
+                    device,
+                    metric,
+                    device_info,
+                    hub.simple_naming,
+                    installation_id,
+                )
+            ]
+        )
+
+    hub.register_new_metric_callback(MetricKind.SELECT, on_new_metric)
 
 
 class VictronSelect(VictronBaseEntity, SelectEntity):
@@ -57,10 +75,6 @@ class VictronSelect(VictronBaseEntity, SelectEntity):
             simple_naming,
             installation_id,
         )
-
-    def __repr__(self) -> str:
-        """Return a string representation of the sensor."""
-        return f"VictronSelect({super().__repr__()}, current_option={self._attr_current_option}, options={self._attr_options})"
 
     def _on_update_task(self, value: Any) -> None:
         new_val = self._map_value_to_state(value)

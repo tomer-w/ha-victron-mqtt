@@ -147,4 +147,7 @@ async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         hass.services.async_remove(DOMAIN, SERVICE_PUBLISH)
         _LOGGER.info("Victron MQTT services unregistered")
 
-    return await hass.config_entries.async_unload_platforms(entry, PLATFORMS)
+    await hass.config_entries.async_unload_platforms(entry, PLATFORMS)
+    hub.unregister_all_add_entities_callback()
+
+    return True

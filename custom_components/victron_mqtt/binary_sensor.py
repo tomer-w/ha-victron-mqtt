@@ -1,7 +1,7 @@
 """Support for Victron Venus binary sensors."""
 
 import logging
-from typing import TYPE_CHECKING, Any
+from typing import Any
 
 from victron_mqtt import (
     Device as VictronVenusDevice,
@@ -17,9 +17,7 @@ from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import SWITCH_ON
 from .entity import VictronBaseEntity
-
-if TYPE_CHECKING:  # pragma: no cover - type checking only
-    from .hub import Hub
+from .hub import Hub
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -29,10 +27,25 @@ async def async_setup_entry(
     config_entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
-    """Set up Victron Venus binary sensors from a config entry."""
-
+    """Set up Victron Venus sensors from a config entry."""
     hub: Hub = config_entry.runtime_data
-    hub.register_add_entities_callback(async_add_entities, MetricKind.BINARY_SENSOR)
+
+    def on_new_metric(
+        device: VictronVenusDevice,
+        metric: VictronVenusMetric,
+        device_info: DeviceInfo,
+        installation_id: str,
+    ) -> None:
+        """Handle new sensor metric discovery."""
+        async_add_entities(
+            [
+                VictronBinarySensor(
+                    device, metric, device_info, hub.simple_naming, installation_id
+                )
+            ]
+        )
+
+    hub.register_new_metric_callback(MetricKind.BINARY_SENSOR, on_new_metric)
 
 
 class VictronBinarySensor(VictronBaseEntity, BinarySensorEntity):
@@ -51,10 +64,6 @@ class VictronBinarySensor(VictronBaseEntity, BinarySensorEntity):
         super().__init__(
             device, metric, device_info, "binary_sensor", simple_naming, installation_id
         )
-
-    def __repr__(self) -> str:
-        """Return a string representation of the sensor."""
-        return f"VictronBinarySensor({super().__repr__()}), is_on={self._attr_is_on})"
 
     @staticmethod
     def _is_on(value: Any) -> bool:

@@ -1,6 +1,7 @@
 """Main Hub class."""
 
 import logging
+from typing import Callable
 
 from victron_mqtt import (
     CannotConnectError,
@@ -10,7 +11,6 @@ from victron_mqtt import (
     Metric as VictronVenusMetric,
     MetricKind,
     OperationMode,
-    WritableMetric as VictronVenusWritableMetric,
 )
 
 from homeassistant.config_entries import ConfigEntry
@@ -25,10 +25,7 @@ from homeassistant.const import (
 from homeassistant.core import Event, HomeAssistant
 from homeassistant.exceptions import ConfigEntryNotReady
 from homeassistant.helpers.device_registry import DeviceInfo
-from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
-from .binary_sensor import VictronBinarySensor
-from .button import VictronButton
 from .const import (
     CONF_ELEVATED_TRACING,
     CONF_EXCLUDED_DEVICES,
@@ -42,15 +39,12 @@ from .const import (
     DEFAULT_UPDATE_FREQUENCY_SECONDS,
     DOMAIN,
 )
-from .entity import VictronBaseEntity
-from .number import VictronNumber
-from .select import VictronSelect
-from .sensor import VictronSensor
-from .switch import VictronSwitch
-from .time import VictronTime
 
 _LOGGER = logging.getLogger(__name__)
 
+NewMetricCallback = Callable[
+    [VictronVenusDevice, VictronVenusMetric, DeviceInfo, str], None
+]
 
 class Hub:
     """Victron MQTT Hub for managing communication and sensors."""
@@ -109,9 +103,8 @@ class Hub:
             ),
         )
         self._hub.on_new_metric = self._on_new_metric
-        self.add_entities_map: dict[MetricKind, AddEntitiesCallback] = {}
+        self.add_entities_map: dict[MetricKind, NewMetricCallback] = {}
 
-        self.hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, self.stop)
 
     async def start(self) -> None:
         """Start the Victron MQTT hub."""
@@ -122,6 +115,7 @@ class Hub:
             raise ConfigEntryNotReady(
                 f"Cannot connect to the hub: {connect_error}"
             ) from connect_error
+        self.hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, self.stop)
 
     async def stop(self, event: Event | None = None) -> None:
         """Stop the Victron MQTT hub."""
@@ -137,10 +131,9 @@ class Hub:
         _LOGGER.info("New metric received. Device: %s, Metric: %s", device, metric)
         assert hub.installation_id is not None
         device_info = Hub._map_device_info(device, hub.installation_id)
-        entity = self.create_entity(device, metric, device_info, hub.installation_id)
-
-        # Add entity dynamically to the platform
-        self.add_entities_map[metric.metric_kind]([entity])
+        self.add_entities_map[metric.metric_kind](
+            device, metric, device_info, hub.installation_id
+        )
 
     @staticmethod
     def _map_device_info(
@@ -161,69 +154,24 @@ class Hub:
 
         return info
 
-    def register_add_entities_callback(
-        self, async_add_entities: AddEntitiesCallback, kind: MetricKind
+    def register_new_metric_callback(
+        self, kind: MetricKind, new_metric_callback: NewMetricCallback
     ) -> None:
         """Register a callback to add entities for a specific metric kind."""
         _LOGGER.info(
             "Registering AddEntitiesCallback. kind: %s, AddEntitiesCallback: %s",
             kind,
-            async_add_entities,
+            new_metric_callback,
         )
-        self.add_entities_map[kind] = async_add_entities
+        assert kind not in self.add_entities_map, (
+            f"AddEntitiesCallback for kind {kind} is already registered"
+        )
+        self.add_entities_map[kind] = new_metric_callback
 
-    def create_entity(
-        self,
-        device: VictronVenusDevice,
-        metric: VictronVenusMetric,
-        info: DeviceInfo,
-        installation_id: str,
-    ) -> VictronBaseEntity:
-        """Create a VictronBaseEntity from a device and metric."""
-        if metric.metric_kind == MetricKind.SENSOR:
-            return VictronSensor(
-                device, metric, info, self.simple_naming, installation_id
-            )
-        if metric.metric_kind == MetricKind.BINARY_SENSOR:
-            return VictronBinarySensor(
-                device, metric, info, self.simple_naming, installation_id
-            )
-        if metric.metric_kind == MetricKind.SWITCH:
-            assert isinstance(metric, VictronVenusWritableMetric), (
-                f"Expected metric to be a VictronVenusWritableMetric. Got {type(metric)}"
-            )
-            return VictronSwitch(
-                device, metric, info, self.simple_naming, installation_id
-            )
-        if metric.metric_kind == MetricKind.NUMBER:
-            assert isinstance(metric, VictronVenusWritableMetric), (
-                f"Expected metric to be a VictronVenusWritableMetric. Got {type(metric)}"
-            )
-            return VictronNumber(
-                device, metric, info, self.simple_naming, installation_id
-            )
-        if metric.metric_kind == MetricKind.SELECT:
-            assert isinstance(metric, VictronVenusWritableMetric), (
-                f"Expected metric to be a VictronVenusWritableMetric. Got {type(metric)}"
-            )
-            return VictronSelect(
-                device, metric, info, self.simple_naming, installation_id
-            )
-        if metric.metric_kind == MetricKind.BUTTON:
-            assert isinstance(metric, VictronVenusWritableMetric), (
-                f"Expected metric to be a VictronVenusWritableMetric. Got {type(metric)}"
-            )
-            return VictronButton(
-                device, metric, info, self.simple_naming, installation_id
-            )
-        if metric.metric_kind == MetricKind.TIME:
-            assert isinstance(metric, VictronVenusWritableMetric), (
-                f"Expected metric to be a VictronVenusWritableMetric. Got {type(metric)}"
-            )
-            return VictronTime(
-                device, metric, info, self.simple_naming, installation_id
-            )
-        raise ValueError(f"Unsupported metric kind: {metric.metric_kind}")
+    def unregister_all_add_entities_callback(self) -> None:
+        """Unregister all callbacks to add entities for all metric kinds."""
+        _LOGGER.info("Unregistering AddEntitiesCallback")
+        self.add_entities_map.clear()
 
     def publish(
         self, metric_id: str, device_id: str, value: str | float | None

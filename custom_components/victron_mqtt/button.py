@@ -1,7 +1,7 @@
 """Support for Victron Venus buttons."""
 
 import logging
-from typing import TYPE_CHECKING, Any
+from typing import Any
 
 from victron_mqtt import (
     Device as VictronVenusDevice,
@@ -18,9 +18,7 @@ from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import SWITCH_ON
 from .entity import VictronBaseEntity
-
-if TYPE_CHECKING:  # pragma: no cover - type checking only
-    from .hub import Hub
+from .hub import Hub
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -30,10 +28,32 @@ async def async_setup_entry(
     config_entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
-    """Set up Victron Venus buttons from a config entry."""
-
+    """Set up Victron Venus sensors from a config entry."""
     hub: Hub = config_entry.runtime_data
-    hub.register_add_entities_callback(async_add_entities, MetricKind.BUTTON)
+
+    def on_new_metric(
+        device: VictronVenusDevice,
+        metric: VictronVenusMetric,
+        device_info: DeviceInfo,
+        installation_id: str,
+    ) -> None:
+        """Handle new sensor metric discovery."""
+        assert isinstance(metric, VictronVenusWritableMetric), (
+            f"Expected metric to be a VictronVenusWritableMetric. Got {type(metric)}"
+        )
+        async_add_entities(
+            [
+                VictronButton(
+                    device,
+                    metric,
+                    device_info,
+                    hub.simple_naming,
+                    installation_id,
+                )
+            ]
+        )
+
+    hub.register_new_metric_callback(MetricKind.BUTTON, on_new_metric)
 
 
 class VictronButton(VictronBaseEntity, ButtonEntity):
@@ -42,7 +62,7 @@ class VictronButton(VictronBaseEntity, ButtonEntity):
     def __init__(
         self,
         device: VictronVenusDevice,
-        metric: VictronVenusMetric,
+        metric: VictronVenusWritableMetric,
         device_info: DeviceInfo,
         simple_naming: bool,
         installation_id: str,
@@ -57,7 +77,6 @@ class VictronButton(VictronBaseEntity, ButtonEntity):
 
     def press(self) -> None:
         """Press the button."""
-        assert isinstance(self._metric, VictronVenusWritableMetric)
         _LOGGER.info("Pressing button: %s", self._attr_unique_id)
         self._metric.set(SWITCH_ON)
 
