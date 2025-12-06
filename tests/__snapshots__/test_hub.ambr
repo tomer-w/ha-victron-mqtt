@@ -1,0 +1,36 @@
+# serializer version: 1
+# name: test_victron_sensor_basic
+  _CallList([
+    _Call(
+      tuple(
+        list([
+          VictronSensor(VictronBaseEntity(device=Grid, unique_id=sensor.victron_mqtt_123_grid_30_grid_energy_forward_L1, metric=grid_energy_forward_L1, translation_key=grid_energy_forward_phase, translation_placeholders={'installation_id': '123', 'device_id': '30', 'phase': 'L1', 'next_phase': 'L2'}), native_value=42.0),
+        ]),
+      ),
+      dict({
+      }),
+    ),
+  ])
+# ---
+# name: test_victron_sensor_complex
+  _CallList([
+    _Call(
+      tuple(
+        list([
+          VictronBaseEntity(device=Victron Venus, unique_id=select.victron_mqtt_123_system_0_system_ess_schedule_charge_2_days, metric=system_ess_schedule_charge_2_days, translation_key=system_ess_schedule_charge_slot_days, translation_placeholders={'installation_id': '123', 'device_id': '0', 'slot': '2'}),
+        ]),
+      ),
+      dict({
+      }),
+    ),
+    _Call(
+      tuple(
+        list([
+          VictronBaseEntity(device=Victron Venus, unique_id=switch.victron_mqtt_123_system_0_system_ess_schedule_charge_2_enabled, metric=system_ess_schedule_charge_2_enabled, translation_key=system_ess_schedule_charge_slot_enabled, translation_placeholders={'installation_id': '123', 'device_id': '0', 'slot': '2'}),
+        ]),
+      ),
+      dict({
+      }),
+    ),
+  ])
+# ---

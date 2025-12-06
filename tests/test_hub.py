@@ -3,13 +3,20 @@
 from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
+from syrupy import snapshot
 from victron_mqtt import (
     CannotConnectError,
     Device as VictronVenusDevice,
+    DeviceType,
     Hub as VictronVenusHub,
     Metric as VictronVenusMetric,
     MetricKind,
     OperationMode,
+)
+from victron_mqtt.testing import (
+    create_mocked_hub,
+    finalize_injection,
+    inject_message,
 )
 
 from custom_components.victron_mqtt.binary_sensor import VictronBinarySensor
@@ -36,6 +43,7 @@ from homeassistant.const import (
 )
 from homeassistant.core import HomeAssistant
 from homeassistant.exceptions import ConfigEntryNotReady
+from homeassistant.helpers.device_registry import DeviceInfo
 
 
 @pytest.fixture
@@ -75,6 +83,49 @@ def mock_victron_hub():
         mock_hub.installation_id = "12345"
         mock_hub_class.return_value = mock_hub
         yield mock_hub
+
+
+@pytest.fixture
+async def mqtt_sensor_test_setup(hass: HomeAssistant):
+    """Set up MQTT sensor testing with real callbacks."""
+    from custom_components.victron_mqtt.sensor import async_setup_entry as sensor_setup_entry
+    from custom_components.victron_mqtt.select import async_setup_entry as select_setup_entry
+    from custom_components.victron_mqtt.switch import async_setup_entry as switch_setup_entry
+
+    victron_hub = await create_mocked_hub()
+    mock_async_add_entities = AsyncMock()
+    
+    # Create a real Hub and config entry
+    mock_config_entry = MagicMock(spec=ConfigEntry)
+    mock_config_entry.data = {
+        CONF_HOST: "localhost",
+        CONF_SERIAL: "test_serial",
+    }
+    mock_config_entry.unique_id = "test_unique_id"
+    
+    # Create the real Hub
+    hub = Hub(hass, mock_config_entry)
+    victron_hub.on_new_metric = hub._on_new_metric
+    mock_config_entry.runtime_data = hub
+    
+    # Call the sensor platform setup to register the real callback
+    await sensor_setup_entry(
+        hass,
+        mock_config_entry,
+        mock_async_add_entities,
+    )
+    await select_setup_entry(
+        hass,
+        mock_config_entry,
+        mock_async_add_entities,
+    )
+    await switch_setup_entry(
+        hass,
+        mock_config_entry,
+        mock_async_add_entities,
+    )
+    
+    return victron_hub, mock_async_add_entities, hub
 
 
 async def test_hub_initialization(
@@ -372,3 +423,32 @@ async def test_simple_naming_enabled(
     hub = Hub(hass, mock_config_entry)
 
     assert hub.simple_naming is True
+
+
+async def test_victron_sensor_basic(snapshot, mqtt_sensor_test_setup):
+    """End-to-end test: inject MQTT message and verify VictronSensor creation."""
+    victron_hub, mock_async_add_entities, hub = mqtt_sensor_test_setup
+
+    # Inject the MQTT message
+    await inject_message(victron_hub, "N/123/grid/30/Ac/L1/Energy/Forward", "{\"value\": 42}")
+    await finalize_injection(victron_hub)
+
+    # Verify async_add_entities was called with a VictronSensor
+    mock_async_add_entities.assert_called_once()
+    all_calls = mock_async_add_entities.call_args_list
+    assert all_calls == snapshot
+
+async def test_victron_sensor_complex(snapshot, mqtt_sensor_test_setup):
+    """End-to-end test: inject MQTT message and verify VictronSensor creation."""
+    victron_hub, mock_async_add_entities, hub = mqtt_sensor_test_setup
+
+    # Inject the MQTT message
+    await inject_message(victron_hub, "N/123/settings/0/Settings/CGwacs/BatteryLife/Schedule/Charge/2/Day", "{\"value\": -7}")
+    await finalize_injection(victron_hub)
+
+    # Verify async_add_entities was called with entities
+    assert mock_async_add_entities.call_count == 2
+    
+    # Get all calls - this will have both sensor and select entities
+    all_calls = mock_async_add_entities.call_args_list
+    assert all_calls == snapshot
