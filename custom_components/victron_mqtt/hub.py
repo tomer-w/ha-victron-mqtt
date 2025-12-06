@@ -168,7 +168,7 @@ class Hub:
         )
         self.add_entities_map[kind] = new_metric_callback
 
-    def unregister_all_add_entities_callback(self) -> None:
+    def unregister_all_new_metric_callbacks(self) -> None:
         """Unregister all callbacks to add entities for all metric kinds."""
         _LOGGER.info("Unregistering AddEntitiesCallback")
         self.add_entities_map.clear()
