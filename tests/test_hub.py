@@ -86,11 +86,15 @@ def mock_victron_hub():
 
 
 @pytest.fixture
-async def mqtt_sensor_test_setup(hass: HomeAssistant):
-    """Set up MQTT sensor testing with real callbacks."""
+async def mqtt_test_setup(hass: HomeAssistant):
+    """Set up MQTT testing with ALL platform callbacks."""
     from custom_components.victron_mqtt.sensor import async_setup_entry as sensor_setup_entry
     from custom_components.victron_mqtt.select import async_setup_entry as select_setup_entry
     from custom_components.victron_mqtt.switch import async_setup_entry as switch_setup_entry
+    from custom_components.victron_mqtt.binary_sensor import async_setup_entry as binary_sensor_setup_entry
+    from custom_components.victron_mqtt.number import async_setup_entry as number_setup_entry
+    from custom_components.victron_mqtt.button import async_setup_entry as button_setup_entry
+    from custom_components.victron_mqtt.time import async_setup_entry as time_setup_entry
 
     victron_hub = await create_mocked_hub()
     mock_async_add_entities = AsyncMock()
@@ -108,22 +112,14 @@ async def mqtt_sensor_test_setup(hass: HomeAssistant):
     victron_hub.on_new_metric = hub._on_new_metric
     mock_config_entry.runtime_data = hub
     
-    # Call the sensor platform setup to register the real callback
-    await sensor_setup_entry(
-        hass,
-        mock_config_entry,
-        mock_async_add_entities,
-    )
-    await select_setup_entry(
-        hass,
-        mock_config_entry,
-        mock_async_add_entities,
-    )
-    await switch_setup_entry(
-        hass,
-        mock_config_entry,
-        mock_async_add_entities,
-    )
+    # Register all platform callbacks
+    await sensor_setup_entry(hass, mock_config_entry, mock_async_add_entities)
+    await select_setup_entry(hass, mock_config_entry, mock_async_add_entities)
+    await switch_setup_entry(hass, mock_config_entry, mock_async_add_entities)
+    await binary_sensor_setup_entry(hass, mock_config_entry, mock_async_add_entities)
+    await number_setup_entry(hass, mock_config_entry, mock_async_add_entities)
+    await button_setup_entry(hass, mock_config_entry, mock_async_add_entities)
+    await time_setup_entry(hass, mock_config_entry, mock_async_add_entities)
     
     return victron_hub, mock_async_add_entities, hub
 
@@ -425,9 +421,9 @@ async def test_simple_naming_enabled(
     assert hub.simple_naming is True
 
 
-async def test_victron_sensor_basic(snapshot, mqtt_sensor_test_setup):
+async def test_victron_sensor_basic(snapshot, mqtt_test_setup):
     """End-to-end test: inject MQTT message and verify VictronSensor creation."""
-    victron_hub, mock_async_add_entities, hub = mqtt_sensor_test_setup
+    victron_hub, mock_async_add_entities, hub = mqtt_test_setup
 
     # Inject the MQTT message
     await inject_message(victron_hub, "N/123/grid/30/Ac/L1/Energy/Forward", "{\"value\": 42}")
@@ -438,9 +434,9 @@ async def test_victron_sensor_basic(snapshot, mqtt_sensor_test_setup):
     all_calls = mock_async_add_entities.call_args_list
     assert all_calls == snapshot
 
-async def test_victron_sensor_complex(snapshot, mqtt_sensor_test_setup):
+async def test_victron_sensor_complex(snapshot, mqtt_test_setup):
     """End-to-end test: inject MQTT message and verify VictronSensor creation."""
-    victron_hub, mock_async_add_entities, hub = mqtt_sensor_test_setup
+    victron_hub, mock_async_add_entities, hub = mqtt_test_setup
 
     # Inject the MQTT message
     await inject_message(victron_hub, "N/123/settings/0/Settings/CGwacs/BatteryLife/Schedule/Charge/2/Day", "{\"value\": -7}")
@@ -452,3 +448,195 @@ async def test_victron_sensor_complex(snapshot, mqtt_sensor_test_setup):
     # Get all calls - this will have both sensor and select entities
     all_calls = mock_async_add_entities.call_args_list
     assert all_calls == snapshot
+
+
+# Tests for each MetricKind type
+
+async def test_victron_binary_sensor(snapshot, mqtt_test_setup):
+    """Test BINARY_SENSOR MetricKind - evcharger connected state."""
+    victron_hub, mock_async_add_entities, hub = mqtt_test_setup
+    mock_async_add_entities.reset_mock()
+
+    # Inject a binary sensor metric (evcharger connected state)
+    await inject_message(victron_hub, "N/123/evcharger/0/Connected", "{\"value\": 1}")
+    await finalize_injection(victron_hub)
+
+    # Verify async_add_entities was called once
+    assert mock_async_add_entities.call_count == 1
+    call_args = mock_async_add_entities.call_args_list
+    assert call_args == snapshot
+
+
+async def test_victron_number(snapshot, mqtt_test_setup):
+    """Test NUMBER MetricKind - evcharger set current."""
+    victron_hub, mock_async_add_entities, hub = mqtt_test_setup
+    mock_async_add_entities.reset_mock()
+
+    # Inject a number metric (evcharger set current)
+    await inject_message(victron_hub, "N/123/evcharger/0/SetCurrent", "{\"value\": 16.0}")
+    await finalize_injection(victron_hub)
+
+    # Verify async_add_entities was called once
+    assert mock_async_add_entities.call_count == 1
+    call_args = mock_async_add_entities.call_args_list
+    assert call_args == snapshot
+
+
+
+async def test_victron_select(snapshot, mqtt_test_setup):
+    """Test SELECT MetricKind - evcharger mode selection."""
+    victron_hub, mock_async_add_entities, hub = mqtt_test_setup
+    mock_async_add_entities.reset_mock()
+
+    # Inject a select metric (evcharger mode) - use numeric enum value
+    await inject_message(victron_hub, "N/123/evcharger/0/Mode", "{\"value\": 1}")
+    await finalize_injection(victron_hub)
+
+    # Verify async_add_entities was called once
+    assert mock_async_add_entities.call_count == 1
+    call_args = mock_async_add_entities.call_args_list
+    assert call_args == snapshot
+
+
+
+async def test_victron_button(snapshot, mqtt_test_setup):
+    """Test BUTTON MetricKind - platform device reboot."""
+    victron_hub, mock_async_add_entities, hub = mqtt_test_setup
+    mock_async_add_entities.reset_mock()
+
+    # Inject a button metric (platform device reboot) - GenericOnOff enum value
+    await inject_message(victron_hub, "N/123/platform/0/Device/Reboot", "{\"value\": 1}")
+    await finalize_injection(victron_hub)
+
+    # Verify async_add_entities was called once
+    assert mock_async_add_entities.call_count == 1
+    call_args = mock_async_add_entities.call_args_list
+    assert call_args == snapshot
+
+
+
+async def test_victron_switch(snapshot, mqtt_test_setup):
+    """Test SWITCH MetricKind - generator manual start."""
+    victron_hub, mock_async_add_entities, hub = mqtt_test_setup
+    mock_async_add_entities.reset_mock()
+
+    # Inject a switch metric (generator manual start - writable)
+    await inject_message(victron_hub, "N/123/generator/0/ManualStart", "{\"value\": 0}")
+    await finalize_injection(victron_hub)
+
+    # Verify async_add_entities was called once
+    assert mock_async_add_entities.call_count == 1
+    call_args = mock_async_add_entities.call_args_list
+    assert call_args == snapshot
+
+
+
+async def test_victron_time(snapshot, mqtt_test_setup):
+    """Test TIME MetricKind - ESS schedule charge start time."""
+    victron_hub, mock_async_add_entities, hub = mqtt_test_setup
+    mock_async_add_entities.reset_mock()
+
+    # Inject a time metric (schedule charge start time in minutes 0-86400)
+    await inject_message(victron_hub, "N/123/settings/0/Settings/CGwacs/BatteryLife/Schedule/Charge/0/Start", "{\"value\": 1380}")
+    await finalize_injection(victron_hub)
+
+    # Verify async_add_entities was called once
+    assert mock_async_add_entities.call_count == 1
+    call_args = mock_async_add_entities.call_args_list
+    assert call_args == snapshot
+
+
+
+async def test_victron_acload_sensor(snapshot, mqtt_test_setup):
+    """Test SENSOR MetricKind - AC load current."""
+    victron_hub, mock_async_add_entities, hub = mqtt_test_setup
+    mock_async_add_entities.reset_mock()
+
+    # Inject a sensor metric (AC load current)
+    await inject_message(victron_hub, "N/123/acload/0/Ac/Current", "{\"value\": 5.25}")
+    await finalize_injection(victron_hub)
+
+    # Verify async_add_entities was called once
+    assert mock_async_add_entities.call_count == 1
+    call_args = mock_async_add_entities.call_args_list
+    assert call_args == snapshot
+
+
+
+async def test_victron_pvinverter_sensor(snapshot, mqtt_test_setup):
+    """Test SENSOR MetricKind - PV inverter power."""
+    victron_hub, mock_async_add_entities, hub = mqtt_test_setup
+    mock_async_add_entities.reset_mock()
+
+    # Inject a sensor metric (PV inverter AC power)
+    await inject_message(victron_hub, "N/123/pvinverter/0/Ac/Power", "{\"value\": 2500}")
+    await finalize_injection(victron_hub)
+
+    # Verify async_add_entities was called once
+    assert mock_async_add_entities.call_count == 1
+    call_args = mock_async_add_entities.call_args_list
+    assert call_args == snapshot
+
+
+
+async def test_victron_battery_sensor(snapshot, mqtt_test_setup):
+    """Test SENSOR MetricKind - battery current."""
+    victron_hub, mock_async_add_entities, hub = mqtt_test_setup
+    mock_async_add_entities.reset_mock()
+
+    # Inject a sensor metric (battery current)
+    await inject_message(victron_hub, "N/123/battery/0/Dc/0/Current", "{\"value\": 10.5}")
+    await finalize_injection(victron_hub)
+
+    # Verify async_add_entities was called once
+    assert mock_async_add_entities.call_count == 1
+    call_args = mock_async_add_entities.call_args_list
+    assert call_args == snapshot
+
+
+
+async def test_victron_inverter_select(snapshot, mqtt_test_setup):
+    """Test SELECT MetricKind - inverter mode selection."""
+    victron_hub, mock_async_add_entities, hub = mqtt_test_setup
+    mock_async_add_entities.reset_mock()
+
+    # Inject a select metric (inverter mode) - use numeric enum value
+    await inject_message(victron_hub, "N/123/inverter/0/Mode", "{\"value\": 2}")
+    await finalize_injection(victron_hub)
+
+    # Verify async_add_entities was called once
+    assert mock_async_add_entities.call_count == 1
+    call_args = mock_async_add_entities.call_args_list
+    assert call_args == snapshot
+
+
+
+async def test_victron_solarcharger_number(snapshot, mqtt_test_setup):
+    """Test NUMBER MetricKind - solar charger load output switch."""
+    victron_hub, mock_async_add_entities, hub = mqtt_test_setup
+    mock_async_add_entities.reset_mock()
+
+    # Inject a number metric (solar charger load output state)
+    await inject_message(victron_hub, "N/123/solarcharger/0/Load/State", "{\"value\": 1}")
+    await finalize_injection(victron_hub)
+
+    # Verify async_add_entities was called once
+    assert mock_async_add_entities.call_count == 1
+    call_args = mock_async_add_entities.call_args_list
+    assert call_args == snapshot
+
+
+
+async def test_victron_multi_ess_sensor(snapshot, mqtt_test_setup):
+    """Test SENSOR MetricKind - Multi ESS mode."""
+    victron_hub, mock_async_add_entities, hub = mqtt_test_setup
+    mock_async_add_entities.reset_mock()
+
+    # Inject a sensor metric (Multi ESS mode)
+    await inject_message(victron_hub, "N/123/multi/0/Settings/Ess/Mode", "{\"value\": 1}")
+    await finalize_injection(victron_hub)
+
+    # Verify async_add_entities was called once
+    assert mock_async_add_entities.call_count == 1
+    call_args = mock_async_add_entities.call_args_list
+    assert call_args == snapshot
