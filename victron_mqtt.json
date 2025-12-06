@@ -359,6 +359,28 @@
       "is_formula": false
     },
     {
+      "topic": "N/{installation_id}/alternator/{device_id}/Settings/ChargeCurrentLimit",
+      "message_type": "MetricKind.NUMBER",
+      "short_id": "alternator_charge_current_limit",
+      "name": "Charge Current Limit",
+      "unit_of_measurement": "A",
+      "metric_type": "MetricType.CURRENT",
+      "metric_nature": "MetricNature.INSTANTANEOUS",
+      "value_type": "ValueType.FLOAT",
+      "precision": 1,
+      "enum": null,
+      "min_max_range": "RangeType.STATIC",
+      "min": 0,
+      "max": 50,
+      "step": null,
+      "is_adjustable_suffix": null,
+      "key_values": {},
+      "experimental": false,
+      "depends_on": [],
+      "generic_name": "Charge Current Limit",
+      "is_formula": false
+    },
+    {
       "topic": "N/{installation_id}/alternator/{device_id}/State",
       "message_type": "MetricKind.SENSOR",
       "short_id": "alternator_state",
@@ -3565,7 +3587,7 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": true,
+      "experimental": false,
       "depends_on": [],
       "generic_name": "Platform device reboot",
       "is_formula": false
@@ -3897,7 +3919,7 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": true,
+      "experimental": false,
       "depends_on": [],
       "generic_name": "ESS BatteryLife Schedule charge {slot} Duration",
       "is_formula": false
@@ -3919,7 +3941,7 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": true,
+      "experimental": false,
       "depends_on": [],
       "generic_name": "ESS BatteryLife Schedule charge {slot} SOC",
       "is_formula": false
@@ -3941,7 +3963,7 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": true,
+      "experimental": false,
       "depends_on": [],
       "generic_name": "ESS BatteryLife Schedule charge {slot} Start",
       "is_formula": false
@@ -5767,7 +5789,7 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": true,
+      "experimental": false,
       "depends_on": [
         "system_dc_battery_power"
       ],
@@ -5791,7 +5813,7 @@
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
-      "experimental": true,
+      "experimental": false,
       "depends_on": [
         "system_dc_battery_power"
       ],

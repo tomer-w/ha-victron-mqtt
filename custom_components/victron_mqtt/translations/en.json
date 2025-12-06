@@ -128,6 +128,9 @@
       "alternator_input_voltage": {
         "name": "Input Voltage"
       },
+      "alternator_charge_current_limit": {
+        "name": "Charge Current Limit"
+      },
       "alternator_state": {
         "name": "Alternator State"
       },
@@ -1165,30 +1168,10 @@
         "name": "Loss of grid alarm setting"
       }
     },
-    "select": {
-      "evcharger_mode": {
-        "name": "EV charger mode"
-      },
-      "inverter_mode": {
-        "name": "Inverter mode"
-      },
-      "system_ess_schedule_charge_slot_days": {
-        "name": "ESS BatteryLife Schedule charge {slot} days"
-      },
-      "system_ess_batterylife_state": {
-        "name": "ESS BatteryLife State"
-      },
-      "system_ess_mode": {
-        "name": "ESS Mode (Hub4)"
-      },
-      "system_settings_dess_mode": {
-        "name": "DESS Mode"
-      },
-      "vebus_inverter_mode": {
-        "name": "Inverter mode"
-      }
-    },
     "number": {
+      "alternator_charge_current_limit": {
+        "name": "Charge Current Limit"
+      },
       "evcharger_set_current": {
         "name": "EV charger set current"
       },
@@ -1296,6 +1279,29 @@
       },
       "multiplus_assist_current_boost_factor": {
         "name": "Assist Current Boost Factor"
+      }
+    },
+    "select": {
+      "evcharger_mode": {
+        "name": "EV charger mode"
+      },
+      "inverter_mode": {
+        "name": "Inverter mode"
+      },
+      "system_ess_schedule_charge_slot_days": {
+        "name": "ESS BatteryLife Schedule charge {slot} days"
+      },
+      "system_ess_batterylife_state": {
+        "name": "ESS BatteryLife State"
+      },
+      "system_ess_mode": {
+        "name": "ESS Mode (Hub4)"
+      },
+      "system_settings_dess_mode": {
+        "name": "DESS Mode"
+      },
+      "vebus_inverter_mode": {
+        "name": "Inverter mode"
       }
     },
     "button": {
