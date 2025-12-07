@@ -270,7 +270,8 @@ class VictronMQTTConfigFlow(ConfigFlow, domain=DOMAIN):
             )
             assert sensed_installation_id == self.installation_id
         except CannotConnectError:
-            return await self.async_step_user()
+            _LOGGER.exception("Cannot connect to Victron device via SSDP")
+            return self.async_abort(reason="cannot_connect")
 
         return self.async_create_entry(
             title=str(self.friendly_name),
