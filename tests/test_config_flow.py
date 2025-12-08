@@ -281,7 +281,7 @@ async def test_ssdp_flow_success(hass: HomeAssistant) -> None:
 async def test_ssdp_flow_cannot_connect(
     hass: HomeAssistant, mock_victron_hub: MagicMock
 ) -> None:
-    """Test SSDP discovery flow when connection fails, falls back to user flow."""
+    """Test SSDP discovery flow when connection fails, aborts with cannot_connect."""
     mock_victron_hub.return_value.connect.side_effect = CannotConnectError
 
     discovery_info = SsdpServiceInfo(
@@ -304,9 +304,9 @@ async def test_ssdp_flow_cannot_connect(
         data=discovery_info,
     )
 
-    # Should fall back to user form when connection fails
-    assert result["type"] is FlowResultType.FORM
-    assert result["step_id"] == "user"
+    # Should abort when connection fails
+    assert result["type"] is FlowResultType.ABORT
+    assert result["reason"] == "cannot_connect"
 
 
 @pytest.mark.usefixtures("mock_victron_hub")

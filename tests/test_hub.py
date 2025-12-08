@@ -97,7 +97,7 @@ async def mqtt_test_setup(hass: HomeAssistant):
     from custom_components.victron_mqtt.time import async_setup_entry as time_setup_entry
 
     victron_hub = await create_mocked_hub()
-    mock_async_add_entities = AsyncMock()
+    mock_async_add_entities = MagicMock()
     
     # Create a real Hub and config entry
     mock_config_entry = MagicMock(spec=ConfigEntry)
