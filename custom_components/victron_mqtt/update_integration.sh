@@ -7,16 +7,22 @@ TARGET_SUBFOLDER="custom_components/victron_mqtt"
 DEST_FOLDER="/config/custom_components/victron_mqtt"
 # ========================
 # Usage:
-# Run the script without arguments to update the integration.
+# Run the script without arguments to update the integration to the latest release.
 # Use the --restart flag to restart Home Assistant after updating.
 # Use the --main flag to force using main branch even if releases exist.
+# Use the --version <tag> flag to download a specific version (e.g., v1.0.0).
+# Use the --list-versions flag to list all available versions.
 # Examples: 
 #   bash update_integration.sh --restart
 #   bash update_integration.sh --main
 #   bash update_integration.sh --main --restart
+#   bash update_integration.sh --version v1.0.0
+#   bash update_integration.sh --version v1.0.0 --restart
+#   bash update_integration.sh --list-versions
 
 RESTART_HA=false
 USE_MAIN=false
+SPECIFIC_VERSION=""
 
 # Check for jq; if missing, warn and skip printing commit info when using main
 if ! command -v jq >/dev/null 2>&1; then
@@ -35,11 +41,42 @@ for arg in "$@"; do
         --main)
             USE_MAIN=true
             ;;
+        --version)
+            # Next argument is the version
+            SPECIFIC_VERSION="${@:$((OPTIND+1)):1}"
+            shift
+            ;;
+        --list-versions)
+            echo "📋 Fetching available versions from GitHub..."
+            if ! command -v jq >/dev/null 2>&1; then
+                echo "❌ 'jq' is required to list versions. Please install jq."
+                exit 1
+            fi
+            RELEASES=$(curl -s "https://api.github.com/repos/$GITHUB_USER/$GITHUB_REPO/releases" | jq -r '.[].tag_name' | head -20)
+            if [ -z "$RELEASES" ]; then
+                echo "❌ Could not fetch releases from GitHub."
+                exit 1
+            fi
+            echo "Available versions:"
+            echo "$RELEASES"
+            echo ""
+            echo "💡 Usage: bash update_integration.sh --version <version-tag>"
+            exit 0
+            ;;
     esac
 done
 
-# Fetch latest release tag via GitHub API (unless --main flag is used)
-if [ "$USE_MAIN" = true ]; then
+# Validate that --version and --main are not used together
+if [ -n "$SPECIFIC_VERSION" ] && [ "$USE_MAIN" = true ]; then
+    echo "❌ Error: Cannot use --version and --main flags together."
+    exit 1
+fi
+
+# Fetch latest release tag via GitHub API (unless --main flag is used or --version is specified)
+if [ -n "$SPECIFIC_VERSION" ]; then
+    echo "📌 Using specific version: $SPECIFIC_VERSION"
+    LATEST_TAG="$SPECIFIC_VERSION"
+elif [ "$USE_MAIN" = true ]; then
     echo "🔀 Using main branch as requested (--main flag)"
     LATEST_TAG="null"
 else
@@ -76,7 +113,7 @@ if [ "$LATEST_TAG" == "null" ] || [ -z "$LATEST_TAG" ]; then
         echo "ℹ️  Skipping commit info because 'jq' is not available."
     fi
 else
-    echo "⬇️  Found latest release: $LATEST_TAG"
+    echo "⬇️  Found version: $LATEST_TAG"
     ZIP_URL="https://github.com/$GITHUB_USER/$GITHUB_REPO/archive/refs/tags/$LATEST_TAG.zip"
     # Remove 'v' prefix from tag for folder name
     TAG_WITHOUT_V="${LATEST_TAG#v}"

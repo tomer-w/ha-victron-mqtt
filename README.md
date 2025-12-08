@@ -45,19 +45,38 @@ If you prefer not to use HACS due to bandwidth constraints, especially in marine
    ```bash
    chmod +x /config/custom_components/victron_mqtt/update_integration.sh
    ```
-2. Run the script using a terminal:
+3. Run the script using a terminal to update to the latest release:
    ```bash
    /config/custom_components/victron_mqtt/update_integration.sh
    ```
-3. Optionally, use the `--restart` flag to restart Home Assistant after the update:
-   ```bash
-   /config/custom_components/victron_mqtt/update_integration.sh --restart
-   ```
-   This will validate the Home Assistant configuration and issue a restart command if the configuration is valid.
 
-4. Restart Home Assistant manually if you did not use the `--restart` flag.
+#### Script Options
 
-This script will fetch the latest version of the integration directly from the repository and replace the existing files.
+- **`--restart`**: Automatically restart Home Assistant after the update (validates configuration first)
+  ```bash
+  /config/custom_components/victron_mqtt/update_integration.sh --restart
+  ```
+
+- **`--main`**: Force download from the main development branch instead of the latest release
+  ```bash
+  /config/custom_components/victron_mqtt/update_integration.sh --main
+  ```
+
+- **`--version <tag>`**: Download a specific version (e.g., `v1.0.0`)
+  ```bash
+  /config/custom_components/victron_mqtt/update_integration.sh --version v1.0.0
+  /config/custom_components/victron_mqtt/update_integration.sh --version v1.0.0 --restart
+  ```
+
+- **`--list-versions`**: List all available versions
+  ```bash
+  /config/custom_components/victron_mqtt/update_integration.sh --list-versions
+  ```
+
+This script will fetch the specified version of the integration directly from the repository and replace the existing files.
+
+Note: Restart Home Assistant manually if you did not use the `--restart` flag.
+
 
 ## Configuration
 
