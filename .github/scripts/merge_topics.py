@@ -52,10 +52,15 @@ def main():
             if 'sensor' not in entity:
                 entity['sensor'] = {}
             entity['sensor'][translation_key] = {"name": topic_name}
-    en['entity'] = entity
+    # Sort the entity dictionary and its nested dictionaries
+    sorted_entity = {}
+    for entity_type in sorted(entity.keys()):
+        sorted_entity[entity_type] = dict(sorted(entity[entity_type].items()))
+    
+    en['entity'] = sorted_entity
 
     with open(en_path, 'w', encoding='utf-8') as f:
-        json.dump(en, f, ensure_ascii=False, indent=2)
+        json.dump(en, f, ensure_ascii=False, indent=2, sort_keys=True)
     print(f"Updated {count} entities")
 
 if __name__ == '__main__':
