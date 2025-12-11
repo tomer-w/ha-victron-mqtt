@@ -604,7 +604,7 @@
       "topic": "N/{installation_id}/battery/{device_id}/Dc/0/Current",
       "message_type": "MetricKind.SENSOR",
       "short_id": "battery_current",
-      "name": "DC Bus current",
+      "name": "DC bus current",
       "unit_of_measurement": "A",
       "metric_type": "MetricType.CURRENT",
       "metric_nature": "MetricNature.INSTANTANEOUS",
@@ -619,14 +619,14 @@
       "key_values": {},
       "experimental": false,
       "depends_on": [],
-      "generic_name": "DC Bus current",
+      "generic_name": "DC bus current",
       "is_formula": false
     },
     {
       "topic": "N/{installation_id}/battery/{device_id}/Dc/0/MidVoltage",
       "message_type": "MetricKind.SENSOR",
       "short_id": "battery_mid_voltage",
-      "name": "DC Bus mid voltage",
+      "name": "DC bus mid voltage",
       "unit_of_measurement": "V",
       "metric_type": "MetricType.VOLTAGE",
       "metric_nature": "MetricNature.INSTANTANEOUS",
@@ -641,14 +641,14 @@
       "key_values": {},
       "experimental": false,
       "depends_on": [],
-      "generic_name": "DC Bus mid voltage",
+      "generic_name": "DC bus mid voltage",
       "is_formula": false
     },
     {
       "topic": "N/{installation_id}/battery/{device_id}/Dc/0/MidVoltageDeviation",
       "message_type": "MetricKind.SENSOR",
       "short_id": "battery_mid_voltage_deviation",
-      "name": "DC Bus mid voltage deviation",
+      "name": "DC bus mid voltage deviation",
       "unit_of_measurement": "%",
       "metric_type": "MetricType.PERCENTAGE",
       "metric_nature": "MetricNature.INSTANTANEOUS",
@@ -663,7 +663,7 @@
       "key_values": {},
       "experimental": false,
       "depends_on": [],
-      "generic_name": "DC Bus mid voltage deviation",
+      "generic_name": "DC bus mid voltage deviation",
       "is_formula": false
     },
     {
@@ -714,7 +714,7 @@
       "topic": "N/{installation_id}/battery/{device_id}/Dc/0/Voltage",
       "message_type": "MetricKind.SENSOR",
       "short_id": "battery_voltage",
-      "name": "DC Bus voltage",
+      "name": "DC bus voltage",
       "unit_of_measurement": "V",
       "metric_type": "MetricType.VOLTAGE",
       "metric_nature": "MetricNature.INSTANTANEOUS",
@@ -729,7 +729,7 @@
       "key_values": {},
       "experimental": false,
       "depends_on": [],
-      "generic_name": "DC Bus voltage",
+      "generic_name": "DC bus voltage",
       "is_formula": false
     },
     {
@@ -846,7 +846,7 @@
       "topic": "N/{installation_id}/battery/{device_id}/Info/MaxChargeCurrent",
       "message_type": "MetricKind.SENSOR",
       "short_id": "battery_max_charge_current",
-      "name": "Battery maximum charge current allowed",
+      "name": "Battery maximum allowed charge current",
       "unit_of_measurement": "A",
       "metric_type": "MetricType.CURRENT",
       "metric_nature": "MetricNature.INSTANTANEOUS",
@@ -861,14 +861,14 @@
       "key_values": {},
       "experimental": false,
       "depends_on": [],
-      "generic_name": "Battery maximum charge current allowed",
+      "generic_name": "Battery maximum allowed charge current",
       "is_formula": false
     },
     {
       "topic": "N/{installation_id}/battery/{device_id}/Info/MaxChargeVoltage",
       "message_type": "MetricKind.SENSOR",
       "short_id": "battery_max_charge_voltage",
-      "name": "Battery maximum charging voltage allowed",
+      "name": "Battery maximum allowed charging voltage",
       "unit_of_measurement": "V",
       "metric_type": "MetricType.VOLTAGE",
       "metric_nature": "MetricNature.INSTANTANEOUS",
@@ -883,14 +883,14 @@
       "key_values": {},
       "experimental": false,
       "depends_on": [],
-      "generic_name": "Battery maximum charging voltage allowed",
+      "generic_name": "Battery maximum allowed charging voltage",
       "is_formula": false
     },
     {
       "topic": "N/{installation_id}/battery/{device_id}/Info/MaxDischargeCurrent",
       "message_type": "MetricKind.SENSOR",
       "short_id": "battery_max_discharge_current",
-      "name": "Battery maximum discharge current allowed",
+      "name": "Battery maximum allowed discharge current",
       "unit_of_measurement": "A",
       "metric_type": "MetricType.CURRENT",
       "metric_nature": "MetricNature.INSTANTANEOUS",
@@ -905,7 +905,7 @@
       "key_values": {},
       "experimental": false,
       "depends_on": [],
-      "generic_name": "Battery maximum discharge current allowed",
+      "generic_name": "Battery maximum allowed discharge current",
       "is_formula": false
     },
     {
@@ -1374,7 +1374,7 @@
       "topic": "N/{installation_id}/dcsystem/{device_id}/Dc/0/Current",
       "message_type": "MetricKind.SENSOR",
       "short_id": "dcsystem_current",
-      "name": "DC System current",
+      "name": "DC system current",
       "unit_of_measurement": "A",
       "metric_type": "MetricType.CURRENT",
       "metric_nature": "MetricNature.INSTANTANEOUS",
@@ -1389,14 +1389,14 @@
       "key_values": {},
       "experimental": false,
       "depends_on": [],
-      "generic_name": "DC System current",
+      "generic_name": "DC system current",
       "is_formula": false
     },
     {
       "topic": "N/{installation_id}/dcsystem/{device_id}/Dc/0/Power",
       "message_type": "MetricKind.SENSOR",
       "short_id": "dcsystem_power",
-      "name": "DC System power",
+      "name": "DC system power",
       "unit_of_measurement": "W",
       "metric_type": "MetricType.POWER",
       "metric_nature": "MetricNature.INSTANTANEOUS",
@@ -1411,14 +1411,14 @@
       "key_values": {},
       "experimental": false,
       "depends_on": [],
-      "generic_name": "DC System power",
+      "generic_name": "DC system power",
       "is_formula": false
     },
     {
       "topic": "N/{installation_id}/dcsystem/{device_id}/Dc/0/Voltage",
       "message_type": "MetricKind.SENSOR",
       "short_id": "dcsystem_voltage",
-      "name": "DC System voltage",
+      "name": "DC system voltage",
       "unit_of_measurement": "V",
       "metric_type": "MetricType.VOLTAGE",
       "metric_nature": "MetricNature.INSTANTANEOUS",
@@ -1433,14 +1433,14 @@
       "key_values": {},
       "experimental": false,
       "depends_on": [],
-      "generic_name": "DC System voltage",
+      "generic_name": "DC system voltage",
       "is_formula": false
     },
     {
       "topic": "N/{installation_id}/dcsystem/{device_id}/Dc/1/Voltage",
       "message_type": "MetricKind.SENSOR",
       "short_id": "dcsystem_aux_voltage",
-      "name": "DC System auxiliary voltage",
+      "name": "DC system auxiliary voltage",
       "unit_of_measurement": "V",
       "metric_type": "MetricType.VOLTAGE",
       "metric_nature": "MetricNature.INSTANTANEOUS",
@@ -1455,7 +1455,7 @@
       "key_values": {},
       "experimental": false,
       "depends_on": [],
-      "generic_name": "DC System auxiliary voltage",
+      "generic_name": "DC system auxiliary voltage",
       "is_formula": false
     },
     {
@@ -3508,7 +3508,7 @@
       "topic": "N/{installation_id}/multi/{device_id}/Settings/Ess/MinimumSocLimit",
       "message_type": "MetricKind.NUMBER",
       "short_id": "multi_ess_min_soc_limit",
-      "name": "ESS minimum SoC limit",
+      "name": "ESS minimum SOC limit",
       "unit_of_measurement": "%",
       "metric_type": "MetricType.ELECTRIC_STORAGE_PERCENTAGE",
       "metric_nature": "MetricNature.INSTANTANEOUS",
@@ -3523,7 +3523,7 @@
       "key_values": {},
       "experimental": false,
       "depends_on": [],
-      "generic_name": "ESS minimum SoC limit",
+      "generic_name": "ESS minimum SOC limit",
       "is_formula": false
     },
     {
@@ -4652,7 +4652,7 @@
       "topic": "N/{installation_id}/settings/{device_id}/Settings/Generator{gen_id(0-1)}/WarmUpTime",
       "message_type": "MetricKind.NUMBER",
       "short_id": "generator_{gen_id}_warm_up_timer",
-      "name": "Generator warm up timer",
+      "name": "Generator warm-up timer",
       "unit_of_measurement": "s",
       "metric_type": "MetricType.NONE",
       "metric_nature": "MetricNature.NONE",
@@ -4669,7 +4669,7 @@
       "depends_on": [
         "generator_{gen_id}_generator_autorun"
       ],
-      "generic_name": "Generator warm up timer",
+      "generic_name": "Generator warm-up timer",
       "is_formula": false
     },
     {
@@ -4764,7 +4764,7 @@
       "topic": "N/{installation_id}/solarcharger/{device_id}/Dc/0/Current",
       "message_type": "MetricKind.SENSOR",
       "short_id": "solarcharger_dc_current",
-      "name": "DC (Batt) Bus current",
+      "name": "DC (battery) bus current",
       "unit_of_measurement": "A",
       "metric_type": "MetricType.CURRENT",
       "metric_nature": "MetricNature.INSTANTANEOUS",
@@ -4779,14 +4779,14 @@
       "key_values": {},
       "experimental": false,
       "depends_on": [],
-      "generic_name": "DC (Batt) Bus current",
+      "generic_name": "DC (battery) bus current",
       "is_formula": false
     },
     {
       "topic": "N/{installation_id}/solarcharger/{device_id}/Dc/0/Voltage",
       "message_type": "MetricKind.SENSOR",
       "short_id": "solarcharger_dc_voltage",
-      "name": "DC (Batt) Bus voltage",
+      "name": "DC (battery) bus voltage",
       "unit_of_measurement": "V",
       "metric_type": "MetricType.VOLTAGE",
       "metric_nature": "MetricNature.INSTANTANEOUS",
@@ -4801,7 +4801,7 @@
       "key_values": {},
       "experimental": false,
       "depends_on": [],
-      "generic_name": "DC (Batt) Bus voltage",
+      "generic_name": "DC (battery) bus voltage",
       "is_formula": false
     },
     {
@@ -5050,7 +5050,7 @@
       "topic": "N/{installation_id}/solarcharger/{device_id}/Load/I",
       "message_type": "MetricKind.SENSOR",
       "short_id": "solarcharger_load_current",
-      "name": "Load Bus current",
+      "name": "Load bus current",
       "unit_of_measurement": "A",
       "metric_type": "MetricType.CURRENT",
       "metric_nature": "MetricNature.INSTANTANEOUS",
@@ -5065,7 +5065,7 @@
       "key_values": {},
       "experimental": false,
       "depends_on": [],
-      "generic_name": "Load Bus current",
+      "generic_name": "Load bus current",
       "is_formula": false
     },
     {
@@ -5138,7 +5138,7 @@
       "topic": "N/{installation_id}/solarcharger/{device_id}/Pv/V",
       "message_type": "MetricKind.SENSOR",
       "short_id": "solarcharger_voltage",
-      "name": "PV Bus voltage",
+      "name": "PV bus voltage",
       "unit_of_measurement": "V",
       "metric_type": "MetricType.VOLTAGE",
       "metric_nature": "MetricNature.INSTANTANEOUS",
@@ -5153,7 +5153,7 @@
       "key_values": {},
       "experimental": false,
       "depends_on": [],
-      "generic_name": "PV Bus voltage",
+      "generic_name": "PV bus voltage",
       "is_formula": false
     },
     {
@@ -6288,7 +6288,7 @@
       "topic": "N/{installation_id}/system/{device_id}/PV/Current",
       "message_type": "MetricKind.SENSOR",
       "short_id": "solarcharger_current",
-      "name": "PV Bus current",
+      "name": "PV bus current",
       "unit_of_measurement": "A",
       "metric_type": "MetricType.CURRENT",
       "metric_nature": "MetricNature.INSTANTANEOUS",
@@ -6303,7 +6303,7 @@
       "key_values": {},
       "experimental": false,
       "depends_on": [],
-      "generic_name": "PV Bus current",
+      "generic_name": "PV bus current",
       "is_formula": false
     },
     {
