@@ -7364,7 +7364,7 @@
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Devices/{device_number}/Settings/PowerAssistEnabled",
-      "message_type": "MetricKind.SENSOR",
+      "message_type": "MetricKind.SWITCH",
       "short_id": "vebus_device_{device_number}_power_assist_enabled",
       "name": "VE.Bus device {device_number} power assist enabled",
       "unit_of_measurement": null,

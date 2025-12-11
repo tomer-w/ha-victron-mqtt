@@ -132,6 +132,9 @@
       "system_settings_overvoltage_feedin": {
         "name": "PV DC overvoltage feed-in"
       },
+      "vebus_device_device_number_power_assist_enabled": {
+        "name": "VE.Bus device {device_number} power assist enabled"
+      },
       "vebus_inverter_connected": {
         "name": "Inverter connected"
       },
@@ -1094,9 +1097,6 @@
       "vebus_device_device_number_output_power_phase": {
         "name": "VE.Bus device {device_number} line {phase} output power"
       },
-      "vebus_device_device_number_power_assist_enabled": {
-        "name": "VE.Bus device {device_number} power assist enabled"
-      },
       "vebus_energy_ac_in1_to_ac_out": {
         "name": "Energy from AC-in-1 to AC-out"
       },
@@ -1266,6 +1266,9 @@
       },
       "system_settings_overvoltage_feedin": {
         "name": "PV DC overvoltage feed-in"
+      },
+      "vebus_device_device_number_power_assist_enabled": {
+        "name": "VE.Bus device {device_number} power assist enabled"
       },
       "vebus_inverter_ignoreacin1_onoff_control": {
         "name": "Control ignore AC-in-1"
