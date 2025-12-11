@@ -142,7 +142,7 @@
         "name": "Control ignore AC-in-1"
       },
       "vebus_inverter_setting_alarm_grid_lost": {
-        "name": "Loss of grid alarm setting"
+        "name": "Grid lost alarm setting"
       }
     },
     "button": {
@@ -1131,7 +1131,7 @@
         "name": "Inverter active AC input"
       },
       "vebus_inverter_alarm_grid_lost": {
-        "name": "Loss of grid alarm"
+        "name": "Grid lost alarm"
       },
       "vebus_inverter_alarm_high_dc_current": {
         "name": "Inverter high DC current alarm"
@@ -1274,7 +1274,7 @@
         "name": "Control ignore AC-in-1"
       },
       "vebus_inverter_setting_alarm_grid_lost": {
-        "name": "Loss of grid alarm setting"
+        "name": "Grid lost alarm setting"
       }
     },
     "time": {

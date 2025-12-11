@@ -6948,7 +6948,7 @@
       "topic": "N/{installation_id}/vebus/{device_id}/Alarms/GridLost",
       "message_type": "MetricKind.SENSOR",
       "short_id": "vebus_inverter_alarm_grid_lost",
-      "name": "Loss of grid alarm",
+      "name": "Grid lost alarm",
       "unit_of_measurement": null,
       "metric_type": "MetricType.NONE",
       "metric_nature": "MetricNature.NONE",
@@ -6963,7 +6963,7 @@
       "key_values": {},
       "experimental": false,
       "depends_on": [],
-      "generic_name": "Loss of grid alarm",
+      "generic_name": "Grid lost alarm",
       "is_formula": false
     },
     {
@@ -7630,7 +7630,7 @@
       "topic": "N/{installation_id}/vebus/{device_id}/Settings/Alarm/System/GridLost",
       "message_type": "MetricKind.SWITCH",
       "short_id": "vebus_inverter_setting_alarm_grid_lost",
-      "name": "Loss of grid alarm setting",
+      "name": "Grid lost alarm setting",
       "unit_of_measurement": null,
       "metric_type": "MetricType.NONE",
       "metric_nature": "MetricNature.NONE",
@@ -7645,7 +7645,7 @@
       "key_values": {},
       "experimental": false,
       "depends_on": [],
-      "generic_name": "Loss of grid alarm setting",
+      "generic_name": "Grid lost alarm setting",
       "is_formula": false
     },
     {
