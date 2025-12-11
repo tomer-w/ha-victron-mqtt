@@ -494,6 +494,12 @@
       "evcharger_current": {
         "name": "EV charger current"
       },
+      "evcharger_max_set_current": {
+        "name": "EV charger maximum set current"
+      },
+      "evcharger_min_set_current": {
+        "name": "EV charger minimum set current"
+      },
       "evcharger_mode": {
         "name": "EV charger mode"
       },
@@ -1055,6 +1061,9 @@
       "temperature_offset": {
         "name": "Temperature offset"
       },
+      "temperature_pressure": {
+        "name": "Pressure"
+      },
       "temperature_scale": {
         "name": "Temperature scale factor"
       },
@@ -1168,6 +1177,9 @@
       },
       "vebus_inverter_input_apparent_power_phase": {
         "name": "Inverter input apparent power {phase}"
+      },
+      "vebus_inverter_input_current_phase": {
+        "name": "Inverter input current {phase}"
       },
       "vebus_inverter_input_frequency_phase": {
         "name": "Inverter input frequency {phase}"
