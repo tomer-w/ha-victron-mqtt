@@ -12,7 +12,7 @@ from victron_mqtt import (
 
 from homeassistant.components.select import SelectEntity
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.core import HomeAssistant
+from homeassistant.core import HomeAssistant, callback
 from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -76,12 +76,13 @@ class VictronSelect(VictronBaseEntity, SelectEntity):
             installation_id,
         )
 
+    @callback
     def _on_update_task(self, value: Any) -> None:
         new_val = self._map_value_to_state(value)
         if self._attr_current_option == new_val:
             return
         self._attr_current_option = new_val
-        self.schedule_update_ha_state()
+        self.async_write_ha_state()
 
     def select_option(self, option: str) -> None:
         """Change the selected option."""

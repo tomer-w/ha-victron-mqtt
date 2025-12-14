@@ -12,7 +12,7 @@ from victron_mqtt import (
 
 from homeassistant.components.number import NumberEntity
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.core import HomeAssistant
+from homeassistant.core import HomeAssistant, callback
 from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -80,11 +80,12 @@ class VictronNumber(VictronBaseEntity, NumberEntity):
             installation_id,
         )
 
+    @callback
     def _on_update_task(self, value: Any) -> None:
         if self._attr_native_value == value:
             return
         self._attr_native_value = value
-        self.schedule_update_ha_state()
+        self.async_write_ha_state()
 
     @property
     def native_value(self):

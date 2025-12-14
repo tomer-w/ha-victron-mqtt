@@ -13,7 +13,7 @@ from victron_mqtt import (
 
 from homeassistant.components.time import TimeEntity
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.core import HomeAssistant
+from homeassistant.core import HomeAssistant, callback
 from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -89,6 +89,7 @@ class VictronTime(VictronBaseEntity, TimeEntity):
             device, writable_metric, device_info, "time", simple_naming, installation_id
         )
 
+    @callback
     def _on_update_task(self, value: Any) -> None:
         """Convert minutes since midnight to time object and update state."""
         time_value = VictronTime.victron_time_to_time(value)
@@ -96,7 +97,7 @@ class VictronTime(VictronBaseEntity, TimeEntity):
             return
 
         self._attr_native_value = time_value
-        self.schedule_update_ha_state()
+        self.async_write_ha_state()
 
     def set_value(self, value: time) -> None:
         """Convert time object to minutes since midnight and set the metric value."""

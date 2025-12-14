@@ -1,25 +1,21 @@
 """Config flow for victron mqtt integration."""
 
-# Future imports
 from __future__ import annotations
 
-# Standard library imports
-from collections.abc import Sequence
+from collections.abc import Mapping, Sequence
 import logging
-from types import MappingProxyType
 from typing import Any
 from urllib.parse import urlparse
 
-# Third-party imports
 from victron_mqtt import (
+    AuthenticationError,
     CannotConnectError,
     DeviceType,
     Hub as VictronVenusHub,
-    OperationMode,
+    OperationMode
 )
 import voluptuous as vol
 
-# Home Assistant imports
 from homeassistant.config_entries import (
     ConfigEntry,
     ConfigFlow,
@@ -41,7 +37,6 @@ from homeassistant.helpers.selector import (
 )
 from homeassistant.helpers.service_info.ssdp import SsdpServiceInfo
 
-# Local application imports
 from .const import (
     CONF_ELEVATED_TRACING,
     CONF_EXCLUDED_DEVICES,
@@ -158,10 +153,8 @@ async def validate_input(data: dict[str, Any]) -> str:
     Returns the installation id upon success.
     """
     _LOGGER.info("Validating input: %s", data)
-    host = data.get(CONF_HOST)
-    assert host is not None
     hub = VictronVenusHub(
-        host=host,
+        host=data[CONF_HOST],
         port=data.get(CONF_PORT, DEFAULT_PORT),
         username=data.get(CONF_USERNAME) or None,
         password=data.get(CONF_PASSWORD) or None,
@@ -207,6 +200,9 @@ class VictronMQTTConfigFlow(ConfigFlow, domain=DOMAIN):
                 _LOGGER.info(
                     "Successfully connected to Victron device: %s", installation_id
                 )
+            except AuthenticationError:
+                _LOGGER.exception("Authentication failed during reauthentication")
+                errors["base"] = "invalid_auth"
             except CannotConnectError:
                 _LOGGER.exception("Cannot connect to Victron device")
                 errors["base"] = "cannot_connect"
@@ -233,6 +229,65 @@ class VictronMQTTConfigFlow(ConfigFlow, domain=DOMAIN):
             errors=errors,
         )
 
+    async def async_step_reauth(
+        self, entry_data: Mapping[str, Any]
+    ) -> ConfigFlowResult:
+        """Handle reauthentication request."""
+        return await self.async_step_reauth_confirm()
+
+    async def async_step_reauth_confirm(
+        self, user_input: dict[str, Any] | None = None
+    ) -> ConfigFlowResult:
+        """Handle reauthentication confirmation."""
+        errors: dict[str, str] = {}
+        reauth_entry = self._get_reauth_entry()
+
+        if user_input is not None:
+            _LOGGER.info("Reauth user input received: %s", user_input)
+            data = {
+                **reauth_entry.data,
+                CONF_USERNAME: user_input.get(CONF_USERNAME) or None,
+                CONF_PASSWORD: user_input.get(CONF_PASSWORD) or None,
+            }
+            # Remove None values
+            data = {k: v for k, v in data.items() if v is not None}
+
+            try:
+                await validate_input(data)
+                _LOGGER.info("Reauthentication successful")
+            except AuthenticationError:
+                _LOGGER.exception("Authentication failed during reauthentication")
+                errors["base"] = "invalid_auth"
+            except CannotConnectError:
+                _LOGGER.exception("Cannot connect during reauthentication")
+                errors["base"] = "cannot_connect"
+            except Exception:
+                _LOGGER.exception("General error during reauthentication")
+                errors["base"] = "unknown"
+            else:
+                return self.async_update_reload_and_abort(
+                    reauth_entry,
+                    data_updates=user_input,
+                )
+
+        reauth_schema = vol.Schema(
+            {
+                vol.Optional(
+                    CONF_USERNAME, default=reauth_entry.data.get(CONF_USERNAME) or ""
+                ): str,
+                vol.Optional(
+                    CONF_PASSWORD, default=reauth_entry.data.get(CONF_PASSWORD) or ""
+                ): str,
+            }
+        )
+
+        return self.async_show_form(
+            step_id="reauth_confirm",
+            data_schema=reauth_schema,
+            errors=errors,
+            description_placeholders={"host": reauth_entry.data[CONF_HOST]},
+        )
+
     @staticmethod
     def async_get_options_flow(config_entry: ConfigEntry) -> VictronMQTTOptionsFlow:
         """Get the options flow for this handler."""
@@ -248,7 +303,7 @@ class VictronMQTTConfigFlow(ConfigFlow, domain=DOMAIN):
         self.installation_id = discovery_info.upnp["X_VrmPortalId"]
         self.model_name = discovery_info.upnp["modelName"]
         self.friendly_name = discovery_info.upnp["friendlyName"]
-        _LOGGER.info(
+        _LOGGER.debug(
             "SSDP: hostname=%s, serial=%s, installation_id=%s, model_name=%s, friendly_name=%s",
             self.hostname,
             self.serial,
@@ -269,8 +324,9 @@ class VictronMQTTConfigFlow(ConfigFlow, domain=DOMAIN):
                 }
             )
             assert sensed_installation_id == self.installation_id
+        except AuthenticationError:
+            return self.async_abort(reason="invalid_auth")
         except CannotConnectError:
-            _LOGGER.exception("Cannot connect to Victron device via SSDP")
             return self.async_abort(reason="cannot_connect")
 
         return self.async_create_entry(
@@ -299,6 +355,12 @@ class VictronMQTTOptionsFlow(OptionsFlow):
             _LOGGER.info("User input received: %s", user_input)
             try:
                 await validate_input(user_input)
+            except AuthenticationError:
+                return self.async_show_form(
+                    step_id="init",
+                    data_schema=self._get_options_schema(),
+                    errors={"base": "invalid_auth"},
+                )
             except CannotConnectError:
                 return self.async_show_form(
                     step_id="init",

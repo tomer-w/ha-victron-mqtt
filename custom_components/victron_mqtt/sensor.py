@@ -15,7 +15,7 @@ from victron_mqtt import (
 
 from homeassistant.components.sensor import SensorEntity
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.core import HomeAssistant
+from homeassistant.core import HomeAssistant, callback
 from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -70,12 +70,10 @@ class VictronSensor(VictronBaseEntity, SensorEntity):
             device, metric, device_info, "sensor", simple_naming, installation_id
         )
 
-    def __repr__(self) -> str:
-        """Return a string representation of the sensor."""
-        return f"VictronSensor({super().__repr__()}, native_value={self._attr_native_value})"
 
+    @callback
     def _on_update_task(self, value: Any) -> None:
         if self._attr_native_value == value:
             return
         self._attr_native_value = value
-        self.schedule_update_ha_state()
+        self.async_write_ha_state()

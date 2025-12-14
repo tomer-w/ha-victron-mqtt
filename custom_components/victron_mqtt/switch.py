@@ -12,7 +12,7 @@ from victron_mqtt import (
 
 from homeassistant.components.switch import SwitchEntity
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.core import HomeAssistant
+from homeassistant.core import HomeAssistant, callback
 from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -76,12 +76,13 @@ class VictronSwitch(VictronBaseEntity, SwitchEntity):
             installation_id,
         )
 
+    @callback
     def _on_update_task(self, value: Any) -> None:
         new_val = str(value) == SWITCH_ON
         if self._attr_is_on == new_val:
             return
         self._attr_is_on = new_val
-        self.schedule_update_ha_state()
+        self.async_write_ha_state()
 
     def turn_on(self, **kwargs: Any) -> None:
         """Turn the switch on."""

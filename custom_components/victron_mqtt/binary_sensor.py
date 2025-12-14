@@ -11,7 +11,7 @@ from victron_mqtt import (
 
 from homeassistant.components.binary_sensor import BinarySensorEntity
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.core import HomeAssistant
+from homeassistant.core import HomeAssistant, callback
 from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -69,12 +69,13 @@ class VictronBinarySensor(VictronBaseEntity, BinarySensorEntity):
     def _is_on(value: Any) -> bool:
         return str(value) == SWITCH_ON
 
+    @callback
     def _on_update_task(self, value: Any) -> None:
         new_val = self._is_on(value)
         if self._attr_is_on == new_val:
             return
         self._attr_is_on = new_val
-        self.schedule_update_ha_state()
+        self.async_write_ha_state()
 
     @property
     def is_on(self) -> bool:

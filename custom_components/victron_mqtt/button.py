@@ -12,7 +12,7 @@ from victron_mqtt import (
 
 from homeassistant.components.button import ButtonEntity
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.core import HomeAssistant
+from homeassistant.core import HomeAssistant, callback
 from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -72,6 +72,7 @@ class VictronButton(VictronBaseEntity, ButtonEntity):
             device, metric, device_info, "button", simple_naming, installation_id
         )
 
+    @callback
     def _on_update_task(self, value: Any) -> None:
         pass
 
@@ -79,7 +80,3 @@ class VictronButton(VictronBaseEntity, ButtonEntity):
         """Press the button."""
         _LOGGER.info("Pressing button: %s", self._attr_unique_id)
         self._metric.set(SWITCH_ON)
-
-    def __repr__(self) -> str:
-        """Return a string representation of the sensor."""
-        return f"VictronButton({super().__repr__()})"
