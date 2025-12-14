@@ -15,6 +15,7 @@ from custom_components.victron_mqtt.const import (
     CONF_SIMPLE_NAMING,
     CONF_UPDATE_FREQUENCY_SECONDS,
     DEFAULT_PORT,
+    DEFAULT_SIMPLE_NAMING,
     DEFAULT_UPDATE_FREQUENCY_SECONDS,
     DOMAIN,
 )
@@ -275,6 +276,7 @@ async def test_ssdp_flow_success(hass: HomeAssistant) -> None:
         CONF_SERIAL: MOCK_SERIAL,
         CONF_INSTALLATION_ID: MOCK_INSTALLATION_ID,
         CONF_MODEL: MOCK_MODEL,
+        CONF_SIMPLE_NAMING: DEFAULT_SIMPLE_NAMING,
     }
 
 
