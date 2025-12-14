@@ -280,6 +280,7 @@ class VictronMQTTConfigFlow(ConfigFlow, domain=DOMAIN):
                 CONF_SERIAL: self.serial,
                 CONF_INSTALLATION_ID: self.installation_id,
                 CONF_MODEL: self.model_name,
+                CONF_SIMPLE_NAMING: DEFAULT_SIMPLE_NAMING,
             },
         )
 
