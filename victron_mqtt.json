@@ -4426,7 +4426,7 @@
       "topic": "N/{installation_id}/settings/{device_id}/Settings/Generator{gen_id(0-1)}/CoolDownTime",
       "message_type": "MetricKind.NUMBER",
       "short_id": "generator_{gen_id}_cool_down_timer",
-      "name": "Generator cool down timer",
+      "name": "Generator cooldown timer",
       "unit_of_measurement": "s",
       "metric_type": "MetricType.NONE",
       "metric_nature": "MetricNature.NONE",
@@ -4443,14 +4443,14 @@
       "depends_on": [
         "generator_{gen_id}_generator_autorun"
       ],
-      "generic_name": "Generator cool down timer",
+      "generic_name": "Generator cooldown timer",
       "is_formula": false
     },
     {
       "topic": "N/{installation_id}/settings/{device_id}/Settings/Generator{gen_id(0-1)}/GeneratorStopTime",
       "message_type": "MetricKind.NUMBER",
       "short_id": "generator_{gen_id}_shut_down_timer",
-      "name": "Generator shut down timer",
+      "name": "Generator shutdown timer",
       "unit_of_measurement": "s",
       "metric_type": "MetricType.NONE",
       "metric_nature": "MetricNature.NONE",
@@ -4467,7 +4467,7 @@
       "depends_on": [
         "generator_{gen_id}_generator_autorun"
       ],
-      "generic_name": "Generator shut down timer",
+      "generic_name": "Generator shutdown timer",
       "is_formula": false
     },
     {
