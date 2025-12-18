@@ -7,12 +7,12 @@ import importlib.metadata
 import logging
 from typing import TYPE_CHECKING
 
-from homeassistant.const import Platform
+from homeassistant.const import EVENT_HOMEASSISTANT_STOP, Platform
 from homeassistant.exceptions import HomeAssistantError
 
 if TYPE_CHECKING:
     from homeassistant.config_entries import ConfigEntry
-    from homeassistant.core import HomeAssistant, ServiceCall
+    from homeassistant.core import Event, HomeAssistant, ServiceCall
     from homeassistant.helpers.typing import ConfigType
 
 from homeassistant.helpers import config_validation as cv
@@ -37,8 +37,9 @@ PLATFORMS: list[Platform] = [
 
 __all__ = ["DOMAIN"]
 
+type VictronGxConfigEntry = ConfigEntry[Hub]
 
-async def async_setup_services(hass: HomeAssistant, entry: ConfigEntry) -> None:
+async def async_setup_services(hass: HomeAssistant, entry: VictronGxConfigEntry) -> None:
     """Set up services for the Victron MQTT integration."""
 
     # Only register services once
@@ -71,13 +72,6 @@ async def async_setup_services(hass: HomeAssistant, entry: ConfigEntry) -> None:
     )
 
     _LOGGER.info("Victron MQTT services registered")
-
-
-async def _update_listener(hass: HomeAssistant, entry: ConfigEntry) -> None:
-    """Handle options update."""
-    _LOGGER.info("Options for victron_mqtt have been updated - applying changes")
-    # Reload the integration to apply changes
-    await hass.config_entries.async_reload(entry.entry_id)
 
 
 async def get_package_version(package_name: str) -> str:
@@ -126,8 +120,20 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         await async_unload_entry(hass, entry)
         raise
 
-    # Register the update listener
+      # Register the update listener
+    async def _update_listener(hass: HomeAssistant, entry: ConfigEntry) -> None:
+        _LOGGER.info("Options have been updated - applying changes")
+        # Reload the integration to apply changes
+        await hass.config_entries.async_reload(entry.entry_id)
+
     entry.async_on_unload(entry.add_update_listener(_update_listener))
+
+    async def _async_stop(_: Event) -> None:
+        await hub.stop()
+
+    entry.async_on_unload(
+        hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, _async_stop)
+    )
 
     # Register services
     await async_setup_services(hass, entry)
@@ -135,7 +141,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     return True
 
 
-async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
+async def async_unload_entry(hass: HomeAssistant, entry: VictronGxConfigEntry) -> bool:
     """Unload a config entry."""
     _LOGGER.debug("async_unload_entry called for entry: %s", entry.entry_id)
     hub: Hub = entry.runtime_data

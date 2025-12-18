@@ -24,7 +24,7 @@ from homeassistant.const import (
     CONF_USERNAME,
     EVENT_HOMEASSISTANT_STOP,
 )
-from homeassistant.core import Event, HomeAssistant
+from homeassistant.core import HomeAssistant
 from homeassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from homeassistant.helpers.device_registry import DeviceInfo
 
@@ -116,9 +116,8 @@ class Hub:
             raise ConfigEntryNotReady(
                 f"Cannot connect to the hub: {connect_error}"
             ) from connect_error
-        self.hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, self.stop)
 
-    async def stop(self, event: Event | None = None) -> None:
+    async def stop(self) -> None:
         """Stop the Victron MQTT hub."""
         _LOGGER.info("Stopping hub")
         await self._hub.disconnect()
@@ -158,21 +157,17 @@ class Hub:
     def register_new_metric_callback(
         self, kind: MetricKind, new_metric_callback: NewMetricCallback
     ) -> None:
-        """Register a callback to add entities for a specific metric kind."""
-        _LOGGER.info(
-            "Registering AddEntitiesCallback. kind: %s, AddEntitiesCallback: %s",
-            kind,
-            new_metric_callback,
+        """Register a callback to handle a new specific metric kind."""
+        _LOGGER.info("Registering NewMetricCallback. kind: %s", kind)
+        assert kind not in self.new_metric_callbacks, (
+            f"NewMetricCallback for kind {kind} is already registered"
         )
-        assert kind not in self.add_entities_map, (
-            f"AddEntitiesCallback for kind {kind} is already registered"
-        )
-        self.add_entities_map[kind] = new_metric_callback
+        self.new_metric_callbacks[kind] = new_metric_callback
 
     def unregister_all_new_metric_callbacks(self) -> None:
-        """Unregister all callbacks to add entities for all metric kinds."""
-        _LOGGER.info("Unregistering AddEntitiesCallback")
-        self.add_entities_map.clear()
+        """Unregister all callbacks to handle new metrics for all metric kinds."""
+        _LOGGER.info("Unregistering NewMetricCallback")
+        self.new_metric_callbacks.clear()
 
     def publish(
         self, metric_id: str, device_id: str, value: str | float | None

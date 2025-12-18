@@ -37,6 +37,7 @@ async def async_setup_entry(
         installation_id: str,
     ) -> None:
         """Handle new sensor metric discovery."""
+        assert isinstance(metric, VictronVenusWritableMetric)
         async_add_entities(
             [
                 VictronNumber(
