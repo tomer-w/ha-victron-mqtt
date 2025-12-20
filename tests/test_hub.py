@@ -141,7 +141,6 @@ async def test_hub_initialization(
 
         # Verify hub attributes
         assert hub.hass is hass
-        assert hub.entry is mock_config_entry
         assert hub.id == "test_unique_id"
         assert hub.simple_naming is False
 
@@ -244,8 +243,7 @@ async def test_hub_stop_with_event(
     mock_config_entry.unique_id = "test_unique_id"
 
     hub = Hub(hass, mock_config_entry)
-    mock_event = MagicMock()
-    await hub.stop(mock_event)
+    await hub.stop()
 
     mock_victron_hub.disconnect.assert_called_once()
 
@@ -303,8 +301,8 @@ async def test_register_add_entities_callback(
     mock_callback = MagicMock()
     hub.register_new_metric_callback(MetricKind.SENSOR, mock_callback)
 
-    assert MetricKind.SENSOR in hub.add_entities_map
-    assert hub.add_entities_map[MetricKind.SENSOR] is mock_callback
+    assert MetricKind.SENSOR in hub.new_metric_callbacks
+    assert hub.new_metric_callbacks[MetricKind.SENSOR] is mock_callback
 
 
 async def test_unregister_add_entities_callback(
@@ -321,14 +319,14 @@ async def test_unregister_add_entities_callback(
     hub.register_new_metric_callback(MetricKind.SENSOR, mock_callback)
 
     # Verify it was registered
-    assert MetricKind.SENSOR in hub.add_entities_map
-    assert hub.add_entities_map[MetricKind.SENSOR] is mock_callback
+    assert MetricKind.SENSOR in hub.new_metric_callbacks
+    assert hub.new_metric_callbacks[MetricKind.SENSOR] is mock_callback
 
     # Unregister the callback
     hub.unregister_all_new_metric_callbacks()
 
     # Verify it was removed
-    assert MetricKind.SENSOR not in hub.add_entities_map
+    assert MetricKind.SENSOR not in hub.new_metric_callbacks
 
 
 async def test_on_new_metric_sensor(
