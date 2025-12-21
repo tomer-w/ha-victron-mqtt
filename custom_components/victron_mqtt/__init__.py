@@ -82,7 +82,7 @@ async def get_package_version(package_name: str) -> str:
 
 async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
     """Set up the integration."""
-    version = getattr(hass.data["integrations"][DOMAIN], "version", 0)
+    version = getattr(hass.data.get("integrations", {}).get(DOMAIN), "version", "unknown")
     victron_mqtt_version = await get_package_version("victron_mqtt")
     _LOGGER.info(
         "Setting up victron_mqtt integration. Version: %s. victron_mqtt package version: %s",

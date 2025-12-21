@@ -61,7 +61,7 @@ async def test_sensor_repr_and_unique_id(
 
     assert sensor.unique_id == "sensor.victron_mqtt_inst_metric_1"
     rep = repr(sensor)
-    assert "VictronSensor(" in rep
+    assert "VictronBaseEntity(" in rep
     assert "metric.short" in rep
 
     # simple_naming = True -> omit installation_id
@@ -84,16 +84,15 @@ async def test_sensor_update_task_triggers_state_update(
         mock_device, base_metric, device_info, simple_naming=True, installation_id="x"
     )
 
-    with patch.object(sensor, "schedule_update_ha_state") as mock_sched:
+    with patch.object(sensor, "async_write_ha_state") as mock_sched:
         # Change value
         sensor._on_update_task(56.78)
         assert sensor.native_value == 56.78
         mock_sched.assert_called_once()
 
-    with patch.object(sensor, "schedule_update_ha_state") as mock_sched2:
         # Same value -> no schedule
         sensor._on_update_task(56.78)
-        mock_sched2.assert_not_called()
+        mock_sched.assert_called_once()
 
 
 async def test_binary_sensor_update_task_transitions(
@@ -109,14 +108,13 @@ async def test_binary_sensor_update_task_transitions(
 
     assert bin_entity.is_on is False
 
-    with patch.object(bin_entity, "schedule_update_ha_state") as mock_sched:
+    with patch.object(bin_entity, "async_write_ha_state") as mock_sched:
         bin_entity._on_update_task("On")
         assert bin_entity.is_on is True
         mock_sched.assert_called_once()
 
-    with patch.object(bin_entity, "schedule_update_ha_state") as mock_sched2:
         bin_entity._on_update_task("On")
-        mock_sched2.assert_not_called()
+        mock_sched.assert_called_once()
 
 
 async def test_async_added_sets_update_callback(
@@ -160,7 +158,8 @@ async def test_metric_mappings(hass: HomeAssistant, mock_device, base_metric) ->
         (MetricType.TEMPERATURE, SensorDeviceClass.TEMPERATURE),
         (MetricType.SPEED, SensorDeviceClass.SPEED),
         (MetricType.LIQUID_VOLUME, SensorDeviceClass.VOLUME),
-        (MetricType.TIME, SensorDeviceClass.DURATION),
+        (MetricType.DURATION, SensorDeviceClass.DURATION),
+        (MetricType.TIME, None),
     ]
 
     for metric_type, expected_device_class in device_class_cases:

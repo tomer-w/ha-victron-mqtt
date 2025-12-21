@@ -1,0 +1,737 @@
+# serializer version: 1
+# name: test_binary_sensor[complex_naming]
+  list([
+    EntityRegistryEntrySnapshot({
+      'aliases': set({
+      }),
+      'area_id': None,
+      'capabilities': None,
+      'config_entry_id': <ANY>,
+      'config_subentry_id': <ANY>,
+      'device_class': None,
+      'device_id': <ANY>,
+      'disabled_by': None,
+      'domain': 'binary_sensor',
+      'entity_category': None,
+      'entity_id': 'binary_sensor.victron_mqtt_123_evcharger_0_evcharger_connected',
+      'has_entity_name': True,
+      'hidden_by': None,
+      'icon': None,
+      'id': <ANY>,
+      'labels': set({
+      }),
+      'name': None,
+      'options': dict({
+      }),
+      'original_device_class': None,
+      'original_icon': None,
+      'original_name': 'EV charger connected',
+      'platform': 'victron_mqtt',
+      'previous_unique_id': None,
+      'suggested_object_id': 'victron_mqtt_123_evcharger_0_evcharger_connected',
+      'supported_features': 0,
+      'translation_key': 'evcharger_connected',
+      'unique_id': 'binary_sensor.victron_mqtt_123_evcharger_0_evcharger_connected',
+      'unit_of_measurement': None,
+    }),
+  ])
+# ---
+# name: test_binary_sensor[simple_naming]
+  list([
+    EntityRegistryEntrySnapshot({
+      'aliases': set({
+      }),
+      'area_id': None,
+      'capabilities': None,
+      'config_entry_id': <ANY>,
+      'config_subentry_id': <ANY>,
+      'device_class': None,
+      'device_id': <ANY>,
+      'disabled_by': None,
+      'domain': 'binary_sensor',
+      'entity_category': None,
+      'entity_id': 'binary_sensor.victron_mqtt_evcharger_0_evcharger_connected',
+      'has_entity_name': True,
+      'hidden_by': None,
+      'icon': None,
+      'id': <ANY>,
+      'labels': set({
+      }),
+      'name': None,
+      'options': dict({
+      }),
+      'original_device_class': None,
+      'original_icon': None,
+      'original_name': 'EV charger connected',
+      'platform': 'victron_mqtt',
+      'previous_unique_id': None,
+      'suggested_object_id': 'victron_mqtt_evcharger_0_evcharger_connected',
+      'supported_features': 0,
+      'translation_key': 'evcharger_connected',
+      'unique_id': 'binary_sensor.victron_mqtt_evcharger_0_evcharger_connected',
+      'unit_of_measurement': None,
+    }),
+  ])
+# ---
+# name: test_button[complex_naming]
+  list([
+    EntityRegistryEntrySnapshot({
+      'aliases': set({
+      }),
+      'area_id': None,
+      'capabilities': None,
+      'config_entry_id': <ANY>,
+      'config_subentry_id': <ANY>,
+      'device_class': None,
+      'device_id': <ANY>,
+      'disabled_by': None,
+      'domain': 'button',
+      'entity_category': None,
+      'entity_id': 'button.victron_mqtt_123_system_0_platform_device_reboot',
+      'has_entity_name': True,
+      'hidden_by': None,
+      'icon': None,
+      'id': <ANY>,
+      'labels': set({
+      }),
+      'name': None,
+      'options': dict({
+      }),
+      'original_device_class': None,
+      'original_icon': None,
+      'original_name': 'Platform device reboot',
+      'platform': 'victron_mqtt',
+      'previous_unique_id': None,
+      'suggested_object_id': 'victron_mqtt_123_system_0_platform_device_reboot',
+      'supported_features': 0,
+      'translation_key': 'platform_device_reboot',
+      'unique_id': 'button.victron_mqtt_123_system_0_platform_device_reboot',
+      'unit_of_measurement': None,
+    }),
+  ])
+# ---
+# name: test_button[simple_naming]
+  list([
+    EntityRegistryEntrySnapshot({
+      'aliases': set({
+      }),
+      'area_id': None,
+      'capabilities': None,
+      'config_entry_id': <ANY>,
+      'config_subentry_id': <ANY>,
+      'device_class': None,
+      'device_id': <ANY>,
+      'disabled_by': None,
+      'domain': 'button',
+      'entity_category': None,
+      'entity_id': 'button.victron_mqtt_system_0_platform_device_reboot',
+      'has_entity_name': True,
+      'hidden_by': None,
+      'icon': None,
+      'id': <ANY>,
+      'labels': set({
+      }),
+      'name': None,
+      'options': dict({
+      }),
+      'original_device_class': None,
+      'original_icon': None,
+      'original_name': 'Platform device reboot',
+      'platform': 'victron_mqtt',
+      'previous_unique_id': None,
+      'suggested_object_id': 'victron_mqtt_system_0_platform_device_reboot',
+      'supported_features': 0,
+      'translation_key': 'platform_device_reboot',
+      'unique_id': 'button.victron_mqtt_system_0_platform_device_reboot',
+      'unit_of_measurement': None,
+    }),
+  ])
+# ---
+# name: test_number[complex_naming]
+  list([
+    EntityRegistryEntrySnapshot({
+      'aliases': set({
+      }),
+      'area_id': None,
+      'capabilities': dict({
+        'max': 32,
+        'min': 0,
+        'mode': <NumberMode.AUTO: 'auto'>,
+        'step': 1.0,
+      }),
+      'config_entry_id': <ANY>,
+      'config_subentry_id': <ANY>,
+      'device_class': None,
+      'device_id': <ANY>,
+      'disabled_by': None,
+      'domain': 'number',
+      'entity_category': None,
+      'entity_id': 'number.victron_mqtt_123_evcharger_0_evcharger_set_current',
+      'has_entity_name': True,
+      'hidden_by': None,
+      'icon': None,
+      'id': <ANY>,
+      'labels': set({
+      }),
+      'name': None,
+      'options': dict({
+      }),
+      'original_device_class': <SensorDeviceClass.CURRENT: 'current'>,
+      'original_icon': None,
+      'original_name': 'EV charger set current',
+      'platform': 'victron_mqtt',
+      'previous_unique_id': None,
+      'suggested_object_id': 'victron_mqtt_123_evcharger_0_evcharger_set_current',
+      'supported_features': 0,
+      'translation_key': 'evcharger_set_current',
+      'unique_id': 'number.victron_mqtt_123_evcharger_0_evcharger_set_current',
+      'unit_of_measurement': 'A',
+    }),
+  ])
+# ---
+# name: test_number[simple_naming]
+  list([
+    EntityRegistryEntrySnapshot({
+      'aliases': set({
+      }),
+      'area_id': None,
+      'capabilities': dict({
+        'max': 32,
+        'min': 0,
+        'mode': <NumberMode.AUTO: 'auto'>,
+        'step': 1.0,
+      }),
+      'config_entry_id': <ANY>,
+      'config_subentry_id': <ANY>,
+      'device_class': None,
+      'device_id': <ANY>,
+      'disabled_by': None,
+      'domain': 'number',
+      'entity_category': None,
+      'entity_id': 'number.victron_mqtt_evcharger_0_evcharger_set_current',
+      'has_entity_name': True,
+      'hidden_by': None,
+      'icon': None,
+      'id': <ANY>,
+      'labels': set({
+      }),
+      'name': None,
+      'options': dict({
+      }),
+      'original_device_class': <SensorDeviceClass.CURRENT: 'current'>,
+      'original_icon': None,
+      'original_name': 'EV charger set current',
+      'platform': 'victron_mqtt',
+      'previous_unique_id': None,
+      'suggested_object_id': 'victron_mqtt_evcharger_0_evcharger_set_current',
+      'supported_features': 0,
+      'translation_key': 'evcharger_set_current',
+      'unique_id': 'number.victron_mqtt_evcharger_0_evcharger_set_current',
+      'unit_of_measurement': 'A',
+    }),
+  ])
+# ---
+# name: test_select[complex_naming]
+  list([
+    EntityRegistryEntrySnapshot({
+      'aliases': set({
+      }),
+      'area_id': None,
+      'capabilities': dict({
+        'options': list([
+          'Manual',
+          'Auto',
+          'Scheduled Charge',
+        ]),
+      }),
+      'config_entry_id': <ANY>,
+      'config_subentry_id': <ANY>,
+      'device_class': None,
+      'device_id': <ANY>,
+      'disabled_by': None,
+      'domain': 'select',
+      'entity_category': None,
+      'entity_id': 'select.victron_mqtt_123_evcharger_0_evcharger_mode',
+      'has_entity_name': True,
+      'hidden_by': None,
+      'icon': None,
+      'id': <ANY>,
+      'labels': set({
+      }),
+      'name': None,
+      'options': dict({
+      }),
+      'original_device_class': None,
+      'original_icon': None,
+      'original_name': 'EV charger mode',
+      'platform': 'victron_mqtt',
+      'previous_unique_id': None,
+      'suggested_object_id': 'victron_mqtt_123_evcharger_0_evcharger_mode',
+      'supported_features': 0,
+      'translation_key': 'evcharger_mode',
+      'unique_id': 'select.victron_mqtt_123_evcharger_0_evcharger_mode',
+      'unit_of_measurement': None,
+    }),
+  ])
+# ---
+# name: test_select[simple_naming]
+  list([
+    EntityRegistryEntrySnapshot({
+      'aliases': set({
+      }),
+      'area_id': None,
+      'capabilities': dict({
+        'options': list([
+          'Manual',
+          'Auto',
+          'Scheduled Charge',
+        ]),
+      }),
+      'config_entry_id': <ANY>,
+      'config_subentry_id': <ANY>,
+      'device_class': None,
+      'device_id': <ANY>,
+      'disabled_by': None,
+      'domain': 'select',
+      'entity_category': None,
+      'entity_id': 'select.victron_mqtt_evcharger_0_evcharger_mode',
+      'has_entity_name': True,
+      'hidden_by': None,
+      'icon': None,
+      'id': <ANY>,
+      'labels': set({
+      }),
+      'name': None,
+      'options': dict({
+      }),
+      'original_device_class': None,
+      'original_icon': None,
+      'original_name': 'EV charger mode',
+      'platform': 'victron_mqtt',
+      'previous_unique_id': None,
+      'suggested_object_id': 'victron_mqtt_evcharger_0_evcharger_mode',
+      'supported_features': 0,
+      'translation_key': 'evcharger_mode',
+      'unique_id': 'select.victron_mqtt_evcharger_0_evcharger_mode',
+      'unit_of_measurement': None,
+    }),
+  ])
+# ---
+# name: test_sensor[complex_naming]
+  list([
+    EntityRegistryEntrySnapshot({
+      'aliases': set({
+      }),
+      'area_id': None,
+      'capabilities': dict({
+        'state_class': <SensorStateClass.MEASUREMENT: 'measurement'>,
+      }),
+      'config_entry_id': <ANY>,
+      'config_subentry_id': <ANY>,
+      'device_class': None,
+      'device_id': <ANY>,
+      'disabled_by': None,
+      'domain': 'sensor',
+      'entity_category': None,
+      'entity_id': 'sensor.victron_mqtt_123_battery_0_battery_current',
+      'has_entity_name': True,
+      'hidden_by': None,
+      'icon': None,
+      'id': <ANY>,
+      'labels': set({
+      }),
+      'name': None,
+      'options': dict({
+        'sensor': dict({
+          'suggested_display_precision': 1,
+        }),
+      }),
+      'original_device_class': <SensorDeviceClass.CURRENT: 'current'>,
+      'original_icon': None,
+      'original_name': 'DC bus current',
+      'platform': 'victron_mqtt',
+      'previous_unique_id': None,
+      'suggested_object_id': 'victron_mqtt_123_battery_0_battery_current',
+      'supported_features': 0,
+      'translation_key': 'battery_current',
+      'unique_id': 'sensor.victron_mqtt_123_battery_0_battery_current',
+      'unit_of_measurement': 'A',
+    }),
+  ])
+# ---
+# name: test_sensor[simple_naming]
+  list([
+    EntityRegistryEntrySnapshot({
+      'aliases': set({
+      }),
+      'area_id': None,
+      'capabilities': dict({
+        'state_class': <SensorStateClass.MEASUREMENT: 'measurement'>,
+      }),
+      'config_entry_id': <ANY>,
+      'config_subentry_id': <ANY>,
+      'device_class': None,
+      'device_id': <ANY>,
+      'disabled_by': None,
+      'domain': 'sensor',
+      'entity_category': None,
+      'entity_id': 'sensor.victron_mqtt_battery_0_battery_current',
+      'has_entity_name': True,
+      'hidden_by': None,
+      'icon': None,
+      'id': <ANY>,
+      'labels': set({
+      }),
+      'name': None,
+      'options': dict({
+        'sensor': dict({
+          'suggested_display_precision': 1,
+        }),
+      }),
+      'original_device_class': <SensorDeviceClass.CURRENT: 'current'>,
+      'original_icon': None,
+      'original_name': 'DC bus current',
+      'platform': 'victron_mqtt',
+      'previous_unique_id': None,
+      'suggested_object_id': 'victron_mqtt_battery_0_battery_current',
+      'supported_features': 0,
+      'translation_key': 'battery_current',
+      'unique_id': 'sensor.victron_mqtt_battery_0_battery_current',
+      'unit_of_measurement': 'A',
+    }),
+  ])
+# ---
+# name: test_sensor_complex[complex_naming]
+  list([
+    EntityRegistryEntrySnapshot({
+      'aliases': set({
+      }),
+      'area_id': None,
+      'capabilities': dict({
+        'options': list([
+          'Disabled (Sunday)',
+          'Disabled (Weekends)',
+          'Disabled (Weekdays)',
+          'Disabled (Every day)',
+          'Disabled (Saturday)',
+          'Disabled (Friday)',
+          'Disabled (Thursday)',
+          'Disabled (Wednesday)',
+          'Disabled (Tuesday)',
+          'Disabled (Monday)',
+          'Sunday',
+          'Monday',
+          'Tuesday',
+          'Wednesday',
+          'Thursday',
+          'Friday',
+          'Saturday',
+          'Every day',
+          'Weekdays',
+          'Weekends',
+        ]),
+      }),
+      'config_entry_id': <ANY>,
+      'config_subentry_id': <ANY>,
+      'device_class': None,
+      'device_id': <ANY>,
+      'disabled_by': None,
+      'domain': 'select',
+      'entity_category': None,
+      'entity_id': 'select.victron_mqtt_123_system_0_system_ess_schedule_charge_2_days',
+      'has_entity_name': True,
+      'hidden_by': None,
+      'icon': None,
+      'id': <ANY>,
+      'labels': set({
+      }),
+      'name': None,
+      'options': dict({
+      }),
+      'original_device_class': None,
+      'original_icon': None,
+      'original_name': 'ESS BatteryLife schedule charge 2 days',
+      'platform': 'victron_mqtt',
+      'previous_unique_id': None,
+      'suggested_object_id': 'victron_mqtt_123_system_0_system_ess_schedule_charge_2_days',
+      'supported_features': 0,
+      'translation_key': 'system_ess_schedule_charge_slot_days',
+      'unique_id': 'select.victron_mqtt_123_system_0_system_ess_schedule_charge_2_days',
+      'unit_of_measurement': None,
+    }),
+    EntityRegistryEntrySnapshot({
+      'aliases': set({
+      }),
+      'area_id': None,
+      'capabilities': None,
+      'config_entry_id': <ANY>,
+      'config_subentry_id': <ANY>,
+      'device_class': None,
+      'device_id': <ANY>,
+      'disabled_by': None,
+      'domain': 'switch',
+      'entity_category': None,
+      'entity_id': 'switch.victron_mqtt_123_system_0_system_ess_schedule_charge_2_enabled',
+      'has_entity_name': True,
+      'hidden_by': None,
+      'icon': None,
+      'id': <ANY>,
+      'labels': set({
+      }),
+      'name': None,
+      'options': dict({
+      }),
+      'original_device_class': None,
+      'original_icon': None,
+      'original_name': 'ESS BatteryLife schedule charge 2 enabled',
+      'platform': 'victron_mqtt',
+      'previous_unique_id': None,
+      'suggested_object_id': 'victron_mqtt_123_system_0_system_ess_schedule_charge_2_enabled',
+      'supported_features': 0,
+      'translation_key': 'system_ess_schedule_charge_slot_enabled',
+      'unique_id': 'switch.victron_mqtt_123_system_0_system_ess_schedule_charge_2_enabled',
+      'unit_of_measurement': None,
+    }),
+  ])
+# ---
+# name: test_sensor_complex[simple_naming]
+  list([
+    EntityRegistryEntrySnapshot({
+      'aliases': set({
+      }),
+      'area_id': None,
+      'capabilities': dict({
+        'options': list([
+          'Disabled (Sunday)',
+          'Disabled (Weekends)',
+          'Disabled (Weekdays)',
+          'Disabled (Every day)',
+          'Disabled (Saturday)',
+          'Disabled (Friday)',
+          'Disabled (Thursday)',
+          'Disabled (Wednesday)',
+          'Disabled (Tuesday)',
+          'Disabled (Monday)',
+          'Sunday',
+          'Monday',
+          'Tuesday',
+          'Wednesday',
+          'Thursday',
+          'Friday',
+          'Saturday',
+          'Every day',
+          'Weekdays',
+          'Weekends',
+        ]),
+      }),
+      'config_entry_id': <ANY>,
+      'config_subentry_id': <ANY>,
+      'device_class': None,
+      'device_id': <ANY>,
+      'disabled_by': None,
+      'domain': 'select',
+      'entity_category': None,
+      'entity_id': 'select.victron_mqtt_system_0_system_ess_schedule_charge_2_days',
+      'has_entity_name': True,
+      'hidden_by': None,
+      'icon': None,
+      'id': <ANY>,
+      'labels': set({
+      }),
+      'name': None,
+      'options': dict({
+      }),
+      'original_device_class': None,
+      'original_icon': None,
+      'original_name': 'ESS BatteryLife schedule charge 2 days',
+      'platform': 'victron_mqtt',
+      'previous_unique_id': None,
+      'suggested_object_id': 'victron_mqtt_system_0_system_ess_schedule_charge_2_days',
+      'supported_features': 0,
+      'translation_key': 'system_ess_schedule_charge_slot_days',
+      'unique_id': 'select.victron_mqtt_system_0_system_ess_schedule_charge_2_days',
+      'unit_of_measurement': None,
+    }),
+    EntityRegistryEntrySnapshot({
+      'aliases': set({
+      }),
+      'area_id': None,
+      'capabilities': None,
+      'config_entry_id': <ANY>,
+      'config_subentry_id': <ANY>,
+      'device_class': None,
+      'device_id': <ANY>,
+      'disabled_by': None,
+      'domain': 'switch',
+      'entity_category': None,
+      'entity_id': 'switch.victron_mqtt_system_0_system_ess_schedule_charge_2_enabled',
+      'has_entity_name': True,
+      'hidden_by': None,
+      'icon': None,
+      'id': <ANY>,
+      'labels': set({
+      }),
+      'name': None,
+      'options': dict({
+      }),
+      'original_device_class': None,
+      'original_icon': None,
+      'original_name': 'ESS BatteryLife schedule charge 2 enabled',
+      'platform': 'victron_mqtt',
+      'previous_unique_id': None,
+      'suggested_object_id': 'victron_mqtt_system_0_system_ess_schedule_charge_2_enabled',
+      'supported_features': 0,
+      'translation_key': 'system_ess_schedule_charge_slot_enabled',
+      'unique_id': 'switch.victron_mqtt_system_0_system_ess_schedule_charge_2_enabled',
+      'unit_of_measurement': None,
+    }),
+  ])
+# ---
+# name: test_switch[complex_naming]
+  list([
+    EntityRegistryEntrySnapshot({
+      'aliases': set({
+      }),
+      'area_id': None,
+      'capabilities': None,
+      'config_entry_id': <ANY>,
+      'config_subentry_id': <ANY>,
+      'device_class': None,
+      'device_id': <ANY>,
+      'disabled_by': None,
+      'domain': 'switch',
+      'entity_category': None,
+      'entity_id': 'switch.victron_mqtt_123_generator_0_generator_manual_start',
+      'has_entity_name': True,
+      'hidden_by': None,
+      'icon': None,
+      'id': <ANY>,
+      'labels': set({
+      }),
+      'name': None,
+      'options': dict({
+      }),
+      'original_device_class': None,
+      'original_icon': None,
+      'original_name': 'Generator manual start',
+      'platform': 'victron_mqtt',
+      'previous_unique_id': None,
+      'suggested_object_id': 'victron_mqtt_123_generator_0_generator_manual_start',
+      'supported_features': 0,
+      'translation_key': 'generator_manual_start',
+      'unique_id': 'switch.victron_mqtt_123_generator_0_generator_manual_start',
+      'unit_of_measurement': None,
+    }),
+  ])
+# ---
+# name: test_switch[simple_naming]
+  list([
+    EntityRegistryEntrySnapshot({
+      'aliases': set({
+      }),
+      'area_id': None,
+      'capabilities': None,
+      'config_entry_id': <ANY>,
+      'config_subentry_id': <ANY>,
+      'device_class': None,
+      'device_id': <ANY>,
+      'disabled_by': None,
+      'domain': 'switch',
+      'entity_category': None,
+      'entity_id': 'switch.victron_mqtt_generator_0_generator_manual_start',
+      'has_entity_name': True,
+      'hidden_by': None,
+      'icon': None,
+      'id': <ANY>,
+      'labels': set({
+      }),
+      'name': None,
+      'options': dict({
+      }),
+      'original_device_class': None,
+      'original_icon': None,
+      'original_name': 'Generator manual start',
+      'platform': 'victron_mqtt',
+      'previous_unique_id': None,
+      'suggested_object_id': 'victron_mqtt_generator_0_generator_manual_start',
+      'supported_features': 0,
+      'translation_key': 'generator_manual_start',
+      'unique_id': 'switch.victron_mqtt_generator_0_generator_manual_start',
+      'unit_of_measurement': None,
+    }),
+  ])
+# ---
+# name: test_time[complex_naming]
+  list([
+    EntityRegistryEntrySnapshot({
+      'aliases': set({
+      }),
+      'area_id': None,
+      'capabilities': None,
+      'config_entry_id': <ANY>,
+      'config_subentry_id': <ANY>,
+      'device_class': None,
+      'device_id': <ANY>,
+      'disabled_by': None,
+      'domain': 'time',
+      'entity_category': None,
+      'entity_id': 'time.victron_mqtt_123_system_0_system_ess_schedule_charge_0_start',
+      'has_entity_name': True,
+      'hidden_by': None,
+      'icon': None,
+      'id': <ANY>,
+      'labels': set({
+      }),
+      'name': None,
+      'options': dict({
+      }),
+      'original_device_class': None,
+      'original_icon': None,
+      'original_name': 'ESS BatteryLife schedule charge 0 start',
+      'platform': 'victron_mqtt',
+      'previous_unique_id': None,
+      'suggested_object_id': 'victron_mqtt_123_system_0_system_ess_schedule_charge_0_start',
+      'supported_features': 0,
+      'translation_key': 'system_ess_schedule_charge_slot_start',
+      'unique_id': 'time.victron_mqtt_123_system_0_system_ess_schedule_charge_0_start',
+      'unit_of_measurement': None,
+    }),
+  ])
+# ---
+# name: test_time[simple_naming]
+  list([
+    EntityRegistryEntrySnapshot({
+      'aliases': set({
+      }),
+      'area_id': None,
+      'capabilities': None,
+      'config_entry_id': <ANY>,
+      'config_subentry_id': <ANY>,
+      'device_class': None,
+      'device_id': <ANY>,
+      'disabled_by': None,
+      'domain': 'time',
+      'entity_category': None,
+      'entity_id': 'time.victron_mqtt_system_0_system_ess_schedule_charge_0_start',
+      'has_entity_name': True,
+      'hidden_by': None,
+      'icon': None,
+      'id': <ANY>,
+      'labels': set({
+      }),
+      'name': None,
+      'options': dict({
+      }),
+      'original_device_class': None,
+      'original_icon': None,
+      'original_name': 'ESS BatteryLife schedule charge 0 start',
+      'platform': 'victron_mqtt',
+      'previous_unique_id': None,
+      'suggested_object_id': 'victron_mqtt_system_0_system_ess_schedule_charge_0_start',
+      'supported_features': 0,
+      'translation_key': 'system_ess_schedule_charge_slot_start',
+      'unique_id': 'time.victron_mqtt_system_0_system_ess_schedule_charge_0_start',
+      'unit_of_measurement': None,
+    }),
+  ])
+# ---
