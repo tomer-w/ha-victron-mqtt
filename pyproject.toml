@@ -99,7 +99,6 @@ overgeneral-exceptions = [
 testpaths = ["tests"]
 norecursedirs = [".git", "testing_config"]
 asyncio_mode = "auto"
-addopts = "--snapshot-dirname=snapshots"
 
 [tool.coverage.run]
 source = ["custom_components"]
