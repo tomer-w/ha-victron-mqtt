@@ -509,6 +509,9 @@
       "evcharger_position": {
         "name": "EV charger position"
       },
+      "evcharger_power": {
+        "name": "EV charger power"
+      },
       "evcharger_power_phase": {
         "name": "EV charger power {phase}"
       },
@@ -640,6 +643,12 @@
       },
       "grid_power": {
         "name": "Grid power"
+      },
+      "grid_power_factor": {
+        "name": "Grid power factor"
+      },
+      "grid_power_factor_phase": {
+        "name": "Grid power factor on {phase}"
       },
       "grid_power_phase": {
         "name": "Grid power on {phase}"
