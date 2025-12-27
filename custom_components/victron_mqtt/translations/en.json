@@ -114,6 +114,9 @@
       "switch_output_state": {
         "name": "Switch {output} state"
       },
+      "switchable_output_output_state": {
+        "name": "Switchable output {output} state"
+      },
       "system_dynamicess_active": {
         "name": "Dynamic ESS active"
       },
@@ -122,6 +125,9 @@
       },
       "system_dynamicess_available": {
         "name": "Dynamic ESS available"
+      },
+      "system_ess_battery_use": {
+        "name": "ESS Only Critical Loads from Battery"
       },
       "system_ess_schedule_charge_slot_enabled": {
         "name": "ESS BatteryLife schedule charge {slot} enabled"
@@ -210,6 +216,9 @@
       },
       "generator_gen_id_warm_up_timer": {
         "name": "Generator warm-up timer"
+      },
+      "multi_ess_ac_power_setpoint": {
+        "name": "ESS AC power setpoint"
       },
       "multi_ess_min_soc_limit": {
         "name": "ESS minimum SOC limit"
@@ -869,6 +878,12 @@
       "solarcharger_time_in_float_today": {
         "name": "Solar charger time in float today"
       },
+      "solarcharger_tracker_tracker_max_power_today": {
+        "name": "Tracker {tracker} max power today"
+      },
+      "solarcharger_tracker_tracker_max_voltage_today": {
+        "name": "Tracker {tracker} max voltage today"
+      },
       "solarcharger_tracker_tracker_name": {
         "name": "PV tracker {tracker} name"
       },
@@ -880,6 +895,9 @@
       },
       "solarcharger_tracker_tracker_voltage": {
         "name": "PV tracker {tracker} voltage"
+      },
+      "solarcharger_tracker_tracker_yield_today": {
+        "name": "Tracker {tracker} yield today"
       },
       "solarcharger_voltage": {
         "name": "PV bus voltage"
@@ -901,6 +919,9 @@
       },
       "switch_output_dimming": {
         "name": "Switch {output} dimming"
+      },
+      "switchable_output_output_custom_name": {
+        "name": "Switchable output {output} custom name"
       },
       "system_ac_active_input_source": {
         "name": "AC active input source"
@@ -1281,6 +1302,12 @@
       },
       "switch_output_state": {
         "name": "Switch {output} state"
+      },
+      "switchable_output_output_state": {
+        "name": "Switchable output {output} state"
+      },
+      "system_ess_battery_use": {
+        "name": "ESS Only Critical Loads from Battery"
       },
       "system_ess_schedule_charge_slot_enabled": {
         "name": "ESS BatteryLife schedule charge {slot} enabled"
