@@ -3472,8 +3472,8 @@
       "precision": 1,
       "enum": null,
       "min_max_range": "RangeType.STATIC",
-      "min": "-12500",
-      "max": "12500",
+      "min": -12500,
+      "max": 12500,
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
@@ -4214,7 +4214,7 @@
       "topic": "N/{installation_id}/settings/{device_id}/Settings/CGwacs/BatteryUse",
       "message_type": "MetricKind.SWITCH",
       "short_id": "system_ess_battery_use",
-      "name": "ESS Only Critical Loads from Battery",
+      "name": "ESS only critical loads from battery",
       "unit_of_measurement": null,
       "metric_type": "MetricType.NONE",
       "metric_nature": "MetricNature.NONE",
@@ -4229,7 +4229,7 @@
       "key_values": {},
       "experimental": false,
       "depends_on": [],
-      "generic_name": "ESS Only Critical Loads from Battery",
+      "generic_name": "ESS only critical loads from battery",
       "is_formula": false
     },
     {

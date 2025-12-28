@@ -127,7 +127,7 @@
         "name": "Dynamic ESS available"
       },
       "system_ess_battery_use": {
-        "name": "ESS Only Critical Loads from Battery"
+        "name": "ESS only critical loads from battery"
       },
       "system_ess_schedule_charge_slot_enabled": {
         "name": "ESS BatteryLife schedule charge {slot} enabled"
@@ -1307,7 +1307,7 @@
         "name": "Switchable output {output} state"
       },
       "system_ess_battery_use": {
-        "name": "ESS Only Critical Loads from Battery"
+        "name": "ESS only critical loads from battery"
       },
       "system_ess_schedule_charge_slot_enabled": {
         "name": "ESS BatteryLife schedule charge {slot} enabled"
