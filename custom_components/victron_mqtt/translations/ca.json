@@ -1,5 +1,10 @@
 {
   "config": {
+    "error": {
+      "cannot_connect": "No s'ha pogut connectar a l'amfitrió",
+      "invalid_auth": "Problema d'autenticació",
+      "unknown": "Error desconegut"
+    },
     "step": {
       "user": {
         "data": {

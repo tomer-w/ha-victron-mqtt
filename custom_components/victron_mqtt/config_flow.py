@@ -63,87 +63,44 @@ DEVICE_CODES: Sequence[SelectOptionDict] = [
     if device_type.string != "<Not used>"
 ]
 
-
-def _get_user_schema(defaults: MappingProxyType[str, Any] | None = None) -> vol.Schema:
-    """Get the user data schema with optional defaults."""
-    if defaults is None:
-        defaults = MappingProxyType({})
-    # Ensure operation_mode default is a string value (not an Enum instance)
-    op_mode_default = defaults.get(CONF_OPERATION_MODE, OperationMode.FULL.value)
-    op_default = (
-        op_mode_default.value
-        if isinstance(op_mode_default, OperationMode)
-        else op_mode_default
-    )
-
-    return vol.Schema(
-        {
-            vol.Required(CONF_HOST, default=defaults.get(CONF_HOST, DEFAULT_HOST)): str,
-            vol.Required(CONF_PORT, default=defaults.get(CONF_PORT, DEFAULT_PORT)): int,
-            # Using suggested_value to be able to set empty string as default
-            vol.Optional(
-                CONF_USERNAME,
-                description={"suggested_value": f"{defaults.get(CONF_USERNAME, '')}"},
-            ): str,
-            vol.Optional(
-                CONF_PASSWORD,
-                description={"suggested_value": f"{defaults.get(CONF_PASSWORD, '')}"},
-            ): str,
-            vol.Required(CONF_SSL, default=defaults.get(CONF_SSL, False)): bool,
-            vol.Required(CONF_OPERATION_MODE, default=op_default): SelectSelector(
-                SelectSelectorConfig(
-                    options=[
-                        SelectOptionDict(
-                            value=OperationMode.READ_ONLY.value,
-                            label="Read-only (sensors & binary sensors only)",
-                        ),
-                        SelectOptionDict(
-                            value=OperationMode.FULL.value,
-                            label="Full (sensors + controllable entities)",
-                        ),
-                        SelectOptionDict(
-                            value=OperationMode.EXPERIMENTAL.value,
-                            label="Experimental (may be unstable)",
-                        ),
-                    ]
-                )
-            ),
-            vol.Optional(
-                CONF_SIMPLE_NAMING,
-                default=defaults.get(CONF_SIMPLE_NAMING, DEFAULT_SIMPLE_NAMING),
-            ): bool,
-            vol.Optional(
-                CONF_ROOT_TOPIC_PREFIX,
-                description={
-                    "suggested_value": f"{defaults.get(CONF_ROOT_TOPIC_PREFIX, '')}"
-                },
-            ): str,
-            vol.Optional(
-                CONF_UPDATE_FREQUENCY_SECONDS,
-                default=defaults.get(
-                    CONF_UPDATE_FREQUENCY_SECONDS, DEFAULT_UPDATE_FREQUENCY_SECONDS
-                ),
-            ): int,
-            vol.Optional(
-                CONF_EXCLUDED_DEVICES, default=defaults.get(CONF_EXCLUDED_DEVICES, [])
-            ): SelectSelector(
-                SelectSelectorConfig(
-                    options=DEVICE_CODES,
-                    multiple=True,
-                    mode=SelectSelectorMode.DROPDOWN,
-                )
-            ),
-            vol.Optional(
-                CONF_ELEVATED_TRACING,
-                description={
-                    "suggested_value": f"{defaults.get(CONF_ELEVATED_TRACING, '')}"
-                },
-            ): str,
-        }
-    )
-
-
-STEP_USER_DATA_SCHEMA = _get_user_schema()
+STEP_USER_DATA_SCHEMA = vol.Schema(
+    {
+        vol.Required(CONF_HOST, default=DEFAULT_HOST): str,
+        vol.Required(CONF_PORT, default=DEFAULT_PORT): int,
+        vol.Optional(CONF_USERNAME): str,
+        vol.Optional(CONF_PASSWORD): str,
+        vol.Required(CONF_SSL, default=False): bool,
+        vol.Required(CONF_OPERATION_MODE, default=OperationMode.FULL.value): SelectSelector(
+            SelectSelectorConfig(
+                options=[
+                    SelectOptionDict(
+                        value=OperationMode.READ_ONLY.value,
+                        label="Read-only (sensors & binary sensors only)",
+                    ),
+                    SelectOptionDict(
+                        value=OperationMode.FULL.value,
+                        label="Full (sensors + controllable entities)",
+                    ),
+                    SelectOptionDict(
+                        value=OperationMode.EXPERIMENTAL.value,
+                        label="Experimental (may be unstable)",
+                    ),
+                ]
+            )
+        ),
+        vol.Optional(CONF_SIMPLE_NAMING, default=DEFAULT_SIMPLE_NAMING): bool,
+         vol.Optional(CONF_ROOT_TOPIC_PREFIX): str,
+        vol.Optional(CONF_UPDATE_FREQUENCY_SECONDS, default=DEFAULT_UPDATE_FREQUENCY_SECONDS): int,
+        vol.Optional(CONF_EXCLUDED_DEVICES, default=[]): SelectSelector(
+            SelectSelectorConfig(
+                options=DEVICE_CODES,
+                multiple=True,
+                mode=SelectSelectorMode.DROPDOWN,
+            )
+        ),
+        vol.Optional(CONF_ELEVATED_TRACING): str,
+    }
+)
 
 
 async def validate_input(data: dict[str, Any]) -> str:
@@ -222,11 +179,17 @@ class VictronMQTTConfigFlow(ConfigFlow, domain=DOMAIN):
 
         if len(errors) > 0:
             _LOGGER.warning("Showing form with errors: %s", errors)
+            # Keep previously entered values when we re-show the form after an error.
+            data_schema = self.add_suggested_values_to_schema(
+                STEP_USER_DATA_SCHEMA, user_input
+            )
         else:
             _LOGGER.info("Showing form without errors")
+            data_schema = STEP_USER_DATA_SCHEMA
+
         return self.async_show_form(
             step_id="user",
-            data_schema=STEP_USER_DATA_SCHEMA,
+            data_schema=data_schema,
             errors=errors,
         )
 
@@ -385,4 +348,6 @@ class VictronMQTTOptionsFlow(OptionsFlow):
 
     def _get_options_schema(self) -> vol.Schema:
         """Get the options schema with current values as defaults."""
-        return _get_user_schema(self.config_entry.data)
+        return self.add_suggested_values_to_schema(
+            STEP_USER_DATA_SCHEMA, self.config_entry.data
+        )

@@ -1,5 +1,10 @@
 {
   "config": {
+	"error": {
+	  "cannot_connect": "Verbindung zum Host ist fehlgeschlagen",
+	  "invalid_auth": "Authentifizierungsfehler",
+	  "unknown": "Unbekannter Fehler"
+	},
 	"step": {
 	  "user": {
 		"data": {
