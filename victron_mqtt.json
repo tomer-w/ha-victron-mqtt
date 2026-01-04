@@ -4922,8 +4922,8 @@
       "unit_of_measurement": "V",
       "metric_type": "MetricType.VOLTAGE",
       "metric_nature": "MetricNature.INSTANTANEOUS",
-      "value_type": "ValueType.INT",
-      "precision": null,
+      "value_type": "ValueType.FLOAT",
+      "precision": 3,
       "enum": null,
       "min_max_range": "RangeType.DYNAMIC",
       "min": null,
@@ -9291,6 +9291,26 @@
           "id": "Off",
           "name": "Off",
           "value": 4
+        },
+        {
+          "id": "LowPower",
+          "name": "Low Power",
+          "value": 5
+        },
+        {
+          "id": "Passthrough",
+          "name": "Passthrough",
+          "value": 251
+        },
+        {
+          "id": "Standby",
+          "name": "Standby",
+          "value": 252
+        },
+        {
+          "id": "Hibernate",
+          "name": "Hibernate",
+          "value": 253
         }
       ]
     },
