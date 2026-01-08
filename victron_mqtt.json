@@ -371,7 +371,7 @@
       "enum": null,
       "min_max_range": "RangeType.STATIC",
       "min": 0,
-      "max": 50,
+      "max": 200,
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
@@ -1858,7 +1858,7 @@
       "topic": "N/{installation_id}/evcharger/{device_id}/StartStop",
       "message_type": "MetricKind.SWITCH",
       "short_id": "evcharger_charge",
-      "name": "EV charger charge",
+      "name": "EV charging",
       "unit_of_measurement": null,
       "metric_type": "MetricType.NONE",
       "metric_nature": "MetricNature.NONE",
@@ -1873,7 +1873,7 @@
       "key_values": {},
       "experimental": false,
       "depends_on": [],
-      "generic_name": "EV charger charge",
+      "generic_name": "EV charging",
       "is_formula": false
     },
     {
@@ -7674,7 +7674,7 @@
       "topic": "N/{installation_id}/vebus/{device_id}/Devices/{device_number}/Settings/PowerAssistEnabled",
       "message_type": "MetricKind.SWITCH",
       "short_id": "vebus_device_{device_number}_power_assist_enabled",
-      "name": "VE.Bus device {device_number} power assist enabled",
+      "name": "VE.Bus device {device_number} PowerAssist enabled",
       "unit_of_measurement": null,
       "metric_type": "MetricType.NONE",
       "metric_nature": "MetricNature.NONE",
@@ -7689,7 +7689,7 @@
       "key_values": {},
       "experimental": false,
       "depends_on": [],
-      "generic_name": "VE.Bus device {device_number} power assist enabled",
+      "generic_name": "VE.Bus device {device_number} PowerAssist enabled",
       "is_formula": false
     },
     {

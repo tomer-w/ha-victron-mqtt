@@ -45,7 +45,7 @@
         "name": "Digital input settings invert translation"
       },
       "evcharger_charge": {
-        "name": "EV charger charge"
+        "name": "EV charging"
       },
       "evcharger_connected": {
         "name": "EV charger connected"
@@ -144,7 +144,7 @@
         "name": "PV DC overvoltage feed-in"
       },
       "vebus_device_device_number_power_assist_enabled": {
-        "name": "VE.Bus device {device_number} power assist enabled"
+        "name": "VE.Bus device {device_number} PowerAssist enabled"
       },
       "vebus_inverter_connected": {
         "name": "Inverter connected"
@@ -1270,7 +1270,7 @@
         "name": "Digital input settings invert translation"
       },
       "evcharger_charge": {
-        "name": "EV charger charge"
+        "name": "EV charging"
       },
       "generator_autorun": {
         "name": "Generator auto-start enabled"
@@ -1324,7 +1324,7 @@
         "name": "PV DC overvoltage feed-in"
       },
       "vebus_device_device_number_power_assist_enabled": {
-        "name": "VE.Bus device {device_number} power assist enabled"
+        "name": "VE.Bus device {device_number} PowerAssist enabled"
       },
       "vebus_inverter_ignoreacin1_onoff_control": {
         "name": "Control ignore AC-in-1"
