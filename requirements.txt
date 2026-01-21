@@ -1,0 +1,3 @@
+pytest
+pytest_homeassistant_custom_component
+victron_mqtt
