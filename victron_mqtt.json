@@ -2779,6 +2779,28 @@
       "is_formula": false
     },
     {
+      "topic": "N/{installation_id}/hub4/{device_id}/Overrides/Setpoint",
+      "message_type": "MetricKind.NUMBER",
+      "short_id": "hub4_ac_grid_setpoint",
+      "name": "AC grid setpoint",
+      "unit_of_measurement": "W",
+      "metric_type": "MetricType.POWER",
+      "metric_nature": "MetricNature.INSTANTANEOUS",
+      "value_type": "ValueType.INT",
+      "precision": null,
+      "enum": null,
+      "min_max_range": "RangeType.STATIC",
+      "min": -32767,
+      "max": 32767,
+      "step": null,
+      "is_adjustable_suffix": null,
+      "key_values": {},
+      "experimental": false,
+      "depends_on": [],
+      "generic_name": "AC grid setpoint",
+      "is_formula": false
+    },
+    {
       "topic": "N/{installation_id}/inverter/{device_id}/Ac/Out/{phase}/I",
       "message_type": "MetricKind.SENSOR",
       "short_id": "inverter_output_current_{phase}",
@@ -8591,6 +8613,11 @@
           "id": "ACLOAD",
           "name": "AC Load",
           "value": "acload"
+        },
+        {
+          "id": "HUB4",
+          "name": "Hub4",
+          "value": "hub4"
         }
       ]
     },

@@ -222,6 +222,9 @@
       "generator_gen_id_warm_up_timer": {
         "name": "Generator warm-up timer"
       },
+      "hub4_ac_grid_setpoint": {
+        "name": "AC grid setpoint"
+      },
       "multi_ess_ac_power_setpoint": {
         "name": "ESS AC power setpoint"
       },
@@ -705,6 +708,9 @@
       },
       "heatpump_voltage_phase": {
         "name": "Heat pump voltage on {phase}"
+      },
+      "hub4_ac_grid_setpoint": {
+        "name": "AC grid setpoint"
       },
       "inverter_mode": {
         "name": "Inverter mode"
