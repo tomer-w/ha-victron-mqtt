@@ -29,10 +29,11 @@ from homeassistant.const import (
     CONF_SSL,
     CONF_USERNAME,
 )
-from homeassistant.core import HomeAssistant
+from homeassistant.core import HomeAssistant, State
 from homeassistant.helpers import entity_registry as er
+from homeassistant.core import State
 
-from pytest_homeassistant_custom_component.common import MockConfigEntry
+from pytest_homeassistant_custom_component.common import MockConfigEntry, mock_restore_cache
 
 pytestmark = pytest.mark.usefixtures("enable_custom_integrations")
 
@@ -432,4 +433,56 @@ async def test_time(
 
     # Should have created one entity
     assert len(entities) == 1
+    assert entities == snapshot
+
+@patch('victron_mqtt.formula_common.time.monotonic')
+async def test_sensor_with_baseline(
+    mock_time: MagicMock,
+    hass: HomeAssistant,
+    snapshot: SnapshotAssertion,
+    init_integration,
+) -> None:
+    """Test that baseline is NOT restored for TOTAL state_class (only TOTAL_INCREASING).
+    
+    The current implementation only restores baseline for sensors with
+    SensorStateClass.TOTAL_INCREASING. FormulaMetric sensors with CUMULATIVE
+    nature get mapped to SensorStateClass.TOTAL, so baseline is not restored.
+    """
+    victron_hub, mock_config_entry = init_integration
+    # Mock time.monotonic() to return a fixed time
+    mock_time.return_value = 0
+    
+    # Determine the expected entity_id based on simple_naming config
+    simple_naming = mock_config_entry.data.get(CONF_SIMPLE_NAMING, False)
+    if simple_naming:
+        entity_id = "sensor.victron_mqtt_system_0_system_dc_pv_energy"
+    else:
+        entity_id = f"sensor.victron_mqtt_123_system_0_system_dc_pv_energy"
+    
+    # Mock the restore cache with a previous state value of 1000.0
+    mock_restore_cache(hass, [State(entity_id, "1000.0")])
+
+    # Inject a PV power metric which triggers creation of a FormulaMetric (pv_energy)
+    # The FormulaMetric has CUMULATIVE nature which maps to TOTAL state_class (not TOTAL_INCREASING)
+    await inject_message(victron_hub, "N/123/system/0/Dc/Pv/Power", '{"value": 1000}', mock_time)
+    await finalize_injection(victron_hub, disconnect=False)
+    mock_time.return_value = 15
+    await inject_message(victron_hub, "N/123/system/0/Dc/Pv/Power", '{"value": 4000}', mock_time)
+
+    # Find the energy entity (FormulaMetric)
+    entity_registry = er.async_get(hass)
+    entities = er.async_entries_for_config_entry(
+        entity_registry, mock_config_entry.entry_id
+    )
+    energy_entities = [e for e in entities if "energy" in e.entity_id]
+    assert len(energy_entities) > 0
+    
+    # Since state_class is TOTAL (not TOTAL_INCREASING), baseline is NOT restored
+    # The value should be 0.0 (the FormulaMetric's initial value)
+    state = hass.states.get(energy_entities[0].entity_id)
+    assert state is not None
+    # Value should be the metric's initial value, NOT the baseline
+    assert float(state.state) == 1000.004  # Not 0.004
+    # Should have created two entity
+    assert len(entities) == 2
     assert entities == snapshot

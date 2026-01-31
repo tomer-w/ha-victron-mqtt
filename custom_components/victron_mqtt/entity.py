@@ -1,8 +1,9 @@
 """Common code for Victron Venus integration."""
 
 from abc import abstractmethod
+from functools import cached_property
 import logging
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 from victron_mqtt import (
     Device as VictronVenusDevice,
@@ -13,6 +14,7 @@ from victron_mqtt import (
 
 from homeassistant.components.sensor import SensorDeviceClass, SensorStateClass
 from homeassistant.const import EntityCategory, UnitOfTime
+from homeassistant.core import HomeAssistant
 from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.entity import Entity
 
@@ -25,8 +27,17 @@ from .const import (
 _LOGGER = logging.getLogger(__name__)
 
 
-class VictronBaseEntity(Entity):
-    """Implementation of a Victron Venus base entity."""
+class VictronBaseEntity(Entity if TYPE_CHECKING else object):  # type: ignore[misc]
+    """Mixin class for Victron Venus entities.
+    
+    This is a mixin class that provides common functionality for all Victron
+    entities. It should be used as the first base class in the inheritance list
+    together with a specific entity type (SensorEntity, SwitchEntity, etc.)
+    which provides the actual Entity base class.
+    
+    The TYPE_CHECKING conditional inheritance is used to satisfy type checkers
+    while avoiding MRO conflicts at runtime.
+    """
 
     def __init__(
         self,
@@ -156,7 +167,7 @@ class VictronBaseEntity(Entity):
             return UnitOfTime.HOURS
         return metric.unit_of_measurement
 
-    @property
-    def device_info(self) -> DeviceInfo:
+    @cached_property
+    def device_info(self) -> DeviceInfo | None:
         """Return device information about the sensor."""
         return self._device_info

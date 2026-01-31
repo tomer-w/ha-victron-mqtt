@@ -2,6 +2,7 @@
 
 import logging
 from typing import Any
+from functools import cached_property
 
 from victron_mqtt import (
     Device as VictronVenusDevice,
@@ -88,7 +89,7 @@ class VictronNumber(VictronBaseEntity, NumberEntity):
         self._attr_native_value = value
         self.async_write_ha_state()
 
-    @property
+    @cached_property
     def native_value(self):
         """Return the current value."""
         return self._metric.value

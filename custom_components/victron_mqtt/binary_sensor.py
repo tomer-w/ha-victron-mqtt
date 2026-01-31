@@ -2,6 +2,7 @@
 
 import logging
 from typing import Any
+from functools import cached_property
 
 from victron_mqtt import (
     Device as VictronVenusDevice,
@@ -77,7 +78,7 @@ class VictronBinarySensor(VictronBaseEntity, BinarySensorEntity):
         self._attr_is_on = new_val
         self.async_write_ha_state()
 
-    @property
+    @cached_property
     def is_on(self) -> bool:
         """Return the current state of the binary sensor."""
         assert self._attr_is_on is not None
