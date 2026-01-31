@@ -727,8 +727,20 @@
       "inverter_output_voltage_phase": {
         "name": "Inverter output voltage {phase}"
       },
+      "inverter_pv_power_total": {
+        "name": "PV power total"
+      },
+      "inverter_pv_voltage": {
+        "name": "PV bus voltage"
+      },
       "inverter_state": {
         "name": "Inverter state"
+      },
+      "inverter_total_pv_yield_system": {
+        "name": "Total PV yield system"
+      },
+      "inverter_total_pv_yield_user": {
+        "name": "Total PV yield user"
       },
       "multi_acin1_to_acout": {
         "name": "AC-in-1 to AC-out"
