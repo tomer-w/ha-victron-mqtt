@@ -75,7 +75,7 @@ class Hub:
         excluded_device_types: list[DeviceType] = [
             dt
             for device_string in excluded_device_strings
-            if (dt := DeviceType.from_device_code(device_string)) is not None
+            if (dt := DeviceType.from_code(device_string)) is not None
         ]
 
         _LOGGER.info(

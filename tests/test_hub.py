@@ -12,6 +12,7 @@ from victron_mqtt import (
 from victron_mqtt.testing import create_mocked_hub, finalize_injection, inject_message
 
 from custom_components.victron_mqtt.const import (
+    CONF_EXCLUDED_DEVICES,
     CONF_INSTALLATION_ID,
     CONF_MODEL,
     CONF_ROOT_TOPIC_PREFIX,
@@ -51,7 +52,8 @@ def basic_config(request):
         CONF_SERIAL: "HQ12345678",
         CONF_ROOT_TOPIC_PREFIX: "N/",
         CONF_UPDATE_FREQUENCY_SECONDS: 30,
-        CONF_SIMPLE_NAMING: request.param
+        CONF_SIMPLE_NAMING: request.param,
+        CONF_EXCLUDED_DEVICES: ["battery"],  # Exclude battery devices
     }
 
 
