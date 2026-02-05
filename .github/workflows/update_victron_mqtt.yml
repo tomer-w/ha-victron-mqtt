@@ -50,19 +50,9 @@ jobs:
       - name: Update manifest.json with new version
         if: steps.check_update.outputs.update_needed == 'true'
         run: |
-          latest="${{ steps.get_release.outputs.latest_version }}"
-          # Get current version
-          current_version=$(jq -r '.version' custom_components/victron_mqtt/manifest.json)
-          year=$(echo "$current_version" | cut -d. -f1)
-          minor=$(echo "$current_version" | cut -d. -f2)
-          patch=$(echo "$current_version" | cut -d. -f3)
-          # Bump patch version
-          new_patch=$((patch + 1))
-          new_version="$year.$minor.$new_patch"
           jq \
             --arg v "$latest" \
-            --arg nv "$new_version" \
-            '.requirements[0] = "victron_mqtt=="+$v | .version = $nv' \
+            '.requirements[0] = "victron_mqtt=="+$v' \
             custom_components/victron_mqtt/manifest.json > manifest.tmp && mv manifest.tmp custom_components/victron_mqtt/manifest.json
 
       - name: Download victron_mqtt release package from PyPI
