@@ -53,9 +53,9 @@ class VictronBaseEntity(Entity if TYPE_CHECKING else object):  # type: ignore[mi
         self._metric = metric
         self._device_info = device_info
         if simple_naming:
-            entity_id = f"{entity_platform}.{ENTITY_PREFIX}_{metric.unique_id}"
+            entity_id = f"{entity_platform}.{ENTITY_PREFIX}_{metric.unique_id}".lower()
         else:
-            entity_id = f"{entity_platform}.{ENTITY_PREFIX}_{installation_id}_{metric.unique_id}"
+            entity_id = f"{entity_platform}.{ENTITY_PREFIX}_{installation_id}_{metric.unique_id}".lower()
         self._attr_unique_id = entity_id
         self.entity_id = entity_id
         self._attr_native_unit_of_measurement = self._map_metric_to_unit_of_measurement(
@@ -171,3 +171,4 @@ class VictronBaseEntity(Entity if TYPE_CHECKING else object):  # type: ignore[mi
     def device_info(self) -> DeviceInfo | None:
         """Return device information about the sensor."""
         return self._device_info
+
