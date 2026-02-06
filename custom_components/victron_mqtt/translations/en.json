@@ -42,7 +42,7 @@
         "name": "Alternator mode"
       },
       "digitalinput_settings_invert_translation": {
-        "name": "Digital input settings invert translation"
+        "name": "Invert digital input"
       },
       "evcharger_charge": {
         "name": "EV charging"
@@ -1285,7 +1285,7 @@
         "name": "Alternator mode"
       },
       "digitalinput_settings_invert_translation": {
-        "name": "Digital input settings invert translation"
+        "name": "Invert digital input"
       },
       "evcharger_charge": {
         "name": "EV charging"

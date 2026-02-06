@@ -1506,7 +1506,7 @@
       "topic": "N/{installation_id}/digitalinput/{device_id}/Settings/InvertTranslation",
       "message_type": "MetricKind.SWITCH",
       "short_id": "digitalinput_settings_invert_translation",
-      "name": "Digital input settings invert translation",
+      "name": "Invert digital input",
       "unit_of_measurement": null,
       "metric_type": "MetricType.NONE",
       "metric_nature": "MetricNature.NONE",
@@ -1521,7 +1521,7 @@
       "key_values": {},
       "experimental": false,
       "depends_on": [],
-      "generic_name": "Digital input settings invert translation",
+      "generic_name": "Invert digital input",
       "is_formula": false
     },
     {
@@ -4244,8 +4244,8 @@
       "precision": 0,
       "enum": null,
       "min_max_range": "RangeType.STATIC",
-      "min": null,
-      "max": null,
+      "min": 0,
+      "max": 1440,
       "step": null,
       "is_adjustable_suffix": null,
       "key_values": {},
