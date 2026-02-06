@@ -88,6 +88,9 @@ jobs:
             ## Changes in victron_mqtt ${{ steps.get_release.outputs.latest_version }}
             
             ${{ steps.get_release.outputs.release_notes }}
-          commit-message: "Update victron_mqtt to ${{ steps.get_release.outputs.latest_version }}"
+          commit-message: |
+            Update victron_mqtt to ${{ steps.get_release.outputs.latest_version }}
+            
+            ${{ steps.get_release.outputs.release_notes }}
           base: main
           labels: "dependencies"
