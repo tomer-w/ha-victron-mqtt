@@ -50,6 +50,7 @@ jobs:
       - name: Update manifest.json with new version
         if: steps.check_update.outputs.update_needed == 'true'
         run: |
+          latest="${{ steps.get_release.outputs.latest_version }}"
           jq \
             --arg v "$latest" \
             '.requirements[0] = "victron_mqtt=="+$v' \
