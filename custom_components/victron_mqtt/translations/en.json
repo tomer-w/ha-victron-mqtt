@@ -478,6 +478,21 @@
       "charge_mode": {
         "name": "Battery charge mode"
       },
+      "charger_dc_current": {
+        "name": "Charger DC output current"
+      },
+      "charger_dc_voltage": {
+        "name": "Charger DC output voltage"
+      },
+      "charger_error_code": {
+        "name": "Charger error code"
+      },
+      "charger_nr_of_outputs": {
+        "name": "Charger number of outputs"
+      },
+      "charger_state": {
+        "name": "Charger state"
+      },
       "dcload_current": {
         "name": "DC load current"
       },
