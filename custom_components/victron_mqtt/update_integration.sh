@@ -1,4 +1,4 @@
-﻿#!/bin/bash
+#!/bin/bash
 
 # ==== CONFIGURATION ====
 GITHUB_USER="tomer-w"
