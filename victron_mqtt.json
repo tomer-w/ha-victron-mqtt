@@ -8133,6 +8133,28 @@
       "is_formula": false
     },
     {
+      "topic": "N/{installation_id}/vebus/{device_id}/Hub4/{phase}/AcPowerSetpoint",
+      "message_type": "MetricKind.NUMBER",
+      "short_id": "vebus_ac_power_setpoint_{phase}",
+      "name": "AC power setpoint {phase}",
+      "unit_of_measurement": "W",
+      "metric_type": "MetricType.POWER",
+      "metric_nature": "MetricNature.INSTANTANEOUS",
+      "value_type": "ValueType.FLOAT",
+      "precision": 1,
+      "enum": null,
+      "min_max_range": "RangeType.STATIC",
+      "min": -10000,
+      "max": 10000,
+      "step": null,
+      "is_adjustable_suffix": null,
+      "key_values": {},
+      "experimental": false,
+      "depends_on": [],
+      "generic_name": "AC power setpoint {phase}",
+      "is_formula": false
+    },
+    {
       "topic": "N/{installation_id}/vebus/{device_id}/Mode",
       "message_type": "MetricKind.SELECT",
       "short_id": "vebus_inverter_mode",
