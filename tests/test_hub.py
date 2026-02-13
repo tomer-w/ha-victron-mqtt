@@ -454,12 +454,8 @@ async def test_sensor_with_baseline(
     # Mock time.monotonic() to return a fixed time
     mock_time.return_value = 0
     
-    # Determine the expected entity_id based on simple_naming config
-    simple_naming = mock_config_entry.data.get(CONF_SIMPLE_NAMING, False)
-    if simple_naming:
-        entity_id = "sensor.victron_mqtt_system_0_system_dc_pv_energy"
-    else:
-        entity_id = f"sensor.victron_mqtt_123_system_0_system_dc_pv_energy"
+    # The entity_id follows the new naming convention: sensor.<device_name>_<metric_name>
+    entity_id = "sensor.victron_venus_pv_energy"
     
     # Mock the restore cache with a previous state value of 1000.0
     mock_restore_cache(hass, [State(entity_id, "1000.0")])
