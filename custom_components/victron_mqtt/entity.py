@@ -147,7 +147,7 @@ class VictronBaseEntity(Entity if TYPE_CHECKING else object):  # type: ignore[mi
 
     def _map_metric_to_stateclass(
         self, metric: VictronVenusMetric
-    ) -> SensorStateClass | str | None:
+    ) -> SensorStateClass | None:
         if metric.metric_nature == MetricNature.CUMULATIVE:
             return SensorStateClass.TOTAL
         if metric.metric_nature == MetricNature.INSTANTANEOUS:
