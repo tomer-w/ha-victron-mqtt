@@ -1,7 +1,6 @@
 """Common code for Victron Venus integration."""
 
 from abc import abstractmethod
-from functools import cached_property
 import logging
 from typing import TYPE_CHECKING, Any
 
@@ -14,7 +13,6 @@ from victron_mqtt import (
 
 from homeassistant.components.sensor import SensorDeviceClass, SensorStateClass
 from homeassistant.const import EntityCategory, UnitOfTime
-from homeassistant.core import HomeAssistant
 from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.entity import Entity
 
@@ -50,6 +48,7 @@ class VictronBaseEntity(Entity if TYPE_CHECKING else object):  # type: ignore[mi
     ) -> None:
         """Initialize the entity."""
         self._device = device
+        self._attr_device_info = device_info
         self._metric = metric
         self._device_info = device_info
         if simple_naming:
@@ -165,9 +164,3 @@ class VictronBaseEntity(Entity if TYPE_CHECKING else object):  # type: ignore[mi
         if metric.unit_of_measurement == "h":
             return UnitOfTime.HOURS
         return metric.unit_of_measurement
-
-    @cached_property
-    def device_info(self) -> DeviceInfo | None:
-        """Return device information about the sensor."""
-        return self._device_info
-
