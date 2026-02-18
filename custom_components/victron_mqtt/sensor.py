@@ -5,8 +5,8 @@ implementation is in this file; import of `Hub` is type-only to avoid a
 runtime circular dependency with `hub.py`.
 """
 
-from typing import Any
 import logging
+from typing import Any
 
 from victron_mqtt import (
     Device as VictronVenusDevice,
@@ -15,15 +15,16 @@ from victron_mqtt import (
     MetricKind,
 )
 
-from homeassistant.components.sensor import SensorEntity, SensorStateClass
+from homeassistant.components.sensor import RestoreSensor, SensorStateClass
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant, callback
 from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
-from homeassistant.helpers.restore_state import RestoreEntity
 
 from .entity import VictronBaseEntity
 from .hub import Hub
+
+PARALLEL_UPDATES = 0  # There is no I/O in the entity itself.
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -57,9 +58,9 @@ async def async_setup_entry(
     hub.register_new_metric_callback(MetricKind.SENSOR, on_new_metric)
 
 
-class VictronSensor(VictronBaseEntity, SensorEntity, RestoreEntity):  # type: ignore[misc]
+class VictronSensor(VictronBaseEntity, RestoreSensor):
     """Implementation of a Victron Venus sensor."""
-    
+
     _baseline: float | None = None
 
     def __init__(
