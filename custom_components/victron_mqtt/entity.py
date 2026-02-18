@@ -7,12 +7,14 @@ from typing import TYPE_CHECKING, Any
 from victron_mqtt import (
     Device as VictronVenusDevice,
     Metric as VictronVenusMetric,
+    MetricKind,
     MetricNature,
     MetricType,
 )
 
 from homeassistant.components.sensor import SensorDeviceClass, SensorStateClass
 from homeassistant.const import EntityCategory, UnitOfTime
+from homeassistant.core import callback
 from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.entity import Entity
 
@@ -37,6 +39,9 @@ class VictronBaseEntity(Entity if TYPE_CHECKING else object):  # type: ignore[mi
     while avoiding MRO conflicts at runtime.
     """
 
+    _attr_should_poll = False
+    _attr_has_entity_name = True
+
     def __init__(
         self,
         device: VictronVenusDevice,
@@ -56,18 +61,20 @@ class VictronBaseEntity(Entity if TYPE_CHECKING else object):  # type: ignore[mi
         else:
             entity_id = f"{entity_platform}.{ENTITY_PREFIX}_{installation_id}_{metric.unique_id}"
         self._attr_unique_id = entity_id
-        self._attr_native_unit_of_measurement = self._map_metric_to_unit_of_measurement(
-            metric
-        )
-        self._attr_device_class = self._map_metric_to_device_class(metric)
-        self._attr_state_class = self._map_metric_to_stateclass(metric)
-        self._attr_should_poll = False
-        self._attr_has_entity_name = True
         self._attr_suggested_display_precision = metric.precision
         self._attr_translation_key = metric.generic_short_id.replace("{", "").replace(
             "}", ""
         )  # same as in merge_topics.py
         self._attr_translation_placeholders = metric.key_values
+
+        # Some attributes are relevant only for certain metric kinds
+        if metric.metric_kind in [MetricKind.SENSOR, MetricKind.NUMBER]:
+            self._attr_device_class = self._map_metric_to_device_class(metric)
+            self._attr_state_class = self._map_metric_to_stateclass(metric)
+            self._attr_native_unit_of_measurement = (
+                self._map_metric_to_unit_of_measurement(metric)
+            )
+
         # Specific changes related to HA
         self._attr_entity_category = (
             EntityCategory.DIAGNOSTIC
@@ -94,6 +101,7 @@ class VictronBaseEntity(Entity if TYPE_CHECKING else object):  # type: ignore[mi
     def _on_update_task(self, value: Any) -> None:
         """Handle the metric update. Must be implemented by subclasses."""
 
+    @callback
     def _on_update(self, metric: VictronVenusMetric, value: Any) -> None:
         # Might be that the entity was removed or not added yet
         if self.hass is None:
