@@ -139,7 +139,7 @@ class Hub:
     def _map_device_info(
         device: VictronVenusDevice, installation_id: str
     ) -> DeviceInfo:
-        return DeviceInfo(
+        device_info = DeviceInfo(
             identifiers={(DOMAIN, f"{installation_id}_{device.unique_id}")},
             manufacturer=(
                 device.manufacturer
@@ -153,11 +153,11 @@ class Hub:
             ),
             model=device.model,
             serial_number=device.serial_number,
-            via_device=(DOMAIN, f"{installation_id}_system_0")
-            if device.unique_id
-            != "system_0"  # This is so the GX device will not point to itself
-            else tuple[str, str](),
         )
+        # Don't set via_device for the GX device itself
+        if device.unique_id != "system_0":
+            device_info["via_device"] = (DOMAIN, f"{installation_id}_system_0")
+        return device_info
 
     def register_new_metric_callback(
         self, kind: MetricKind, new_metric_callback: NewMetricCallback
