@@ -8,6 +8,7 @@ import pytest
 from victron_mqtt import (
     Device as VictronVenusDevice,
     Metric as VictronVenusMetric,
+    MetricKind,
     MetricNature,
     MetricType,
 )
@@ -32,6 +33,7 @@ def mock_device() -> VictronVenusDevice:
 def base_metric() -> VictronVenusMetric:
     """Return a mocked Victron metric with common defaults."""
     metric = MagicMock(spec=VictronVenusMetric)
+    metric.metric_kind = MetricKind.SENSOR
     metric.unique_id = "metric_1"
     metric.short_id = "metric.short"
     metric.generic_short_id = "{phase}_voltage"

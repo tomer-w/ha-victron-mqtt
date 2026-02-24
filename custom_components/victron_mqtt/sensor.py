@@ -92,7 +92,7 @@ class VictronSensor(VictronBaseEntity, RestoreSensor):
         # 1. Total increasing sensors (like cumulative energy)
         # 2. FormulaMetrics (calculated values)
         should_restore = (
-            self._attr_state_class in [SensorStateClass.TOTAL_INCREASING, SensorStateClass.TOTAL]
+            self.state_class in [SensorStateClass.TOTAL_INCREASING, SensorStateClass.TOTAL]
             and isinstance(self._metric, VictronFormulaMetric)
         )
         self._attr_native_value = self._metric.value
