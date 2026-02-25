@@ -1,10 +1,18 @@
 #!/bin/bash
 
+set -euo pipefail
+
 # ==== CONFIGURATION ====
 GITHUB_USER="tomer-w"
 GITHUB_REPO="ha-victron-mqtt"
 TARGET_SUBFOLDER="custom_components/victron_mqtt"
-DEST_FOLDER="/config/custom_components/victron_mqtt"
+
+SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
+if [ "$(basename "$SCRIPT_DIR")" = "victron_mqtt" ]; then
+    DEST_FOLDER="$SCRIPT_DIR"
+else
+    DEST_FOLDER="$SCRIPT_DIR/victron_mqtt"
+fi
 # ========================
 # Usage:
 # Run the script without arguments to update the integration to the latest release.
@@ -12,7 +20,7 @@ DEST_FOLDER="/config/custom_components/victron_mqtt"
 # Use the --main flag to force using main branch even if releases exist.
 # Use the --version <tag> flag to download a specific version (e.g., v1.0.0).
 # Use the --list-versions flag to list all available versions.
-# Examples: 
+# Examples:
 #   bash update_integration.sh --restart
 #   bash update_integration.sh --main
 #   bash update_integration.sh --main --restart
@@ -33,20 +41,30 @@ else
 fi
 
 # Parse command line arguments
-for arg in "$@"; do
-    case $arg in
+while [ "$#" -gt 0 ]; do
+    case "$1" in
         --restart)
             RESTART_HA=true
+            shift
             ;;
         --main)
             USE_MAIN=true
+            shift
             ;;
         --version)
-            # Next argument is the version
-            SPECIFIC_VERSION="${@:$((OPTIND+1)):1}"
+            if [ "$#" -lt 2 ]; then
+                echo "❌ Error: --version requires a value (e.g., v1.0.0)."
+                exit 1
+            fi
+            SPECIFIC_VERSION="$2"
+            shift 2
+            ;;
+        --version=*)
+            SPECIFIC_VERSION="${1#*=}"
             shift
             ;;
         --list-versions)
+            shift
             echo "📋 Fetching available versions from GitHub..."
             if ! command -v jq >/dev/null 2>&1; then
                 echo "❌ 'jq' is required to list versions. Please install jq."
@@ -63,12 +81,27 @@ for arg in "$@"; do
             echo "💡 Usage: bash update_integration.sh --version <version-tag>"
             exit 0
             ;;
+        *)
+            echo "❌ Unknown option: $1"
+            exit 1
+            ;;
     esac
 done
+
+# Validate that --version has a value when using --version=<value>
+if [ -n "$SPECIFIC_VERSION" ] && [ "$SPECIFIC_VERSION" = "--main" ]; then
+    echo "❌ Error: --version requires a value (e.g., v1.0.0)."
+    exit 1
+fi
 
 # Validate that --version and --main are not used together
 if [ -n "$SPECIFIC_VERSION" ] && [ "$USE_MAIN" = true ]; then
     echo "❌ Error: Cannot use --version and --main flags together."
+    exit 1
+fi
+
+if [ -n "$SPECIFIC_VERSION" ] && [ -z "$SPECIFIC_VERSION" ]; then
+    echo "❌ Error: --version requires a non-empty value."
     exit 1
 fi
 
@@ -142,7 +175,7 @@ fi
 # Copy the integration folder to destination
 mkdir -p "$DEST_FOLDER"
 cp -r "$TMP_FOLDER/$TARGET_SUBFOLDER/"* "$DEST_FOLDER/"
-chmod +x "$DEST_FOLDER/"update_integration.sh
+chmod +x "$DEST_FOLDER/update_integration.sh"
 echo "✅ Integration updated at $DEST_FOLDER"
 
 # Cleanup
