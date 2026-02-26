@@ -2,7 +2,7 @@
 
 from abc import abstractmethod
 import logging
-from typing import TYPE_CHECKING, Any
+from typing import Any
 
 from victron_mqtt import (
     Device as VictronVenusDevice,
@@ -18,26 +18,13 @@ from homeassistant.core import callback
 from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.entity import Entity
 
-from .const import (
-    ENTITIES_CATEGORY_DIAGNOSTIC,
-    ENTITIES_DISABLE_BY_DEFAULT,
-    ENTITY_PREFIX,
-)
+from .const import ENTITIES_CATEGORY_DIAGNOSTIC, ENTITIES_DISABLE_BY_DEFAULT, ENTITY_PREFIX
 
 _LOGGER = logging.getLogger(__name__)
 
 
-class VictronBaseEntity(Entity if TYPE_CHECKING else object):  # type: ignore[misc]
-    """Mixin class for Victron Venus entities.
-    
-    This is a mixin class that provides common functionality for all Victron
-    entities. It should be used as the first base class in the inheritance list
-    together with a specific entity type (SensorEntity, SwitchEntity, etc.)
-    which provides the actual Entity base class.
-    
-    The TYPE_CHECKING conditional inheritance is used to satisfy type checkers
-    while avoiding MRO conflicts at runtime.
-    """
+class VictronBaseEntity(Entity):
+    """Implementation of a Victron Venus base entity."""
 
     _attr_should_poll = False
     _attr_has_entity_name = True
@@ -53,9 +40,9 @@ class VictronBaseEntity(Entity if TYPE_CHECKING else object):  # type: ignore[mi
     ) -> None:
         """Initialize the entity."""
         self._device = device
+        self._metric = metric
         self._attr_device_info = device_info
         self._metric = metric
-        self._device_info = device_info
         if simple_naming:
             entity_id = f"{entity_platform}.{ENTITY_PREFIX}_{metric.unique_id}"
         else:
@@ -75,7 +62,6 @@ class VictronBaseEntity(Entity if TYPE_CHECKING else object):  # type: ignore[mi
                 self._map_metric_to_unit_of_measurement(metric)
             )
 
-        # Specific changes related to HA
         self._attr_entity_category = (
             EntityCategory.DIAGNOSTIC
             if metric.generic_short_id in ENTITIES_CATEGORY_DIAGNOSTIC
@@ -85,7 +71,6 @@ class VictronBaseEntity(Entity if TYPE_CHECKING else object):  # type: ignore[mi
             metric.generic_short_id not in ENTITIES_DISABLE_BY_DEFAULT
         )
 
-        _LOGGER.info("%s %s added. Based on: %s", type, self, repr(metric))
 
     def __repr__(self) -> str:
         """Return a string representation of the entity."""
@@ -97,15 +82,13 @@ class VictronBaseEntity(Entity if TYPE_CHECKING else object):  # type: ignore[mi
             f"translation_placeholders={self._attr_translation_placeholders})"
         )
 
+    @callback
     @abstractmethod
     def _on_update_task(self, value: Any) -> None:
         """Handle the metric update. Must be implemented by subclasses."""
 
     @callback
-    def _on_update(self, metric: VictronVenusMetric, value: Any) -> None:
-        # Might be that the entity was removed or not added yet
-        if self.hass is None:
-            return
+    def _on_update(self, _: VictronVenusMetric, value: Any) -> None:
         self._on_update_task(value)
 
     async def async_added_to_hass(self) -> None:

@@ -34,10 +34,10 @@ async def async_setup_entry(
         device: VictronVenusDevice,
         metric: VictronVenusMetric,
         device_info: DeviceInfo,
-        installation_id: str,
     ) -> None:
         """Handle new sensor metric discovery."""
         assert isinstance(metric, VictronVenusWritableMetric)
+        assert hub._hub.installation_id is not None
         async_add_entities(
             [
                 VictronSelect(
@@ -45,7 +45,7 @@ async def async_setup_entry(
                     metric,
                     device_info,
                     hub.simple_naming,
-                    installation_id,
+                    hub._hub.installation_id,
                 )
             ]
         )

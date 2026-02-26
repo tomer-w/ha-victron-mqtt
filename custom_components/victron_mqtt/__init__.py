@@ -5,26 +5,19 @@ from __future__ import annotations
 import asyncio
 import importlib.metadata
 import logging
-from typing import TYPE_CHECKING
 
 from homeassistant.const import EVENT_HOMEASSISTANT_STOP, Platform
+from homeassistant.core import Event, HomeAssistant
+from homeassistant.helpers.typing import ConfigType
 from homeassistant.exceptions import HomeAssistantError
 
-if TYPE_CHECKING:
-    from homeassistant.config_entries import ConfigEntry
-    from homeassistant.core import Event, HomeAssistant, ServiceCall
-    from homeassistant.helpers.typing import ConfigType
-
-from homeassistant.helpers import config_validation as cv
 
 from .const import ATTR_DEVICE_ID, ATTR_METRIC_ID, ATTR_VALUE, DOMAIN, SERVICE_PUBLISH
-from .hub import Hub
+from .hub import Hub, VictronGxConfigEntry
 
 _LOGGER = logging.getLogger(__name__)
 _VICTRON_MQTT_LOGGER = logging.getLogger("victron_mqtt")
 
-# Config schema - this integration is config entry only
-CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 PLATFORMS: list[Platform] = [
     Platform.BINARY_SENSOR,
     Platform.BUTTON,
@@ -34,10 +27,6 @@ PLATFORMS: list[Platform] = [
     Platform.SWITCH,
     Platform.TIME,
 ]
-
-__all__ = ["DOMAIN"]
-
-type VictronGxConfigEntry = ConfigEntry[Hub]
 
 async def async_setup_services(hass: HomeAssistant, entry: VictronGxConfigEntry) -> None:
     """Set up services for the Victron MQTT integration."""
@@ -100,7 +89,7 @@ def _sync_library_logging() -> None:
     _VICTRON_MQTT_LOGGER.propagate = True  # Let it go through HA logging
 
 
-async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
+async def async_setup_entry(hass: HomeAssistant, entry: VictronGxConfigEntry) -> bool:
     """Set up victronvenus from a config entry."""
     _sync_library_logging()
     _LOGGER.debug("async_setup_entry called for entry: %s", entry.entry_id)
@@ -108,20 +97,12 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     hub = Hub(hass, entry)
     entry.runtime_data = hub
 
-    await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
     # All platforms should be set up before starting the hub
-    try:
-        await hub.start()
-    except Exception as exc:
-        _LOGGER.error(
-            "Failure: hub.start() failed for entry %s: %s", entry.entry_id, exc
-        )
-        # Clean up partial setup to avoid double setup issues
-        await async_unload_entry(hass, entry)
-        raise
+    await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
+    await hub.start()
 
-      # Register the update listener
-    async def _update_listener(hass: HomeAssistant, entry: ConfigEntry) -> None:
+    # Register the update listener
+    async def _update_listener(hass: HomeAssistant, entry: VictronGxConfigEntry) -> None:
         _LOGGER.info("Options have been updated - applying changes")
         # Reload the integration to apply changes
         await hass.config_entries.async_reload(entry.entry_id)
@@ -145,8 +126,8 @@ async def async_unload_entry(hass: HomeAssistant, entry: VictronGxConfigEntry) -
     """Unload a config entry."""
     _LOGGER.debug("async_unload_entry called for entry: %s", entry.entry_id)
     hub: Hub = entry.runtime_data
-    if hub is not None:
-        await hub.stop()
+    assert isinstance(hub, Hub)
+    await hub.stop()
 
     # Unregister services if this is the last entry
     if len(hass.config_entries.async_entries(DOMAIN)) == 1:

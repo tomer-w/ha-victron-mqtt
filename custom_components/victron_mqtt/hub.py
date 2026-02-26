@@ -3,7 +3,6 @@
 from collections.abc import Callable
 import logging
 
-
 from victron_mqtt import (
     AuthenticationError,
     CannotConnectError,
@@ -22,7 +21,6 @@ from homeassistant.const import (
     CONF_PORT,
     CONF_SSL,
     CONF_USERNAME,
-    EVENT_HOMEASSISTANT_STOP,
 )
 from homeassistant.core import HomeAssistant
 from homeassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
@@ -44,12 +42,14 @@ from .const import (
 
 _LOGGER = logging.getLogger(__name__)
 
-NewMetricCallback = Callable[[VictronVenusDevice, VictronVenusMetric, DeviceInfo, str], None]
+NewMetricCallback = Callable[[VictronVenusDevice, VictronVenusMetric, DeviceInfo], None]
+
+type VictronGxConfigEntry = ConfigEntry[Hub]
 
 class Hub:
     """Victron MQTT Hub for managing communication and sensors."""
 
-    def __init__(self, hass: HomeAssistant, entry: ConfigEntry) -> None:
+    def __init__(self, hass: HomeAssistant, entry: VictronGxConfigEntry) -> None:
         """Initialize Victron MQTT Hub.
 
         Args:
@@ -83,7 +83,7 @@ class Hub:
         )
 
 
-        self._hub: VictronVenusHub = VictronVenusHub(
+        self._hub = VictronVenusHub(
             host=self.host,
             port=config.get(CONF_PORT, 1883),
             username=config.get(CONF_USERNAME) or None,
@@ -133,7 +133,7 @@ class Hub:
         device_info = Hub._map_device_info(device, hub.installation_id)
         callback = self.new_metric_callbacks.get(metric.metric_kind)
         if callback is not None:
-            callback(device, metric, device_info, hub.installation_id)
+            callback(device, metric, device_info)
 
     @staticmethod
     def _map_device_info(
@@ -163,7 +163,7 @@ class Hub:
         self, kind: MetricKind, new_metric_callback: NewMetricCallback
     ) -> None:
         """Register a callback to handle a new specific metric kind."""
-        _LOGGER.info("Registering NewMetricCallback. kind: %s", kind)
+        _LOGGER.debug("Registering NewMetricCallback. kind: %s", kind)
         assert kind not in self.new_metric_callbacks, (
             f"NewMetricCallback for kind {kind} is already registered"
         )
@@ -171,7 +171,7 @@ class Hub:
 
     def unregister_all_new_metric_callbacks(self) -> None:
         """Unregister all callbacks to handle new metrics for all metric kinds."""
-        _LOGGER.info("Unregistering NewMetricCallback")
+        _LOGGER.debug("Unregistering NewMetricCallback")
         self.new_metric_callbacks.clear()
 
     def publish(
@@ -185,3 +185,4 @@ class Hub:
             value,
         )
         self._hub.publish(metric_id, device_id, value)
+

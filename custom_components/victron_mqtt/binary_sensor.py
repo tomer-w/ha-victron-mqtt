@@ -18,14 +18,15 @@ from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import SWITCH_ON
 from .entity import VictronBaseEntity
-from .hub import Hub
+from .hub import Hub, VictronGxConfigEntry
+
 
 _LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_entry(
     hass: HomeAssistant,
-    config_entry: ConfigEntry,
+    config_entry: VictronGxConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
     """Set up Victron Venus sensors from a config entry."""
@@ -35,13 +36,13 @@ async def async_setup_entry(
         device: VictronVenusDevice,
         metric: VictronVenusMetric,
         device_info: DeviceInfo,
-        installation_id: str,
     ) -> None:
         """Handle new sensor metric discovery."""
+        assert hub._hub.installation_id is not None
         async_add_entities(
             [
                 VictronBinarySensor(
-                    device, metric, device_info, hub.simple_naming, installation_id
+                    device, metric, device_info, hub.simple_naming, hub._hub.installation_id
                 )
             ]
         )
