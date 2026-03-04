@@ -36,6 +36,7 @@ from homeassistant.helpers.selector import (
     SelectSelectorConfig,
     SelectSelectorMode,
 )
+from homeassistant.helpers.redact import async_redact_data
 from homeassistant.helpers.service_info.ssdp import SsdpServiceInfo
 
 from .const import (
@@ -56,6 +57,8 @@ from .const import (
 )
 
 _LOGGER = logging.getLogger(__name__)
+
+TO_REDACT = {CONF_USERNAME, CONF_PASSWORD}
 
 DEVICE_CODES: Sequence[SelectOptionDict] = [
     {"value": device_type.code, "label": device_type.string}
@@ -110,22 +113,30 @@ async def validate_input(data: dict[str, Any]) -> str:
 
     Returns the installation id upon success.
     """
-    _LOGGER.info("Validating input: %s", data)
-    hub = VictronVenusHub(
-        host=data[CONF_HOST],
-        port=data.get(CONF_PORT, DEFAULT_PORT),
-        username=data.get(CONF_USERNAME) or None,
-        password=data.get(CONF_PASSWORD) or None,
-        use_ssl=data.get(CONF_SSL, False),
-        installation_id=data.get(CONF_INSTALLATION_ID) or None,
-        serial=data.get(CONF_SERIAL, "noserial"),
-        topic_prefix=data.get(CONF_ROOT_TOPIC_PREFIX) or None,
-        topic_log_info=data.get(CONF_ELEVATED_TRACING) or None,
-    )
+    _LOGGER.debug("Validating input: %s", async_redact_data(data, TO_REDACT))
+    hub: VictronVenusHub | None = None
+    try:
+        hub = VictronVenusHub(
+            host=data[CONF_HOST],
+            port=data.get(CONF_PORT, DEFAULT_PORT),
+            username=data.get(CONF_USERNAME) or None,
+            password=data.get(CONF_PASSWORD) or None,
+            use_ssl=data.get(CONF_SSL, False),
+            installation_id=data.get(CONF_INSTALLATION_ID) or None,
+            serial=data.get(CONF_SERIAL, "noserial"),
+            topic_prefix=data.get(CONF_ROOT_TOPIC_PREFIX) or None,
+            topic_log_info=data.get(CONF_ELEVATED_TRACING) or None,
+        )
 
-    await hub.connect()
-    assert hub.installation_id is not None
-    return hub.installation_id
+        await hub.connect()
+        assert hub.installation_id is not None
+        return hub.installation_id
+    finally:
+        if hub is not None:
+            try:
+                await hub.disconnect()
+            except Exception:  # noqa: BLE001
+                _LOGGER.debug("Ignoring disconnect error during config validation")
 
 
 class VictronMQTTConfigFlow(ConfigFlow, domain=DOMAIN):
@@ -147,7 +158,7 @@ class VictronMQTTConfigFlow(ConfigFlow, domain=DOMAIN):
         """Handle the initial step."""
         errors: dict[str, str] = {}
         if user_input is not None:
-            _LOGGER.info("User input received: %s", user_input)
+            _LOGGER.info("User input received: %s", async_redact_data(user_input, TO_REDACT))
             data = {**user_input, CONF_SERIAL: self.serial, CONF_MODEL: self.model_name}
             data = {
                 k: v for k, v in data.items() if v is not None
@@ -207,7 +218,7 @@ class VictronMQTTConfigFlow(ConfigFlow, domain=DOMAIN):
         reauth_entry = self._get_reauth_entry()
 
         if user_input is not None:
-            _LOGGER.info("Reauth user input received: %s", user_input)
+            _LOGGER.info("Reauth user input received: %s", async_redact_data(user_input, TO_REDACT))
             data = {
                 **reauth_entry.data,
                 CONF_USERNAME: user_input.get(CONF_USERNAME) or None,
@@ -316,7 +327,7 @@ class VictronMQTTOptionsFlow(OptionsFlow):
             "Initializing options flow. current config: %s", self.config_entry.data
         )
         if user_input is not None:
-            _LOGGER.info("User input received: %s", user_input)
+            _LOGGER.info("User input received: %s", async_redact_data(user_input, TO_REDACT))
             try:
                 await validate_input(user_input)
             except AuthenticationError:
@@ -332,7 +343,7 @@ class VictronMQTTOptionsFlow(OptionsFlow):
                     errors={"base": "cannot_connect"},
                 )
             _LOGGER.info(
-                "Options flow completed successfully. new config: %s", user_input
+                "Options flow completed successfully. new config: %s", async_redact_data(user_input, TO_REDACT)
             )
             # Update the config entry with new data.
             self.hass.config_entries.async_update_entry(

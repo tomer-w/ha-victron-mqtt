@@ -25,6 +25,7 @@ from homeassistant.const import (
 from homeassistant.core import HomeAssistant
 from homeassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from homeassistant.helpers.device_registry import DeviceInfo
+from homeassistant.helpers.redact import async_redact_data
 
 from .const import (
     CONF_ELEVATED_TRACING,
@@ -42,6 +43,8 @@ from .const import (
 
 _LOGGER = logging.getLogger(__name__)
 
+TO_REDACT = {CONF_USERNAME, CONF_PASSWORD}
+
 NewMetricCallback = Callable[[VictronVenusDevice, VictronVenusMetric, DeviceInfo], None]
 
 type VictronGxConfigEntry = ConfigEntry[Hub]
@@ -58,7 +61,7 @@ class Hub:
 
         """
 
-        _LOGGER.info("Initializing hub. ConfigEntry: %s, data: %s", entry, entry.data)
+        _LOGGER.info("Initializing hub. ConfigEntry: %s, data: %s", entry, async_redact_data(entry.data, TO_REDACT))
         config = entry.data
         self.hass = hass
         self.host = config[CONF_HOST]
