@@ -790,6 +790,24 @@
       "multi_acin1_to_inverter": {
         "name": "AC-in-1 to inverter"
       },
+      "multi_acin_current_phase": {
+        "name": "Current {phase}"
+      },
+      "multi_acin_power_phase": {
+        "name": "Power on {phase}"
+      },
+      "multi_acin_voltage_phase": {
+        "name": "Voltage on {phase}"
+      },
+      "multi_acout_output_current_phase": {
+        "name": "AC-out-{output} current on {phase}"
+      },
+      "multi_acout_output_power_phase": {
+        "name": "AC-out-{output} power on {phase}"
+      },
+      "multi_acout_output_voltage_phase": {
+        "name": "AC-out-{output} voltage on {phase}"
+      },
       "multi_acout_to_acin1": {
         "name": "AC-out to AC-in-1"
       },
@@ -805,6 +823,12 @@
       "multi_ess_min_soc_limit": {
         "name": "ESS minimum SOC limit"
       },
+      "multi_ess_mode": {
+        "name": "ESS mode"
+      },
+      "multi_inverter_power_setpoint": {
+        "name": "Inverter power setpoint"
+      },
       "multi_inverter_to_acin1": {
         "name": "Inverter to AC-in-1"
       },
@@ -817,6 +841,21 @@
       "multi_mppt_mppt_id_yield_yesterday": {
         "name": "MPPT {mppt_id} yield yesterday"
       },
+      "multi_mppt_mpptnumber_power": {
+        "name": "MPPT {mpptnumber} power"
+      },
+      "multi_mppt_mpptnumber_state": {
+        "name": "MPPT {mpptnumber} state"
+      },
+      "multi_mppt_mpptnumber_voltage": {
+        "name": "MPPT {mpptnumber} PV voltage"
+      },
+      "multi_phases": {
+        "name": "Phases"
+      },
+      "multi_pv_power_total": {
+        "name": "PV power total"
+      },
       "multi_solar_to_acin1": {
         "name": "Solar to AC-in-1"
       },
@@ -826,53 +865,14 @@
       "multi_solar_to_battery": {
         "name": "Solar to battery"
       },
-      "multiplus_assist_current_boost_factor": {
-        "name": "Assist current boost factor"
-      },
-      "multirssolar_acin_current_phase": {
-        "name": "Current {phase}"
-      },
-      "multirssolar_acin_power_phase": {
-        "name": "Power on {phase}"
-      },
-      "multirssolar_acin_voltage_phase": {
-        "name": "Voltage on {phase}"
-      },
-      "multirssolar_acout_output_current_phase": {
-        "name": "AC-out-{output} current on {phase}"
-      },
-      "multirssolar_acout_output_power_phase": {
-        "name": "AC-out-{output} power on {phase}"
-      },
-      "multirssolar_acout_output_voltage_phase": {
-        "name": "AC-out-{output} voltage on {phase}"
-      },
-      "multirssolar_ess_mode": {
-        "name": "ESS mode"
-      },
-      "multirssolar_inverter_power_setpoint": {
-        "name": "Inverter power setpoint"
-      },
-      "multirssolar_mppt_mpptnumber_power": {
-        "name": "MPPT {mpptnumber} power"
-      },
-      "multirssolar_mppt_mpptnumber_state": {
-        "name": "MPPT {mpptnumber} state"
-      },
-      "multirssolar_mppt_mpptnumber_voltage": {
-        "name": "MPPT {mpptnumber} PV voltage"
-      },
-      "multirssolar_phases": {
-        "name": "Phases"
-      },
-      "multirssolar_pv_power_total": {
-        "name": "PV power total"
-      },
-      "multirssolar_state": {
+      "multi_state": {
         "name": "State"
       },
-      "multirssolar_total_pv_yield": {
+      "multi_total_pv_yield": {
         "name": "Total PV yield"
+      },
+      "multiplus_assist_current_boost_factor": {
+        "name": "Assist current boost factor"
       },
       "platform_venus_firmware_available_version": {
         "name": "Venus OS - available version"
@@ -908,7 +908,7 @@
         "name": "DC (battery) bus voltage"
       },
       "solarcharger_device_off_reason": {
-        "name": "Solar charger device off reason"
+        "name": "Solar charger device-off reason"
       },
       "solarcharger_error_code": {
         "name": "Solar charger error code"
