@@ -869,7 +869,10 @@
         "name": "State"
       },
       "multi_total_pv_yield": {
-        "name": "Total PV yield"
+        "name": "Total PV yield user"
+      },
+      "multi_yield_today": {
+        "name": "Yield today"
       },
       "multiplus_assist_current_boost_factor": {
         "name": "Assist current boost factor"

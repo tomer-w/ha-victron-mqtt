@@ -3967,6 +3967,28 @@
       "is_formula": false
     },
     {
+      "topic": "N/{installation_id}/multi/{device_id}/History/Daily/0/Yield",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "multi_yield_today",
+      "name": "Yield today",
+      "unit_of_measurement": "kWh",
+      "metric_type": "MetricType.ENERGY",
+      "metric_nature": "MetricNature.CUMULATIVE",
+      "value_type": "ValueType.FLOAT",
+      "precision": 1,
+      "enum": null,
+      "min_max_range": "RangeType.STATIC",
+      "min": null,
+      "max": null,
+      "step": null,
+      "is_adjustable_suffix": null,
+      "key_values": {},
+      "experimental": false,
+      "depends_on": [],
+      "generic_name": "Yield today",
+      "is_formula": false
+    },
+    {
       "topic": "N/{installation_id}/multi/{device_id}/History/Daily/1/Pv/{mppt_id}/Yield",
       "message_type": "MetricKind.SENSOR",
       "short_id": "multi_mppt_{mppt_id}_yield_yesterday",
@@ -4168,7 +4190,7 @@
       "topic": "N/{installation_id}/multi/{device_id}/Yield/User",
       "message_type": "MetricKind.SENSOR",
       "short_id": "multi_total_pv_yield",
-      "name": "Total PV yield",
+      "name": "Total PV yield user",
       "unit_of_measurement": "kWh",
       "metric_type": "MetricType.ENERGY",
       "metric_nature": "MetricNature.CUMULATIVE",
@@ -4183,7 +4205,7 @@
       "key_values": {},
       "experimental": false,
       "depends_on": [],
-      "generic_name": "Total PV yield",
+      "generic_name": "Total PV yield user",
       "is_formula": false
     },
     {
