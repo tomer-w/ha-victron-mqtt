@@ -33,54 +33,6 @@ jobs:
         - name: Install dependencies
           run: |
             python -m pip install --upgrade pip
-            pip install pytest pytest-asyncio pytest-timeout syrupy homeassistant pytest-homeassistant-custom-component victron_mqtt
-        - name: Collect environment info
-          run: |
-            set -euxo pipefail
-            python --version
-            pip --version
-            pip freeze | sort > pip-freeze.txt
-            uname -a > system-info.txt
-        - name: Run tests with tracing
-          env:
-            PYTHONFAULTHANDLER: "1"
-            PYTHONUNBUFFERED: "1"
-          run: |
-            set -euxo pipefail
-            LOG_FILE="pytest-debug.log"
-
-            heartbeat() {
-              while true; do
-                sleep 60
-                {
-                  echo "===== heartbeat $(date -u +%FT%TZ) ====="
-                  ps -eo pid,ppid,stat,etime,%cpu,%mem,cmd --sort=-%cpu | head -n 30
-                } >> "$LOG_FILE"
-              done
-            }
-
-            heartbeat &
-            HEARTBEAT_PID=$!
-
-            set +e
-            timeout --signal=SIGABRT --kill-after=60s 75m \
-              python -X faulthandler -m pytest tests/ -vv -ra --durations=25 --timeout=300 --timeout-method=thread \
-              2>&1 | tee -a "$LOG_FILE"
-            TEST_EXIT=${PIPESTATUS[0]}
-            set -e
-
-            kill "$HEARTBEAT_PID" || true
-            wait "$HEARTBEAT_PID" 2>/dev/null || true
-
-            echo "pytest exit code: $TEST_EXIT" | tee -a "$LOG_FILE"
-            exit "$TEST_EXIT"
-        - name: Upload test debug artifacts
-          if: always()
-          uses: actions/upload-artifact@v4
-          with:
-            name: pytest-debug-${{ github.run_id }}-${{ github.run_attempt }}
-            if-no-files-found: warn
-            path: |
-              pytest-debug.log
-              pip-freeze.txt
-              system-info.txt
+            pip install pytest pytest-asyncio syrupy homeassistant pytest-homeassistant-custom-component victron_mqtt
+        - name: Run tests
+          run: pytest tests/
