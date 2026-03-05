@@ -102,21 +102,28 @@ class VictronSensor(VictronBaseEntity, RestoreSensor):
             return
 
         last_state = await self.async_get_last_state()
-        if last_state is not None and last_state.state is not None:
-            assert isinstance(self._attr_native_value, (int, float)), (
-                "sensor with stored baseline value must be numeric"
+        if last_state is None or last_state.state in (None, "unknown"):
+            await super().async_added_to_hass()
+            _LOGGER.info(
+                    "Baseline is missing. Probably first load for %s", self.entity_id
+                )
+            return
+
+        assert isinstance(self._attr_native_value, (int, float)), (
+            "sensor with stored baseline value must be numeric"
+        )
+        try:
+            self._baseline = float(last_state.state)
+            self._attr_native_value += self._baseline
+            _LOGGER.info(
+                "Restored baseline of %.3f for %s", self._baseline, self.entity_id
             )
-            try:
-                self._baseline = float(last_state.state)
-                self._attr_native_value += self._baseline
-                _LOGGER.info(
-                    "Restored baseline of %.3f for %s", self._baseline, self.entity_id
-                )
-            except ValueError:
-                _LOGGER.warning(
-                    "Could not restore state for %s: invalid value '%s'",
-                    self.entity_id,
-                    last_state.state,
-                )
+        except ValueError:
+            _LOGGER.warning(
+                "Could not restore state for %s: invalid value '%s' (type: %s)",
+                self.entity_id,
+                last_state.state,
+                type(last_state.state).__name__,
+            )
         # Call parent to register update callbacks
         await super().async_added_to_hass()
