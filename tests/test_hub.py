@@ -463,7 +463,7 @@ async def test_sensor_with_baseline(
     # Inject a PV power metric which triggers creation of a FormulaMetric (pv_energy)
     # The FormulaMetric has CUMULATIVE nature which maps to TOTAL state_class (not TOTAL_INCREASING)
     await inject_message(victron_hub, "N/123/system/0/Dc/Pv/Power", '{"value": 1000}', mock_time)
-    await finalize_injection(victron_hub, disconnect=False)
+    await finalize_injection(victron_hub, disconnect=False, mock_time=mock_time)
     mock_time.return_value = 15
     await inject_message(victron_hub, "N/123/system/0/Dc/Pv/Power", '{"value": 4000}', mock_time)
 
