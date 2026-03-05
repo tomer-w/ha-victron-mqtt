@@ -33,7 +33,7 @@ jobs:
         - name: Install dependencies
           run: |
             python -m pip install --upgrade pip
-            pip install pytest pytest-asyncio syrupy homeassistant pytest-homeassistant-custom-component victron_mqtt
+            pip install pytest pytest-asyncio pytest-timeout syrupy homeassistant pytest-homeassistant-custom-component victron_mqtt
         - name: Collect environment info
           run: |
             set -euxo pipefail
@@ -64,7 +64,7 @@ jobs:
 
             set +e
             timeout --signal=SIGABRT --kill-after=60s 75m \
-              python -X faulthandler -m pytest tests/ -vv -ra --durations=25 \
+              python -X faulthandler -m pytest tests/ -vv -ra --durations=25 --timeout=300 --timeout-method=thread \
               2>&1 | tee -a "$LOG_FILE"
             TEST_EXIT=${PIPESTATUS[0]}
             set -e
