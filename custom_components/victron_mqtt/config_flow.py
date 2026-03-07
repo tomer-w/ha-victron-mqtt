@@ -1,7 +1,5 @@
 """Config flow for victron mqtt integration."""
 
-from __future__ import annotations
-
 from collections.abc import Mapping, Sequence
 import logging
 from types import MappingProxyType
@@ -264,7 +262,7 @@ class VictronMQTTConfigFlow(ConfigFlow, domain=DOMAIN):
         )
 
     @staticmethod
-    def async_get_options_flow(config_entry: ConfigEntry) -> VictronMQTTOptionsFlow:
+    def async_get_options_flow(config_entry: ConfigEntry) -> "VictronMQTTOptionsFlow":
         """Get the options flow for this handler."""
         _LOGGER.info("Getting options flow handler")
         return VictronMQTTOptionsFlow()

@@ -1,13 +1,11 @@
 """The victron_mqtt integration."""
 
-from __future__ import annotations
-
 import asyncio
 import importlib.metadata
 import logging
 
 from homeassistant.const import EVENT_HOMEASSISTANT_STOP, Platform
-from homeassistant.core import Event, HomeAssistant
+from homeassistant.core import Event, HomeAssistant, ServiceCall
 from homeassistant.helpers.typing import ConfigType
 from homeassistant.exceptions import HomeAssistantError
 

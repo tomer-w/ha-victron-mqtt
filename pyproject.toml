@@ -1,5 +1,5 @@
 [tool.ruff]
-target-version = "py312"
+target-version = "py313"
 
 select = [
     "B007", # Loop control variable {name} not used within loop body
@@ -54,7 +54,7 @@ max-complexity = 15
 "tests/**/test_*.py" = ["D"]
 
 [tool.pylint.MAIN]
-py-version = "3.12"
+py-version = "3.13"
 ignore = [
     "tests",
 ]
@@ -107,7 +107,7 @@ source = ["custom_components"]
 exclude_lines = ["pragma: no cover", "raise NotImplementedError", "if TYPE_CHECKING:", "if __name__ == '__main__':"]
 
 [tool.mypy]
-python_version = "3.12"
+python_version = "3.13"
 show_error_codes = true
 follow_imports = "silent"
 ignore_missing_imports = true
