@@ -978,7 +978,7 @@
       "topic": "N/{installation_id}/battery/{device_id}/History/TotalAhDrawn",
       "message_type": "MetricKind.SENSOR",
       "short_id": "battery_cumulative_ah_drawn",
-      "name": "Cumulative Ah Drawn",
+      "name": "Cumulative Ah drawn",
       "unit_of_measurement": "Ah",
       "metric_type": "MetricType.ELECTRIC_STORAGE_CAPACITY",
       "metric_nature": "MetricNature.CUMULATIVE",
@@ -993,7 +993,7 @@
       "key_values": {},
       "experimental": false,
       "depends_on": [],
-      "generic_name": "Cumulative Ah Drawn",
+      "generic_name": "Cumulative Ah drawn",
       "is_formula": false
     },
     {

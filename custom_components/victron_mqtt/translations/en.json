@@ -386,7 +386,7 @@
         "name": "Battery consumed amp-hours"
       },
       "battery_cumulative_ah_drawn": {
-        "name": "Cumulative Ah Drawn"
+        "name": "Cumulative Ah drawn"
       },
       "battery_current": {
         "name": "DC bus current"
