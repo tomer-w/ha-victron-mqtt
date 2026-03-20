@@ -188,7 +188,8 @@
         "unit_of_measurement": "factor"
       },
       "switch_output_dimming": {
-        "name": "Ausgang {output} Dimmung"
+        "name": "Ausgang {output} Dimmung",
+        "unit_of_measurement": "%"
       },
       "system_ac_export_limit": {
         "name": "AC-Exportlimit"
@@ -369,7 +370,8 @@
         "name": "Batterieladung"
       },
       "battery_soh": {
-        "name": "Batteriezustand (SoH)"
+        "name": "Batteriezustand (SoH)",
+        "unit_of_measurement": "%"
       },
       "battery_temperature": {
         "name": "Batterietemperatur"
@@ -720,7 +722,8 @@
         "name": "Ausgang {output} Benutzerdefinierter Name"
       },
       "switch_output_dimming": {
-        "name": "Ausgang {output} Dimmung"
+        "name": "Ausgang {output} Dimmung",
+        "unit_of_measurement": "%"
       },
       "system_ac_active_input_source": {
         "name": "Aktive AC-Eingangsquelle"
@@ -795,7 +798,7 @@
       },
       "system_dynamicess_schedule_count": {
         "name": "Dynamisches ESS: Anzahl Zeitpläne",
-        "unit_of_measurement": "count"
+        "unit_of_measurement": "schedules"
       },
       "system_dynamicess_strategy": {
         "name": "Dynamisches ESS: Strategie"
@@ -860,7 +863,8 @@
         "name": "Flüssigkeitstyp"
       },
       "tank_level": {
-        "name": "Füllstand"
+        "name": "Füllstand",
+        "unit_of_measurement": "%"
       },
       "tank_remaining": {
         "name": "Verbleibend"
@@ -872,7 +876,8 @@
         "name": "Temperatur-Sensor Batteriespannung"
       },
       "temperature_humidity": {
-        "name": "Luftfeuchte"
+        "name": "Luftfeuchte",
+        "unit_of_measurement": "%"
       },
       "temperature_offset": {
         "name": "Temperatur-Offset"

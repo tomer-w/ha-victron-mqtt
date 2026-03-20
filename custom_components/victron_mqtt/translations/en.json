@@ -1763,7 +1763,7 @@
       },
       "system_dynamicess_schedule_count": {
         "name": "Dynamic ESS number of schedules",
-        "unit_of_measurement": "count"
+        "unit_of_measurement": "schedules"
       },
       "system_dynamicess_strategy": {
         "name": "Dynamic ESS strategy",

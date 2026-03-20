@@ -191,7 +191,8 @@
         "unit_of_measurement": "factor"
       },
       "switch_output_dimming": {
-        "name": "Stmievanie prepínača {output}"
+        "name": "Stmievanie prepínača {output}",
+        "unit_of_measurement": "%"
       },
       "system_ac_export_limit": {
         "name": "Limit exportu do AC siete"
@@ -381,7 +382,8 @@
         "name": "Stav nabitia batérie (SOC)"
       },
       "battery_soh": {
-        "name": "Stav zdravia batérie (SOH)"
+        "name": "Stav zdravia batérie (SOH)",
+        "unit_of_measurement": "%"
       },
       "battery_temperature": {
         "name": "Teplota batérie"
@@ -765,7 +767,8 @@
         "name": "Vlastný názov prepínača {output}"
       },
       "switch_output_dimming": {
-        "name": "Stmievanie prepínača {output}"
+        "name": "Stmievanie prepínača {output}",
+        "unit_of_measurement": "%"
       },
       "system_ac_active_input_source": {
         "name": "Aktívny AC vstupný zdroj"
@@ -858,7 +861,7 @@
       },
       "system_dynamicess_schedule_count": {
         "name": "Počet plánov Dynamic ESS",
-        "unit_of_measurement": "count"
+        "unit_of_measurement": "schedules"
       },
       "system_dynamicess_strategy": {
         "name": "Stratégia Dynamic ESS"
@@ -932,7 +935,8 @@
         "name": "Typ kvapaliny"
       },
       "tank_level": {
-        "name": "Hladina"
+        "name": "Hladina",
+        "unit_of_measurement": "%"
       },
       "tank_remaining": {
         "name": "Zostávajúce množstvo"
@@ -944,7 +948,8 @@
         "name": "Napätie batérie snímača teploty"
       },
       "temperature_humidity": {
-        "name": "Vlhkosť"
+        "name": "Vlhkosť",
+        "unit_of_measurement": "%"
       },
       "temperature_offset": {
         "name": "Posun teploty"

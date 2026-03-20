@@ -191,7 +191,8 @@
         "unit_of_measurement": "factor"
       },
       "switch_output_dimming": {
-        "name": "Gradation de la sortie du commutateur {output}"
+        "name": "Gradation de la sortie du commutateur {output}",
+        "unit_of_measurement": "%"
       },
       "system_ac_export_limit": {
         "name": "Limite d'exportation CA"
@@ -378,7 +379,8 @@
         "name": "Charge de la batterie"
       },
       "battery_soh": {
-        "name": "État de santé de la batterie"
+        "name": "État de santé de la batterie",
+        "unit_of_measurement": "%"
       },
       "battery_temperature": {
         "name": "Température de la batterie"
@@ -762,7 +764,8 @@
         "name": "Nom personnalisé de la sortie du commutateur {output}"
       },
       "switch_output_dimming": {
-        "name": "Gradation de la sortie du commutateur {output}"
+        "name": "Gradation de la sortie du commutateur {output}",
+        "unit_of_measurement": "%"
       },
       "system_ac_active_input_source": {
         "name": "Source d'entrée CA active du système"
@@ -852,7 +855,7 @@
       },
       "system_dynamicess_schedule_count": {
         "name": "Nombre de programmes Dynamic ESS",
-        "unit_of_measurement": "count"
+        "unit_of_measurement": "schedules"
       },
       "system_dynamicess_strategy": {
         "name": "Stratégie Dynamic ESS"
@@ -923,7 +926,8 @@
         "name": "Type de fluide"
       },
       "tank_level": {
-        "name": "Niveau"
+        "name": "Niveau",
+        "unit_of_measurement": "%"
       },
       "tank_remaining": {
         "name": "Restant"
@@ -935,7 +939,8 @@
         "name": "Tension de la batterie du capteur de température"
       },
       "temperature_humidity": {
-        "name": "Humidité"
+        "name": "Humidité",
+        "unit_of_measurement": "%"
       },
       "temperature_offset": {
         "name": "Décalage de température"

@@ -188,7 +188,8 @@
         "unit_of_measurement": "factor"
       },
       "switch_output_dimming": {
-        "name": "Regulació de la sortida {output}"
+        "name": "Regulació de la sortida {output}",
+        "unit_of_measurement": "%"
       },
       "system_ac_export_limit": {
         "name": "Límit d'exportació AC"
@@ -369,7 +370,8 @@
         "name": "Nivell de Càrrega de Bateria"
       },
       "battery_soh": {
-        "name": "Estat de Salut de la Bateria"
+        "name": "Estat de Salut de la Bateria",
+        "unit_of_measurement": "%"
       },
       "battery_temperature": {
         "name": "Temperatura de Bateria"
@@ -720,7 +722,8 @@
         "name": "Nom personalitzat de la sortida {output}"
       },
       "switch_output_dimming": {
-        "name": "Regulació de la sortida {output}"
+        "name": "Regulació de la sortida {output}",
+        "unit_of_measurement": "%"
       },
       "system_ac_active_input_source": {
         "name": "Font d'entrada AC activa"
@@ -795,7 +798,7 @@
       },
       "system_dynamicess_schedule_count": {
         "name": "Nombre de programacions ESS dinàmiques",
-        "unit_of_measurement": "count"
+        "unit_of_measurement": "schedules"
       },
       "system_dynamicess_strategy": {
         "name": "Estratègia ESS dinàmica"
@@ -857,7 +860,8 @@
         "name": "Tipus de fluid"
       },
       "tank_level": {
-        "name": "Nivell"
+        "name": "Nivell",
+        "unit_of_measurement": "%"
       },
       "tank_remaining": {
         "name": "Restant"
@@ -869,7 +873,8 @@
         "name": "Voltatge de la bateria del sensor de temperatura"
       },
       "temperature_humidity": {
-        "name": "Humitat"
+        "name": "Humitat",
+        "unit_of_measurement": "%"
       },
       "temperature_offset": {
         "name": "Desplaçament de temperatura"
