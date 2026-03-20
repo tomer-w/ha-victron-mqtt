@@ -4,7 +4,7 @@
   "CreatorCode": "dump_victron_mqtt.py",
   "License": "Apache License Version 2.0",
   "Version": "1.0.0",
-  "Copyright": "victron_mqtt (C) 2025, Tomer-w (https://github.com/tomer-w).\nFor more information see https://github.com/tomer-w/victron_mqtt\n\nThis file is part of victron_mqtt.\n\nLicensed under the Apache License, Version 2.0 (the 'License'); you may not use this file except in compliance with the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software distributed under the License is distributed on an 'AS IS' BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.",
+  "Copyright": "victron_mqtt (C) 2026, Tomer-w (https://github.com/tomer-w).\nFor more information see https://github.com/tomer-w/victron_mqtt\n\nThis file is part of victron_mqtt.\n\nLicensed under the Apache License, Version 2.0 (the 'License'); you may not use this file except in compliance with the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software distributed under the License is distributed on an 'AS IS' BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.",
   "topics": [
     {
       "topic": "N/{installation_id}/acload/{device_id}/Ac/Current",
@@ -8600,27 +8600,27 @@
       "name": "ACSYSTEMMode",
       "EnumValues": [
         {
-          "id": "CHARGER_ONLY",
+          "id": "charger_only",
           "name": "Charger only",
           "value": 1
         },
         {
-          "id": "INVERTER_ONLY",
+          "id": "inverter_only",
           "name": "Inverter only",
           "value": 2
         },
         {
-          "id": "ON",
+          "id": "on",
           "name": "On",
           "value": 3
         },
         {
-          "id": "OFF",
+          "id": "off",
           "name": "Off",
           "value": 4
         },
         {
-          "id": "PASSTHROUGH",
+          "id": "passthrough",
           "name": "Passthrough",
           "value": 251
         }
@@ -8630,27 +8630,27 @@
       "name": "AcActiveInputSource",
       "EnumValues": [
         {
-          "id": "UNKNOWN",
+          "id": "unknown",
           "name": "Unknown",
           "value": 0
         },
         {
-          "id": "GRID",
+          "id": "grid",
           "name": "Grid",
           "value": 1
         },
         {
-          "id": "GENERATOR",
+          "id": "generator",
           "name": "Generator",
           "value": 2
         },
         {
-          "id": "SHORE_POWER",
+          "id": "shore_power",
           "name": "Shore power",
           "value": 3
         },
         {
-          "id": "NOT_CONNECTED",
+          "id": "not_connected",
           "name": "Not connected",
           "value": 240
         }
@@ -8660,17 +8660,17 @@
       "name": "ActiveInputEnum",
       "EnumValues": [
         {
-          "id": "AC_INPUT_1",
+          "id": "ac_input_1",
           "name": "AC Input 1",
           "value": 0
         },
         {
-          "id": "AC_INPUT_2",
+          "id": "ac_input_2",
           "name": "AC Input 2",
           "value": 1
         },
         {
-          "id": "DISCONNECTED",
+          "id": "disconnected",
           "name": "Disconnected",
           "value": 240
         }
@@ -8680,17 +8680,17 @@
       "name": "BatteryState",
       "EnumValues": [
         {
-          "id": "IDLE",
+          "id": "idle",
           "name": "Idle",
           "value": 0
         },
         {
-          "id": "CHARGING",
+          "id": "charging",
           "name": "Charging",
           "value": 1
         },
         {
-          "id": "DISCHARGING",
+          "id": "discharging",
           "name": "Discharging",
           "value": 2
         }
@@ -8700,102 +8700,102 @@
       "name": "ChargeSchedule",
       "EnumValues": [
         {
-          "id": "DISABLED_SUNDAY",
+          "id": "disabled_sunday",
           "name": "Disabled (Sunday)",
           "value": -10
         },
         {
-          "id": "DISABLED_WEEKEND",
+          "id": "disabled_weekend",
           "name": "Disabled (Weekends)",
           "value": -9
         },
         {
-          "id": "DISABLED_WEEKDAYS",
+          "id": "disabled_weekdays",
           "name": "Disabled (Weekdays)",
           "value": -8
         },
         {
-          "id": "DISABLED_EVERY_DAY",
+          "id": "disabled_every_day",
           "name": "Disabled (Every day)",
           "value": -7
         },
         {
-          "id": "DISABLED_SATURDAY",
+          "id": "disabled_saturday",
           "name": "Disabled (Saturday)",
           "value": -6
         },
         {
-          "id": "DISABLED_FRIDAY",
+          "id": "disabled_friday",
           "name": "Disabled (Friday)",
           "value": -5
         },
         {
-          "id": "DISABLED_THURSDAY",
+          "id": "disabled_thursday",
           "name": "Disabled (Thursday)",
           "value": -4
         },
         {
-          "id": "DISABLED_WEDNESDAY",
+          "id": "disabled_wednesday",
           "name": "Disabled (Wednesday)",
           "value": -3
         },
         {
-          "id": "DISABLED_TUESDAY",
+          "id": "disabled_tuesday",
           "name": "Disabled (Tuesday)",
           "value": -2
         },
         {
-          "id": "DISABLED_MONDAY",
+          "id": "disabled_monday",
           "name": "Disabled (Monday)",
           "value": -1
         },
         {
-          "id": "SUNDAY",
+          "id": "sunday",
           "name": "Sunday",
           "value": 0
         },
         {
-          "id": "MONDAY",
+          "id": "monday",
           "name": "Monday",
           "value": 1
         },
         {
-          "id": "TUESDAY",
+          "id": "tuesday",
           "name": "Tuesday",
           "value": 2
         },
         {
-          "id": "WEDNESDAY",
+          "id": "wednesday",
           "name": "Wednesday",
           "value": 3
         },
         {
-          "id": "THURSDAY",
+          "id": "thursday",
           "name": "Thursday",
           "value": 4
         },
         {
-          "id": "FRIDAY",
+          "id": "friday",
           "name": "Friday",
           "value": 5
         },
         {
-          "id": "SATURDAY",
+          "id": "saturday",
           "name": "Saturday",
           "value": 6
         },
         {
-          "id": "EVERY_DAY",
+          "id": "every_day",
           "name": "Every day",
           "value": 7
         },
         {
-          "id": "WEEKDAYS",
+          "id": "weekdays",
           "name": "Weekdays",
           "value": 8
         },
         {
-          "id": "WEEKENDS",
+          "id": "weekends",
           "name": "Weekends",
           "value": 9
         }
@@ -8805,12 +8805,12 @@
       "name": "ChargerMode",
       "EnumValues": [
         {
-          "id": "ON",
+          "id": "on",
           "name": "On",
           "value": 1
         },
         {
-          "id": "OFF",
+          "id": "off",
           "name": "Off",
           "value": 4
         }
@@ -8820,32 +8820,32 @@
       "name": "DESSErrorCode",
       "EnumValues": [
         {
-          "id": "NO_ERROR",
+          "id": "no_error",
           "name": "No Error",
           "value": 0
         },
         {
-          "id": "NO_ESS",
+          "id": "no_ess",
           "name": "No ESS",
           "value": 1
         },
         {
-          "id": "ESS_MODE",
+          "id": "ess_mode",
           "name": "ESS Mode",
           "value": 2
         },
         {
-          "id": "NO_SCHEDULE",
+          "id": "no_schedule",
           "name": "No Matching Schedule",
           "value": 3
         },
         {
-          "id": "SOC_LOW",
+          "id": "soc_low",
           "name": "SOC low",
           "value": 4
         },
         {
-          "id": "BATTRY_CAPACITY_NOT_CONFIGURED",
+          "id": "battry_capacity_not_configured",
           "name": "Battery Capacity Not Configured",
           "value": 5
         }
@@ -8855,27 +8855,27 @@
       "name": "DESSMode",
       "EnumValues": [
         {
-          "id": "OFF",
+          "id": "off",
           "name": "Off",
           "value": 0
         },
         {
-          "id": "AUTO_VRM",
+          "id": "auto_vrm",
           "name": "Auto / VRM",
           "value": 1
         },
         {
-          "id": "BUY",
+          "id": "buy",
           "name": "Buy",
           "value": 2
         },
         {
-          "id": "SELL",
+          "id": "sell",
           "name": "Sell",
           "value": 3
         },
         {
-          "id": "NODE_RED",
+          "id": "node_red",
           "name": "Node-RED",
           "value": 4
         }
@@ -8885,137 +8885,137 @@
       "name": "DESSReactiveStrategy",
       "EnumValues": [
         {
-          "id": "SCHEDULED_SELFCONSUME",
+          "id": "scheduled_selfconsume",
           "name": "Scheduled Self-Consume",
           "value": 1
         },
         {
-          "id": "SCHEDULED_CHARGE_ALLOW_GRID",
+          "id": "scheduled_charge_allow_grid",
           "name": "Scheduled Charge Allow Grid",
           "value": 2
         },
         {
-          "id": "SCHEDULED_CHARGE_ENHANCED",
+          "id": "scheduled_charge_enhanced",
           "name": "Scheduled Charge Enhanced",
           "value": 3
         },
         {
-          "id": "SELFCONSUME_ACCEPT_CHARGE",
+          "id": "selfconsume_accept_charge",
           "name": "Self-Consume Accept Charge",
           "value": 4
         },
         {
-          "id": "IDLE_SCHEDULED_FEEDIN",
+          "id": "idle_scheduled_feedin",
           "name": "Idle Scheduled Feed-In",
           "value": 5
         },
         {
-          "id": "SCHEDULED_DISCHARGE",
+          "id": "scheduled_discharge",
           "name": "Scheduled Discharge",
           "value": 6
         },
         {
-          "id": "SELFCONSUME_ACCEPT_DISCHARGE",
+          "id": "selfconsume_accept_discharge",
           "name": "Self-Consume Accept Discharge",
           "value": 7
         },
         {
-          "id": "IDLE_MAINTAIN_SURPLUS",
+          "id": "idle_maintain_surplus",
           "name": "Idle Maintain Surplus",
           "value": 8
         },
         {
-          "id": "IDLE_MAINTAIN_TARGETSOC",
+          "id": "idle_maintain_targetsoc",
           "name": "Idle Maintain Target SOC",
           "value": 9
         },
         {
-          "id": "SCHEDULED_CHARGE_SMOOTH_TRANSITION",
+          "id": "scheduled_charge_smooth_transition",
           "name": "Scheduled Charge Smooth Transition",
           "value": 10
         },
         {
-          "id": "SCHEDULED_CHARGE_FEEDIN",
+          "id": "scheduled_charge_feedin",
           "name": "Scheduled Charge Feed-In",
           "value": 11
         },
         {
-          "id": "SCHEDULED_CHARGE_NO_GRID",
+          "id": "scheduled_charge_no_grid",
           "name": "Scheduled Charge No Grid",
           "value": 12
         },
         {
-          "id": "SCHEDULED_MINIMUM_DISCHARGE",
+          "id": "scheduled_minimum_discharge",
           "name": "Scheduled Minimum Discharge",
           "value": 13
         },
         {
-          "id": "SELFCONSUME_NO_GRID",
+          "id": "selfconsume_no_grid",
           "name": "Self-Consume No Grid",
           "value": 14
         },
         {
-          "id": "IDLE_NO_OPPORTUNITY",
+          "id": "idle_no_opportunity",
           "name": "Idle No Opportunity",
           "value": 15
         },
         {
-          "id": "UNSCHEDULED_CHARGE_CATCHUP_TARGETSOC",
+          "id": "unscheduled_charge_catchup_targetsoc",
           "name": "Unscheduled Charge Catch-Up Target SOC",
           "value": 16
         },
         {
-          "id": "SELFCONSUME_INCREASED_DISCHARGE",
+          "id": "selfconsume_increased_discharge",
           "name": "Self-Consume Increased Discharge",
           "value": 17
         },
         {
-          "id": "KEEP_BATTERY_CHARGED",
+          "id": "keep_battery_charged",
           "name": "Keep Battery Charged",
           "value": 18
         },
         {
-          "id": "SCHEDULED_DISCHARGE_SMOOTH_TRANSITION",
+          "id": "scheduled_discharge_smooth_transition",
           "name": "Scheduled Discharge Smooth Transition",
           "value": 19
         },
         {
-          "id": "DESS_DISABLED",
+          "id": "dess_disabled",
           "name": "DESS Disabled",
           "value": 92
         },
         {
-          "id": "SELFCONSUME_UNEXPECTED_EXCEPTION",
+          "id": "selfconsume_unexpected_exception",
           "name": "Self-Consume Unexpected Exception",
           "value": 93
         },
         {
-          "id": "SELFCONSUME_FAULTY_CHARGERATE",
+          "id": "selfconsume_faulty_chargerate",
           "name": "Self-Consume Faulty Charge Rate",
           "value": 94
         },
         {
-          "id": "UNKNOWN_OPERATING_MODE",
+          "id": "unknown_operating_mode",
           "name": "Unknown Operating Mode",
           "value": 95
         },
         {
-          "id": "ESS_LOW_SOC",
+          "id": "ess_low_soc",
           "name": "ESS Low SOC",
           "value": 96
         },
         {
-          "id": "SELFCONSUME_UNMAPPED_STATE",
+          "id": "selfconsume_unmapped_state",
           "name": "Self-Consume Unmapped State",
           "value": 97
         },
         {
-          "id": "SELFCONSUME_UNPREDICTED",
+          "id": "selfconsume_unpredicted",
           "name": "Self-Consume Unpredicted",
           "value": 98
         },
         {
-          "id": "NO_WINDOW",
+          "id": "no_window",
           "name": "No Window",
           "value": 99
         }
@@ -9025,22 +9025,22 @@
       "name": "DESSRestrictions",
       "EnumValues": [
         {
-          "id": "NO_RESTRICTIONS",
+          "id": "no_restrictions",
           "name": "No Restrictions between battery and the grid",
           "value": 0
         },
         {
-          "id": "BATTERY_TO_GRID_RESTRICTED",
+          "id": "battery_to_grid_restricted",
           "name": "Battery to grid energy flow restricted",
           "value": 1
         },
         {
-          "id": "GRID_TO_BATTERY_RESTRICTED",
+          "id": "grid_to_battery_restricted",
           "name": "Grid to battery energy flow restricted",
           "value": 2
         },
         {
-          "id": "NO_FLOW",
+          "id": "no_flow",
           "name": "No energy flow between battery and grid",
           "value": 3
         }
@@ -9050,22 +9050,22 @@
       "name": "DESSStrategy",
       "EnumValues": [
         {
-          "id": "TARGETSOC",
+          "id": "targetsoc",
           "name": "Target SOC",
           "value": 0
         },
         {
-          "id": "SELFCONSUME",
+          "id": "selfconsume",
           "name": "Self-Consume",
           "value": 1
         },
         {
-          "id": "PROBATTERY",
+          "id": "probattery",
           "name": "Pro Battery",
           "value": 2
         },
         {
-          "id": "PROGRID",
+          "id": "progrid",
           "name": "Pro Grid",
           "value": 3
         }
@@ -9075,157 +9075,157 @@
       "name": "DeviceType",
       "EnumValues": [
         {
-          "id": "SYSTEM",
+          "id": "system",
           "name": "System",
           "value": "system"
         },
         {
-          "id": "SOLAR_CHARGER",
+          "id": "solar_charger",
           "name": "Solar Charger",
           "value": "solarcharger"
         },
         {
-          "id": "INVERTER",
+          "id": "inverter",
           "name": "Inverter",
           "value": "inverter"
         },
         {
-          "id": "BATTERY",
+          "id": "battery",
           "name": "Battery",
           "value": "battery"
         },
         {
-          "id": "GRID",
+          "id": "grid",
           "name": "Grid",
           "value": "grid"
         },
         {
-          "id": "VEBUS",
+          "id": "vebus",
           "name": "VE.Bus",
           "value": "vebus"
         },
         {
-          "id": "EVCHARGER",
+          "id": "evcharger",
           "name": "EV Charging Station",
           "value": "evcharger"
         },
         {
-          "id": "PVINVERTER",
+          "id": "pvinverter",
           "name": "PV Inverter",
           "value": "pvinverter"
         },
         {
-          "id": "TEMPERATURE",
+          "id": "temperature",
           "name": "Temperature",
           "value": "temperature"
         },
         {
-          "id": "GENERATOR",
+          "id": "generator",
           "name": "Generator",
           "value": "generator"
         },
         {
-          "id": "GENERATOR0",
+          "id": "generator0",
           "name": "Generator 0 Settings",
           "value": "Generator0"
         },
         {
-          "id": "GENERATOR1",
+          "id": "generator1",
           "name": "Generator 1 Settings",
           "value": "Generator1"
         },
         {
-          "id": "TANK",
+          "id": "tank",
           "name": "Liquid Tank",
           "value": "tank"
         },
         {
-          "id": "MULTI_RS_SOLAR",
+          "id": "multi_rs_solar",
           "name": "Multi RS Solar",
           "value": "multi"
         },
         {
-          "id": "CGWACS",
+          "id": "cgwacs",
           "name": "<Not used>",
           "value": "CGwacs"
         },
         {
-          "id": "DC_LOAD",
+          "id": "dc_load",
           "name": "DC Load",
           "value": "dcload"
         },
         {
-          "id": "ALTERNATOR",
+          "id": "alternator",
           "name": "Charger (Orion/Alternator)",
           "value": "alternator"
         },
         {
-          "id": "SWITCH",
+          "id": "switch",
           "name": "Switch",
           "value": "switch"
         },
         {
-          "id": "GPS",
+          "id": "gps",
           "name": "Gps",
           "value": "gps"
         },
         {
-          "id": "SYSTEM_SETUP",
+          "id": "system_setup",
           "name": "System Setup",
           "value": "SystemSetup"
         },
         {
-          "id": "TRANSFER_SWITCH",
+          "id": "transfer_switch",
           "name": "Transfer Switch",
           "value": "TransferSwitch"
         },
         {
-          "id": "DIGITAL_INPUT",
+          "id": "digital_input",
           "name": "Digital Input",
           "value": "digitalinput"
         },
         {
-          "id": "DC_SYSTEM",
+          "id": "dc_system",
           "name": "DC System",
           "value": "dcsystem"
         },
         {
-          "id": "RELAY",
+          "id": "relay",
           "name": "<Not used>",
           "value": "Relay"
         },
         {
-          "id": "PLATFORM",
+          "id": "platform",
           "name": "Platform",
           "value": "platform"
         },
         {
-          "id": "HEATPUMP",
+          "id": "heatpump",
           "name": "Heat Pump",
           "value": "heatpump"
         },
         {
-          "id": "DYNAMIC_ESS",
+          "id": "dynamic_ess",
           "name": "Dynamic ESS",
           "value": "DynamicEss"
         },
         {
-          "id": "ACLOAD",
+          "id": "acload",
           "name": "AC Load",
           "value": "acload"
         },
         {
-          "id": "CHARGER",
+          "id": "charger",
           "name": "Charger",
           "value": "charger"
         },
         {
-          "id": "HUB4",
+          "id": "hub4",
           "name": "Hub4",
           "value": "hub4"
         },
         {
-          "id": "ACSYSTEM",
+          "id": "acsystem",
           "name": "AC System",
           "value": "acsystem"
         }
@@ -9235,12 +9235,12 @@
       "name": "DigitalInputInputState",
       "EnumValues": [
         {
-          "id": "HIGH_OPEN",
+          "id": "high_open",
           "name": "High/Open",
           "value": 0
         },
         {
-          "id": "LOW_CLOSED",
+          "id": "low_closed",
           "name": "Low/Closed",
           "value": 1
         }
@@ -9250,62 +9250,62 @@
       "name": "DigitalInputState",
       "EnumValues": [
         {
-          "id": "LOW",
+          "id": "low",
           "name": "Low",
           "value": 0
         },
         {
-          "id": "HIGH",
+          "id": "high",
           "name": "High",
           "value": 1
         },
         {
-          "id": "OFF",
+          "id": "off",
           "name": "Off",
           "value": 2
         },
         {
-          "id": "ON",
+          "id": "on",
           "name": "On",
           "value": 3
         },
         {
-          "id": "NO",
+          "id": "no",
           "name": "No",
           "value": 4
         },
         {
-          "id": "YES",
+          "id": "yes",
           "name": "Yes",
           "value": 5
         },
         {
-          "id": "OPEN",
+          "id": "open",
           "name": "Open",
           "value": 6
         },
         {
-          "id": "CLOSED",
+          "id": "closed",
           "name": "Closed",
           "value": 7
         },
         {
-          "id": "OK",
+          "id": "ok",
           "name": "Ok",
           "value": 8
         },
         {
-          "id": "ALARM",
+          "id": "alarm",
           "name": "Alarm",
           "value": 9
         },
         {
-          "id": "RUNNING",
+          "id": "running",
           "name": "Running",
           "value": 10
         },
         {
-          "id": "STOPPED",
+          "id": "stopped",
           "name": "Stopped",
           "value": 11
         }
@@ -9315,57 +9315,57 @@
       "name": "DigitalInputType",
       "EnumValues": [
         {
-          "id": "DISABLED",
+          "id": "disabled",
           "name": "Disabled",
           "value": 0
         },
         {
-          "id": "PULSE_METER",
+          "id": "pulse_meter",
           "name": "Pulse meter",
           "value": 1
         },
         {
-          "id": "DOOR_ALARM",
+          "id": "door_alarm",
           "name": "Door alarm",
           "value": 2
         },
         {
-          "id": "BILGE_PUMP",
+          "id": "bilge_pump",
           "name": "Bilge pump",
           "value": 3
         },
         {
-          "id": "BILGE_ALARM",
+          "id": "bilge_alarm",
           "name": "Bilge alarm",
           "value": 4
         },
         {
-          "id": "BURGLAR_ALARM",
+          "id": "burglar_alarm",
           "name": "Burglar alarm",
           "value": 5
         },
         {
-          "id": "SMOKE_ALARM",
+          "id": "smoke_alarm",
           "name": "Smoke alarm",
           "value": 6
         },
         {
-          "id": "FIRE_ALARM",
+          "id": "fire_alarm",
           "name": "Fire alarm",
           "value": 7
         },
         {
-          "id": "CO2_ALARM",
+          "id": "co2_alarm",
           "name": "CO2 alarm",
           "value": 8
         },
         {
-          "id": "GENERATOR",
+          "id": "generator",
           "name": "Generator",
           "value": 9
         },
         {
-          "id": "TOUCH_INPUT_CONTROL",
+          "id": "touch_input_control",
           "name": "Touch input control",
           "value": 10
         }
@@ -9375,22 +9375,22 @@
       "name": "ESSMode",
       "EnumValues": [
         {
-          "id": "SELF_CONSUMPTION_BATTERYLIFE",
+          "id": "self_consumption_batterylife",
           "name": "self consumption (batterylife)",
           "value": 0
         },
         {
-          "id": "SELF_CONSUMPTION",
+          "id": "self_consumption",
           "name": "self consumption",
           "value": 1
         },
         {
-          "id": "KEEP_CHARGED",
+          "id": "keep_charged",
           "name": "keep charged",
           "value": 2
         },
         {
-          "id": "EXTERNAL_CONTROL",
+          "id": "external_control",
           "name": "External control",
           "value": 3
         }
@@ -9400,17 +9400,17 @@
       "name": "ESSModeHub4",
       "EnumValues": [
         {
-          "id": "PHASE_COMPENSATION_ENABLED",
+          "id": "phase_compensation_enabled",
           "name": "Optimized mode or 'keep batteries charged' and phase compensation enabled",
           "value": 1
         },
         {
-          "id": "PHASE_COMPENSATION_DISABLED",
+          "id": "phase_compensation_disabled",
           "name": "Optimized mode or 'keep batteries charged' and phase compensation disabled",
           "value": 2
         },
         {
-          "id": "EXTERNAL_CONTROL",
+          "id": "external_control",
           "name": "External control",
           "value": 3
         }
@@ -9420,62 +9420,62 @@
       "name": "ESSState",
       "EnumValues": [
         {
-          "id": "WITH_BATTERY_LIFE",
+          "id": "with_battery_life",
           "name": "Optimized mode with BatteryLife",
           "value": 1
         },
         {
-          "id": "SELF_CONSUMPTION",
+          "id": "self_consumption",
           "name": "Self consumption",
           "value": 2
         },
         {
-          "id": "SELF_CONSUMPTION_SOC_EXCEEDS_85",
+          "id": "self_consumption_soc_exceeds_85",
           "name": "Self consumption, SoC exceeds 85%",
           "value": 3
         },
         {
-          "id": "SELF_CONSUMPTION_SOC_AT_100",
+          "id": "self_consumption_soc_at_100",
           "name": "Self consumption, SoC at 100%",
           "value": 4
         },
         {
-          "id": "SOC_BELOW_BATTERY_LIFE_DYNAMIC_SOC_LIMIT",
+          "id": "soc_below_battery_life_dynamic_soc_limit",
           "name": "SoC below BatteryLife dynamic SoC limit",
           "value": 5
         },
         {
-          "id": "SOC_BELOW_SOC_LIMIT_24_HOURS",
+          "id": "soc_below_soc_limit_24_hours",
           "name": "SoC has been below SoC limit for more than 24 hours. Charging with battery with 5amps",
           "value": 6
         },
         {
-          "id": "SUSTAIN",
+          "id": "sustain",
           "name": "Multi/Quattro is in sustain",
           "value": 7
         },
         {
-          "id": "RECHARGE",
+          "id": "recharge",
           "name": "Recharge, SOC dropped 5% or more below MinSOC",
           "value": 8
         },
         {
-          "id": "KEEP_BATTERIES_CHARGED",
+          "id": "keep_batteries_charged",
           "name": "'Keep batteries charged' mode enabled",
           "value": 9
         },
         {
-          "id": "SELF_CONSUMPTION_SOC_ABOVE_MIN",
+          "id": "self_consumption_soc_above_min",
           "name": "Self consumption, SoC at or above minimum SoC",
           "value": 10
         },
         {
-          "id": "SELF_CONSUMPTION_SOC_BELOW_MIN",
+          "id": "self_consumption_soc_below_min",
           "name": "Self consumption, SoC is below minimum SoC",
           "value": 11
         },
         {
-          "id": "RECHARGE_NO_BATTERY_LIFE",
+          "id": "recharge_no_battery_life",
           "name": "Recharge, SOC dropped 5% or more below MinSOC (No BatteryLife)",
           "value": 12
         }
@@ -9485,102 +9485,102 @@
       "name": "ErrorCode",
       "EnumValues": [
         {
-          "id": "NO_ERROR",
+          "id": "no_error",
           "name": "No error",
           "value": 0
         },
         {
-          "id": "BATTERY_VOLTAGE_TOO_HIGH",
+          "id": "battery_voltage_too_high",
           "name": "Battery voltage too high",
           "value": 2
         },
         {
-          "id": "CHARGER_TEMPERATURE_TOO_HIGH",
+          "id": "charger_temperature_too_high",
           "name": "Charger temperature too high",
           "value": 17
         },
         {
-          "id": "CHARGER_OVER_CURRENT",
+          "id": "charger_over_current",
           "name": "Charger over current",
           "value": 18
         },
         {
-          "id": "CHARGER_CURRENT_REVERSED",
+          "id": "charger_current_reversed",
           "name": "Charger current reversed",
           "value": 19
         },
         {
-          "id": "BULK_TIME_LIMIT_EXCEEDED",
+          "id": "bulk_time_limit_exceeded",
           "name": "Bulk time limit exceeded",
           "value": 20
         },
         {
-          "id": "CURRENT_SENSOR_ISSUE",
+          "id": "current_sensor_issue",
           "name": "Current sensor issue",
           "value": 21
         },
         {
-          "id": "TERMINALS_OVERHEATED",
+          "id": "terminals_overheated",
           "name": "Terminals overheated",
           "value": 26
         },
         {
-          "id": "CONVERTER_ISSUE",
+          "id": "converter_issue",
           "name": "Converter issue",
           "value": 28
         },
         {
-          "id": "INPUT_VOLTAGE_TOO_HIGH",
+          "id": "input_voltage_too_high",
           "name": "Input voltage too high (solar panel)",
           "value": 33
         },
         {
-          "id": "INPUT_CURRENT_TOO_HIGH",
+          "id": "input_current_too_high",
           "name": "Input current too high (solar panel)",
           "value": 34
         },
         {
-          "id": "INPUT_SHUTDOWN_BATTERY_VOLTAGE_TOO_HIGH",
+          "id": "input_shutdown_battery_voltage_too_high",
           "name": "Input shutdown (battery voltage too high)",
           "value": 38
         },
         {
-          "id": "INPUT_SHUTDOWN_REVERSE_CURRENT",
+          "id": "input_shutdown_reverse_current",
           "name": "Input shutdown (reverse current)",
           "value": 39
         },
         {
-          "id": "LOST_COMMUNICATION_WITH_DEVICE",
+          "id": "lost_communication_with_device",
           "name": "Lost communication with device",
           "value": 65
         },
         {
-          "id": "SYNCHRONIZED_CHARGING_CONFIG_ISSUE",
+          "id": "synchronized_charging_config_issue",
           "name": "Synchronized charging config issue",
           "value": 66
         },
         {
-          "id": "BMS_CONNECTION_LOST",
+          "id": "bms_connection_lost",
           "name": "BMS connection lost",
           "value": 67
         },
         {
-          "id": "NETWORK_MISCONFIGURED",
+          "id": "network_misconfigured",
           "name": "Network misconfigured",
           "value": 68
         },
         {
-          "id": "FACTORY_CALIBRATION_DATA_LOST",
+          "id": "factory_calibration_data_lost",
           "name": "Factory calibration data lost",
           "value": 116
         },
         {
-          "id": "INVALID_INCOMPATIBLE_FIRMWARE",
+          "id": "invalid_incompatible_firmware",
           "name": "Invalid/incompatible firmware",
           "value": 117
         },
         {
-          "id": "USER_SETTINGS_INVALID",
+          "id": "user_settings_invalid",
           "name": "User settings invalid",
           "value": 119
         }
@@ -9590,17 +9590,17 @@
       "name": "EvChargerMode",
       "EnumValues": [
         {
-          "id": "MANUAL",
+          "id": "manual",
           "name": "Manual",
           "value": 0
         },
         {
-          "id": "AUTO",
+          "id": "auto",
           "name": "Auto",
           "value": 1
         },
         {
-          "id": "SCHEDULED_CHARGE",
+          "id": "scheduled_charge",
           "name": "Scheduled Charge",
           "value": 2
         }
@@ -9610,12 +9610,12 @@
       "name": "EvChargerPosition",
       "EnumValues": [
         {
-          "id": "AC_OUT",
+          "id": "ac_out",
           "name": "AC Out",
           "value": 0
         },
         {
-          "id": "AC_INPUT",
+          "id": "ac_input",
           "name": "AC Input",
           "value": 1
         }
@@ -9625,122 +9625,122 @@
       "name": "EvChargerStatus",
       "EnumValues": [
         {
-          "id": "DISCONNECTED",
+          "id": "disconnected",
           "name": "Disconnected",
           "value": 0
         },
         {
-          "id": "CONNECTED",
+          "id": "connected",
           "name": "Connected",
           "value": 1
         },
         {
-          "id": "CHARGING",
+          "id": "charging",
           "name": "Charging",
           "value": 2
         },
         {
-          "id": "CHARGED",
+          "id": "charged",
           "name": "Charged",
           "value": 3
         },
         {
-          "id": "WAITING_FOR_SUN",
+          "id": "waiting_for_sun",
           "name": "Waiting for sun",
           "value": 4
         },
         {
-          "id": "WAITING_FOR_RFID",
+          "id": "waiting_for_rfid",
           "name": "Waiting for RFID",
           "value": 5
         },
         {
-          "id": "WAITING_FOR_START",
+          "id": "waiting_for_start",
           "name": "Waiting for start",
           "value": 6
         },
         {
-          "id": "LOW_SOC",
+          "id": "low_soc",
           "name": "Low SOC",
           "value": 7
         },
         {
-          "id": "GROUND_TEST_ERROR",
+          "id": "ground_test_error",
           "name": "Ground test error",
           "value": 8
         },
         {
-          "id": "WELDED_CONTACTS_TEST_ERROR",
+          "id": "welded_contacts_test_error",
           "name": "Welded contacts test error",
           "value": 9
         },
         {
-          "id": "CP_INPUT_TEST_ERROR",
+          "id": "cp_input_test_error",
           "name": "CP input test error",
           "value": 10
         },
         {
-          "id": "RESIDUAL_CURRENT_DETECTED",
+          "id": "residual_current_detected",
           "name": "Residual current detected",
           "value": 11
         },
         {
-          "id": "UNDERVOLTAGE_DETECTED",
+          "id": "undervoltage_detected",
           "name": "Undervoltage detected",
           "value": 12
         },
         {
-          "id": "OVERVOLTAGE_DETECTED",
+          "id": "overvoltage_detected",
           "name": "Overvoltage detected",
           "value": 13
         },
         {
-          "id": "OVERHEATING_DETECTED",
+          "id": "overheating_detected",
           "name": "Overheating detected",
           "value": 14
         },
         {
-          "id": "RESERVED15",
+          "id": "reserved15",
           "name": "Reserved",
           "value": 15
         },
         {
-          "id": "RESERVED16",
+          "id": "reserved16",
           "name": "Reserved",
           "value": 16
         },
         {
-          "id": "RESERVED17",
+          "id": "reserved17",
           "name": "Reserved",
           "value": 17
         },
         {
-          "id": "RESERVED18",
+          "id": "reserved18",
           "name": "Reserved",
           "value": 18
         },
         {
-          "id": "RESERVED19",
+          "id": "reserved19",
           "name": "reserved",
           "value": 19
         },
         {
-          "id": "CHARGING_LIMIT",
+          "id": "charging_limit",
           "name": "Charging limit",
           "value": 20
         },
         {
-          "id": "START_CHARGING",
+          "id": "start_charging",
           "name": "Start charging",
           "value": 21
         },
         {
-          "id": "SWITCHING_TO_3_PHASE",
+          "id": "switching_to_3_phase",
           "name": "Switching to 3 phase",
           "value": 22
         },
         {
-          "id": "SWITCHING_TO_1_PHASE",
+          "id": "switching_to_1_phase",
           "name": "Switching to 1 phase",
           "value": 23
         }
@@ -9750,62 +9750,62 @@
       "name": "FluidType",
       "EnumValues": [
         {
-          "id": "FUEL",
+          "id": "fuel",
           "name": "Fuel",
           "value": 0
         },
         {
-          "id": "FRESH_WATER",
+          "id": "fresh_water",
           "name": "Fresh Water",
           "value": 1
         },
         {
-          "id": "WASTE_WATER",
+          "id": "waste_water",
           "name": "Waste Water",
           "value": 2
         },
         {
-          "id": "LIVE_WELL",
+          "id": "live_well",
           "name": "Live Well",
           "value": 3
         },
         {
-          "id": "OIL",
+          "id": "oil",
           "name": "Oil",
           "value": 4
         },
         {
-          "id": "BLACK_WATER",
+          "id": "black_water",
           "name": "Black water (sewage)",
           "value": 5
         },
         {
-          "id": "GASOLINE",
+          "id": "gasoline",
           "name": "Gasoline",
           "value": 6
         },
         {
-          "id": "DIESEL",
+          "id": "diesel",
           "name": "Diesel",
           "value": 7
         },
         {
-          "id": "LPG",
+          "id": "lpg",
           "name": "Liquid  Petroleum Gas (LPG)",
           "value": 8
         },
         {
-          "id": "LNG",
+          "id": "lng",
           "name": "Liquid Natural Gas (LNG)",
           "value": 9
         },
         {
-          "id": "HYDRAULIC_OIL",
+          "id": "hydraulic_oil",
           "name": "Hydraulic oil",
           "value": 10
         },
         {
-          "id": "RAW_WATER",
+          "id": "raw_water",
           "name": "Raw water",
           "value": 11
         }
@@ -9815,57 +9815,57 @@
       "name": "GeneratorRunningByConditionCode",
       "EnumValues": [
         {
-          "id": "STOPPED",
+          "id": "stopped",
           "name": "Stopped",
           "value": 0
         },
         {
-          "id": "MANUAL",
+          "id": "manual",
           "name": "Manual",
           "value": 1
         },
         {
-          "id": "TEST_RUN",
+          "id": "test_run",
           "name": "Test Run",
           "value": 2
         },
         {
-          "id": "LOST_COMMS",
+          "id": "lost_comms",
           "name": "Lost Comms",
           "value": 3
         },
         {
-          "id": "SOC",
+          "id": "soc",
           "name": "SOC",
           "value": 4
         },
         {
-          "id": "AC_LOAD",
+          "id": "ac_load",
           "name": "AC Load",
           "value": 5
         },
         {
-          "id": "BATTERY_CURRENT",
+          "id": "battery_current",
           "name": "Battery Current",
           "value": 6
         },
         {
-          "id": "BATTERY_VOLTS",
+          "id": "battery_volts",
           "name": "Battery Volts",
           "value": 7
         },
         {
-          "id": "INV_TEMP",
+          "id": "inv_temp",
           "name": "Inv Temp",
           "value": 8
         },
         {
-          "id": "INV_OVERLOAD",
+          "id": "inv_overload",
           "name": "Inv Overload",
           "value": 9
         },
         {
-          "id": "STOP_ON_AC1",
+          "id": "stop_on_ac1",
           "name": "Stop On AC1",
           "value": 10
         }
@@ -9875,17 +9875,17 @@
       "name": "GenericAlarmEnum",
       "EnumValues": [
         {
-          "id": "NO_ALARM",
+          "id": "no_alarm",
           "name": "No Alarm",
           "value": 0
         },
         {
-          "id": "WARNING",
+          "id": "warning",
           "name": "Warning",
           "value": 1
         },
         {
-          "id": "ALARM",
+          "id": "alarm",
           "name": "Alarm",
           "value": 2
         }
@@ -9895,12 +9895,12 @@
       "name": "GenericOnOff",
       "EnumValues": [
         {
-          "id": "OFF",
+          "id": "off",
           "name": "Off",
           "value": 0
         },
         {
-          "id": "ON",
+          "id": "on",
           "name": "On",
           "value": 1
         }
@@ -9910,22 +9910,22 @@
       "name": "InverterMode",
       "EnumValues": [
         {
-          "id": "CHARGER_ONLY",
+          "id": "charger_only",
           "name": "Charger Only",
           "value": 1
         },
         {
-          "id": "INVERTER_ONLY",
+          "id": "inverter_only",
           "name": "Inverter Only",
           "value": 2
         },
         {
-          "id": "ON",
+          "id": "on",
           "name": "On",
           "value": 3
         },
         {
-          "id": "OFF",
+          "id": "off",
           "name": "Off",
           "value": 4
         }
@@ -9935,22 +9935,22 @@
       "name": "MppOperationMode",
       "EnumValues": [
         {
-          "id": "OFF",
+          "id": "off",
           "name": "Off",
           "value": 0
         },
         {
-          "id": "VOLTAGE_CURRENT_LIMITED",
+          "id": "voltage_current_limited",
           "name": "Voltage/current limited",
           "value": 1
         },
         {
-          "id": "MPPT_ACTIVE",
+          "id": "mppt_active",
           "name": "MPPT active",
           "value": 2
         },
         {
-          "id": "NOT_AVAILABLE",
+          "id": "not_available",
           "name": "Not available",
           "value": 255
         }
@@ -9960,17 +9960,17 @@
       "name": "PhoenixInverterMode",
       "EnumValues": [
         {
-          "id": "INVERTER",
+          "id": "inverter",
           "name": "Inverter",
           "value": 2
         },
         {
-          "id": "OFF",
+          "id": "off",
           "name": "Off",
           "value": 4
         },
         {
-          "id": "ECO",
+          "id": "eco",
           "name": "Eco",
           "value": 5
         }
@@ -9980,72 +9980,72 @@
       "name": "SolarChargerDeviceOffReason",
       "EnumValues": [
         {
-          "id": "NONE",
+          "id": "none",
           "name": "-",
           "value": 0
         },
         {
-          "id": "NO_INPUT_POWER",
+          "id": "no_input_power",
           "name": "No/Low input power",
           "value": 1
         },
         {
-          "id": "SWITCHED_OFF_POWER_SWITCH",
+          "id": "switched_off_power_switch",
           "name": "Switched off (power switch)",
           "value": 2
         },
         {
-          "id": "SWITCHED_OFF_DEVICE_MODE_REGISTER",
+          "id": "switched_off_device_mode_register",
           "name": "Switched off (device mode register)",
           "value": 4
         },
         {
-          "id": "REMOTE_INPUT",
+          "id": "remote_input",
           "name": "Remote input",
           "value": 8
         },
         {
-          "id": "PROTECTIVE_ACTION",
+          "id": "protective_action",
           "name": "Protection active",
           "value": 16
         },
         {
-          "id": "NEED_TOKEN",
+          "id": "need_token",
           "name": "Need token for operation",
           "value": 32
         },
         {
-          "id": "SIGNAL_FROM_BMS",
+          "id": "signal_from_bms",
           "name": "Signal from BMS",
           "value": 64
         },
         {
-          "id": "ENGINE_SHUTDOWN",
+          "id": "engine_shutdown",
           "name": "Engine shutdown on low input voltage",
           "value": 128
         },
         {
-          "id": "ANALYSING_INPUT_VOLTAGE",
+          "id": "analysing_input_voltage",
           "name": "Analysing input voltage",
           "value": 256
         },
         {
-          "id": "LOW_TEMPERATURE",
+          "id": "low_temperature",
           "name": "Low temperature",
           "value": 512
         },
         {
-          "id": "NO_PANEL_POWER",
+          "id": "no_panel_power",
           "name": "No/Low panel power",
           "value": 1024
         },
         {
-          "id": "NO_BATTERY_POWER",
+          "id": "no_battery_power",
           "name": "No/Low battery power",
           "value": 2048
         },
         {
-          "id": "ACTIVE_ALARM",
+          "id": "active_alarm",
           "name": "Active alarm",
           "value": 32768
         }
@@ -10055,112 +10055,112 @@
       "name": "State",
       "EnumValues": [
         {
-          "id": "OFF",
+          "id": "off",
           "name": "Off",
           "value": 0
         },
         {
-          "id": "LOW_POWER",
+          "id": "low_power",
           "name": "Low Power",
           "value": 1
         },
         {
-          "id": "FAULT",
+          "id": "fault",
           "name": "Fault",
           "value": 2
         },
         {
-          "id": "BULK",
+          "id": "bulk",
           "name": "Bulk",
           "value": 3
         },
         {
-          "id": "ABSORPTION",
+          "id": "absorption",
           "name": "Absorption",
           "value": 4
         },
         {
-          "id": "FLOAT",
+          "id": "float",
           "name": "Float",
           "value": 5
         },
         {
-          "id": "STORAGE",
+          "id": "storage",
           "name": "Storage",
           "value": 6
         },
         {
-          "id": "EQUALIZE",
+          "id": "equalize",
           "name": "Equalize",
           "value": 7
         },
         {
-          "id": "PASSTHROUGH",
+          "id": "passthrough",
           "name": "Passthrough",
           "value": 8
         },
         {
-          "id": "INVERTING",
+          "id": "inverting",
           "name": "Inverting",
           "value": 9
         },
         {
-          "id": "POWER_ASSIST",
+          "id": "power_assist",
           "name": "Power Assist",
           "value": 10
         },
         {
-          "id": "POWER_SUPPLY",
+          "id": "power_supply",
           "name": "Power Supply",
           "value": 11
         },
         {
-          "id": "SUSTAIN",
+          "id": "sustain",
           "name": "Sustain",
           "value": 244
         },
         {
-          "id": "STARTING_UP",
+          "id": "starting_up",
           "name": "Starting Up",
           "value": 245
         },
         {
-          "id": "REPEATED_ABSORPTION",
+          "id": "repeated_absorption",
           "name": "Repeated Absorption",
           "value": 246
         },
         {
-          "id": "AUTO_EQUALIZE",
+          "id": "auto_equalize",
           "name": "Auto Equalize / Recondition",
           "value": 247
         },
         {
-          "id": "BATTERY_SAFE",
+          "id": "battery_safe",
           "name": "Battery Safe",
           "value": 248
         },
         {
-          "id": "EXTERNAL_CONTROL",
+          "id": "external_control",
           "name": "External Control",
           "value": 252
         },
         {
-          "id": "DISCHARGING",
+          "id": "discharging",
           "name": "Discharging",
           "value": 256
         },
         {
-          "id": "SUSTAIN_ALT",
+          "id": "sustain_alt",
           "name": "Sustain Alt",
           "value": 257
         },
         {
-          "id": "RECHARGING",
+          "id": "recharging",
           "name": "Recharging",
           "value": 258
         },
         {
-          "id": "SCHEDULED_RECHARGING",
+          "id": "scheduled_recharging",
           "name": "Scheduled Recharging",
           "value": 259
         }
@@ -10170,27 +10170,27 @@
       "name": "TemperatureStatus",
       "EnumValues": [
         {
-          "id": "OK",
+          "id": "ok",
           "name": "Ok",
           "value": 0
         },
         {
-          "id": "DISCONNECTED",
+          "id": "disconnected",
           "name": "Disconnected",
           "value": 1
         },
         {
-          "id": "SHORT_CIRCUITED",
+          "id": "short_circuited",
           "name": "Short circuited",
           "value": 2
         },
         {
-          "id": "REVERSE_POLARITY",
+          "id": "reverse_polarity",
           "name": "Reverse polarity",
           "value": 3
         },
         {
-          "id": "UNKNOWN",
+          "id": "unknown",
           "name": "Unknown",
           "value": 4
         }
@@ -10200,37 +10200,37 @@
       "name": "TemperatureType",
       "EnumValues": [
         {
-          "id": "BATTERY",
+          "id": "battery",
           "name": "Battery",
           "value": 0
         },
         {
-          "id": "FRIDGE",
+          "id": "fridge",
           "name": "Fridge",
           "value": 1
         },
         {
-          "id": "GENERIC",
+          "id": "generic",
           "name": "Generic",
           "value": 2
         },
         {
-          "id": "ROOM",
+          "id": "room",
           "name": "Room",
           "value": 3
         },
         {
-          "id": "OUTDOOR",
+          "id": "outdoor",
           "name": "Outdoor",
           "value": 4
         },
         {
-          "id": "WATER_HEATER",
+          "id": "water_heater",
           "name": "Water Heater",
           "value": 5
         },
         {
-          "id": "FREEZER",
+          "id": "freezer",
           "name": "Freezer",
           "value": 6
         }
