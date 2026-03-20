@@ -138,14 +138,16 @@
         "unit_of_measurement": "s"
       },
       "generator_gen_id_qh_start_on_soc": {
-        "name": "Generátor QH štart pri SOC"
+        "name": "Generátor QH štart pri SOC",
+        "unit_of_measurement": "%"
       },
       "generator_gen_id_qh_start_on_voltage": {
         "name": "Generátor QH štart pri napätí",
         "unit_of_measurement": "V"
       },
       "generator_gen_id_qh_stop_on_soc": {
-        "name": "Generátor QH stop pri SOC"
+        "name": "Generátor QH stop pri SOC",
+        "unit_of_measurement": "%"
       },
       "generator_gen_id_qh_stop_on_voltage": {
         "name": "Generátor QH stop pri napätí",
@@ -160,7 +162,8 @@
         "unit_of_measurement": "s"
       },
       "generator_gen_id_start_on_soc": {
-        "name": "Štart generátora pri SOC"
+        "name": "Štart generátora pri SOC",
+        "unit_of_measurement": "%"
       },
       "generator_gen_id_start_on_soc_timer": {
         "name": "Časovač štartu generátora pri SOC",
@@ -179,7 +182,8 @@
         "unit_of_measurement": "s"
       },
       "generator_gen_id_stop_on_soc": {
-        "name": "Stop generátora pri SOC"
+        "name": "Stop generátora pri SOC",
+        "unit_of_measurement": "%"
       },
       "generator_gen_id_stop_on_soc_timer": {
         "name": "Časovač stopu generátora pri SOC",
@@ -202,10 +206,12 @@
         "unit_of_measurement": "s"
       },
       "multiplus_assist_current_boost_factor": {
-        "name": "Faktor zosilnenia prúdu asistencie"
+        "name": "Faktor zosilnenia prúdu asistencie",
+        "unit_of_measurement": "factor"
       },
       "switch_output_dimming": {
-        "name": "Stmievanie prepínača {output}"
+        "name": "Stmievanie prepínača {output}",
+        "unit_of_measurement": "%"
       },
       "system_ac_export_limit": {
         "name": "Limit exportu do AC siete",
@@ -244,7 +250,8 @@
         "unit_of_measurement": "°C"
       },
       "temperature_scale": {
-        "name": "Faktor mierky teploty"
+        "name": "Faktor mierky teploty",
+        "unit_of_measurement": "factor"
       },
       "transfer_switch_generator_current_limit": {
         "name": "Limit AC prúdu generátora",
@@ -312,7 +319,7 @@
       },
       "battery_automatic_syncs": {
         "name": "Automatické synchronizácie",
-        "unit_of_measurement": "count"
+        "unit_of_measurement": "syncs"
       },
       "battery_capacity": {
         "name": "Kapacita batérie",
@@ -402,16 +409,20 @@
         "name": "ID článku s minimálnym napätím"
       },
       "battery_nr_modules_blocking_charge": {
-        "name": "Počet modulov batérie blokujúcich nabíjanie"
+        "name": "Počet modulov batérie blokujúcich nabíjanie",
+        "unit_of_measurement": "modules"
       },
       "battery_nr_modules_blocking_discharge": {
-        "name": "Počet modulov batérie blokujúcich vybíjanie"
+        "name": "Počet modulov batérie blokujúcich vybíjanie",
+        "unit_of_measurement": "modules"
       },
       "battery_nr_modules_offline": {
-        "name": "Počet offline modulov batérie"
+        "name": "Počet offline modulov batérie",
+        "unit_of_measurement": "modules"
       },
       "battery_nr_modules_online": {
-        "name": "Počet online modulov batérie"
+        "name": "Počet online modulov batérie",
+        "unit_of_measurement": "modules"
       },
       "battery_power": {
         "name": "Výkon batérie",
@@ -500,14 +511,16 @@
         "unit_of_measurement": "s"
       },
       "generator_gen_id_qh_start_on_soc": {
-        "name": "Generátor QH štart pri SOC"
+        "name": "Generátor QH štart pri SOC",
+        "unit_of_measurement": "%"
       },
       "generator_gen_id_qh_start_on_voltage": {
         "name": "Generátor QH štart pri napätí",
         "unit_of_measurement": "V"
       },
       "generator_gen_id_qh_stop_on_soc": {
-        "name": "Generátor QH stop pri SOC"
+        "name": "Generátor QH stop pri SOC",
+        "unit_of_measurement": "%"
       },
       "generator_gen_id_qh_stop_on_voltage": {
         "name": "Generátor QH stop pri napätí",
@@ -522,7 +535,8 @@
         "unit_of_measurement": "s"
       },
       "generator_gen_id_start_on_soc": {
-        "name": "Štart generátora pri SOC"
+        "name": "Štart generátora pri SOC",
+        "unit_of_measurement": "%"
       },
       "generator_gen_id_start_on_soc_timer": {
         "name": "Časovač štartu generátora pri SOC",
@@ -541,7 +555,8 @@
         "unit_of_measurement": "s"
       },
       "generator_gen_id_stop_on_soc": {
-        "name": "Stop generátora pri SOC"
+        "name": "Stop generátora pri SOC",
+        "unit_of_measurement": "%"
       },
       "generator_gen_id_stop_on_soc_timer": {
         "name": "Časovač stopu generátora pri SOC",
@@ -579,19 +594,24 @@
         "unit_of_measurement": "h"
       },
       "gps_altitude": {
-        "name": "GPS nadmorská výška"
+        "name": "GPS nadmorská výška",
+        "unit_of_measurement": "m"
       },
       "gps_course": {
-        "name": "GPS kurz"
+        "name": "GPS kurz",
+        "unit_of_measurement": "°"
       },
       "gps_latitude": {
-        "name": "GPS zemepisná šírka"
+        "name": "GPS zemepisná šírka",
+        "unit_of_measurement": "lat"
       },
       "gps_longitude": {
-        "name": "GPS zemepisná dĺžka"
+        "name": "GPS zemepisná dĺžka",
+        "unit_of_measurement": "long"
       },
       "gps_nrofsatellites": {
-        "name": "GPS počet satelitov"
+        "name": "GPS počet satelitov",
+        "unit_of_measurement": "satellites"
       },
       "gps_speed": {
         "name": "GPS rýchlosť",
@@ -712,7 +732,8 @@
         "name": "Stav meniča"
       },
       "multiplus_assist_current_boost_factor": {
-        "name": "Faktor zosilnenia prúdu asistencie"
+        "name": "Faktor zosilnenia prúdu asistencie",
+        "unit_of_measurement": "factor"
       },
       "multirssolar_acin_current_phase": {
         "name": "Prúd {phase}"
@@ -883,7 +904,8 @@
         "name": "Vlastný názov prepínača {output}"
       },
       "switch_output_dimming": {
-        "name": "Stmievanie prepínača {output}"
+        "name": "Stmievanie prepínača {output}",
+        "unit_of_measurement": "%"
       },
       "system_ac_active_input_source": {
         "name": "Aktívny AC vstupný zdroj"
@@ -909,10 +931,12 @@
         "unit_of_measurement": "A"
       },
       "system_consumption_on_output_phases": {
-        "name": "Spotreba na výstupných fázach"
+        "name": "Spotreba na výstupných fázach",
+        "unit_of_measurement": "phases"
       },
       "system_consumption_phases": {
-        "name": "Fázy spotreby"
+        "name": "Fázy spotreby",
+        "unit_of_measurement": "phases"
       },
       "system_consumption_power_phase": {
         "name": "Výkon spotreby {phase}",
@@ -994,7 +1018,8 @@
         "name": "Obmedzenia Dynamic ESS"
       },
       "system_dynamicess_schedule_count": {
-        "name": "Počet plánov Dynamic ESS"
+        "name": "Počet plánov Dynamic ESS",
+        "unit_of_measurement": "count"
       },
       "system_dynamicess_strategy": {
         "name": "Stratégia Dynamic ESS"
@@ -1041,21 +1066,24 @@
         "unit_of_measurement": "A"
       },
       "system_grid_phases": {
-        "name": "Fázy siete"
+        "name": "Fázy siete",
+        "unit_of_measurement": "phases"
       },
       "system_grid_power_phase": {
         "name": "Výkon siete {phase}",
         "unit_of_measurement": "W"
       },
       "system_heartbeat": {
-        "name": "Tep systému GX"
+        "name": "Tep systému GX",
+        "unit_of_measurement": "s"
       },
       "system_pv_on_output_current_phase": {
         "name": "Prúd FV na výstupe {phase}",
         "unit_of_measurement": "A"
       },
       "system_pv_on_output_phases": {
-        "name": "FV na výstupných fázach"
+        "name": "FV na výstupných fázach",
+        "unit_of_measurement": "phases"
       },
       "system_pv_on_output_power_phase": {
         "name": "Výkon FV na výstupe {phase}",
@@ -1102,7 +1130,8 @@
         "unit_of_measurement": "°C"
       },
       "temperature_scale": {
-        "name": "Faktor mierky teploty"
+        "name": "Faktor mierky teploty",
+        "unit_of_measurement": "factor"
       },
       "temperature_status": {
         "name": "Stav snímača teploty"

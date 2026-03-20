@@ -138,14 +138,16 @@
         "unit_of_measurement": "s"
       },
       "generator_gen_id_qh_start_on_soc": {
-        "name": "Démarrage QH du générateur sur SOC"
+        "name": "Démarrage QH du générateur sur SOC",
+        "unit_of_measurement": "%"
       },
       "generator_gen_id_qh_start_on_voltage": {
         "name": "Démarrage QH du générateur sur tension",
         "unit_of_measurement": "V"
       },
       "generator_gen_id_qh_stop_on_soc": {
-        "name": "Arrêt QH du générateur sur SOC"
+        "name": "Arrêt QH du générateur sur SOC",
+        "unit_of_measurement": "%"
       },
       "generator_gen_id_qh_stop_on_voltage": {
         "name": "Arrêt QH du générateur sur tension",
@@ -160,7 +162,8 @@
         "unit_of_measurement": "s"
       },
       "generator_gen_id_start_on_soc": {
-        "name": "Démarrage du générateur sur SOC"
+        "name": "Démarrage du générateur sur SOC",
+        "unit_of_measurement": "%"
       },
       "generator_gen_id_start_on_soc_timer": {
         "name": "Minuterie de démarrage du générateur sur SOC",
@@ -179,7 +182,8 @@
         "unit_of_measurement": "s"
       },
       "generator_gen_id_stop_on_soc": {
-        "name": "Arrêt du générateur sur SOC"
+        "name": "Arrêt du générateur sur SOC",
+        "unit_of_measurement": "%"
       },
       "generator_gen_id_stop_on_soc_timer": {
         "name": "Minuterie d'arrêt du générateur sur SOC",
@@ -202,10 +206,12 @@
         "unit_of_measurement": "s"
       },
       "multiplus_assist_current_boost_factor": {
-        "name": "Facteur d'amplification du courant d'assistance"
+        "name": "Facteur d'amplification du courant d'assistance",
+        "unit_of_measurement": "factor"
       },
       "switch_output_dimming": {
-        "name": "Gradation de la sortie du commutateur {output}"
+        "name": "Gradation de la sortie du commutateur {output}",
+        "unit_of_measurement": "%"
       },
       "system_ac_export_limit": {
         "name": "Limite d'exportation CA",
@@ -244,7 +250,8 @@
         "unit_of_measurement": "°C"
       },
       "temperature_scale": {
-        "name": "Facteur d'échelle de température"
+        "name": "Facteur d'échelle de température",
+        "unit_of_measurement": "factor"
       },
       "transfer_switch_generator_current_limit": {
         "name": "Limite de courant CA du générateur",
@@ -309,7 +316,7 @@
       },
       "battery_automatic_syncs": {
         "name": "Synchronisations automatiques",
-        "unit_of_measurement": "count"
+        "unit_of_measurement": "syncs"
       },
       "battery_capacity": {
         "name": "Capacité de la batterie",
@@ -399,16 +406,20 @@
         "name": "ID de la cellule à tension minimale de la batterie"
       },
       "battery_nr_modules_blocking_charge": {
-        "name": "Nombre de modules de batterie bloquant la charge"
+        "name": "Nombre de modules de batterie bloquant la charge",
+        "unit_of_measurement": "modules"
       },
       "battery_nr_modules_blocking_discharge": {
-        "name": "Nombre de modules de batterie bloquant la décharge"
+        "name": "Nombre de modules de batterie bloquant la décharge",
+        "unit_of_measurement": "modules"
       },
       "battery_nr_modules_offline": {
-        "name": "Nombre de modules de batterie hors ligne"
+        "name": "Nombre de modules de batterie hors ligne",
+        "unit_of_measurement": "modules"
       },
       "battery_nr_modules_online": {
-        "name": "Nombre de modules de batterie en ligne"
+        "name": "Nombre de modules de batterie en ligne",
+        "unit_of_measurement": "modules"
       },
       "battery_power": {
         "name": "Puissance de la batterie",
@@ -497,14 +508,16 @@
         "unit_of_measurement": "s"
       },
       "generator_gen_id_qh_start_on_soc": {
-        "name": "Démarrage QH du générateur sur SOC"
+        "name": "Démarrage QH du générateur sur SOC",
+        "unit_of_measurement": "%"
       },
       "generator_gen_id_qh_start_on_voltage": {
         "name": "Démarrage QH du générateur sur tension",
         "unit_of_measurement": "V"
       },
       "generator_gen_id_qh_stop_on_soc": {
-        "name": "Arrêt QH du générateur sur SOC"
+        "name": "Arrêt QH du générateur sur SOC",
+        "unit_of_measurement": "%"
       },
       "generator_gen_id_qh_stop_on_voltage": {
         "name": "Arrêt QH du générateur sur tension",
@@ -519,7 +532,8 @@
         "unit_of_measurement": "s"
       },
       "generator_gen_id_start_on_soc": {
-        "name": "Démarrage du générateur sur SOC"
+        "name": "Démarrage du générateur sur SOC",
+        "unit_of_measurement": "%"
       },
       "generator_gen_id_start_on_soc_timer": {
         "name": "Minuterie de démarrage du générateur sur SOC",
@@ -538,7 +552,8 @@
         "unit_of_measurement": "s"
       },
       "generator_gen_id_stop_on_soc": {
-        "name": "Arrêt du générateur sur SOC"
+        "name": "Arrêt du générateur sur SOC",
+        "unit_of_measurement": "%"
       },
       "generator_gen_id_stop_on_soc_timer": {
         "name": "Minuterie d'arrêt du générateur sur SOC",
@@ -576,19 +591,24 @@
         "unit_of_measurement": "h"
       },
       "gps_altitude": {
-        "name": "Altitude GPS"
+        "name": "Altitude GPS",
+        "unit_of_measurement": "m"
       },
       "gps_course": {
-        "name": "Cap GPS"
+        "name": "Cap GPS",
+        "unit_of_measurement": "°"
       },
       "gps_latitude": {
-        "name": "Latitude GPS"
+        "name": "Latitude GPS",
+        "unit_of_measurement": "lat"
       },
       "gps_longitude": {
-        "name": "Longitude GPS"
+        "name": "Longitude GPS",
+        "unit_of_measurement": "long"
       },
       "gps_nrofsatellites": {
-        "name": "Nombre de satellites GPS"
+        "name": "Nombre de satellites GPS",
+        "unit_of_measurement": "satellites"
       },
       "gps_speed": {
         "name": "Vitesse GPS",
@@ -709,7 +729,8 @@
         "name": "État de l'onduleur"
       },
       "multiplus_assist_current_boost_factor": {
-        "name": "Facteur d'amplification du courant d'assistance"
+        "name": "Facteur d'amplification du courant d'assistance",
+        "unit_of_measurement": "factor"
       },
       "multirssolar_acin_current_phase": {
         "name": "Courant {phase}"
@@ -880,7 +901,8 @@
         "name": "Nom personnalisé de la sortie du commutateur {output}"
       },
       "switch_output_dimming": {
-        "name": "Gradation de la sortie du commutateur {output}"
+        "name": "Gradation de la sortie du commutateur {output}",
+        "unit_of_measurement": "%"
       },
       "system_ac_active_input_source": {
         "name": "Source d'entrée CA active du système"
@@ -906,10 +928,12 @@
         "unit_of_measurement": "A"
       },
       "system_consumption_on_output_phases": {
-        "name": "Consommation sur les phases de sortie"
+        "name": "Consommation sur les phases de sortie",
+        "unit_of_measurement": "phases"
       },
       "system_consumption_phases": {
-        "name": "Phases de consommation"
+        "name": "Phases de consommation",
+        "unit_of_measurement": "phases"
       },
       "system_consumption_power_phase": {
         "name": "Consommation Puissance {phase}",
@@ -987,7 +1011,8 @@
         "name": "Restrictions Dynamic ESS"
       },
       "system_dynamicess_schedule_count": {
-        "name": "Nombre de programmes Dynamic ESS"
+        "name": "Nombre de programmes Dynamic ESS",
+        "unit_of_measurement": "count"
       },
       "system_dynamicess_strategy": {
         "name": "Stratégie Dynamic ESS"
@@ -1031,21 +1056,24 @@
         "unit_of_measurement": "A"
       },
       "system_grid_phases": {
-        "name": "Phases du réseau"
+        "name": "Phases du réseau",
+        "unit_of_measurement": "phases"
       },
       "system_grid_power_phase": {
         "name": "Puissance du réseau {phase}",
         "unit_of_measurement": "W"
       },
       "system_heartbeat": {
-        "name": "Pulsation du système GX"
+        "name": "Pulsation du système GX",
+        "unit_of_measurement": "s"
       },
       "system_pv_on_output_current_phase": {
         "name": "PV sur le courant de sortie {phase}",
         "unit_of_measurement": "A"
       },
       "system_pv_on_output_phases": {
-        "name": "PV sur les phases de sortie"
+        "name": "PV sur les phases de sortie",
+        "unit_of_measurement": "phases"
       },
       "system_pv_on_output_power_phase": {
         "name": "PV sur la puissance de sortie {phase}",
@@ -1092,7 +1120,8 @@
         "unit_of_measurement": "°C"
       },
       "temperature_scale": {
-        "name": "Facteur d'échelle de température"
+        "name": "Facteur d'échelle de température",
+        "unit_of_measurement": "factor"
       },
       "temperature_status": {
         "name": "État du capteur de température"

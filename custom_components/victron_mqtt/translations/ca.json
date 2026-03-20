@@ -135,14 +135,16 @@
         "unit_of_measurement": "s"
       },
       "generator_gen_id_qh_start_on_soc": {
-        "name": "Inici del generador en càrrega d'hores tranquil·les"
+        "name": "Inici del generador en càrrega d'hores tranquil·les",
+        "unit_of_measurement": "%"
       },
       "generator_gen_id_qh_start_on_voltage": {
         "name": "Inici del generador en voltatge d'hores tranquil·les",
         "unit_of_measurement": "V"
       },
       "generator_gen_id_qh_stop_on_soc": {
-        "name": "Aturada del generador en càrrega d'hores tranquil·les"
+        "name": "Aturada del generador en càrrega d'hores tranquil·les",
+        "unit_of_measurement": "%"
       },
       "generator_gen_id_qh_stop_on_voltage": {
         "name": "Aturada del generador en voltatge d'hores tranquil·les",
@@ -157,7 +159,8 @@
         "unit_of_measurement": "s"
       },
       "generator_gen_id_start_on_soc": {
-        "name": "Inici del generador per càrrega"
+        "name": "Inici del generador per càrrega",
+        "unit_of_measurement": "%"
       },
       "generator_gen_id_start_on_soc_timer": {
         "name": "Temporitzador d'inici del generador per càrrega",
@@ -176,7 +179,8 @@
         "unit_of_measurement": "s"
       },
       "generator_gen_id_stop_on_soc": {
-        "name": "Aturada del generador per càrrega"
+        "name": "Aturada del generador per càrrega",
+        "unit_of_measurement": "%"
       },
       "generator_gen_id_stop_on_soc_timer": {
         "name": "Temporitzador d'aturada del generador per càrrega",
@@ -199,10 +203,12 @@
         "unit_of_measurement": "s"
       },
       "multiplus_assist_current_boost_factor": {
-        "name": "Factor d'augment de corrent d'assistència"
+        "name": "Factor d'augment de corrent d'assistència",
+        "unit_of_measurement": "factor"
       },
       "switch_output_dimming": {
-        "name": "Regulació de la sortida {output}"
+        "name": "Regulació de la sortida {output}",
+        "unit_of_measurement": "%"
       },
       "system_ac_export_limit": {
         "name": "Límit d'exportació AC",
@@ -241,7 +247,8 @@
         "unit_of_measurement": "°C"
       },
       "temperature_scale": {
-        "name": "Factor d'escala de temperatura"
+        "name": "Factor d'escala de temperatura",
+        "unit_of_measurement": "factor"
       },
       "transfer_switch_generator_current_limit": {
         "name": "Límit de corrent AC del generador",
@@ -300,7 +307,7 @@
       },
       "battery_automatic_syncs": {
         "name": "Sincronització automàtica",
-        "unit_of_measurement": "count"
+        "unit_of_measurement": "syncs"
       },
       "battery_capacity": {
         "name": "Capacitat de bateria",
@@ -390,16 +397,20 @@
         "name": "ID de la cel·la de la bateria amb voltatge mínim"
       },
       "battery_nr_modules_blocking_charge": {
-        "name": "Nombre de mòduls de bateria bloquejant la càrrega"
+        "name": "Nombre de mòduls de bateria bloquejant la càrrega",
+        "unit_of_measurement": "modules"
       },
       "battery_nr_modules_blocking_discharge": {
-        "name": "Nombre de mòduls de bateria bloquejant la descàrrega"
+        "name": "Nombre de mòduls de bateria bloquejant la descàrrega",
+        "unit_of_measurement": "modules"
       },
       "battery_nr_modules_offline": {
-        "name": "Nombre de mòduls de bateria fora de línia"
+        "name": "Nombre de mòduls de bateria fora de línia",
+        "unit_of_measurement": "modules"
       },
       "battery_nr_modules_online": {
-        "name": "Nombre de mòduls de bateria en línia"
+        "name": "Nombre de mòduls de bateria en línia",
+        "unit_of_measurement": "modules"
       },
       "battery_power": {
         "name": "Potència de Bateria",
@@ -488,14 +499,16 @@
         "unit_of_measurement": "s"
       },
       "generator_gen_id_qh_start_on_soc": {
-        "name": "Inici del generador en càrrega d'hores tranquil·les"
+        "name": "Inici del generador en càrrega d'hores tranquil·les",
+        "unit_of_measurement": "%"
       },
       "generator_gen_id_qh_start_on_voltage": {
         "name": "Inici del generador en voltatge d'hores tranquil·les",
         "unit_of_measurement": "V"
       },
       "generator_gen_id_qh_stop_on_soc": {
-        "name": "Aturada del generador en càrrega d'hores tranquil·les"
+        "name": "Aturada del generador en càrrega d'hores tranquil·les",
+        "unit_of_measurement": "%"
       },
       "generator_gen_id_qh_stop_on_voltage": {
         "name": "Aturada del generador en voltatge d'hores tranquil·les",
@@ -510,7 +523,8 @@
         "unit_of_measurement": "s"
       },
       "generator_gen_id_start_on_soc": {
-        "name": "Inici del generador per càrrega"
+        "name": "Inici del generador per càrrega",
+        "unit_of_measurement": "%"
       },
       "generator_gen_id_start_on_soc_timer": {
         "name": "Temporitzador d'inici del generador per càrrega",
@@ -529,7 +543,8 @@
         "unit_of_measurement": "s"
       },
       "generator_gen_id_stop_on_soc": {
-        "name": "Aturada del generador per càrrega"
+        "name": "Aturada del generador per càrrega",
+        "unit_of_measurement": "%"
       },
       "generator_gen_id_stop_on_soc_timer": {
         "name": "Temporitzador d'aturada del generador per càrrega",
@@ -567,19 +582,24 @@
         "unit_of_measurement": "h"
       },
       "gps_altitude": {
-        "name": "Altitud GPS"
+        "name": "Altitud GPS",
+        "unit_of_measurement": "m"
       },
       "gps_course": {
-        "name": "Curs GPS"
+        "name": "Curs GPS",
+        "unit_of_measurement": "°"
       },
       "gps_latitude": {
-        "name": "Latitud GPS"
+        "name": "Latitud GPS",
+        "unit_of_measurement": "lat"
       },
       "gps_longitude": {
-        "name": "Longitud GPS"
+        "name": "Longitud GPS",
+        "unit_of_measurement": "long"
       },
       "gps_nrofsatellites": {
-        "name": "Nombre de satèl·lits GPS"
+        "name": "Nombre de satèl·lits GPS",
+        "unit_of_measurement": "satellites"
       },
       "gps_speed": {
         "name": "Velocitat GPS",
@@ -664,7 +684,8 @@
         "name": "Estat de l'inversor"
       },
       "multiplus_assist_current_boost_factor": {
-        "name": "Factor d'augment de corrent d'assistència"
+        "name": "Factor d'augment de corrent d'assistència",
+        "unit_of_measurement": "factor"
       },
       "multirssolar_acin_current_phase": {
         "name": "Corrent {phase}"
@@ -829,7 +850,8 @@
         "name": "Nom personalitzat de la sortida {output}"
       },
       "switch_output_dimming": {
-        "name": "Regulació de la sortida {output}"
+        "name": "Regulació de la sortida {output}",
+        "unit_of_measurement": "%"
       },
       "system_ac_active_input_source": {
         "name": "Font d'entrada AC activa"
@@ -855,10 +877,12 @@
         "unit_of_measurement": "A"
       },
       "system_consumption_on_output_phases": {
-        "name": "Consum en fases de sortida"
+        "name": "Consum en fases de sortida",
+        "unit_of_measurement": "phases"
       },
       "system_consumption_phases": {
-        "name": "Fases de consum"
+        "name": "Fases de consum",
+        "unit_of_measurement": "phases"
       },
       "system_consumption_power_phase": {
         "name": "Potència de consum {phase}",
@@ -916,7 +940,8 @@
         "name": "Restriccions ESS dinàmiques"
       },
       "system_dynamicess_schedule_count": {
-        "name": "Nombre de programacions ESS dinàmiques"
+        "name": "Nombre de programacions ESS dinàmiques",
+        "unit_of_measurement": "count"
       },
       "system_dynamicess_strategy": {
         "name": "Estratègia ESS dinàmica"
@@ -960,7 +985,8 @@
         "unit_of_measurement": "A"
       },
       "system_grid_phases": {
-        "name": "Fases de xarxa"
+        "name": "Fases de xarxa",
+        "unit_of_measurement": "phases"
       },
       "system_grid_power_phase": {
         "name": "Potència de xarxa {phase}",
@@ -971,7 +997,8 @@
         "unit_of_measurement": "A"
       },
       "system_pv_on_output_phases": {
-        "name": "PV en fases de sortida"
+        "name": "PV en fases de sortida",
+        "unit_of_measurement": "phases"
       },
       "system_pv_on_output_power_phase": {
         "name": "Potència de PV en sortida {phase}",
@@ -1012,7 +1039,8 @@
         "unit_of_measurement": "°C"
       },
       "temperature_scale": {
-        "name": "Factor d'escala de temperatura"
+        "name": "Factor d'escala de temperatura",
+        "unit_of_measurement": "factor"
       },
       "temperature_status": {
         "name": "Estat del sensor de temperatura"
