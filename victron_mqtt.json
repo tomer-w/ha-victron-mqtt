@@ -4783,6 +4783,28 @@
       "is_formula": false
     },
     {
+      "topic": "N/{installation_id}/settings/{device_id}/Settings/CGwacs/MaxChargePower",
+      "message_type": "MetricKind.NUMBER",
+      "short_id": "system_ess_max_charge_power",
+      "name": "ESS max charge power limit",
+      "unit_of_measurement": "W",
+      "metric_type": "MetricType.POWER",
+      "metric_nature": "MetricNature.INSTANTANEOUS",
+      "value_type": "ValueType.INT",
+      "precision": null,
+      "enum": null,
+      "min_max_range": "RangeType.DYNAMIC",
+      "min": -1,
+      "max": 1000000,
+      "step": null,
+      "is_adjustable_suffix": null,
+      "key_values": {},
+      "experimental": false,
+      "depends_on": [],
+      "generic_name": "ESS max charge power limit",
+      "is_formula": false
+    },
+    {
       "topic": "N/{installation_id}/settings/{device_id}/Settings/CGwacs/MaxDischargePower",
       "message_type": "MetricKind.NUMBER",
       "short_id": "system_ess_max_inverter_power_limit",
