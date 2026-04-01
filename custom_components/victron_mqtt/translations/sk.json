@@ -1051,7 +1051,7 @@
       },
       "evcharger_session_cost": {
         "name": "Cena poslednej relácie",
-        "unit_of_measurement": "€"
+        "unit_of_measurement": "$"
       },
       "evcharger_session_energy": {
         "name": "Energia poslednej relácie"

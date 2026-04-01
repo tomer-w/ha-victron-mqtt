@@ -332,9 +332,6 @@
       "alternator_charge_current_limit": {
         "name": "Charge current limit"
       },
-      "dcdc_charge_current_limit": {
-        "name": "Charge current limit"
-      },
       "evcharger_set_current": {
         "name": "Set current"
       },
@@ -901,9 +898,6 @@
           "sustain": "Sustain",
           "sustain_alt": "Sustain Alt"
         }
-      },
-      "dcdc_charge_current_limit": {
-        "name": "Charge current limit"
       },
       "dcdc_dc_current": {
         "name": "DC output current"
