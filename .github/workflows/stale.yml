@@ -1,0 +1,25 @@
+name: Close stale issues
+
+on:
+  schedule:
+    - cron: "0 0 * * *"
+  workflow_dispatch:
+
+permissions:
+  issues: write
+
+jobs:
+  stale:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/stale@v9
+        with:
+          stale-issue-label: needs-more-info
+          days-before-stale: -1
+          days-before-close: 7
+          close-issue-message: >
+            This issue has been automatically closed because it was labeled
+            `needs-more-info` and no additional information was provided within
+            7 days. Please open a new issue and include all requested details.
+          days-before-pr-stale: -1
+          days-before-pr-close: -1
