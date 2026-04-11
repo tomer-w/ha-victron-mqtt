@@ -831,11 +831,14 @@
       "charge_mode": {
         "name": "Charge mode"
       },
-      "charger_dc_current": {
-        "name": "DC output current"
+      "charger_ac_in_current_phase": {
+        "name": "AC input current {phase}"
       },
-      "charger_dc_voltage": {
-        "name": "DC output voltage"
+      "charger_dc_current_output": {
+        "name": "DC output {output} current"
+      },
+      "charger_dc_voltage_output": {
+        "name": "DC output {output} voltage"
       },
       "charger_error_code": {
         "name": "Error code",
