@@ -28,7 +28,8 @@
       "generic_name": "Load current",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/acload/{device_id}/Ac/Energy/Forward",
@@ -52,7 +53,8 @@
       "generic_name": "Consumption",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/acload/{device_id}/Ac/Frequency",
@@ -76,7 +78,8 @@
       "generic_name": "Frequency",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/acload/{device_id}/Ac/Power",
@@ -100,7 +103,8 @@
       "generic_name": "Power",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/acload/{device_id}/Ac/Voltage",
@@ -124,7 +128,8 @@
       "generic_name": "Voltage",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/acload/{device_id}/Ac/{phase}/Current",
@@ -148,7 +153,8 @@
       "generic_name": "Current on {phase}",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/acload/{device_id}/Ac/{phase}/Energy/Forward",
@@ -172,7 +178,8 @@
       "generic_name": "Consumption on {phase}",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/acload/{device_id}/Ac/{phase}/Power",
@@ -196,7 +203,8 @@
       "generic_name": "Power on {phase}",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/acload/{device_id}/Ac/{phase}/Voltage",
@@ -220,7 +228,8 @@
       "generic_name": "Voltage on {phase}",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/acsystem/{device_id}/Mode",
@@ -244,7 +253,8 @@
       "generic_name": "Mode",
       "is_formula": false,
       "main_topic": true,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/alternator/{device_id}/Dc/0/Current",
@@ -268,7 +278,8 @@
       "generic_name": "DC output current",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/alternator/{device_id}/Dc/0/Power",
@@ -292,7 +303,8 @@
       "generic_name": "DC output power",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/alternator/{device_id}/Dc/0/Voltage",
@@ -316,7 +328,8 @@
       "generic_name": "DC output voltage",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/alternator/{device_id}/Dc/In/I",
@@ -340,7 +353,8 @@
       "generic_name": "Input current",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/alternator/{device_id}/Dc/In/P",
@@ -364,7 +378,8 @@
       "generic_name": "Input power",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/alternator/{device_id}/Dc/In/V",
@@ -388,7 +403,8 @@
       "generic_name": "Input voltage",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/alternator/{device_id}/Mode",
@@ -412,7 +428,8 @@
       "generic_name": "Mode",
       "is_formula": false,
       "main_topic": true,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/alternator/{device_id}/Settings/ChargeCurrentLimit",
@@ -436,7 +453,8 @@
       "generic_name": "Charge current limit",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/alternator/{device_id}/State",
@@ -460,7 +478,8 @@
       "generic_name": "State",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/battery/{device_id}/Alarms/CellImbalance",
@@ -484,7 +503,8 @@
       "generic_name": "Cell imbalance",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/battery/{device_id}/Alarms/HighChargeCurrent",
@@ -508,7 +528,8 @@
       "generic_name": "High charge current",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/battery/{device_id}/Alarms/HighChargeTemperature",
@@ -532,7 +553,8 @@
       "generic_name": "High charge temperature",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/battery/{device_id}/Alarms/HighDischargeCurrent",
@@ -556,7 +578,8 @@
       "generic_name": "High discharge current",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/battery/{device_id}/Alarms/InternalFailure",
@@ -580,7 +603,8 @@
       "generic_name": "Internal failure",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/battery/{device_id}/Alarms/LowCellVoltage",
@@ -604,7 +628,8 @@
       "generic_name": "Low cell voltage",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/battery/{device_id}/Alarms/LowChargeTemperature",
@@ -628,7 +653,8 @@
       "generic_name": "Low charge temperature",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/battery/{device_id}/Capacity",
@@ -652,7 +678,8 @@
       "generic_name": "Capacity",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/battery/{device_id}/ConsumedAmphours",
@@ -676,7 +703,8 @@
       "generic_name": "Consumed amp-hours",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/battery/{device_id}/Dc/0/Current",
@@ -700,7 +728,8 @@
       "generic_name": "DC bus current",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/battery/{device_id}/Dc/0/MidVoltage",
@@ -724,7 +753,8 @@
       "generic_name": "DC bus mid voltage",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/battery/{device_id}/Dc/0/MidVoltageDeviation",
@@ -748,7 +778,8 @@
       "generic_name": "DC bus mid voltage deviation",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/battery/{device_id}/Dc/0/Power",
@@ -772,7 +803,8 @@
       "generic_name": "Power",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/battery/{device_id}/Dc/0/Temperature",
@@ -796,7 +828,8 @@
       "generic_name": "Temperature",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/battery/{device_id}/Dc/0/Voltage",
@@ -820,7 +853,8 @@
       "generic_name": "DC bus voltage",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/battery/{device_id}/Dc/1/Voltage",
@@ -844,7 +878,8 @@
       "generic_name": "Auxiliary battery voltage",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/battery/{device_id}/History/AutomaticSyncs",
@@ -868,7 +903,8 @@
       "generic_name": "Automatic syncs",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/battery/{device_id}/History/AverageDischarge",
@@ -892,7 +928,8 @@
       "generic_name": "Average discharge",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/battery/{device_id}/History/ChargeCycles",
@@ -916,7 +953,8 @@
       "generic_name": "Total charge cycles",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/battery/{device_id}/History/ChargedEnergy",
@@ -940,7 +978,8 @@
       "generic_name": "Charged energy",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/battery/{device_id}/History/DeepestDischarge",
@@ -964,7 +1003,8 @@
       "generic_name": "Deepest discharge",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/battery/{device_id}/History/DischargedEnergy",
@@ -988,7 +1028,8 @@
       "generic_name": "Discharged energy",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/battery/{device_id}/History/LastDischarge",
@@ -1012,7 +1053,8 @@
       "generic_name": "Last discharge",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/battery/{device_id}/History/MaximumVoltage",
@@ -1036,7 +1078,8 @@
       "generic_name": "Maximum voltage",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/battery/{device_id}/History/MinimumVoltage",
@@ -1060,7 +1103,8 @@
       "generic_name": "Minimum voltage",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/battery/{device_id}/History/TimeSinceLastFullCharge",
@@ -1084,7 +1128,8 @@
       "generic_name": "Time since last full charge",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/battery/{device_id}/History/TotalAhDrawn",
@@ -1108,7 +1153,8 @@
       "generic_name": "Cumulative Ah drawn",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/battery/{device_id}/Info/ChargeMode",
@@ -1132,7 +1178,8 @@
       "generic_name": "Charge mode",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/battery/{device_id}/Info/MaxChargeCurrent",
@@ -1156,7 +1203,8 @@
       "generic_name": "Maximum allowed charge current",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/battery/{device_id}/Info/MaxChargeVoltage",
@@ -1180,7 +1228,8 @@
       "generic_name": "Maximum allowed charging voltage",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/battery/{device_id}/Info/MaxDischargeCurrent",
@@ -1204,7 +1253,8 @@
       "generic_name": "Maximum allowed discharge current",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/battery/{device_id}/InstalledCapacity",
@@ -1228,7 +1278,8 @@
       "generic_name": "Installed capacity",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/battery/{device_id}/Soc",
@@ -1252,7 +1303,8 @@
       "generic_name": "Charge",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/battery/{device_id}/Soh",
@@ -1276,7 +1328,8 @@
       "generic_name": "State of health",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/battery/{device_id}/System/MaxCellTemperature",
@@ -1300,7 +1353,8 @@
       "generic_name": "Maximum cell temperature",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/battery/{device_id}/System/MaxCellVoltage",
@@ -1324,7 +1378,8 @@
       "generic_name": "Maximum cell voltage",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/battery/{device_id}/System/MaxTemperatureCellId",
@@ -1348,7 +1403,8 @@
       "generic_name": "Maximum temperature cell ID",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/battery/{device_id}/System/MaxVoltageCellId",
@@ -1372,7 +1428,8 @@
       "generic_name": "Maximum voltage cell ID",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/battery/{device_id}/System/MinCellTemperature",
@@ -1396,7 +1453,8 @@
       "generic_name": "Minimum cell temperature",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/battery/{device_id}/System/MinCellVoltage",
@@ -1420,7 +1478,8 @@
       "generic_name": "Minimum cell voltage",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/battery/{device_id}/System/MinTemperatureCellId",
@@ -1444,7 +1503,8 @@
       "generic_name": "Minimum temperature cell ID",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/battery/{device_id}/System/MinVoltageCellId",
@@ -1468,7 +1528,8 @@
       "generic_name": "Minimum voltage cell ID",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/battery/{device_id}/System/NrOfModulesBlockingCharge",
@@ -1492,7 +1553,8 @@
       "generic_name": "Number of modules blocking charge",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/battery/{device_id}/System/NrOfModulesBlockingDischarge",
@@ -1516,7 +1578,8 @@
       "generic_name": "Number of modules blocking discharge",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/battery/{device_id}/System/NrOfModulesOffline",
@@ -1540,7 +1603,8 @@
       "generic_name": "Number of modules offline",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/battery/{device_id}/System/NrOfModulesOnline",
@@ -1564,7 +1628,8 @@
       "generic_name": "Number of modules online",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/battery/{device_id}/TimeToGo",
@@ -1588,7 +1653,8 @@
       "generic_name": "Time to go",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/battery/{device_id}/Voltages/Cell{cell_id(1-16)}",
@@ -1612,7 +1678,8 @@
       "generic_name": "Cell {cell_id} voltage",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/battery/{device_id}/Voltages/Diff",
@@ -1636,7 +1703,8 @@
       "generic_name": "Cell voltage deviation",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/charger/{device_id}/Ac/In/{phase}/I",
@@ -1660,7 +1728,8 @@
       "generic_name": "AC input current {phase}",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/charger/{device_id}/Dc/{output}/Current",
@@ -1684,7 +1753,8 @@
       "generic_name": "DC output {output} current",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/charger/{device_id}/Dc/{output}/Voltage",
@@ -1708,7 +1778,8 @@
       "generic_name": "DC output {output} voltage",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/charger/{device_id}/ErrorCode",
@@ -1732,7 +1803,8 @@
       "generic_name": "Error code",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/charger/{device_id}/NrOfOutputs",
@@ -1756,7 +1828,8 @@
       "generic_name": "Number of outputs",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/charger/{device_id}/State",
@@ -1780,7 +1853,8 @@
       "generic_name": "State",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/dcdc/{device_id}/Dc/0/Current",
@@ -1804,7 +1878,8 @@
       "generic_name": "DC output current",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/dcdc/{device_id}/Dc/0/Power",
@@ -1828,7 +1903,8 @@
       "generic_name": "DC output power",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/dcdc/{device_id}/Dc/0/Voltage",
@@ -1852,7 +1928,8 @@
       "generic_name": "DC output voltage",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/dcdc/{device_id}/Dc/In/I",
@@ -1876,7 +1953,8 @@
       "generic_name": "Input current",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/dcdc/{device_id}/Dc/In/P",
@@ -1900,7 +1978,8 @@
       "generic_name": "Input power",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/dcdc/{device_id}/Dc/In/V",
@@ -1924,7 +2003,8 @@
       "generic_name": "Input voltage",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/dcdc/{device_id}/Mode",
@@ -1948,7 +2028,8 @@
       "generic_name": "Mode",
       "is_formula": false,
       "main_topic": true,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/dcdc/{device_id}/State",
@@ -1972,7 +2053,8 @@
       "generic_name": "State",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/dcload/{device_id}/Dc/0/Current",
@@ -1996,7 +2078,8 @@
       "generic_name": "Current",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/dcload/{device_id}/Dc/0/Power",
@@ -2020,7 +2103,8 @@
       "generic_name": "Power",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/dcload/{device_id}/Dc/0/Voltage",
@@ -2044,7 +2128,8 @@
       "generic_name": "Voltage",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/dcsystem/{device_id}/Dc/0/Current",
@@ -2068,7 +2153,8 @@
       "generic_name": "Current",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/dcsystem/{device_id}/Dc/0/Power",
@@ -2092,7 +2178,8 @@
       "generic_name": "Power",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/dcsystem/{device_id}/Dc/0/Voltage",
@@ -2116,7 +2203,8 @@
       "generic_name": "Voltage",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/dcsystem/{device_id}/Dc/1/Voltage",
@@ -2140,7 +2228,8 @@
       "generic_name": "Auxiliary voltage",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/digitalinput/{device_id}/Alarm",
@@ -2164,7 +2253,8 @@
       "generic_name": "Alarm",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/digitalinput/{device_id}/InputState",
@@ -2188,7 +2278,8 @@
       "generic_name": "Raw state",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/digitalinput/{device_id}/Settings/InvertTranslation",
@@ -2212,7 +2303,8 @@
       "generic_name": "Invert digital input",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/digitalinput/{device_id}/State",
@@ -2236,7 +2328,8 @@
       "generic_name": "State",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/digitalinput/{device_id}/Type",
@@ -2260,7 +2353,8 @@
       "generic_name": "Type",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/evcharger/{device_id}/Ac/Energy/Forward",
@@ -2284,7 +2378,8 @@
       "generic_name": "Total energy",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/evcharger/{device_id}/Ac/Power",
@@ -2308,7 +2403,8 @@
       "generic_name": "Power",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/evcharger/{device_id}/Ac/{phase}/Power",
@@ -2332,7 +2428,8 @@
       "generic_name": "Power {phase}",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/evcharger/{device_id}/Connected",
@@ -2356,7 +2453,8 @@
       "generic_name": "Connected",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/evcharger/{device_id}/Current",
@@ -2380,7 +2478,8 @@
       "generic_name": "Current",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/evcharger/{device_id}/MaxCurrent",
@@ -2404,7 +2503,8 @@
       "generic_name": "Maximum set current",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/evcharger/{device_id}/MinCurrent",
@@ -2428,7 +2528,8 @@
       "generic_name": "Minimum set current",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/evcharger/{device_id}/Mode",
@@ -2452,7 +2553,8 @@
       "generic_name": "Mode",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/evcharger/{device_id}/Position",
@@ -2476,7 +2578,8 @@
       "generic_name": "Position",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/evcharger/{device_id}/Session/Cost",
@@ -2500,7 +2603,8 @@
       "generic_name": "Last session cost",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/evcharger/{device_id}/Session/Energy",
@@ -2524,7 +2628,8 @@
       "generic_name": "Last session energy",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/evcharger/{device_id}/Session/Time",
@@ -2548,7 +2653,8 @@
       "generic_name": "Last session time",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/evcharger/{device_id}/SetCurrent",
@@ -2572,7 +2678,8 @@
       "generic_name": "Charge current setpoint",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/evcharger/{device_id}/StartStop",
@@ -2596,7 +2703,8 @@
       "generic_name": "EV charging",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/evcharger/{device_id}/Status",
@@ -2620,7 +2728,8 @@
       "generic_name": "Status",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/generator/{device_id}/AccumulatedRuntime",
@@ -2644,7 +2753,8 @@
       "generic_name": "Total runtime",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/generator/{device_id}/AutoStartEnabled",
@@ -2668,7 +2778,8 @@
       "generic_name": "Auto-start enabled",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/generator/{device_id}/ManualStart",
@@ -2692,7 +2803,8 @@
       "generic_name": "Manual start",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/generator/{device_id}/RunningByConditionCode",
@@ -2716,7 +2828,8 @@
       "generic_name": "Run state",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/generator/{device_id}/ServiceCounter",
@@ -2740,7 +2853,8 @@
       "generic_name": "Service counter",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/generator/{device_id}/TodayRuntime",
@@ -2764,7 +2878,8 @@
       "generic_name": "Today runtime",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/gps/{device_id}/Altitude",
@@ -2788,7 +2903,8 @@
       "generic_name": "Altitude",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": true,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/gps/{device_id}/Connected",
@@ -2812,7 +2928,8 @@
       "generic_name": "Connected",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/gps/{device_id}/Course",
@@ -2836,7 +2953,8 @@
       "generic_name": "Course",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": true,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/gps/{device_id}/Fix",
@@ -2860,7 +2978,8 @@
       "generic_name": "Fix",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": true,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/gps/{device_id}/NrOfSatellites",
@@ -2884,7 +3003,8 @@
       "generic_name": "Number of satellites",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/gps/{device_id}/Position/Latitude",
@@ -2908,7 +3028,8 @@
       "generic_name": "Latitude",
       "is_formula": false,
       "main_topic": false,
-      "hidden": true
+      "hidden": true,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/gps/{device_id}/Position/Longitude",
@@ -2932,7 +3053,8 @@
       "generic_name": "Longitude",
       "is_formula": false,
       "main_topic": false,
-      "hidden": true
+      "hidden": true,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/gps/{device_id}/Speed",
@@ -2956,7 +3078,8 @@
       "generic_name": "Speed",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": true,
+      "sub_device_key": null
     },
     {
       "topic": "$$func/gps/gps_location",
@@ -2978,12 +3101,17 @@
       "experimental": false,
       "depends_on": [
         "gps_latitude",
-        "gps_longitude"
+        "gps_longitude",
+        "gps_fix",
+        "gps_altitude",
+        "gps_course",
+        "gps_speed"
       ],
       "generic_name": "Location",
       "is_formula": true,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/grid/{device_id}/Ac/Current",
@@ -3007,7 +3135,8 @@
       "generic_name": "Current",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/grid/{device_id}/Ac/Energy/Forward",
@@ -3031,7 +3160,8 @@
       "generic_name": "Consumption",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/grid/{device_id}/Ac/Energy/Reverse",
@@ -3055,7 +3185,8 @@
       "generic_name": "Feed-in",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/grid/{device_id}/Ac/Frequency",
@@ -3079,7 +3210,8 @@
       "generic_name": "Frequency",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/grid/{device_id}/Ac/N/Current",
@@ -3103,7 +3235,8 @@
       "generic_name": "Current on N",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/grid/{device_id}/Ac/PENVoltage",
@@ -3127,7 +3260,8 @@
       "generic_name": "Voltage on PEN",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/grid/{device_id}/Ac/Power",
@@ -3151,7 +3285,8 @@
       "generic_name": "Power",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/grid/{device_id}/Ac/PowerFactor",
@@ -3175,7 +3310,8 @@
       "generic_name": "Power factor",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/grid/{device_id}/Ac/Voltage",
@@ -3199,7 +3335,8 @@
       "generic_name": "Voltage",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/grid/{device_id}/Ac/{phase}/Current",
@@ -3223,7 +3360,8 @@
       "generic_name": "Current on {phase}",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/grid/{device_id}/Ac/{phase}/Energy/Forward",
@@ -3247,7 +3385,8 @@
       "generic_name": "Grid consumption on {phase}",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/grid/{device_id}/Ac/{phase}/Energy/Reverse",
@@ -3271,7 +3410,8 @@
       "generic_name": "Feed-in on {phase}",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/grid/{device_id}/Ac/{phase}/Power",
@@ -3295,7 +3435,8 @@
       "generic_name": "Power on {phase}",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/grid/{device_id}/Ac/{phase}/PowerFactor",
@@ -3319,7 +3460,8 @@
       "generic_name": "Power factor on {phase}",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/grid/{device_id}/Ac/{phase}/Voltage",
@@ -3343,7 +3485,8 @@
       "generic_name": "Voltage on {phase}",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/grid/{device_id}/Ac/{phase}/VoltageLineToLine",
@@ -3367,7 +3510,8 @@
       "generic_name": "Voltage {phase} to {next_phase}",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/heartbeat",
@@ -3391,7 +3535,8 @@
       "generic_name": "GX system heartbeat",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/heatpump/{device_id}/Ac/Current",
@@ -3415,7 +3560,8 @@
       "generic_name": "Current",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/heatpump/{device_id}/Ac/Energy/Forward",
@@ -3439,7 +3585,8 @@
       "generic_name": "Consumption",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/heatpump/{device_id}/Ac/Frequency",
@@ -3463,7 +3610,8 @@
       "generic_name": "Frequency",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/heatpump/{device_id}/Ac/Power",
@@ -3487,7 +3635,8 @@
       "generic_name": "Power",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/heatpump/{device_id}/Ac/Voltage",
@@ -3511,7 +3660,8 @@
       "generic_name": "Voltage",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/heatpump/{device_id}/Ac/{phase}/Current",
@@ -3535,7 +3685,8 @@
       "generic_name": "Current on {phase}",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/heatpump/{device_id}/Ac/{phase}/Energy/Forward",
@@ -3559,7 +3710,8 @@
       "generic_name": "Consumption on {phase}",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/heatpump/{device_id}/Ac/{phase}/Power",
@@ -3583,7 +3735,8 @@
       "generic_name": "Power on {phase}",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/heatpump/{device_id}/Ac/{phase}/Voltage",
@@ -3607,7 +3760,8 @@
       "generic_name": "Voltage on {phase}",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/hub4/{device_id}/Overrides/Setpoint",
@@ -3631,7 +3785,8 @@
       "generic_name": "AC grid setpoint",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/inverter/{device_id}/Ac/Out/{phase}/I",
@@ -3655,7 +3810,8 @@
       "generic_name": "Output current {phase}",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/inverter/{device_id}/Ac/Out/{phase}/P",
@@ -3679,7 +3835,8 @@
       "generic_name": "Output power {phase}",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/inverter/{device_id}/Ac/Out/{phase}/S",
@@ -3703,7 +3860,8 @@
       "generic_name": "Output apparent power {phase}",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/inverter/{device_id}/Ac/Out/{phase}/V",
@@ -3727,7 +3885,8 @@
       "generic_name": "Output voltage {phase}",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/inverter/{device_id}/Alarms/HighTemperature",
@@ -3751,7 +3910,8 @@
       "generic_name": "High temperature alarm",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/inverter/{device_id}/Alarms/HighVoltage",
@@ -3775,7 +3935,8 @@
       "generic_name": "High voltage alarm",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/inverter/{device_id}/Alarms/HighVoltageAcOut",
@@ -3799,7 +3960,8 @@
       "generic_name": "High voltage AC-out alarm",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/inverter/{device_id}/Alarms/LowTemperature",
@@ -3823,7 +3985,8 @@
       "generic_name": "Low temperature alarm",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/inverter/{device_id}/Alarms/LowVoltage",
@@ -3847,7 +4010,8 @@
       "generic_name": "Low voltage alarm",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/inverter/{device_id}/Alarms/LowVoltageAcOut",
@@ -3871,7 +4035,8 @@
       "generic_name": "Low voltage AC-out alarm",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/inverter/{device_id}/Alarms/Overload",
@@ -3895,7 +4060,8 @@
       "generic_name": "Overload alarm",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/inverter/{device_id}/Alarms/Ripple",
@@ -3919,7 +4085,8 @@
       "generic_name": "Ripple alarm",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/inverter/{device_id}/Mode",
@@ -3943,7 +4110,8 @@
       "generic_name": "Mode",
       "is_formula": false,
       "main_topic": true,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/inverter/{device_id}/Pv/V",
@@ -3967,7 +4135,8 @@
       "generic_name": "PV bus voltage",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/inverter/{device_id}/State",
@@ -3991,7 +4160,8 @@
       "generic_name": "State",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/inverter/{device_id}/Yield/Power",
@@ -4015,7 +4185,8 @@
       "generic_name": "PV power total",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/inverter/{device_id}/Yield/System",
@@ -4039,7 +4210,8 @@
       "generic_name": "Total PV yield system",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/inverter/{device_id}/Yield/User",
@@ -4063,7 +4235,8 @@
       "generic_name": "Total PV yield user",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/multi/{device_id}/Ac/ActiveIn/ActiveInput",
@@ -4087,7 +4260,8 @@
       "generic_name": "Active AC input",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/multi/{device_id}/Ac/In/1/CurrentLimit",
@@ -4111,7 +4285,8 @@
       "generic_name": "Shore current limit",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/multi/{device_id}/Ac/In/1/{phase}/I",
@@ -4135,7 +4310,8 @@
       "generic_name": "Current {phase}",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/multi/{device_id}/Ac/In/1/{phase}/P",
@@ -4159,7 +4335,8 @@
       "generic_name": "Power on {phase}",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/multi/{device_id}/Ac/In/1/{phase}/V",
@@ -4183,14 +4360,15 @@
       "generic_name": "Voltage on {phase}",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/multi/{device_id}/Ac/NumberOfPhases",
       "message_type": "MetricKind.SENSOR",
       "short_id": "multi_phases",
       "name": "Phases",
-      "unit_of_measurement": null,
+      "unit_of_measurement": "phases",
       "metric_type": "MetricType.NONE",
       "metric_nature": "MetricNature.MEASUREMENT",
       "value_type": "ValueType.INT",
@@ -4207,7 +4385,8 @@
       "generic_name": "Phases",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/multi/{device_id}/Ac/Out/{output}/{phase}/I",
@@ -4231,7 +4410,8 @@
       "generic_name": "AC-out-{output} current on {phase}",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/multi/{device_id}/Ac/Out/{output}/{phase}/P",
@@ -4255,7 +4435,8 @@
       "generic_name": "AC-out-{output} power on {phase}",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/multi/{device_id}/Ac/Out/{output}/{phase}/V",
@@ -4279,7 +4460,8 @@
       "generic_name": "AC-out-{output} voltage on {phase}",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/multi/{device_id}/Dc/0/Temperature",
@@ -4303,7 +4485,8 @@
       "generic_name": "DC temperature",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/multi/{device_id}/Energy/AcIn1ToAcOut",
@@ -4327,7 +4510,8 @@
       "generic_name": "AC-in-1 to AC-out",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/multi/{device_id}/Energy/AcIn1ToInverter",
@@ -4351,7 +4535,8 @@
       "generic_name": "AC-in-1 to inverter",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/multi/{device_id}/Energy/AcOutToAcIn1",
@@ -4375,7 +4560,8 @@
       "generic_name": "AC-out to AC-in-1",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/multi/{device_id}/Energy/InverterToAcIn1",
@@ -4399,7 +4585,8 @@
       "generic_name": "Inverter to AC-in-1",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/multi/{device_id}/Energy/InverterToAcOut",
@@ -4423,7 +4610,8 @@
       "generic_name": "Inverter to AC-out",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/multi/{device_id}/Energy/OutToInverter",
@@ -4447,7 +4635,8 @@
       "generic_name": "AC-out to inverter",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/multi/{device_id}/Energy/SolarToAcIn1",
@@ -4471,7 +4660,8 @@
       "generic_name": "Solar to AC-in-1",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/multi/{device_id}/Energy/SolarToAcOut",
@@ -4495,7 +4685,8 @@
       "generic_name": "Solar to AC-out",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/multi/{device_id}/Energy/SolarToBattery",
@@ -4519,7 +4710,8 @@
       "generic_name": "Solar to battery",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/multi/{device_id}/Ess/AcPowerSetpoint",
@@ -4543,7 +4735,8 @@
       "generic_name": "ESS AC power setpoint",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/multi/{device_id}/Ess/DisableCharge",
@@ -4567,7 +4760,8 @@
       "generic_name": "ESS disable charge",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/multi/{device_id}/Ess/DisableFeedIn",
@@ -4591,7 +4785,8 @@
       "generic_name": "ESS disable feed-in",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/multi/{device_id}/Ess/InverterPowerSetpoint",
@@ -4615,7 +4810,8 @@
       "generic_name": "Inverter power setpoint",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/multi/{device_id}/History/Daily/0/MaxPower",
@@ -4639,7 +4835,8 @@
       "generic_name": "Max power today",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/multi/{device_id}/History/Daily/0/Pv/{mppt_id}/Yield",
@@ -4663,7 +4860,8 @@
       "generic_name": "MPPT {mppt_id} yield today",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/multi/{device_id}/History/Daily/0/Yield",
@@ -4687,7 +4885,8 @@
       "generic_name": "Yield today",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/multi/{device_id}/History/Daily/1/MaxPower",
@@ -4711,7 +4910,8 @@
       "generic_name": "Max power yesterday",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/multi/{device_id}/History/Daily/1/Pv/{mppt_id}/Yield",
@@ -4735,7 +4935,8 @@
       "generic_name": "MPPT {mppt_id} yield yesterday",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/multi/{device_id}/History/Daily/1/Yield",
@@ -4759,7 +4960,8 @@
       "generic_name": "Yield yesterday",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/multi/{device_id}/Pv/{mpptnumber}/MppOperationMode",
@@ -4783,7 +4985,8 @@
       "generic_name": "MPPT {mpptnumber} state",
       "is_formula": false,
       "main_topic": true,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/multi/{device_id}/Pv/{mpptnumber}/P",
@@ -4807,7 +5010,8 @@
       "generic_name": "MPPT {mpptnumber} power",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/multi/{device_id}/Pv/{mpptnumber}/V",
@@ -4831,7 +5035,8 @@
       "generic_name": "MPPT {mpptnumber} PV voltage",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/multi/{device_id}/Relay/0/State",
@@ -4855,7 +5060,8 @@
       "generic_name": "Relay on Multi RS state",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/multi/{device_id}/Settings/Ess/MinimumSocLimit",
@@ -4879,7 +5085,8 @@
       "generic_name": "ESS minimum SoC limit",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/multi/{device_id}/Settings/Ess/Mode",
@@ -4903,7 +5110,8 @@
       "generic_name": "ESS mode",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/multi/{device_id}/State",
@@ -4927,7 +5135,8 @@
       "generic_name": "State",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/multi/{device_id}/Yield/Power",
@@ -4951,7 +5160,8 @@
       "generic_name": "PV power total",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/multi/{device_id}/Yield/User",
@@ -4975,7 +5185,8 @@
       "generic_name": "Total PV yield user",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/platform/{device_id}/Device/Reboot",
@@ -4999,7 +5210,8 @@
       "generic_name": "Device reboot",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/platform/{device_id}/Firmware/Installed/Version",
@@ -5023,7 +5235,8 @@
       "generic_name": "Installed version",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/platform/{device_id}/Firmware/Online/AvailableVersion",
@@ -5047,7 +5260,8 @@
       "generic_name": "Available version",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/pvinverter/{device_id}/Ac/Energy/Forward",
@@ -5071,7 +5285,8 @@
       "generic_name": "Total yield",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/pvinverter/{device_id}/Ac/Power",
@@ -5095,7 +5310,8 @@
       "generic_name": "Power total",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/pvinverter/{device_id}/Ac/{phase}/Current",
@@ -5119,7 +5335,8 @@
       "generic_name": "Current {phase}",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/pvinverter/{device_id}/Ac/{phase}/Energy/Forward",
@@ -5143,7 +5360,8 @@
       "generic_name": "Yield {phase}",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/pvinverter/{device_id}/Ac/{phase}/Power",
@@ -5167,7 +5385,8 @@
       "generic_name": "Power {phase}",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/pvinverter/{device_id}/Ac/{phase}/Voltage",
@@ -5191,7 +5410,8 @@
       "generic_name": "Voltage {phase}",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/settings/{device_id}/Settings/CGwacs/AcExportLimit",
@@ -5215,7 +5435,8 @@
       "generic_name": "AC export limit",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/settings/{device_id}/Settings/CGwacs/AcInputLimit",
@@ -5239,7 +5460,8 @@
       "generic_name": "AC input limit",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/settings/{device_id}/Settings/CGwacs/AcPowerSetPoint",
@@ -5263,7 +5485,8 @@
       "generic_name": "AC power setpoint",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/settings/{device_id}/Settings/CGwacs/BatteryLife/MinimumSocLimit",
@@ -5287,7 +5510,8 @@
       "generic_name": "ESS min SoC limit",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/settings/{device_id}/Settings/CGwacs/BatteryLife/Schedule/Charge/{slot}/Day",
@@ -5311,7 +5535,8 @@
       "generic_name": "ESS BatteryLife schedule charge {slot} days",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "$$func/system/schedule_charge_enabled:schedule_charge_enabled_set",
@@ -5337,7 +5562,8 @@
       "generic_name": "ESS BatteryLife schedule charge {slot} enabled",
       "is_formula": true,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/settings/{device_id}/Settings/CGwacs/BatteryLife/Schedule/Charge/{slot}/Duration",
@@ -5361,7 +5587,8 @@
       "generic_name": "ESS BatteryLife schedule charge {slot} duration",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/settings/{device_id}/Settings/CGwacs/BatteryLife/Schedule/Charge/{slot}/Soc",
@@ -5385,7 +5612,8 @@
       "generic_name": "ESS BatteryLife schedule charge {slot} SoC",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/settings/{device_id}/Settings/CGwacs/BatteryLife/Schedule/Charge/{slot}/Start",
@@ -5409,7 +5637,8 @@
       "generic_name": "ESS BatteryLife schedule charge {slot} start",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/settings/{device_id}/Settings/CGwacs/BatteryLife/State",
@@ -5433,7 +5662,8 @@
       "generic_name": "ESS BatteryLife state",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/settings/{device_id}/Settings/CGwacs/BatteryUse",
@@ -5457,7 +5687,8 @@
       "generic_name": "ESS only critical loads from battery",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/settings/{device_id}/Settings/CGwacs/Hub4Mode",
@@ -5481,7 +5712,8 @@
       "generic_name": "ESS mode (Hub4)",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/settings/{device_id}/Settings/CGwacs/MaxChargePower",
@@ -5505,7 +5737,8 @@
       "generic_name": "ESS max charge power limit",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/settings/{device_id}/Settings/CGwacs/MaxDischargePower",
@@ -5529,7 +5762,8 @@
       "generic_name": "ESS max inverter power limit",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/settings/{device_id}/Settings/CGwacs/MaxFeedInPower",
@@ -5553,7 +5787,8 @@
       "generic_name": "ESS max feed-in power",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/settings/{device_id}/Settings/CGwacs/OvervoltageFeedIn",
@@ -5577,7 +5812,8 @@
       "generic_name": "PV DC overvoltage feed-in",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/settings/{device_id}/Settings/DynamicEss/Mode",
@@ -5601,7 +5837,8 @@
       "generic_name": "DESS mode",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/settings/{device_id}/Settings/Generator{gen_id(0-1)}/BatteryVoltage/Enabled",
@@ -5627,7 +5864,8 @@
       "generic_name": "Generator start on voltage enabled",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/settings/{device_id}/Settings/Generator{gen_id(0-1)}/BatteryVoltage/QuietHoursStartValue",
@@ -5653,7 +5891,8 @@
       "generic_name": "Generator QH start on voltage",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/settings/{device_id}/Settings/Generator{gen_id(0-1)}/BatteryVoltage/QuietHoursStopValue",
@@ -5679,7 +5918,8 @@
       "generic_name": "Generator QH stop on voltage",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/settings/{device_id}/Settings/Generator{gen_id(0-1)}/BatteryVoltage/StartTimer",
@@ -5705,7 +5945,8 @@
       "generic_name": "Generator start on voltage timer",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/settings/{device_id}/Settings/Generator{gen_id(0-1)}/BatteryVoltage/StartValue",
@@ -5731,7 +5972,8 @@
       "generic_name": "Generator start on voltage",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/settings/{device_id}/Settings/Generator{gen_id(0-1)}/BatteryVoltage/StopTimer",
@@ -5757,7 +5999,8 @@
       "generic_name": "Generator stop on voltage timer",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/settings/{device_id}/Settings/Generator{gen_id(0-1)}/BatteryVoltage/StopValue",
@@ -5783,7 +6026,8 @@
       "generic_name": "Generator stop on voltage",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/settings/{device_id}/Settings/Generator{gen_id(0-1)}/CoolDownTime",
@@ -5809,7 +6053,8 @@
       "generic_name": "Generator cooldown timer",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/settings/{device_id}/Settings/Generator{gen_id(0-1)}/GeneratorStopTime",
@@ -5835,7 +6080,8 @@
       "generic_name": "Generator shutdown timer",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/settings/{device_id}/Settings/Generator{gen_id(0-1)}/InverterHighTemp/Enabled",
@@ -5861,7 +6107,8 @@
       "generic_name": "Generator start on high temp enabled",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/settings/{device_id}/Settings/Generator{gen_id(0-1)}/InverterHighTemp/StartTimer",
@@ -5887,7 +6134,8 @@
       "generic_name": "Generator start on temp timer",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/settings/{device_id}/Settings/Generator{gen_id(0-1)}/InverterHighTemp/StopTimer",
@@ -5913,7 +6161,8 @@
       "generic_name": "Generator stop on temp timer",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/settings/{device_id}/Settings/Generator{gen_id(0-1)}/QuietHours/Enabled",
@@ -5939,7 +6188,8 @@
       "generic_name": "Generator quiet hours enabled",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/settings/{device_id}/Settings/Generator{gen_id(0-1)}/ServiceInterval",
@@ -5965,7 +6215,8 @@
       "generic_name": "Generator service interval",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/settings/{device_id}/Settings/Generator{gen_id(0-1)}/Soc/Enabled",
@@ -5991,7 +6242,8 @@
       "generic_name": "Generator start on SoC enabled",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/settings/{device_id}/Settings/Generator{gen_id(0-1)}/Soc/QuietHoursStartValue",
@@ -6017,7 +6269,8 @@
       "generic_name": "Generator QH start on SoC",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/settings/{device_id}/Settings/Generator{gen_id(0-1)}/Soc/QuietHoursStopValue",
@@ -6043,7 +6296,8 @@
       "generic_name": "Generator QH stop on SoC",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/settings/{device_id}/Settings/Generator{gen_id(0-1)}/Soc/StartTimer",
@@ -6069,7 +6323,8 @@
       "generic_name": "Generator start on SoC timer",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/settings/{device_id}/Settings/Generator{gen_id(0-1)}/Soc/StartValue",
@@ -6095,7 +6350,8 @@
       "generic_name": "Generator start on SoC",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/settings/{device_id}/Settings/Generator{gen_id(0-1)}/Soc/StopTimer",
@@ -6121,7 +6377,8 @@
       "generic_name": "Generator stop on SoC timer",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/settings/{device_id}/Settings/Generator{gen_id(0-1)}/Soc/StopValue",
@@ -6147,7 +6404,8 @@
       "generic_name": "Generator stop on SoC",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/settings/{device_id}/Settings/Generator{gen_id(0-1)}/WarmUpTime",
@@ -6173,7 +6431,8 @@
       "generic_name": "Generator warm-up timer",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/settings/{device_id}/Settings/Relay/{relay}/CustomName",
@@ -6197,7 +6456,8 @@
       "generic_name": "Relay {relay} custom name",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/settings/{device_id}/Settings/SystemSetup/MaxChargeCurrent",
@@ -6221,7 +6481,8 @@
       "generic_name": "ESS max charge current",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/settings/{device_id}/Settings/SystemSetup/MaxChargeVoltage",
@@ -6245,7 +6506,8 @@
       "generic_name": "ESS max charge voltage",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/settings/{device_id}/Settings/TransferSwitch/GeneratorCurrentLimit",
@@ -6269,7 +6531,8 @@
       "generic_name": "Generator AC current limit",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/solarcharger/{device_id}/Dc/0/Current",
@@ -6293,7 +6556,8 @@
       "generic_name": "DC (battery) bus current",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/solarcharger/{device_id}/Dc/0/Voltage",
@@ -6317,7 +6581,8 @@
       "generic_name": "DC (battery) bus voltage",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/solarcharger/{device_id}/DeviceOffReason",
@@ -6341,7 +6606,8 @@
       "generic_name": "Device-off reason",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/solarcharger/{device_id}/ErrorCode",
@@ -6365,7 +6631,8 @@
       "generic_name": "Error code",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/solarcharger/{device_id}/History/Daily/0/MaxBatteryVoltage",
@@ -6389,7 +6656,8 @@
       "generic_name": "Max battery voltage today",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/solarcharger/{device_id}/History/Daily/0/MaxPower",
@@ -6413,7 +6681,8 @@
       "generic_name": "Max power today",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/solarcharger/{device_id}/History/Daily/0/MinBatteryVoltage",
@@ -6437,7 +6706,8 @@
       "generic_name": "Min battery voltage today",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/solarcharger/{device_id}/History/Daily/0/Pv/{tracker}/MaxPower",
@@ -6461,7 +6731,8 @@
       "generic_name": "Tracker {tracker} max power today",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/solarcharger/{device_id}/History/Daily/0/Pv/{tracker}/MaxVoltage",
@@ -6485,7 +6756,8 @@
       "generic_name": "Tracker {tracker} max voltage today",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/solarcharger/{device_id}/History/Daily/0/Pv/{tracker}/Yield",
@@ -6509,7 +6781,8 @@
       "generic_name": "Tracker {tracker} yield today",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/solarcharger/{device_id}/History/Daily/0/TimeInAbsorption",
@@ -6533,7 +6806,8 @@
       "generic_name": "Time in absorption today",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/solarcharger/{device_id}/History/Daily/0/TimeInBulk",
@@ -6557,7 +6831,8 @@
       "generic_name": "Time in bulk today",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/solarcharger/{device_id}/History/Daily/0/TimeInFloat",
@@ -6581,7 +6856,8 @@
       "generic_name": "Time in float today",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/solarcharger/{device_id}/History/Daily/0/Yield",
@@ -6605,7 +6881,8 @@
       "generic_name": "Yield today",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/solarcharger/{device_id}/History/Daily/1/MaxPower",
@@ -6629,7 +6906,8 @@
       "generic_name": "Max power yesterday",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/solarcharger/{device_id}/History/Daily/1/Yield",
@@ -6653,7 +6931,8 @@
       "generic_name": "Yield yesterday",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/solarcharger/{device_id}/Load/I",
@@ -6677,7 +6956,8 @@
       "generic_name": "Load bus current",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/solarcharger/{device_id}/Load/State",
@@ -6701,7 +6981,8 @@
       "generic_name": "Load state",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/solarcharger/{device_id}/Mode",
@@ -6725,7 +7006,8 @@
       "generic_name": "Mode",
       "is_formula": false,
       "main_topic": true,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/solarcharger/{device_id}/MppOperationMode",
@@ -6749,7 +7031,8 @@
       "generic_name": "MPPT operation mode",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/solarcharger/{device_id}/Pv/V",
@@ -6773,7 +7056,8 @@
       "generic_name": "PV bus voltage",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/solarcharger/{device_id}/Pv/{tracker}/MppOperationMode",
@@ -6797,7 +7081,8 @@
       "generic_name": "PV tracker {tracker} operation mode",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/solarcharger/{device_id}/Pv/{tracker}/Name",
@@ -6821,7 +7106,8 @@
       "generic_name": "PV tracker {tracker} name",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/solarcharger/{device_id}/Pv/{tracker}/P",
@@ -6845,7 +7131,8 @@
       "generic_name": "PV tracker {tracker} power",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/solarcharger/{device_id}/Pv/{tracker}/V",
@@ -6869,7 +7156,8 @@
       "generic_name": "PV tracker {tracker} voltage",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/solarcharger/{device_id}/Relay/0/State",
@@ -6893,7 +7181,8 @@
       "generic_name": "Relay state",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/solarcharger/{device_id}/State",
@@ -6917,7 +7206,8 @@
       "generic_name": "State",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/solarcharger/{device_id}/Yield/Power",
@@ -6941,7 +7231,8 @@
       "generic_name": "PV yield power",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/solarcharger/{device_id}/Yield/User",
@@ -6965,13 +7256,14 @@
       "generic_name": "Total yield",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
-      "topic": "N/{installation_id}/switch/{device_id}/SwitchableOutput/output_{output(1-4)}/Dimming",
+      "topic": "N/{installation_id}/switch/{device_id}/SwitchableOutput/{output}/Dimming",
       "message_type": "MetricKind.NUMBER",
       "short_id": "switch_{output}_dimming",
-      "name": "{output:switch_{output}_custom_name} dimming",
+      "name": "Dimming",
       "unit_of_measurement": "%",
       "metric_type": "MetricType.PERCENTAGE",
       "metric_nature": "MetricNature.NONE",
@@ -6986,40 +7278,17 @@
       "key_values": {},
       "experimental": false,
       "depends_on": [],
-      "generic_name": "{output} dimming",
+      "generic_name": "Dimming",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": "output"
     },
     {
-      "topic": "N/{installation_id}/switch/{device_id}/SwitchableOutput/output_{output(1-4)}/Settings/CustomName",
-      "message_type": "MetricKind.SENSOR",
-      "short_id": "switch_{output}_custom_name",
-      "name": "{output} custom name",
-      "unit_of_measurement": null,
-      "metric_type": "MetricType.NONE",
-      "metric_nature": "MetricNature.NONE",
-      "value_type": "ValueType.STRING",
-      "precision": null,
-      "enum": null,
-      "min_max_range": "RangeType.STATIC",
-      "min": null,
-      "max": null,
-      "step": null,
-      "is_adjustable_suffix": null,
-      "key_values": {},
-      "experimental": false,
-      "depends_on": [],
-      "generic_name": "{output} custom name",
-      "is_formula": false,
-      "main_topic": false,
-      "hidden": false
-    },
-    {
-      "topic": "N/{installation_id}/switch/{device_id}/SwitchableOutput/output_{output(1-4)}/State",
+      "topic": "N/{installation_id}/switch/{device_id}/SwitchableOutput/{output}/State",
       "message_type": "MetricKind.SWITCH",
       "short_id": "switch_{output}_state",
-      "name": "Switch {output:switch_{output}_custom_name} state",
+      "name": "State",
       "unit_of_measurement": null,
       "metric_type": "MetricType.ENUM",
       "metric_nature": "MetricNature.NONE",
@@ -7034,10 +7303,11 @@
       "key_values": {},
       "experimental": false,
       "depends_on": [],
-      "generic_name": "Switch {output} state",
+      "generic_name": "State",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": "output"
     },
     {
       "topic": "N/{installation_id}/system/{device_id}/Ac/ActiveIn/Source",
@@ -7061,14 +7331,15 @@
       "generic_name": "AC active input source",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/system/{device_id}/Ac/Consumption/NumberOfPhases",
       "message_type": "MetricKind.SENSOR",
       "short_id": "system_consumption_phases",
       "name": "Consumption phases",
-      "unit_of_measurement": null,
+      "unit_of_measurement": "phases",
       "metric_type": "MetricType.NONE",
       "metric_nature": "MetricNature.MEASUREMENT",
       "value_type": "ValueType.INT",
@@ -7085,7 +7356,8 @@
       "generic_name": "Consumption phases",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/system/{device_id}/Ac/Consumption/{phase}/Current",
@@ -7109,7 +7381,8 @@
       "generic_name": "Consumption current {phase}",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/system/{device_id}/Ac/Consumption/{phase}/Power",
@@ -7133,7 +7406,8 @@
       "generic_name": "Consumption power {phase}",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/system/{device_id}/Ac/ConsumptionOnInput/{phase}/Power",
@@ -7157,14 +7431,15 @@
       "generic_name": "AC loads on {phase}",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/system/{device_id}/Ac/ConsumptionOnOutput/NumberOfPhases",
       "message_type": "MetricKind.SENSOR",
       "short_id": "system_consumption_on_output_phases",
       "name": "Consumption on output phases",
-      "unit_of_measurement": null,
+      "unit_of_measurement": "phases",
       "metric_type": "MetricType.NONE",
       "metric_nature": "MetricNature.MEASUREMENT",
       "value_type": "ValueType.INT",
@@ -7181,7 +7456,8 @@
       "generic_name": "Consumption on output phases",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/system/{device_id}/Ac/ConsumptionOnOutput/{phase}/Power",
@@ -7205,7 +7481,8 @@
       "generic_name": "Critical loads on {phase}",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/system/{device_id}/Ac/Genset/{phase}/Power",
@@ -7229,14 +7506,15 @@
       "generic_name": "Genset load {phase}",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/system/{device_id}/Ac/Grid/NumberOfPhases",
       "message_type": "MetricKind.SENSOR",
       "short_id": "system_grid_phases",
       "name": "Grid phases",
-      "unit_of_measurement": null,
+      "unit_of_measurement": "phases",
       "metric_type": "MetricType.NONE",
       "metric_nature": "MetricNature.MEASUREMENT",
       "value_type": "ValueType.INT_DEFAULT_0",
@@ -7253,7 +7531,8 @@
       "generic_name": "Grid phases",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/system/{device_id}/Ac/Grid/{phase}/Current",
@@ -7277,7 +7556,8 @@
       "generic_name": "Grid current {phase}",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/system/{device_id}/Ac/Grid/{phase}/Power",
@@ -7301,14 +7581,15 @@
       "generic_name": "Grid power {phase}",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/system/{device_id}/Ac/PvOnOutput/NumberOfPhases",
       "message_type": "MetricKind.SENSOR",
       "short_id": "system_pv_on_output_phases",
       "name": "PV on output phases",
-      "unit_of_measurement": null,
+      "unit_of_measurement": "phases",
       "metric_type": "MetricType.NONE",
       "metric_nature": "MetricNature.MEASUREMENT",
       "value_type": "ValueType.INT",
@@ -7325,7 +7606,8 @@
       "generic_name": "PV on output phases",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/system/{device_id}/Ac/PvOnOutput/{phase}/Current",
@@ -7349,7 +7631,8 @@
       "generic_name": "PV on output current {phase}",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/system/{device_id}/Ac/PvOnOutput/{phase}/Power",
@@ -7373,7 +7656,8 @@
       "generic_name": "PV on output power {phase}",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/system/{device_id}/Control/ActiveSocLimit",
@@ -7397,7 +7681,8 @@
       "generic_name": "Active SoC limit",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/system/{device_id}/Control/ScheduledSoc",
@@ -7421,7 +7706,8 @@
       "generic_name": "Scheduled SoC",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/system/{device_id}/Dc/Alternator/Power",
@@ -7445,7 +7731,8 @@
       "generic_name": "DC alternator power",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/system/{device_id}/Dc/Battery/Current",
@@ -7469,7 +7756,8 @@
       "generic_name": "DC battery current",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/system/{device_id}/Dc/Battery/Power",
@@ -7493,7 +7781,8 @@
       "generic_name": "DC battery power",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "$$func/system/system_dc_battery_charge_power",
@@ -7519,7 +7808,8 @@
       "generic_name": "DC battery charge energy",
       "is_formula": true,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "$$func/system/system_dc_battery_discharge_power",
@@ -7545,7 +7835,8 @@
       "generic_name": "DC battery discharge energy",
       "is_formula": true,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/system/{device_id}/Dc/Battery/Soc",
@@ -7569,7 +7860,8 @@
       "generic_name": "DC battery charge",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/system/{device_id}/Dc/Battery/State",
@@ -7593,7 +7885,8 @@
       "generic_name": "DC battery state",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/system/{device_id}/Dc/Battery/Voltage",
@@ -7617,7 +7910,8 @@
       "generic_name": "DC battery voltage",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/system/{device_id}/Dc/Pv/Current",
@@ -7641,7 +7935,8 @@
       "generic_name": "PV current",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/system/{device_id}/Dc/Pv/Power",
@@ -7665,7 +7960,8 @@
       "generic_name": "PV power",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "$$func/system/left_riemann_sum",
@@ -7691,7 +7987,8 @@
       "generic_name": "PV energy",
       "is_formula": true,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/system/{device_id}/Dc/System/Power",
@@ -7715,7 +8012,8 @@
       "generic_name": "DC consumption",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/system/{device_id}/DynamicEss/Active",
@@ -7739,7 +8037,8 @@
       "generic_name": "Dynamic ESS active",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/system/{device_id}/DynamicEss/AllowGridFeedIn",
@@ -7763,7 +8062,8 @@
       "generic_name": "Dynamic ESS allow grid feed-in",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/system/{device_id}/DynamicEss/Available",
@@ -7787,7 +8087,8 @@
       "generic_name": "Dynamic ESS available",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/system/{device_id}/DynamicEss/AvailableOverhead",
@@ -7811,7 +8112,8 @@
       "generic_name": "Dynamic ESS available overhead",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/system/{device_id}/DynamicEss/ErrorCode",
@@ -7835,7 +8137,8 @@
       "generic_name": "Dynamic ESS error",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/system/{device_id}/DynamicEss/LastScheduledEnd",
@@ -7859,7 +8162,8 @@
       "generic_name": "Dynamic ESS last scheduled end",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/system/{device_id}/DynamicEss/LastScheduledStart",
@@ -7883,7 +8187,8 @@
       "generic_name": "Dynamic ESS last scheduled start",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/system/{device_id}/DynamicEss/MinimumSoc",
@@ -7907,7 +8212,8 @@
       "generic_name": "Dynamic ESS minimum SoC",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/system/{device_id}/DynamicEss/NumberOfSchedules",
@@ -7931,7 +8237,8 @@
       "generic_name": "Dynamic ESS number of schedules",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/system/{device_id}/DynamicEss/ReactiveStrategy",
@@ -7955,7 +8262,8 @@
       "generic_name": "Dynamic ESS reactive strategy",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/system/{device_id}/DynamicEss/Restrictions",
@@ -7979,7 +8287,8 @@
       "generic_name": "Dynamic ESS restrictions",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/system/{device_id}/DynamicEss/Strategy",
@@ -8003,7 +8312,8 @@
       "generic_name": "Dynamic ESS strategy",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/system/{device_id}/DynamicEss/TargetSoc",
@@ -8027,7 +8337,8 @@
       "generic_name": "Dynamic ESS target SoC",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/system/{device_id}/PV/Current",
@@ -8051,7 +8362,8 @@
       "generic_name": "PV bus current",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/system/{device_id}/Relay/{relay}/State",
@@ -8075,37 +8387,14 @@
       "generic_name": "Relay {relay} state",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
-    },
-    {
-      "topic": "N/{installation_id}/system/{device_id}/SwitchableOutput/{output}/Settings/CustomName",
-      "message_type": "MetricKind.SENSOR",
-      "short_id": "switchable_output_{output}_custom_name",
-      "name": "Switchable output {output} custom name",
-      "unit_of_measurement": null,
-      "metric_type": "MetricType.NONE",
-      "metric_nature": "MetricNature.NONE",
-      "value_type": "ValueType.STRING",
-      "precision": null,
-      "enum": null,
-      "min_max_range": "RangeType.STATIC",
-      "min": null,
-      "max": null,
-      "step": null,
-      "is_adjustable_suffix": null,
-      "key_values": {},
-      "experimental": false,
-      "depends_on": [],
-      "generic_name": "Switchable output {output} custom name",
-      "is_formula": false,
-      "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/system/{device_id}/SwitchableOutput/{output}/State",
       "message_type": "MetricKind.SWITCH",
       "short_id": "switchable_output_{output}_state",
-      "name": "Switchable output {output:switchable_output_{output}_custom_name} state",
+      "name": "State",
       "unit_of_measurement": null,
       "metric_type": "MetricType.ENUM",
       "metric_nature": "MetricNature.NONE",
@@ -8120,10 +8409,11 @@
       "key_values": {},
       "experimental": false,
       "depends_on": [],
-      "generic_name": "Switchable output {output} state",
+      "generic_name": "State",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": "output"
     },
     {
       "topic": "N/{installation_id}/system/{device_id}/SystemState/State",
@@ -8147,7 +8437,8 @@
       "generic_name": "System state",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/tank/{device_id}/BatteryVoltage",
@@ -8171,7 +8462,8 @@
       "generic_name": "Sensor battery voltage",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/tank/{device_id}/FluidType",
@@ -8195,7 +8487,8 @@
       "generic_name": "Fluid type",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/tank/{device_id}/Level",
@@ -8219,7 +8512,8 @@
       "generic_name": "Level",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/tank/{device_id}/Remaining",
@@ -8243,7 +8537,8 @@
       "generic_name": "Remaining",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/tank/{device_id}/Temperature",
@@ -8267,7 +8562,8 @@
       "generic_name": "Temperature",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/temperature/{device_id}/BatteryVoltage",
@@ -8291,7 +8587,8 @@
       "generic_name": "Sensor battery voltage",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/temperature/{device_id}/Humidity",
@@ -8315,7 +8612,8 @@
       "generic_name": "Humidity",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/temperature/{device_id}/Offset",
@@ -8339,7 +8637,8 @@
       "generic_name": "Offset",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/temperature/{device_id}/Pressure",
@@ -8363,14 +8662,15 @@
       "generic_name": "Pressure",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/temperature/{device_id}/Scale",
       "message_type": "MetricKind.NUMBER",
       "short_id": "temperature_scale",
       "name": "Scale factor",
-      "unit_of_measurement": "factor",
+      "unit_of_measurement": null,
       "metric_type": "MetricType.NONE",
       "metric_nature": "MetricNature.MEASUREMENT",
       "value_type": "ValueType.FLOAT",
@@ -8387,7 +8687,8 @@
       "generic_name": "Scale factor",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/temperature/{device_id}/Status",
@@ -8411,7 +8712,8 @@
       "generic_name": "Sensor status",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/temperature/{device_id}/Temperature",
@@ -8435,7 +8737,8 @@
       "generic_name": "Temperature",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/temperature/{device_id}/TemperatureType",
@@ -8459,7 +8762,8 @@
       "generic_name": "Sensor type",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Ac/ActiveIn/ActiveInput",
@@ -8483,7 +8787,8 @@
       "generic_name": "Active AC input",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Ac/ActiveIn/CurrentLimit",
@@ -8507,7 +8812,8 @@
       "generic_name": "Current limit",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Ac/ActiveIn/{phase}/F",
@@ -8531,7 +8837,8 @@
       "generic_name": "Input frequency {phase}",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Ac/ActiveIn/{phase}/I",
@@ -8555,7 +8862,8 @@
       "generic_name": "Input current {phase}",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Ac/ActiveIn/{phase}/P",
@@ -8579,7 +8887,8 @@
       "generic_name": "Input power {phase}",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Ac/ActiveIn/{phase}/S",
@@ -8603,7 +8912,8 @@
       "generic_name": "Input apparent power {phase}",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Ac/ActiveIn/{phase}/V",
@@ -8627,7 +8937,8 @@
       "generic_name": "Input voltage {phase}",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Ac/Control/IgnoreAcIn1",
@@ -8651,7 +8962,8 @@
       "generic_name": "Control ignore AC-in-1",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Ac/Out/{phase}/F",
@@ -8675,7 +8987,8 @@
       "generic_name": "Output frequency {phase}",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Ac/Out/{phase}/I",
@@ -8699,7 +9012,8 @@
       "generic_name": "Output current {phase}",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Ac/Out/{phase}/P",
@@ -8723,7 +9037,8 @@
       "generic_name": "Output power {phase}",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Ac/Out/{phase}/S",
@@ -8747,7 +9062,8 @@
       "generic_name": "Output apparent power {phase}",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Ac/Out/{phase}/V",
@@ -8771,7 +9087,8 @@
       "generic_name": "Output voltage {phase}",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Ac/State/IgnoreAcIn1",
@@ -8795,7 +9112,8 @@
       "generic_name": "State of ignore AC-in-1",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Alarms/GridLost",
@@ -8819,7 +9137,8 @@
       "generic_name": "Grid lost alarm",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Alarms/HighDcCurrent",
@@ -8843,7 +9162,8 @@
       "generic_name": "High DC current alarm",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Alarms/HighDcVoltage",
@@ -8867,7 +9187,8 @@
       "generic_name": "High DC voltage alarm",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Alarms/HighTemperature",
@@ -8891,7 +9212,8 @@
       "generic_name": "High temperature alarm",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Alarms/LowBattery",
@@ -8915,7 +9237,8 @@
       "generic_name": "Low battery alarm",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Alarms/Overload",
@@ -8939,7 +9262,8 @@
       "generic_name": "Overload alarm",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Alarms/PhaseRotation",
@@ -8963,7 +9287,8 @@
       "generic_name": "Phase rotation alarm",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Alarms/Ripple",
@@ -8987,7 +9312,8 @@
       "generic_name": "Ripple alarm",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Alarms/TemperatureSensor",
@@ -9011,7 +9337,8 @@
       "generic_name": "Temperature sensor alarm",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Alarms/VoltageSensor",
@@ -9035,7 +9362,8 @@
       "generic_name": "Voltage sensor alarm",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Connected",
@@ -9059,7 +9387,8 @@
       "generic_name": "Connected",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Dc/0/Current",
@@ -9083,7 +9412,8 @@
       "generic_name": "DC current",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Dc/0/Power",
@@ -9107,7 +9437,8 @@
       "generic_name": "DC power",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Dc/0/Temperature",
@@ -9131,7 +9462,8 @@
       "generic_name": "DC temperature",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Dc/0/Voltage",
@@ -9155,7 +9487,8 @@
       "generic_name": "DC voltage",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Devices/{device_number}/Ac/In/P",
@@ -9179,7 +9512,8 @@
       "generic_name": "{device_number} line 1 input power",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Devices/{device_number}/Ac/In/{phase}/P",
@@ -9203,7 +9537,8 @@
       "generic_name": "{device_number} line {phase} input power",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Devices/{device_number}/Ac/Inverter/P",
@@ -9227,7 +9562,8 @@
       "generic_name": "{device_number} inverted power",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Devices/{device_number}/Ac/Out/P",
@@ -9251,7 +9587,8 @@
       "generic_name": "{device_number} line 1 output power",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Devices/{device_number}/Ac/Out/{phase}/P",
@@ -9275,7 +9612,8 @@
       "generic_name": "{device_number} line {phase} output power",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Devices/{device_number}/Settings/PowerAssistEnabled",
@@ -9299,7 +9637,8 @@
       "generic_name": "{device_number} PowerAssist enabled",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Energy/AcIn1ToAcOut",
@@ -9323,7 +9662,8 @@
       "generic_name": "Energy from AC-in-1 to AC-out",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Energy/AcIn1ToInverter",
@@ -9347,7 +9687,8 @@
       "generic_name": "Energy from AC-in-1 to inverter",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Energy/AcIn2ToAcOut",
@@ -9371,7 +9712,8 @@
       "generic_name": "Energy from AC-in-2 to AC-out",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Energy/AcIn2ToInverter",
@@ -9395,7 +9737,8 @@
       "generic_name": "Energy from AC-in-2 to inverter",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Energy/AcOutToAcIn1",
@@ -9419,7 +9762,8 @@
       "generic_name": "Energy from AC-out to AC-in-1",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Energy/AcOutToAcIn2",
@@ -9443,7 +9787,8 @@
       "generic_name": "Energy from AC-out to AC-in-2",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Energy/InverterToAcIn1",
@@ -9467,7 +9812,8 @@
       "generic_name": "Energy from inverter to AC-in-1",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Energy/InverterToAcIn2",
@@ -9491,7 +9837,8 @@
       "generic_name": "Energy from inverter to AC-in-2",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Energy/InverterToAcOut",
@@ -9515,7 +9862,8 @@
       "generic_name": "Energy from inverter to AC-out",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Energy/OutToInverter",
@@ -9539,7 +9887,8 @@
       "generic_name": "Energy from out to inverter",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Hub4/{phase}/AcPowerSetpoint",
@@ -9563,7 +9912,8 @@
       "generic_name": "AC power setpoint {phase}",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Mode",
@@ -9587,7 +9937,8 @@
       "generic_name": "Mode",
       "is_formula": false,
       "main_topic": true,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Settings/Alarm/System/GridLost",
@@ -9611,7 +9962,8 @@
       "generic_name": "Grid lost alarm setting",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Settings/AssistCurrentBoostFactor",
@@ -9635,7 +9987,8 @@
       "generic_name": "Assist current boost factor",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/State",
@@ -9659,7 +10012,8 @@
       "generic_name": "State",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     },
     {
       "topic": "W/{installation_id}/generator/{device_id}/ServiceCounterReset",
@@ -9683,7 +10037,8 @@
       "generic_name": "Generator service counter reset",
       "is_formula": false,
       "main_topic": false,
-      "hidden": false
+      "hidden": false,
+      "sub_device_key": null
     }
   ],
   "enums": [

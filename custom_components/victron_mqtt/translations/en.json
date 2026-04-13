@@ -120,13 +120,6 @@
           "on": "On"
         }
       },
-      "gps_fix": {
-        "name": "Fix",
-        "state": {
-          "off": "Off",
-          "on": "On"
-        }
-      },
       "inverter_alarm_high_temperature": {
         "name": "High temperature alarm",
         "state": {
@@ -225,14 +218,14 @@
         }
       },
       "switch_output_state": {
-        "name": "Switch {output} state",
+        "name": "State",
         "state": {
           "off": "Off",
           "on": "On"
         }
       },
       "switchable_output_output_state": {
-        "name": "Switchable output {output} state",
+        "name": "State",
         "state": {
           "off": "Off",
           "on": "On"
@@ -407,7 +400,7 @@
         "name": "Assist current boost factor"
       },
       "switch_output_dimming": {
-        "name": "{output} dimming"
+        "name": "Dimming"
       },
       "system_ac_export_limit": {
         "name": "AC export limit"
@@ -446,8 +439,7 @@
         "name": "Offset"
       },
       "temperature_scale": {
-        "name": "Scale factor",
-        "unit_of_measurement": "factor"
+        "name": "Scale factor"
       },
       "transfer_switch_generator_current_limit": {
         "name": "Generator AC current limit"
@@ -1164,20 +1156,9 @@
       "generator_total_runtime": {
         "name": "Total runtime"
       },
-      "gps_altitude": {
-        "name": "Altitude",
-        "unit_of_measurement": "m"
-      },
-      "gps_course": {
-        "name": "Course",
-        "unit_of_measurement": "°"
-      },
       "gps_nrofsatellites": {
         "name": "Number of satellites",
         "unit_of_measurement": "satellites"
-      },
-      "gps_speed": {
-        "name": "Speed"
       },
       "grid_current": {
         "name": "Current"
@@ -1407,7 +1388,8 @@
         "name": "MPPT {mpptnumber} PV voltage"
       },
       "multi_phases": {
-        "name": "Phases"
+        "name": "Phases",
+        "unit_of_measurement": "phases"
       },
       "multi_pv_power_total": {
         "name": "PV power total"
@@ -1642,14 +1624,8 @@
       "solarcharger_yield_yesterday": {
         "name": "Yield yesterday"
       },
-      "switch_output_custom_name": {
-        "name": "{output} custom name"
-      },
       "switch_output_dimming": {
-        "name": "{output} dimming"
-      },
-      "switchable_output_output_custom_name": {
-        "name": "Switchable output {output} custom name"
+        "name": "Dimming"
       },
       "system_ac_active_input_source": {
         "name": "AC active input source",
@@ -1677,10 +1653,12 @@
         "name": "Consumption current {phase}"
       },
       "system_consumption_on_output_phases": {
-        "name": "Consumption on output phases"
+        "name": "Consumption on output phases",
+        "unit_of_measurement": "phases"
       },
       "system_consumption_phases": {
-        "name": "Consumption phases"
+        "name": "Consumption phases",
+        "unit_of_measurement": "phases"
       },
       "system_consumption_power_phase": {
         "name": "Consumption power {phase}"
@@ -1896,7 +1874,8 @@
         "name": "Grid current {phase}"
       },
       "system_grid_phases": {
-        "name": "Grid phases"
+        "name": "Grid phases",
+        "unit_of_measurement": "phases"
       },
       "system_grid_power_phase": {
         "name": "Grid power {phase}"
@@ -1908,7 +1887,8 @@
         "name": "PV on output current {phase}"
       },
       "system_pv_on_output_phases": {
-        "name": "PV on output phases"
+        "name": "PV on output phases",
+        "unit_of_measurement": "phases"
       },
       "system_pv_on_output_power_phase": {
         "name": "PV on output power {phase}"
@@ -1996,8 +1976,7 @@
         "unit_of_measurement": "hPa"
       },
       "temperature_scale": {
-        "name": "Scale factor",
-        "unit_of_measurement": "factor"
+        "name": "Scale factor"
       },
       "temperature_status": {
         "name": "Sensor status",
@@ -2357,14 +2336,14 @@
         }
       },
       "switch_output_state": {
-        "name": "Switch {output} state",
+        "name": "State",
         "state": {
           "off": "Off",
           "on": "On"
         }
       },
       "switchable_output_output_state": {
-        "name": "Switchable output {output} state",
+        "name": "State",
         "state": {
           "off": "Off",
           "on": "On"
