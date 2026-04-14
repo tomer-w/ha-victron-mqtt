@@ -1972,8 +1972,7 @@
         "name": "Offset"
       },
       "temperature_pressure": {
-        "name": "Pressure",
-        "unit_of_measurement": "hPa"
+        "name": "Pressure"
       },
       "temperature_scale": {
         "name": "Scale factor"
