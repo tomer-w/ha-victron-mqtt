@@ -57,6 +57,13 @@
           "on": "On"
         }
       },
+      "evcharger_auto_start": {
+        "name": "Auto start",
+        "state": {
+          "off": "Off",
+          "on": "On"
+        }
+      },
       "evcharger_charge": {
         "name": "EV charging",
         "state": {
@@ -2246,6 +2253,13 @@
       },
       "digitalinput_settings_invert_translation": {
         "name": "Invert digital input",
+        "state": {
+          "off": "Off",
+          "on": "On"
+        }
+      },
+      "evcharger_auto_start": {
+        "name": "Auto start",
         "state": {
           "off": "Off",
           "on": "On"
