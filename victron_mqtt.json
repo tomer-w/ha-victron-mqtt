@@ -3103,9 +3103,18 @@
         "gps_latitude",
         "gps_longitude",
         "gps_fix",
-        "gps_altitude",
-        "gps_course",
-        "gps_speed"
+        {
+          "short_id": "gps_altitude",
+          "required": false
+        },
+        {
+          "short_id": "gps_course",
+          "required": false
+        },
+        {
+          "short_id": "gps_speed",
+          "required": false
+        }
       ],
       "generic_name": "Location",
       "is_formula": true,

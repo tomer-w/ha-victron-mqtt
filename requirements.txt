@@ -3,4 +3,4 @@ pytest-asyncio
 pytest_homeassistant_custom_component
 syrupy
 homeassistant
-victron_mqtt
+victron_mqtt==2026.4.12
