@@ -24,7 +24,6 @@ from homeassistant.const import (
 )
 from homeassistant.core import HomeAssistant
 from homeassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
-from homeassistant.helpers import device_registry as dr
 from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.redact import async_redact_data
 
@@ -107,7 +106,6 @@ class Hub:
             ),
         )
         self._hub.on_new_metric = self._on_new_metric
-        self._hub.on_new_device = self._on_new_device
         self._config_entry_id = entry.entry_id
         self.new_metric_callbacks: dict[MetricKind, NewMetricCallback] = {}
 
@@ -129,21 +127,6 @@ class Hub:
         """Stop the Victron MQTT hub."""
         _LOGGER.info("Stopping hub")
         await self._hub.disconnect()
-
-    def _on_new_device(
-        self,
-        hub: VictronVenusHub,
-        device: VictronVenusDevice,
-    ) -> None:
-        """Register a new device in the HA device registry."""
-        _LOGGER.info("New device received. Device: %s", device)
-        assert hub.installation_id is not None
-        device_info = Hub._map_device_info(device, hub.installation_id)
-        device_registry = dr.async_get(self.hass)
-        device_registry.async_get_or_create(
-            config_entry_id=self._config_entry_id,
-            **device_info,
-        )
 
     def _on_new_metric(
         self,
