@@ -58,6 +58,8 @@ _LOGGER = logging.getLogger(__name__)
 
 TO_REDACT = {CONF_USERNAME, CONF_PASSWORD}
 
+ENTRY_TITLE_FORMAT = "Victron OS {installation_id} ({host}:{port})"
+
 DEVICE_CODES: Sequence[SelectOptionDict] = [
     {"value": device_type.code, "label": device_type.string}
     for device_type in DeviceType
@@ -183,7 +185,11 @@ class VictronMQTTConfigFlow(ConfigFlow, domain=DOMAIN):
 
                 self._abort_if_unique_id_configured()
 
-                title = self.friendly_name or f"Victron OS {unique_id}"
+                title = ENTRY_TITLE_FORMAT.format(
+                    installation_id=installation_id,
+                    host=data[CONF_HOST],
+                    port=data[CONF_PORT],
+                )
                 return self.async_create_entry(title=title, data=data)
 
         if len(errors) > 0:
@@ -303,7 +309,11 @@ class VictronMQTTConfigFlow(ConfigFlow, domain=DOMAIN):
             return self.async_abort(reason="cannot_connect")
 
         return self.async_create_entry(
-            title=str(self.friendly_name),
+            title=ENTRY_TITLE_FORMAT.format(
+                    installation_id=self.installation_id,
+                    host=self.hostname,
+                    port=DEFAULT_PORT,
+                ),
             data={
                 CONF_HOST: self.hostname,
                 CONF_SERIAL: self.serial,
