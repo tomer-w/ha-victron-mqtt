@@ -81,7 +81,10 @@ async def test_user_flow_full_config(hass: HomeAssistant) -> None:
     )
 
     assert result["type"] is FlowResultType.CREATE_ENTRY
-    assert result["title"] == f"Victron OS {MOCK_INSTALLATION_ID}"
+    assert (
+        result["title"]
+        == f"Victron OS {MOCK_INSTALLATION_ID} ({MOCK_HOST}:{DEFAULT_PORT})"
+    )
     assert result["data"] == {
         CONF_HOST: MOCK_HOST,
         CONF_PORT: DEFAULT_PORT,
@@ -118,7 +121,10 @@ async def test_user_flow_minimal_config(hass: HomeAssistant) -> None:
     )
 
     assert result["type"] is FlowResultType.CREATE_ENTRY
-    assert result["title"] == f"Victron OS {MOCK_INSTALLATION_ID}"
+    assert (
+        result["title"]
+        == f"Victron OS {MOCK_INSTALLATION_ID} ({MOCK_HOST}:{DEFAULT_PORT})"
+    )
     assert result["data"] == {
         CONF_HOST: MOCK_HOST,
         CONF_PORT: DEFAULT_PORT,
@@ -255,7 +261,10 @@ async def test_ssdp_flow_success(hass: HomeAssistant) -> None:
     )
 
     assert result["type"] is FlowResultType.CREATE_ENTRY
-    assert result["title"] == MOCK_FRIENDLY_NAME
+    assert (
+        result["title"]
+        == f"Victron OS {MOCK_INSTALLATION_ID} ({MOCK_HOST}:{DEFAULT_PORT})"
+    )
     assert result["data"] == {
         CONF_HOST: MOCK_HOST,
         CONF_SERIAL: MOCK_SERIAL,
