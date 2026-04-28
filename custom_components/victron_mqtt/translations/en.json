@@ -406,6 +406,9 @@
       "multiplus_assist_current_boost_factor": {
         "name": "Assist current boost factor"
       },
+      "solarcharger_charge_current_limit": {
+        "name": "Charge current limit"
+      },
       "switch_output_dimming": {
         "name": "Dimming"
       },
@@ -1475,6 +1478,9 @@
       },
       "pvinverter_yield_total": {
         "name": "Total yield"
+      },
+      "solarcharger_charge_current_limit": {
+        "name": "Charge current limit"
       },
       "solarcharger_current": {
         "name": "PV bus current"
