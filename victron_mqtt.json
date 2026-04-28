@@ -7219,6 +7219,31 @@
       "sub_device_key": null
     },
     {
+      "topic": "N/{installation_id}/solarcharger/{device_id}/Settings/ChargeCurrentLimit",
+      "message_type": "MetricKind.NUMBER",
+      "short_id": "solarcharger_charge_current_limit",
+      "name": "Charge current limit",
+      "unit_of_measurement": "A",
+      "metric_type": "MetricType.CURRENT",
+      "metric_nature": "MetricNature.MEASUREMENT",
+      "value_type": "ValueType.FLOAT",
+      "precision": 1,
+      "enum": null,
+      "min_max_range": "RangeType.STATIC",
+      "min": 0,
+      "max": 200,
+      "step": null,
+      "is_adjustable_suffix": null,
+      "key_values": {},
+      "experimental": false,
+      "depends_on": [],
+      "generic_name": "Charge current limit",
+      "is_formula": false,
+      "main_topic": false,
+      "hidden": false,
+      "sub_device_key": null
+    },
+    {
       "topic": "N/{installation_id}/solarcharger/{device_id}/State",
       "message_type": "MetricKind.SENSOR",
       "short_id": "solarcharger_state",
@@ -10646,7 +10671,7 @@
         },
         {
           "id": "multi_rs_solar",
-          "name": "Multi RS solar",
+          "name": "Multi RS Solar",
           "value": "multi"
         },
         {
