@@ -36,11 +36,9 @@ from .const import (
     CONF_ROOT_TOPIC_PREFIX,
     CONF_SERIAL,
     CONF_SIMPLE_NAMING,
-    CONF_UPDATE_FREQUENCY_OVERRIDES,
     CONF_UPDATE_FREQUENCY_SECONDS,
     DEFAULT_UPDATE_FREQUENCY_SECONDS,
     DOMAIN,
-    parse_frequency_overrides,
 )
 
 _LOGGER = logging.getLogger(__name__)
@@ -105,10 +103,6 @@ class Hub:
             device_type_exclude_filter=excluded_device_types,
             update_frequency_seconds=config.get(
                 CONF_UPDATE_FREQUENCY_SECONDS, DEFAULT_UPDATE_FREQUENCY_SECONDS
-            ),
-            update_frequency_overrides=parse_frequency_overrides(
-                config.get(CONF_UPDATE_FREQUENCY_OVERRIDES),
-                installation_id=config.get(CONF_INSTALLATION_ID),
             ),
         )
         self._hub.on_new_metric = self._on_new_metric
