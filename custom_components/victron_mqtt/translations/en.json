@@ -18,6 +18,7 @@
           "simple_naming": "Simple naming (no installation id in entity ids)",
           "ssl": "Use SSL",
           "update_frequency": "Update frequency (seconds)",
+          "update_frequency_overrides": "Per-topic update frequency overrides",
           "username": "Username"
         },
         "data_description": {
@@ -31,6 +32,7 @@
           "simple_naming": "Use simple naming for entities, can work only when you have single Cerbo on the network.",
           "ssl": "Indicates whether to use SSL to connect to the Victron Device. Normally it is disabled.",
           "update_frequency": "Update frequency in seconds. Default is 30 seconds. Set to 0 to update always.",
+          "update_frequency_overrides": "Override update frequency for specific topics. Format: metric_id:seconds, one per line or comma-separated. Example: grid_power_l1:3,inverter_power:5. You can also use the full HA entity ID (e.g. sensor.victron_mqtt_grid_power_l1:3) — the prefix will be stripped automatically.",
           "username": "Username for the MQTT server, default is empty. Not needed by Victron devices. This is only needed if you use route your mqtt messages through non Victron server and it does require username."
         }
       }
@@ -2442,6 +2444,7 @@
           "simple_naming": "Simple naming (no installation id in entity ids)",
           "ssl": "Use SSL",
           "update_frequency": "Update frequency (seconds)",
+          "update_frequency_overrides": "Per-topic update frequency overrides",
           "username": "Username"
         },
         "data_description": {
@@ -2455,6 +2458,7 @@
           "simple_naming": "Use simple naming for entities, can work only when you have single Cerbo on the network.",
           "ssl": "Indicates whether to use SSL to connect to the Victron Device. Normally it is disabled.",
           "update_frequency": "Update frequency in seconds. Default is 30 seconds. Set to 0 to update always.",
+          "update_frequency_overrides": "Override update frequency for specific topics. Format: metric_id:seconds, one per line or comma-separated. Example: grid_power_l1:3,inverter_power:5. You can also use the full HA entity ID (e.g. sensor.victron_mqtt_grid_power_l1:3) — the prefix will be stripped automatically.",
           "username": "Username for the MQTT server, default is empty. Not needed by Victron devices. This is only needed if you use route your mqtt messages through non Victron server and it does require username."
         }
       }

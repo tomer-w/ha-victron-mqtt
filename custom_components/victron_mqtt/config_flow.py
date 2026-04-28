@@ -33,6 +33,9 @@ from homeassistant.helpers.selector import (
     SelectSelector,
     SelectSelectorConfig,
     SelectSelectorMode,
+    TextSelector,
+    TextSelectorConfig,
+    TextSelectorType,
 )
 from homeassistant.helpers.redact import async_redact_data
 from homeassistant.helpers.service_info.ssdp import SsdpServiceInfo
@@ -46,6 +49,7 @@ from .const import (
     CONF_ROOT_TOPIC_PREFIX,
     CONF_SERIAL,
     CONF_SIMPLE_NAMING,
+    CONF_UPDATE_FREQUENCY_OVERRIDES,
     CONF_UPDATE_FREQUENCY_SECONDS,
     DEFAULT_HOST,
     DEFAULT_PORT,
@@ -102,6 +106,9 @@ STEP_USER_DATA_SCHEMA = vol.Schema(
             )
         ),
         vol.Optional(CONF_ELEVATED_TRACING): str,
+        vol.Optional(CONF_UPDATE_FREQUENCY_OVERRIDES): TextSelector(
+            TextSelectorConfig(multiline=True, type=TextSelectorType.TEXT)
+        ),
     }
 )
 

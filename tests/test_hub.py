@@ -19,9 +19,11 @@ from custom_components.victron_mqtt.const import (
     CONF_MODEL,
     CONF_ROOT_TOPIC_PREFIX,
     CONF_SERIAL,
-    CONF_UPDATE_FREQUENCY_SECONDS,
     CONF_SIMPLE_NAMING,
+    CONF_UPDATE_FREQUENCY_OVERRIDES,
+    CONF_UPDATE_FREQUENCY_SECONDS,
     DOMAIN,
+    parse_frequency_overrides,
 )
 from custom_components.victron_mqtt.hub import Hub
 from homeassistant.config_entries import ConfigEntryState
@@ -1026,5 +1028,236 @@ async def test_number_with_step(
     assert state is not None
     assert float(state.state) == 57.6
     assert state.attributes.get("step") == 0.1
+
+
+# ═══════════════════════════════════════════════════════════════════════════
+# parse_frequency_overrides tests
+# ═══════════════════════════════════════════════════════════════════════════
+
+
+class TestParseFrequencyOverrides:
+    """Test the parse_frequency_overrides utility function."""
+
+    def test_none_input(self):
+        assert parse_frequency_overrides(None) == {}
+
+    def test_empty_string(self):
+        assert parse_frequency_overrides("") == {}
+
+    def test_whitespace_only(self):
+        assert parse_frequency_overrides("   ") == {}
+
+    def test_single_entry(self):
+        assert parse_frequency_overrides("grid_power_l1:3") == {"grid_power_l1": 3}
+
+    def test_multiple_entries(self):
+        result = parse_frequency_overrides("grid_power_l1:3,inverter_power:5")
+        assert result == {"grid_power_l1": 3, "inverter_power": 5}
+
+    def test_entries_with_spaces(self):
+        result = parse_frequency_overrides(" grid_power_l1 : 3 , inverter_power : 5 ")
+        assert result == {"grid_power_l1": 3, "inverter_power": 5}
+
+    def test_zero_frequency(self):
+        assert parse_frequency_overrides("grid_power_l1:0") == {"grid_power_l1": 0}
+
+    def test_strip_sensor_prefix(self):
+        result = parse_frequency_overrides("sensor.victron_mqtt_grid_power_l1:3")
+        assert result == {"grid_power_l1": 3}
+
+    def test_strip_number_prefix(self):
+        result = parse_frequency_overrides("number.victron_mqtt_ess_mode:0")
+        assert result == {"ess_mode": 0}
+
+    def test_strip_binary_sensor_prefix(self):
+        result = parse_frequency_overrides("binary_sensor.victron_mqtt_system_alarm:5")
+        assert result == {"system_alarm": 5}
+
+    def test_strip_switch_prefix(self):
+        result = parse_frequency_overrides("switch.victron_mqtt_relay_state:2")
+        assert result == {"relay_state": 2}
+
+    def test_strip_bare_victron_mqtt_prefix(self):
+        result = parse_frequency_overrides("victron_mqtt_grid_power:5")
+        assert result == {"grid_power": 5}
+
+    def test_strip_installation_id_simple_naming(self):
+        """With simple naming, no installation_id in entity ID."""
+        result = parse_frequency_overrides(
+            "sensor.victron_mqtt_grid_power_l1:3", installation_id=None
+        )
+        assert result == {"grid_power_l1": 3}
+
+    def test_strip_installation_id_complex_naming(self):
+        """With complex naming, installation_id is embedded in entity ID."""
+        result = parse_frequency_overrides(
+            "sensor.victron_mqtt_c0619ab48793_grid_power_l1:3",
+            installation_id="c0619ab48793",
+        )
+        assert result == {"grid_power_l1": 3}
+
+    def test_raw_short_id_with_installation_id(self):
+        """Raw short_id should not be affected by installation_id stripping."""
+        result = parse_frequency_overrides(
+            "grid_power_l1:3", installation_id="c0619ab48793"
+        )
+        assert result == {"grid_power_l1": 3}
+
+    def test_invalid_entry_no_colon(self):
+        result = parse_frequency_overrides("bad_entry")
+        assert result == {}
+
+    def test_invalid_entry_non_integer(self):
+        result = parse_frequency_overrides("key:abc")
+        assert result == {}
+
+    def test_invalid_entry_negative(self):
+        result = parse_frequency_overrides("key:-1")
+        assert result == {}
+
+    def test_mixed_valid_and_invalid(self):
+        result = parse_frequency_overrides("good:3,bad_entry,also_good:0,neg:-1")
+        assert result == {"good": 3, "also_good": 0}
+
+    def test_trailing_comma(self):
+        result = parse_frequency_overrides("grid_power_l1:3,")
+        assert result == {"grid_power_l1": 3}
+
+    def test_empty_entries_between_commas(self):
+        result = parse_frequency_overrides("grid_power_l1:3,,inverter_power:5")
+        assert result == {"grid_power_l1": 3, "inverter_power": 5}
+
+
+# ═══════════════════════════════════════════════════════════════════════════
+# Hub update_frequency_overrides passthrough tests
+# ═══════════════════════════════════════════════════════════════════════════
+
+
+async def test_hub_passes_frequency_overrides(
+    hass: HomeAssistant,
+) -> None:
+    """Test that Hub passes parsed update_frequency_overrides to VictronVenusHub."""
+    config = {
+        CONF_HOST: "venus.local",
+        CONF_PORT: 1883,
+        CONF_USERNAME: "test_user",
+        CONF_PASSWORD: "test_pass",
+        CONF_SSL: False,
+        CONF_INSTALLATION_ID: "12345",
+        CONF_MODEL: "Venus GX",
+        CONF_SERIAL: "HQ12345678",
+        CONF_UPDATE_FREQUENCY_SECONDS: 30,
+        CONF_SIMPLE_NAMING: True,
+        CONF_UPDATE_FREQUENCY_OVERRIDES: "grid_power_l1:3,inverter_power:5",
+    }
+    mock_entry = MockConfigEntry(
+        domain=DOMAIN,
+        unique_id="test_overrides",
+        data=config,
+    )
+    mock_entry.add_to_hass(hass)
+
+    with patch(
+        "custom_components.victron_mqtt.hub.VictronVenusHub"
+    ) as mock_hub_class:
+        mock_hub = MagicMock(spec=VictronVenusHub)
+        mock_hub.connect = AsyncMock()
+        mock_hub.disconnect = AsyncMock()
+        mock_hub.installation_id = "12345"
+        mock_hub_class.return_value = mock_hub
+
+        await hass.config_entries.async_setup(mock_entry.entry_id)
+        await hass.async_block_till_done()
+
+        # Verify VictronVenusHub was called with the parsed overrides
+        mock_hub_class.assert_called_once()
+        call_kwargs = mock_hub_class.call_args.kwargs
+        assert call_kwargs["update_frequency_overrides"] == {
+            "grid_power_l1": 3,
+            "inverter_power": 5,
+        }
+
+
+async def test_hub_passes_frequency_overrides_with_prefix_stripping(
+    hass: HomeAssistant,
+) -> None:
+    """Test that Hub strips HA entity prefixes and installation_id before passing overrides."""
+    config = {
+        CONF_HOST: "venus.local",
+        CONF_PORT: 1883,
+        CONF_USERNAME: "test_user",
+        CONF_PASSWORD: "test_pass",
+        CONF_SSL: False,
+        CONF_INSTALLATION_ID: "c0619ab48793",
+        CONF_MODEL: "Venus GX",
+        CONF_SERIAL: "HQ12345678",
+        CONF_UPDATE_FREQUENCY_SECONDS: 30,
+        CONF_SIMPLE_NAMING: False,
+        CONF_UPDATE_FREQUENCY_OVERRIDES: "sensor.victron_mqtt_c0619ab48793_grid_power_l1:3",
+    }
+    mock_entry = MockConfigEntry(
+        domain=DOMAIN,
+        unique_id="test_overrides_complex",
+        data=config,
+    )
+    mock_entry.add_to_hass(hass)
+
+    with patch(
+        "custom_components.victron_mqtt.hub.VictronVenusHub"
+    ) as mock_hub_class:
+        mock_hub = MagicMock(spec=VictronVenusHub)
+        mock_hub.connect = AsyncMock()
+        mock_hub.disconnect = AsyncMock()
+        mock_hub.installation_id = "c0619ab48793"
+        mock_hub_class.return_value = mock_hub
+
+        await hass.config_entries.async_setup(mock_entry.entry_id)
+        await hass.async_block_till_done()
+
+        mock_hub_class.assert_called_once()
+        call_kwargs = mock_hub_class.call_args.kwargs
+        assert call_kwargs["update_frequency_overrides"] == {
+            "grid_power_l1": 3,
+        }
+
+
+async def test_hub_no_frequency_overrides(
+    hass: HomeAssistant,
+) -> None:
+    """Test that Hub passes empty dict when no overrides are configured."""
+    config = {
+        CONF_HOST: "venus.local",
+        CONF_PORT: 1883,
+        CONF_USERNAME: "test_user",
+        CONF_PASSWORD: "test_pass",
+        CONF_SSL: False,
+        CONF_INSTALLATION_ID: "12345",
+        CONF_MODEL: "Venus GX",
+        CONF_SERIAL: "HQ12345678",
+        CONF_UPDATE_FREQUENCY_SECONDS: 30,
+        CONF_SIMPLE_NAMING: True,
+    }
+    mock_entry = MockConfigEntry(
+        domain=DOMAIN,
+        unique_id="test_no_overrides",
+        data=config,
+    )
+    mock_entry.add_to_hass(hass)
+
+    with patch(
+        "custom_components.victron_mqtt.hub.VictronVenusHub"
+    ) as mock_hub_class:
+        mock_hub = MagicMock(spec=VictronVenusHub)
+        mock_hub.connect = AsyncMock()
+        mock_hub.disconnect = AsyncMock()
+        mock_hub.installation_id = "12345"
+        mock_hub_class.return_value = mock_hub
+
+        await hass.config_entries.async_setup(mock_entry.entry_id)
+        await hass.async_block_till_done()
+
+        mock_hub_class.assert_called_once()
+        call_kwargs = mock_hub_class.call_args.kwargs
+        assert call_kwargs["update_frequency_overrides"] == {}
 
 
