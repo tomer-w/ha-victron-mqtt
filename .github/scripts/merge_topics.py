@@ -79,7 +79,7 @@ def main():
         has_device_class = topic_metric_type in DEVICE_CLASS_METRIC_TYPES
         if topic_unit is not None and topic_unit != "%" and not has_device_class:
             entity_entry["unit_of_measurement"] = topic_unit
-        if enum_name and enum_name in enum_lookup:
+        if entity_type != "button" and enum_name and enum_name in enum_lookup:
             entity_entry["state"] = enum_lookup[enum_name]
 
         # Add to original entity type
