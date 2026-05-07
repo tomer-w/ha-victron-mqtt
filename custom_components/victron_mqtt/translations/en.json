@@ -287,6 +287,13 @@
           "on": "On"
         }
       },
+      "system_settings_prevent_ac_feedin": {
+        "name": "ESS prevent AC feed-in",
+        "state": {
+          "off": "Off",
+          "on": "On"
+        }
+      },
       "vebus_device_device_number_power_assist_enabled": {
         "name": "{device_number} PowerAssist enabled",
         "state": {
@@ -406,7 +413,8 @@
         "name": "Charge current limit"
       },
       "switch_output_dimming": {
-        "name": "Dimming"
+        "name": "Dimming",
+        "unit_of_measurement": "switch_{output}_unit:%"
       },
       "system_ac_export_limit": {
         "name": "AC export limit"
@@ -480,6 +488,24 @@
           "eco": "Eco",
           "inverter": "Inverter",
           "off": "Off"
+        }
+      },
+      "system_ac_input_1_type": {
+        "name": "AC input 1 source type",
+        "state": {
+          "generator": "Generator",
+          "grid": "Grid",
+          "not_used": "Not used",
+          "shore": "Shore"
+        }
+      },
+      "system_ac_input_2_type": {
+        "name": "AC input 2 source type",
+        "state": {
+          "generator": "Generator",
+          "grid": "Grid",
+          "not_used": "Not used",
+          "shore": "Shore"
         }
       },
       "system_ess_batterylife_state": {
@@ -1634,7 +1660,8 @@
         "name": "Yield yesterday"
       },
       "switch_output_dimming": {
-        "name": "Dimming"
+        "name": "Dimming",
+        "unit_of_measurement": "switch_{output}_unit:%"
       },
       "system_ac_active_input_source": {
         "name": "AC active input source",
@@ -1648,6 +1675,24 @@
       },
       "system_ac_export_limit": {
         "name": "AC export limit"
+      },
+      "system_ac_input_1_type": {
+        "name": "AC input 1 source type",
+        "state": {
+          "generator": "Generator",
+          "grid": "Grid",
+          "not_used": "Not used",
+          "shore": "Shore"
+        }
+      },
+      "system_ac_input_2_type": {
+        "name": "AC input 2 source type",
+        "state": {
+          "generator": "Generator",
+          "grid": "Grid",
+          "not_used": "Not used",
+          "shore": "Shore"
+        }
       },
       "system_ac_input_limit": {
         "name": "AC input limit"
@@ -2387,6 +2432,13 @@
       },
       "system_settings_overvoltage_feedin": {
         "name": "PV DC overvoltage feed-in",
+        "state": {
+          "off": "Off",
+          "on": "On"
+        }
+      },
+      "system_settings_prevent_ac_feedin": {
+        "name": "ESS prevent AC feed-in",
         "state": {
           "off": "Off",
           "on": "On"
