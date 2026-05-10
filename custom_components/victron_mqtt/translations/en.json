@@ -224,13 +224,6 @@
           "on": "On"
         }
       },
-      "switch_output_state": {
-        "name": "State",
-        "state": {
-          "off": "Off",
-          "on": "On"
-        }
-      },
       "switchable_output_output_state": {
         "name": "State",
         "state": {
@@ -331,6 +324,15 @@
     "device_tracker": {
       "gps_location": {
         "name": "Location"
+      }
+    },
+    "dynamic": {
+      "switch_output_state": {
+        "name": "State",
+        "state": {
+          "off": "Off",
+          "on": "On"
+        }
       }
     },
     "number": {
@@ -2390,13 +2392,6 @@
       },
       "solarcharger_relay_state": {
         "name": "Relay state",
-        "state": {
-          "off": "Off",
-          "on": "On"
-        }
-      },
-      "switch_output_state": {
-        "name": "State",
         "state": {
           "off": "Off",
           "on": "On"
