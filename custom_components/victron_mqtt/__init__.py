@@ -9,6 +9,7 @@ from homeassistant.core import Event, HomeAssistant, ServiceCall
 from homeassistant.helpers import device_registry as dr, entity_registry as er
 from homeassistant.helpers.typing import ConfigType
 from homeassistant.exceptions import HomeAssistantError
+import homeassistant.helpers.config_validation as cv
 
 
 from .const import ATTR_DEVICE_ID, ATTR_METRIC_ID, ATTR_VALUE, CONF_SIMPLE_NAMING, DOMAIN, SERVICE_PUBLISH
@@ -16,6 +17,8 @@ from .hub import Hub, VictronGxConfigEntry
 
 _LOGGER = logging.getLogger(__name__)
 _VICTRON_MQTT_LOGGER = logging.getLogger("victron_mqtt")
+
+CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 PLATFORMS: list[Platform] = [
     Platform.BINARY_SENSOR,

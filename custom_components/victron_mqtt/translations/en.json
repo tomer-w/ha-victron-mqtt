@@ -415,8 +415,7 @@
         "name": "Charge current limit"
       },
       "switch_output_dimming": {
-        "name": "Dimming",
-        "unit_of_measurement": "switch_{output}_unit:%"
+        "name": "Dimming"
       },
       "system_ac_export_limit": {
         "name": "AC export limit"
@@ -1662,8 +1661,7 @@
         "name": "Yield yesterday"
       },
       "switch_output_dimming": {
-        "name": "Dimming",
-        "unit_of_measurement": "switch_{output}_unit:%"
+        "name": "Dimming"
       },
       "system_ac_active_input_source": {
         "name": "AC active input source",
