@@ -77,7 +77,8 @@ def main():
         # does NOT have a device_class (those get native_unit in code instead).
         entity_entry = {} if is_main_topic else {"name": topic_name}
         has_device_class = topic_metric_type in DEVICE_CLASS_METRIC_TYPES
-        if topic_unit is not None and topic_unit != "%" and not has_device_class:
+        is_dynamic_unit = topic_unit is not None and "{" in topic_unit
+        if topic_unit is not None and topic_unit != "%" and not has_device_class and not is_dynamic_unit:
             entity_entry["unit_of_measurement"] = topic_unit
         if entity_type != "button" and enum_name and enum_name in enum_lookup:
             entity_entry["state"] = enum_lookup[enum_name]
