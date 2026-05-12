@@ -729,3 +729,77 @@ async def test_options_flow_auth_error(
 
     assert result["type"] is FlowResultType.FORM
     assert result["errors"] == {"base": "invalid_auth"}
+
+
+async def test_migration_v1_to_v2_without_simple_naming(hass: HomeAssistant) -> None:
+    """Test migration from v1 to v2 adds simple_naming=False when missing."""
+    mock_config_entry = MockConfigEntry(
+        domain=DOMAIN,
+        unique_id=MOCK_INSTALLATION_ID,
+        version=1,
+        data={
+            CONF_HOST: MOCK_HOST,
+            CONF_PORT: DEFAULT_PORT,
+            CONF_INSTALLATION_ID: MOCK_INSTALLATION_ID,
+            CONF_SSL: False,
+            CONF_UPDATE_FREQUENCY_SECONDS: DEFAULT_UPDATE_FREQUENCY_SECONDS,
+        },
+    )
+    mock_config_entry.add_to_hass(hass)
+
+    from custom_components.victron_mqtt import async_migrate_entry
+
+    result = await async_migrate_entry(hass, mock_config_entry)
+    assert result is True
+    assert mock_config_entry.data[CONF_SIMPLE_NAMING] is False
+    assert mock_config_entry.version == 2
+
+
+async def test_migration_v1_to_v2_with_simple_naming_true(hass: HomeAssistant) -> None:
+    """Test migration from v1 to v2 preserves existing simple_naming=True."""
+    mock_config_entry = MockConfigEntry(
+        domain=DOMAIN,
+        unique_id=MOCK_INSTALLATION_ID,
+        version=1,
+        data={
+            CONF_HOST: MOCK_HOST,
+            CONF_PORT: DEFAULT_PORT,
+            CONF_INSTALLATION_ID: MOCK_INSTALLATION_ID,
+            CONF_SSL: False,
+            CONF_SIMPLE_NAMING: True,
+            CONF_UPDATE_FREQUENCY_SECONDS: DEFAULT_UPDATE_FREQUENCY_SECONDS,
+        },
+    )
+    mock_config_entry.add_to_hass(hass)
+
+    from custom_components.victron_mqtt import async_migrate_entry
+
+    result = await async_migrate_entry(hass, mock_config_entry)
+    assert result is True
+    assert mock_config_entry.data[CONF_SIMPLE_NAMING] is True
+    assert mock_config_entry.version == 2
+
+
+async def test_migration_v1_to_v2_with_simple_naming_false(hass: HomeAssistant) -> None:
+    """Test migration from v1 to v2 preserves existing simple_naming=False."""
+    mock_config_entry = MockConfigEntry(
+        domain=DOMAIN,
+        unique_id=MOCK_INSTALLATION_ID,
+        version=1,
+        data={
+            CONF_HOST: MOCK_HOST,
+            CONF_PORT: DEFAULT_PORT,
+            CONF_INSTALLATION_ID: MOCK_INSTALLATION_ID,
+            CONF_SSL: False,
+            CONF_SIMPLE_NAMING: False,
+            CONF_UPDATE_FREQUENCY_SECONDS: DEFAULT_UPDATE_FREQUENCY_SECONDS,
+        },
+    )
+    mock_config_entry.add_to_hass(hass)
+
+    from custom_components.victron_mqtt import async_migrate_entry
+
+    result = await async_migrate_entry(hass, mock_config_entry)
+    assert result is True
+    assert mock_config_entry.data[CONF_SIMPLE_NAMING] is False
+    assert mock_config_entry.version == 2

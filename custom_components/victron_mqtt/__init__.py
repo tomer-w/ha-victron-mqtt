@@ -11,7 +11,7 @@ from homeassistant.helpers.typing import ConfigType
 from homeassistant.exceptions import HomeAssistantError
 
 
-from .const import ATTR_DEVICE_ID, ATTR_METRIC_ID, ATTR_VALUE, DOMAIN, SERVICE_PUBLISH
+from .const import ATTR_DEVICE_ID, ATTR_METRIC_ID, ATTR_VALUE, CONF_SIMPLE_NAMING, DOMAIN, SERVICE_PUBLISH
 from .hub import Hub, VictronGxConfigEntry
 
 _LOGGER = logging.getLogger(__name__)
@@ -87,6 +87,20 @@ def _sync_library_logging() -> None:
     lib_level = _LOGGER.getEffectiveLevel()
     _VICTRON_MQTT_LOGGER.setLevel(lib_level)
     _VICTRON_MQTT_LOGGER.propagate = True  # Let it go through HA logging
+
+
+async def async_migrate_entry(hass: HomeAssistant, config_entry: VictronGxConfigEntry) -> bool:
+    """Migrate old entry to new version."""
+    _LOGGER.debug("Migrating from version %s", config_entry.version)
+
+    if config_entry.version == 1:
+        new_data = {**config_entry.data}
+        if CONF_SIMPLE_NAMING not in new_data:
+            new_data[CONF_SIMPLE_NAMING] = False
+        hass.config_entries.async_update_entry(config_entry, data=new_data, version=2)
+        _LOGGER.info("Migration to version 2 successful")
+
+    return True
 
 
 async def async_setup_entry(hass: HomeAssistant, entry: VictronGxConfigEntry) -> bool:
