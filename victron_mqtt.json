@@ -1199,10 +1199,10 @@
       "message_type": "MetricKind.SENSOR",
       "short_id": "battery_time_since_last_full_charge",
       "name": "Time since last full charge",
-      "unit_of_measurement": "seconds",
-      "metric_type": "MetricType.NONE",
-      "metric_nature": "MetricNature.TOTAL",
-      "value_type": "ValueType.FLOAT",
+      "unit_of_measurement": "s",
+      "metric_type": "MetricType.DURATION",
+      "metric_nature": "MetricNature.MEASUREMENT",
+      "value_type": "ValueType.INT",
       "precision": null,
       "enum": null,
       "min_max_range": "RangeType.STATIC",
@@ -6150,6 +6150,63 @@
       "generic_name": "ESS BatteryLife state",
       "is_formula": false,
       "main_topic": false,
+      "hidden": true,
+      "sub_device_key": null
+    },
+    {
+      "topic": "N/{installation_id}/settings/{device_id}/Settings/CGwacs/BatteryLife/State",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "system_ess_batterylife_state_sensor",
+      "name": "ESS BatteryLife state (detailed)",
+      "unit_of_measurement": null,
+      "metric_type": "MetricType.ENUM",
+      "metric_nature": "MetricNature.NONE",
+      "value_type": "ValueType.ENUM",
+      "precision": null,
+      "enum": "ESSState",
+      "min_max_range": "RangeType.STATIC",
+      "min": null,
+      "max": null,
+      "step": null,
+      "is_adjustable_suffix": null,
+      "output_type": null,
+      "labels": null,
+      "key_values": {},
+      "experimental": false,
+      "depends_on": [],
+      "generic_name": "ESS BatteryLife state (detailed)",
+      "is_formula": false,
+      "main_topic": false,
+      "hidden": false,
+      "sub_device_key": null
+    },
+    {
+      "topic": "$$func/system/ess_user_mode:ess_user_mode_set",
+      "message_type": "MetricKind.SELECT",
+      "short_id": "system_ess_user_mode",
+      "name": "ESS mode",
+      "unit_of_measurement": null,
+      "metric_type": "MetricType.ENUM",
+      "metric_nature": "MetricNature.NONE",
+      "value_type": "ValueType.ENUM",
+      "precision": null,
+      "enum": "ESSUserMode",
+      "min_max_range": "RangeType.STATIC",
+      "min": null,
+      "max": null,
+      "step": null,
+      "is_adjustable_suffix": null,
+      "output_type": null,
+      "labels": null,
+      "key_values": {},
+      "experimental": false,
+      "depends_on": [
+        "system_ess_batterylife_state",
+        "system_ess_mode"
+      ],
+      "generic_name": "ESS mode",
+      "is_formula": true,
+      "main_topic": false,
       "hidden": false,
       "sub_device_key": null
     },
@@ -7529,7 +7586,7 @@
       "metric_type": "MetricType.ENERGY",
       "metric_nature": "MetricNature.TOTAL",
       "value_type": "ValueType.FLOAT",
-      "precision": 1,
+      "precision": 2,
       "enum": null,
       "min_max_range": "RangeType.STATIC",
       "min": null,
@@ -7583,7 +7640,7 @@
       "metric_type": "MetricType.ENERGY",
       "metric_nature": "MetricNature.TOTAL",
       "value_type": "ValueType.FLOAT",
-      "precision": 1,
+      "precision": 2,
       "enum": null,
       "min_max_range": "RangeType.STATIC",
       "min": null,
@@ -12058,6 +12115,31 @@
           "id": "recharge_no_battery_life",
           "name": "Recharge, SoC dropped 5% or more below minimum SoC (No BatteryLife)",
           "value": 12
+        }
+      ]
+    },
+    {
+      "name": "ESSUserMode",
+      "EnumValues": [
+        {
+          "id": "optimized_battery_life",
+          "name": "Optimized (with BatteryLife)",
+          "value": 1
+        },
+        {
+          "id": "optimized_no_battery_life",
+          "name": "Optimized (without BatteryLife)",
+          "value": 10
+        },
+        {
+          "id": "keep_batteries_charged",
+          "name": "Keep batteries charged",
+          "value": 9
+        },
+        {
+          "id": "external_control",
+          "name": "External control",
+          "value": 3
         }
       ]
     },

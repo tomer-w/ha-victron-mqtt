@@ -509,23 +509,6 @@
           "shore": "Shore"
         }
       },
-      "system_ess_batterylife_state": {
-        "name": "ESS BatteryLife state",
-        "state": {
-          "keep_batteries_charged": "'Keep batteries charged' mode enabled",
-          "recharge": "Recharge, SoC dropped 5% or more below minimum SoC",
-          "recharge_no_battery_life": "Recharge, SoC dropped 5% or more below minimum SoC (No BatteryLife)",
-          "self_consumption": "Self-consumption",
-          "self_consumption_soc_above_min": "Self-consumption, SoC at or above minimum SoC",
-          "self_consumption_soc_at_100": "Self-consumption, SoC at 100%",
-          "self_consumption_soc_below_min": "Self-consumption, SoC is below minimum SoC",
-          "self_consumption_soc_exceeds_85": "Self-consumption, SoC exceeds 85%",
-          "soc_below_battery_life_dynamic_soc_limit": "SoC below BatteryLife dynamic SoC limit",
-          "soc_below_soc_limit_24_hours": "SoC has been below SoC limit for more than 24 hours. Charging battery with 5 amps",
-          "sustain": "Multi/Quattro is in sustain",
-          "with_battery_life": "Optimized mode with BatteryLife"
-        }
-      },
       "system_ess_mode": {
         "name": "ESS mode (Hub4)",
         "state": {
@@ -557,6 +540,15 @@
           "wednesday": "Wednesday",
           "weekdays": "Weekdays",
           "weekends": "Weekends"
+        }
+      },
+      "system_ess_user_mode": {
+        "name": "ESS mode",
+        "state": {
+          "external_control": "External control",
+          "keep_batteries_charged": "Keep batteries charged",
+          "optimized_battery_life": "Optimized (with BatteryLife)",
+          "optimized_no_battery_life": "Optimized (without BatteryLife)"
         }
       },
       "system_settings_dess_mode": {
@@ -840,8 +832,7 @@
         "name": "Temperature"
       },
       "battery_time_since_last_full_charge": {
-        "name": "Time since last full charge",
-        "unit_of_measurement": "seconds"
+        "name": "Time since last full charge"
       },
       "battery_time_to_go": {
         "name": "Time to go"
@@ -1847,8 +1838,8 @@
       "system_dynamicess_target_soc": {
         "name": "Dynamic ESS target SoC"
       },
-      "system_ess_batterylife_state": {
-        "name": "ESS BatteryLife state",
+      "system_ess_batterylife_state_sensor": {
+        "name": "ESS BatteryLife state (detailed)",
         "state": {
           "keep_batteries_charged": "'Keep batteries charged' mode enabled",
           "recharge": "Recharge, SoC dropped 5% or more below minimum SoC",
@@ -1920,6 +1911,15 @@
       },
       "system_ess_schedule_charge_slot_soc": {
         "name": "ESS BatteryLife schedule charge {slot} SoC"
+      },
+      "system_ess_user_mode": {
+        "name": "ESS mode",
+        "state": {
+          "external_control": "External control",
+          "keep_batteries_charged": "Keep batteries charged",
+          "optimized_battery_life": "Optimized (with BatteryLife)",
+          "optimized_no_battery_life": "Optimized (without BatteryLife)"
+        }
       },
       "system_generator_load_phase": {
         "name": "Genset load {phase}"
