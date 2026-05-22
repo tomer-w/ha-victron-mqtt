@@ -308,6 +308,20 @@
           "on": "On"
         }
       },
+      "vebus_inverter_prefer_renewable_energy": {
+        "name": "Prefer renewable energy",
+        "state": {
+          "off": "Off",
+          "on": "On"
+        }
+      },
+      "vebus_inverter_remote_generator_selected": {
+        "name": "Remote generator selected",
+        "state": {
+          "off": "Off",
+          "on": "On"
+        }
+      },
       "vebus_inverter_setting_alarm_grid_lost": {
         "name": "Grid lost alarm setting",
         "state": {
@@ -2446,6 +2460,13 @@
       },
       "vebus_inverter_ignoreacin1_onoff_control": {
         "name": "Control ignore AC-in-1",
+        "state": {
+          "off": "Off",
+          "on": "On"
+        }
+      },
+      "vebus_inverter_prefer_renewable_energy": {
+        "name": "Prefer renewable energy",
         "state": {
           "off": "Off",
           "on": "On"
