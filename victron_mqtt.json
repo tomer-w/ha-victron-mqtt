@@ -10203,6 +10203,33 @@
       "sub_device_key": null
     },
     {
+      "topic": "N/{installation_id}/vebus/{device_id}/Ac/State/RemoteGeneratorSelected",
+      "message_type": "MetricKind.BINARY_SENSOR",
+      "short_id": "vebus_inverter_remote_generator_selected",
+      "name": "Remote generator selected",
+      "unit_of_measurement": null,
+      "metric_type": "MetricType.ENUM",
+      "metric_nature": "MetricNature.NONE",
+      "value_type": "ValueType.ENUM",
+      "precision": null,
+      "enum": "GenericOnOff",
+      "min_max_range": "RangeType.STATIC",
+      "min": null,
+      "max": null,
+      "step": null,
+      "is_adjustable_suffix": null,
+      "output_type": null,
+      "labels": null,
+      "key_values": {},
+      "experimental": false,
+      "depends_on": [],
+      "generic_name": "Remote generator selected",
+      "is_formula": false,
+      "main_topic": false,
+      "hidden": false,
+      "sub_device_key": null
+    },
+    {
       "topic": "N/{installation_id}/vebus/{device_id}/Alarms/GridLost",
       "message_type": "MetricKind.SENSOR",
       "short_id": "vebus_inverter_alarm_grid_lost",
@@ -10549,6 +10576,62 @@
       "depends_on": [],
       "generic_name": "DC power",
       "is_formula": false,
+      "main_topic": false,
+      "hidden": false,
+      "sub_device_key": null
+    },
+    {
+      "topic": "N/{installation_id}/vebus/{device_id}/Dc/0/PreferRenewableEnergy",
+      "message_type": "MetricKind.SELECT",
+      "short_id": "vebus_inverter_prefer_renewable_energy_raw",
+      "name": "Prefer renewable energy (raw)",
+      "unit_of_measurement": null,
+      "metric_type": "MetricType.ENUM",
+      "metric_nature": "MetricNature.NONE",
+      "value_type": "ValueType.ENUM",
+      "precision": null,
+      "enum": "PreferRenewableEnergyEnum",
+      "min_max_range": "RangeType.STATIC",
+      "min": null,
+      "max": null,
+      "step": null,
+      "is_adjustable_suffix": null,
+      "output_type": null,
+      "labels": null,
+      "key_values": {},
+      "experimental": false,
+      "depends_on": [],
+      "generic_name": "Prefer renewable energy (raw)",
+      "is_formula": false,
+      "main_topic": false,
+      "hidden": true,
+      "sub_device_key": null
+    },
+    {
+      "topic": "$$func/vebus/prefer_renewable_energy:prefer_renewable_energy_set",
+      "message_type": "MetricKind.SWITCH",
+      "short_id": "vebus_inverter_prefer_renewable_energy",
+      "name": "Prefer renewable energy",
+      "unit_of_measurement": null,
+      "metric_type": "MetricType.ENUM",
+      "metric_nature": "MetricNature.NONE",
+      "value_type": "ValueType.ENUM",
+      "precision": null,
+      "enum": "GenericOnOff",
+      "min_max_range": "RangeType.STATIC",
+      "min": null,
+      "max": null,
+      "step": null,
+      "is_adjustable_suffix": null,
+      "output_type": null,
+      "labels": null,
+      "key_values": {},
+      "experimental": false,
+      "depends_on": [
+        "vebus_inverter_prefer_renewable_energy_raw"
+      ],
+      "generic_name": "Prefer renewable energy",
+      "is_formula": true,
       "main_topic": false,
       "hidden": false,
       "sub_device_key": null
@@ -12635,6 +12718,26 @@
           "id": "eco",
           "name": "Eco",
           "value": 5
+        }
+      ]
+    },
+    {
+      "name": "PreferRenewableEnergyEnum",
+      "EnumValues": [
+        {
+          "id": "full_charge_active",
+          "name": "Full charge active",
+          "value": 0
+        },
+        {
+          "id": "renewable_priority",
+          "name": "Renewable priority",
+          "value": 1
+        },
+        {
+          "id": "overridden",
+          "name": "Overridden by generator",
+          "value": 2
         }
       ]
     },
