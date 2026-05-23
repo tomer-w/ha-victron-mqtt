@@ -536,11 +536,11 @@ async def test_sensor_with_baseline(
     snapshot: SnapshotAssertion,
     init_integration,
 ) -> None:
-    """Test that baseline is NOT restored for TOTAL state_class (only TOTAL_INCREASING).
-    
-    The current implementation only restores baseline for sensors with
-    SensorStateClass.TOTAL_INCREASING. FormulaMetric sensors with CUMULATIVE
-    nature get mapped to SensorStateClass.TOTAL, so baseline is not restored.
+    """Test that baseline IS restored for FormulaMetric sensors with TOTAL state_class.
+
+    FormulaMetric energy sensors start from 0 on each HA restart. The baseline
+    mechanism restores the previous accumulated value so the sensor continues
+    from where it left off, preventing spikes in the Energy Dashboard.
     """
     victron_hub, mock_config_entry = init_integration
     # Mock time.monotonic() to return a fixed time
@@ -573,12 +573,11 @@ async def test_sensor_with_baseline(
     energy_entities = [e for e in entities if "energy" in e.entity_id]
     assert len(energy_entities) > 0
     
-    # Since state_class is TOTAL (not TOTAL_INCREASING), baseline is NOT restored
-    # The value should be 0.0 (the FormulaMetric's initial value)
+    # Since state_class is TOTAL and this is a FormulaMetric, baseline IS restored
+    # The value = baseline (1000.0) + formula accumulated energy (0.004)
     state = hass.states.get(energy_entities[0].entity_id)
     assert state is not None
-    # Value should be the metric's initial value, NOT the baseline
-    assert float(state.state) == 1000.004  # Not 0.004
+    assert float(state.state) == 1000.004
     # Should have created two entity
     assert len(entities) == 2
     assert entities == snapshot

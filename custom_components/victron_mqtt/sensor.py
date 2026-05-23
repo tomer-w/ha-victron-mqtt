@@ -131,9 +131,9 @@ class VictronSensor(VictronBaseEntity, RestoreSensor):
     async def async_added_to_hass(self) -> None:
         """Restore persistent state for FormulaMetric energy sensors."""
 
-        # Only restore for:
-        # 1. Total increasing sensors (like cumulative energy)
-        # 2. FormulaMetrics (calculated values)
+        # Only restore for cumulative FormulaMetric sensors (TOTAL / TOTAL_INCREASING).
+        # These metrics start from 0 on each HA restart, so we restore the
+        # previous accumulated value as a baseline and add new increments on top.
         should_restore = self.state_class in [
             SensorStateClass.TOTAL_INCREASING,
             SensorStateClass.TOTAL,
@@ -145,23 +145,29 @@ class VictronSensor(VictronBaseEntity, RestoreSensor):
             return
 
         last_state = await self.async_get_last_state()
-        if last_state is None or last_state.state in (None, "unknown"):
+        if last_state is None or last_state.state in (None, "unknown", "unavailable"):
             await super().async_added_to_hass()
             _LOGGER.info(
-                    "Baseline is missing. Probably first load for %s", self.entity_id
-                )
+                "Baseline is missing. Probably first load for %s", self.entity_id
+            )
             return
 
-        assert isinstance(self._attr_native_value, (int, float)), (
-            "sensor with stored baseline value must be numeric"
-        )
+        if not isinstance(self._attr_native_value, int | float):
+            _LOGGER.warning(
+                "Cannot restore baseline for %s: current value is %r (expected numeric)",
+                self.entity_id,
+                self._attr_native_value,
+            )
+            await super().async_added_to_hass()
+            return
+
         try:
             self._baseline = float(last_state.state)
             self._attr_native_value += self._baseline
             _LOGGER.info(
                 "Restored baseline of %.3f for %s", self._baseline, self.entity_id
             )
-        except ValueError:
+        except (ValueError, TypeError):
             _LOGGER.warning(
                 "Could not restore state for %s: invalid value '%s' (type: %s)",
                 self.entity_id,
