@@ -41,6 +41,7 @@ METRIC_TYPE_TO_DEVICE_CLASS: dict[MetricType, SensorDeviceClass] = {
     MetricType.SPEED: SensorDeviceClass.SPEED,
     MetricType.LIQUID_VOLUME: SensorDeviceClass.VOLUME_STORAGE,
     MetricType.DURATION: SensorDeviceClass.DURATION,
+    MetricType.IRRADIANCE: SensorDeviceClass.IRRADIANCE,
     MetricType.ENUM: SensorDeviceClass.ENUM,
 }
 
