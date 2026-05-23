@@ -274,14 +274,14 @@
         }
       },
       "system_settings_overvoltage_feedin": {
-        "name": "PV DC overvoltage feed-in",
+        "name": "ESS feed-in excess solar charger power",
         "state": {
           "off": "Off",
           "on": "On"
         }
       },
       "system_settings_prevent_ac_feedin": {
-        "name": "ESS prevent AC feed-in",
+        "name": "ESS PV inverter zero feed-in",
         "state": {
           "off": "Off",
           "on": "On"
@@ -303,6 +303,20 @@
       },
       "vebus_inverter_ignoreacin1_onoff_control": {
         "name": "Control ignore AC-in-1",
+        "state": {
+          "off": "Off",
+          "on": "On"
+        }
+      },
+      "vebus_inverter_prefer_renewable_energy": {
+        "name": "Prefer renewable energy",
+        "state": {
+          "off": "Off",
+          "on": "On"
+        }
+      },
+      "vebus_inverter_remote_generator_selected": {
+        "name": "Remote generator selected",
         "state": {
           "off": "Off",
           "on": "On"
@@ -509,6 +523,15 @@
           "shore": "Shore"
         }
       },
+      "system_ess_batterylife_state": {
+        "name": "ESS mode",
+        "state": {
+          "external_control": "External control",
+          "keep_batteries_charged": "Keep batteries charged",
+          "optimized_battery_life": "Optimized (with BatteryLife)",
+          "optimized_no_battery_life": "Optimized (without BatteryLife)"
+        }
+      },
       "system_ess_mode": {
         "name": "ESS mode (Hub4)",
         "state": {
@@ -540,15 +563,6 @@
           "wednesday": "Wednesday",
           "weekdays": "Weekdays",
           "weekends": "Weekends"
-        }
-      },
-      "system_ess_user_mode": {
-        "name": "ESS mode",
-        "state": {
-          "external_control": "External control",
-          "keep_batteries_charged": "Keep batteries charged",
-          "optimized_battery_life": "Optimized (with BatteryLife)",
-          "optimized_no_battery_life": "Optimized (without BatteryLife)"
         }
       },
       "system_settings_dess_mode": {
@@ -1838,6 +1852,15 @@
       "system_dynamicess_target_soc": {
         "name": "Dynamic ESS target SoC"
       },
+      "system_ess_batterylife_state": {
+        "name": "ESS mode",
+        "state": {
+          "external_control": "External control",
+          "keep_batteries_charged": "Keep batteries charged",
+          "optimized_battery_life": "Optimized (with BatteryLife)",
+          "optimized_no_battery_life": "Optimized (without BatteryLife)"
+        }
+      },
       "system_ess_batterylife_state_sensor": {
         "name": "ESS BatteryLife state (detailed)",
         "state": {
@@ -1911,15 +1934,6 @@
       },
       "system_ess_schedule_charge_slot_soc": {
         "name": "ESS BatteryLife schedule charge {slot} SoC"
-      },
-      "system_ess_user_mode": {
-        "name": "ESS mode",
-        "state": {
-          "external_control": "External control",
-          "keep_batteries_charged": "Keep batteries charged",
-          "optimized_battery_life": "Optimized (with BatteryLife)",
-          "optimized_no_battery_life": "Optimized (without BatteryLife)"
-        }
       },
       "system_generator_load_phase": {
         "name": "Genset load {phase}"
@@ -2424,14 +2438,14 @@
         }
       },
       "system_settings_overvoltage_feedin": {
-        "name": "PV DC overvoltage feed-in",
+        "name": "ESS feed-in excess solar charger power",
         "state": {
           "off": "Off",
           "on": "On"
         }
       },
       "system_settings_prevent_ac_feedin": {
-        "name": "ESS prevent AC feed-in",
+        "name": "ESS PV inverter zero feed-in",
         "state": {
           "off": "Off",
           "on": "On"
@@ -2446,6 +2460,13 @@
       },
       "vebus_inverter_ignoreacin1_onoff_control": {
         "name": "Control ignore AC-in-1",
+        "state": {
+          "off": "Off",
+          "on": "On"
+        }
+      },
+      "vebus_inverter_prefer_renewable_energy": {
+        "name": "Prefer renewable energy",
         "state": {
           "off": "Off",
           "on": "On"
