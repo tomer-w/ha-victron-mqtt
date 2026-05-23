@@ -1169,6 +1169,9 @@
       "generator_gen_id_warm_up_timer": {
         "name": "Generator warm-up timer"
       },
+      "generator_next_test_run": {
+        "name": "Next test run"
+      },
       "generator_run_state": {
         "name": "Run state",
         "state": {
@@ -1333,6 +1336,33 @@
       },
       "inverter_total_pv_yield_user": {
         "name": "Total PV yield user"
+      },
+      "meteo_alarm_low_battery": {
+        "name": "Low battery alarm",
+        "state": {
+          "alarm": "Alarm",
+          "no_alarm": "No alarm",
+          "warning": "Warning"
+        }
+      },
+      "meteo_battery_voltage": {
+        "name": "Battery voltage"
+      },
+      "meteo_cell_temperature": {
+        "name": "Cell temperature"
+      },
+      "meteo_installation_power": {
+        "name": "Installation power"
+      },
+      "meteo_irradiance": {
+        "name": "Irradiance",
+        "unit_of_measurement": "W/m²"
+      },
+      "meteo_time_since_last_sun": {
+        "name": "Time since last sun"
+      },
+      "meteo_todays_yield": {
+        "name": "Today's yield"
       },
       "multi_acin1_to_acout": {
         "name": "AC-in-1 to AC-out"
