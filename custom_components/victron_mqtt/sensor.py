@@ -41,8 +41,10 @@ METRIC_TYPE_TO_DEVICE_CLASS: dict[MetricType, SensorDeviceClass] = {
     MetricType.SPEED: SensorDeviceClass.SPEED,
     MetricType.LIQUID_VOLUME: SensorDeviceClass.VOLUME_STORAGE,
     MetricType.DURATION: SensorDeviceClass.DURATION,
-    MetricType.IRRADIANCE: SensorDeviceClass.IRRADIANCE,
     MetricType.ENUM: SensorDeviceClass.ENUM,
+    # IRRADIANCE added dynamically — older library versions (pre-2026.5.6) lack it,
+    # and HA Docker images may ship with the older version pre-installed.
+    **({MetricType.IRRADIANCE: SensorDeviceClass.IRRADIANCE} if hasattr(MetricType, "IRRADIANCE") else {}),
 }
 
 METRIC_NATURE_TO_STATE_CLASS: dict[MetricNature, SensorStateClass] = {
