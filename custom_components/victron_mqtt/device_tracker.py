@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from victron_mqtt import (
+from ._vendor.victron_mqtt import (
     Device as VictronVenusDevice,
     GpsLocation,
     Metric as VictronVenusMetric,

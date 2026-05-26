@@ -3,7 +3,7 @@
 from collections.abc import Callable
 import logging
 
-from victron_mqtt import (
+from ._vendor.victron_mqtt import (
     AuthenticationError,
     CannotConnectError,
     Device as VictronVenusDevice,

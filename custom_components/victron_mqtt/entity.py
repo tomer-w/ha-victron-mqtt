@@ -3,7 +3,7 @@
 from abc import abstractmethod
 from typing import Any
 
-from victron_mqtt import Device as VictronVenusDevice, Metric as VictronVenusMetric
+from ._vendor.victron_mqtt import Device as VictronVenusDevice, Metric as VictronVenusMetric
 
 from homeassistant.const import EntityCategory
 from homeassistant.core import callback

@@ -3,7 +3,7 @@
 import logging
 from typing import TYPE_CHECKING, Any
 
-from victron_mqtt import (
+from ._vendor.victron_mqtt import (
     Device as VictronVenusDevice,
     Metric as VictronVenusMetric,
     MetricKind,

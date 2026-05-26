@@ -1,5 +1,5 @@
 """Constants for the victron_mqtt integration."""
-from victron_mqtt import MetricNature
+from ._vendor.victron_mqtt import MetricNature
 
 from homeassistant.components.sensor import SensorStateClass
 

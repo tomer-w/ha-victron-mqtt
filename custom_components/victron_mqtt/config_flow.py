@@ -6,7 +6,7 @@ from types import MappingProxyType
 from typing import Any
 from urllib.parse import urlparse
 
-from victron_mqtt import (
+from ._vendor.victron_mqtt import (
     AuthenticationError,
     CannotConnectError,
     DeviceType,

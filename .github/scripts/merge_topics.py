@@ -43,6 +43,7 @@ def main():
         "MetricType.SPEED",
         "MetricType.LIQUID_VOLUME",
         "MetricType.DURATION",
+        "MetricType.IRRADIANCE",
     }
 
     # Update topics: add or update entries in en.json under entity.sensor for each topic id

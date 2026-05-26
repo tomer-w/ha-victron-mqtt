@@ -1,6 +1,5 @@
 """The victron_mqtt integration."""
 
-import asyncio
 import importlib.metadata
 import logging
 
@@ -66,16 +65,13 @@ async def async_setup_services(hass: HomeAssistant, entry: VictronGxConfigEntry)
     _LOGGER.info("Victron MQTT services registered")
 
 
-async def get_package_version(package_name: str) -> str:
-    return await asyncio.get_event_loop().run_in_executor(
-        None, importlib.metadata.version, package_name
-    )
-
-
 async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
     """Set up the integration."""
     version = getattr(hass.data.get("integrations", {}).get(DOMAIN), "version", "unknown")
-    victron_mqtt_version = await get_package_version("victron_mqtt")
+    try:
+        victron_mqtt_version = importlib.metadata.version("victron_mqtt")
+    except importlib.metadata.PackageNotFoundError:
+        victron_mqtt_version = "vendored"
     _LOGGER.info(
         "Setting up victron_mqtt integration. Version: %s. victron_mqtt package version: %s",
         version,

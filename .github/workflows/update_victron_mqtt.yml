@@ -36,8 +36,14 @@ jobs:
       - name: Check if update is needed
         id: check_update
         run: |
-          current=$(jq -r '.requirements[0]' custom_components/victron_mqtt/manifest.json | cut -d'=' -f3)
+          # Compare against the vendored lib version by checking the wheel we'd download
           latest="${{ steps.get_release.outputs.latest_version }}"
+          # Check if the lib/ directory already has this version by looking at a marker file
+          if [ -f "custom_components/victron_mqtt/_vendor/victron_mqtt/.vendored_version" ]; then
+            current=$(cat custom_components/victron_mqtt/_vendor/victron_mqtt/.vendored_version)
+          else
+            current="unknown"
+          fi
           echo "Current: $current, Latest: $latest"
           if [ "$current" = "$latest" ]; then
             echo "No update needed."
@@ -47,20 +53,33 @@ jobs:
             echo "update_needed=true" >> $GITHUB_OUTPUT
           fi
 
-      - name: Update dependency pins with new version
+      - name: Download and vendor victron_mqtt library
         if: steps.check_update.outputs.update_needed == 'true'
         run: |
           set -e
           latest="${{ steps.get_release.outputs.latest_version }}"
 
-          # Pin integration runtime dependency.
-          jq \
-            --arg v "$latest" \
-            '.requirements[0] = "victron_mqtt=="+$v' \
-            custom_components/victron_mqtt/manifest.json > manifest.tmp && mv manifest.tmp custom_components/victron_mqtt/manifest.json
+          # Download the wheel from PyPI
+          pip download "victron_mqtt==$latest" --no-deps -d /tmp/victron_wheel
 
-          # Pin local/dev test dependency.
-          sed -i -E "s|^victron_mqtt(==[0-9][0-9A-Za-z.\-]*)?$|victron_mqtt==$latest|" requirements.txt
+          # Extract the wheel (it's a zip file)
+          wheel_file=$(ls /tmp/victron_wheel/victron_mqtt-*.whl)
+          unzip -o "$wheel_file" "victron_mqtt/*" -d /tmp/victron_extracted
+
+          # Replace the vendored lib/ directory
+          rm -rf custom_components/victron_mqtt/_vendor/victron_mqtt
+          cp -r /tmp/victron_extracted/victron_mqtt custom_components/victron_mqtt/_vendor/victron_mqtt
+
+          # Remove __pycache__, py.typed, and utils/ (not needed in integration context)
+          find custom_components/victron_mqtt/_vendor/victron_mqtt -type d -name "__pycache__" -exec rm -rf {} + 2>/dev/null || true
+          rm -f custom_components/victron_mqtt/_vendor/victron_mqtt/py.typed
+          rm -rf custom_components/victron_mqtt/_vendor/victron_mqtt/utils
+
+          # Write version marker
+          echo "$latest" > custom_components/victron_mqtt/_vendor/victron_mqtt/.vendored_version
+
+          # Cleanup
+          rm -rf /tmp/victron_wheel /tmp/victron_extracted
 
       - name: Download victron_mqtt release package from PyPI
         if: steps.check_update.outputs.update_needed == 'true'

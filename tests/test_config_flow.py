@@ -3,7 +3,7 @@
 from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
-from victron_mqtt import CannotConnectError, OperationMode
+from custom_components.victron_mqtt._vendor.victron_mqtt import CannotConnectError, OperationMode
 
 from custom_components.victron_mqtt.const import (
     CONF_EXCLUDED_DEVICES,
@@ -32,7 +32,7 @@ from homeassistant.data_entry_flow import FlowResultType
 from homeassistant.exceptions import ConfigEntryAuthFailed
 from homeassistant.helpers.service_info.ssdp import SsdpServiceInfo
 from pytest_homeassistant_custom_component.common import MockConfigEntry
-from victron_mqtt import AuthenticationError
+from custom_components.victron_mqtt._vendor.victron_mqtt import AuthenticationError
 
 pytestmark = pytest.mark.usefixtures("mock_setup_entry", "enable_custom_integrations")
 MOCK_INSTALLATION_ID = "d41243d9b9c6"

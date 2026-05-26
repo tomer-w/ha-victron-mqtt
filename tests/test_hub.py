@@ -5,13 +5,13 @@ from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
 from syrupy.assertion import SnapshotAssertion
-from victron_mqtt import (
+from custom_components.victron_mqtt._vendor.victron_mqtt import (
     AuthenticationError,
     CannotConnectError,
     Device as VictronVenusDevice,
     Hub as VictronVenusHub,
 )
-from victron_mqtt.testing import create_mocked_hub, finalize_injection, inject_message
+from custom_components.victron_mqtt._vendor.victron_mqtt.testing import create_mocked_hub, finalize_injection, inject_message
 
 from custom_components.victron_mqtt.const import (
     CONF_EXCLUDED_DEVICES,
@@ -529,7 +529,7 @@ async def test_device_tracker_update(
     assert float(state.attributes["longitude"]) == 2.3522
 
 
-@patch('victron_mqtt.formula_common.time.monotonic')
+@patch('custom_components.victron_mqtt._vendor.victron_mqtt.formula_common.time.monotonic')
 async def test_sensor_with_baseline(
     mock_time: MagicMock,
     hass: HomeAssistant,
@@ -583,7 +583,7 @@ async def test_sensor_with_baseline(
     assert entities == snapshot
 
 
-@patch('victron_mqtt.formula_common.time.monotonic')
+@patch('custom_components.victron_mqtt._vendor.victron_mqtt.formula_common.time.monotonic')
 async def test_sensor_baseline_invalid_value(
     mock_time: MagicMock,
     hass: HomeAssistant,
