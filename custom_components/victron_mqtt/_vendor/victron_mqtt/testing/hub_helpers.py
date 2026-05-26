@@ -72,8 +72,7 @@ async def create_mocked_hub(
         keepalive_patch.start()
 
     try:
-        hub_module = Hub.__module__
-        with patch(f"{hub_module}.mqtt.Client") as mock_client:
+        with patch("victron_mqtt.hub.mqtt.Client") as mock_client:
             hub = Hub(
                 host="localhost",
                 port=1883,
