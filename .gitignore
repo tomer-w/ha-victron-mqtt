@@ -193,3 +193,5 @@ cython_debug/
 .cursorignore
 .cursorindexingignore
 .vscode/tasks.json
+
+.github/mcp.json
