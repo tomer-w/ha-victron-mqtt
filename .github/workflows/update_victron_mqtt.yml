@@ -76,11 +76,7 @@ jobs:
           rm -rf custom_components/victron_mqtt/_vendor/victron_mqtt/utils
 
           # Write version constant to _vendor/__init__.py
-          cat > custom_components/victron_mqtt/_vendor/__init__.py << PYEOF
-"""Vendored third-party packages."""
-
-VICTRON_MQTT_VERSION = "$latest"
-PYEOF
+          printf '"""Vendored third-party packages."""\n\nVICTRON_MQTT_VERSION = "%s"\n' "$latest" > custom_components/victron_mqtt/_vendor/__init__.py
 
           # Cleanup
           rm -rf /tmp/victron_wheel /tmp/victron_extracted
