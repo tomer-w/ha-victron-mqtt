@@ -274,14 +274,14 @@
         }
       },
       "system_settings_overvoltage_feedin": {
-        "name": "ESS feed-in excess solar charger power",
+        "name": "DC-coupled PV - feed in excess",
         "state": {
           "off": "Off",
           "on": "On"
         }
       },
       "system_settings_prevent_ac_feedin": {
-        "name": "ESS PV inverter zero feed-in",
+        "name": "AC-coupled PV - feed in excess",
         "state": {
           "off": "Off",
           "on": "On"
@@ -1355,8 +1355,7 @@
         "name": "Installation power"
       },
       "meteo_irradiance": {
-        "name": "Irradiance",
-        "unit_of_measurement": "W/m²"
+        "name": "Irradiance"
       },
       "meteo_time_since_last_sun": {
         "name": "Time since last sun"
@@ -1892,7 +1891,7 @@
         }
       },
       "system_ess_batterylife_state_sensor": {
-        "name": "ESS BatteryLife state (detailed)",
+        "name": "ESS BatteryLife state",
         "state": {
           "keep_batteries_charged": "'Keep batteries charged' mode enabled",
           "recharge": "Recharge, SoC dropped 5% or more below minimum SoC",
@@ -2468,14 +2467,14 @@
         }
       },
       "system_settings_overvoltage_feedin": {
-        "name": "ESS feed-in excess solar charger power",
+        "name": "DC-coupled PV - feed in excess",
         "state": {
           "off": "Off",
           "on": "On"
         }
       },
       "system_settings_prevent_ac_feedin": {
-        "name": "ESS PV inverter zero feed-in",
+        "name": "AC-coupled PV - feed in excess",
         "state": {
           "off": "Off",
           "on": "On"
