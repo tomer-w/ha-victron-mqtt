@@ -39,8 +39,8 @@ jobs:
           # Compare against the vendored lib version by checking the wheel we'd download
           latest="${{ steps.get_release.outputs.latest_version }}"
           # Check if the lib/ directory already has this version by looking at a marker file
-          if [ -f "custom_components/victron_mqtt/_vendor/victron_mqtt/.vendored_version" ]; then
-            current=$(cat custom_components/victron_mqtt/_vendor/victron_mqtt/.vendored_version)
+          if [ -f "custom_components/victron_mqtt/_vendor/__init__.py" ]; then
+            current=$(python3 -c "import re; m = re.search(r'VICTRON_MQTT_VERSION\s*=\s*\"(.+?)\"', open('custom_components/victron_mqtt/_vendor/__init__.py').read()); print(m.group(1) if m else 'unknown')")
           else
             current="unknown"
           fi
@@ -75,8 +75,12 @@ jobs:
           rm -f custom_components/victron_mqtt/_vendor/victron_mqtt/py.typed
           rm -rf custom_components/victron_mqtt/_vendor/victron_mqtt/utils
 
-          # Write version marker
-          echo "$latest" > custom_components/victron_mqtt/_vendor/victron_mqtt/.vendored_version
+          # Write version constant to _vendor/__init__.py
+          cat > custom_components/victron_mqtt/_vendor/__init__.py << PYEOF
+"""Vendored third-party packages."""
+
+VICTRON_MQTT_VERSION = "$latest"
+PYEOF
 
           # Cleanup
           rm -rf /tmp/victron_wheel /tmp/victron_extracted
