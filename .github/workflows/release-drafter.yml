@@ -1,4 +1,4 @@
-name: Release Drafter
+name: Draft Release
 
 on:
   push:
@@ -6,16 +6,32 @@ on:
       - main
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
-  update_release_draft:
-    permissions:
-      # write permission is required to create a github release
-      contents: write
+  draft_release:
     runs-on: ubuntu-latest
     steps:
-      # Drafts your next Release notes as Pull Requests are merged into "main"
-      - uses: release-drafter/release-drafter@v7
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Get version from manifest
+        id: version
+        run: |
+          version=$(jq -r .version custom_components/victron_mqtt/manifest.json)
+          echo "version=$version" >> $GITHUB_OUTPUT
+
+      - name: Create or update draft release
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          tag="v${{ steps.version.outputs.version }}"
+          # Check if a draft release already exists for this tag
+          existing=$(gh release list --json tagName,isDraft -q ".[] | select(.tagName == \"$tag\" and .isDraft) | .tagName")
+          if [ -n "$existing" ]; then
+            gh release edit "$tag" --draft --generate-notes
+          else
+            gh release create "$tag" --draft --generate-notes --title "$tag"
+          fi
