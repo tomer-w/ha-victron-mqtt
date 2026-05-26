@@ -1,6 +1,5 @@
 """Test the Victron GX MQTT Hub class."""
 
-import asyncio
 from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
