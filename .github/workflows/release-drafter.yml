@@ -102,6 +102,55 @@ jobs:
             echo "found=false" >> $GITHUB_OUTPUT
           fi
 
+      - name: Collect library release notes
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          prev_tag="${{ steps.prev_tag.outputs.tag }}"
+
+          # Get old and new library versions
+          old_ver=""
+          if [ -n "$prev_tag" ]; then
+            old_ver=$(git show "${prev_tag}:custom_components/victron_mqtt/_vendor/__init__.py" 2>/dev/null \
+              | sed -n 's/.*VICTRON_MQTT_VERSION *= *"\(.*\)".*/\1/p')
+          fi
+          new_ver=$(sed -n 's/.*VICTRON_MQTT_VERSION *= *"\(.*\)".*/\1/p' custom_components/victron_mqtt/_vendor/__init__.py)
+
+          echo "Old library version: $old_ver"
+          echo "New library version: $new_ver"
+
+          if [ -z "$old_ver" ] || [ "$old_ver" = "$new_ver" ]; then
+            echo "LIB_NOTES=" >> $GITHUB_ENV
+            exit 0
+          fi
+
+          # Fetch all library releases between old and new version
+          lib_notes=""
+          releases=$(gh release list --repo tomer-w/victron_mqtt --json tagName,isDraft -q '[.[] | select(.isDraft | not)] | .[].tagName')
+          collecting=false
+          while IFS= read -r tag; do
+            ver="${tag#v}"
+            if [ "$ver" = "$old_ver" ]; then
+              break
+            fi
+            if [ "$ver" = "$new_ver" ]; then
+              collecting=true
+            fi
+            if [ "$collecting" = true ]; then
+              body=$(gh release view "$tag" --repo tomer-w/victron_mqtt --json body -q .body 2>/dev/null || true)
+              if [ -n "$body" ]; then
+                lib_notes="${lib_notes}
+          ### ${tag}
+          ${body}
+          "
+              fi
+            fi
+          done <<< "$releases"
+
+          echo "LIB_NOTES<<EOF" >> $GITHUB_ENV
+          echo "$lib_notes" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+
       - uses: release-drafter/release-drafter@v7
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -125,6 +174,7 @@ jobs:
           body = os.environ['BODY']
           commits = os.environ['COMMITS']
           authors = os.environ.get('AUTHORS', '').strip()
+          lib_notes = os.environ.get('LIB_NOTES', '').strip()
 
           # Remove release-drafter's empty placeholders
           body = body.replace('No changes\n', '').replace('No changes', '')
@@ -145,12 +195,19 @@ jobs:
                       items.append(existing)
                   items.append(commits)
                   parts[i + 1] = '\n\n' + '\n'.join(items) + '\n\n'
+                  # Append library changes section after Changes
+                  if lib_notes:
+                      parts[i + 1] += '## Library Changes\n\n' + lib_notes + '\n\n'
               elif part.strip() == '## Contributors' and i + 1 < len(parts):
                   existing = parts[i + 1].strip()
                   if not existing and authors:
                       parts[i + 1] = '\n\n' + authors + '\n'
 
           body = ''.join(parts)
+
+          # If no Changes section existed, append library changes at the end
+          if lib_notes and '## Library Changes' not in body:
+              body = body.rstrip() + '\n\n## Library Changes\n\n' + lib_notes
 
           if '## Contributors' not in body and authors:
               body = body.rstrip() + '\n\n## Contributors\n\n' + authors
