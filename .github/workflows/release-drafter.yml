@@ -67,7 +67,7 @@ jobs:
                 echo "@$name"
               fi
             fi
-          done | sort -u | tr '\n' ' ')
+          done | sort -u | paste -sd ',' | sed 's/,/, /g')
           echo "AUTHORS=$AUTHORS" >> $GITHUB_ENV
 
       - name: Detect breaking changes
