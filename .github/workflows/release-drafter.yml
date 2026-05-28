@@ -60,8 +60,9 @@ jobs:
             if [ -n "$username" ]; then
               echo "@$username"
             else
-              username=$(gh api "/search/users?q=$email+in:email" --jq '.items[0].login' 2>/dev/null || true)
-              if [ -n "$username" ] && [ "$username" != "null" ]; then
+              username=$(gh api "/search/users?q=$email+in:email" --jq '.items[0].login // empty' 2>&1 || echo "")
+              # If gh api failed, username will contain error JSON — reject anything that's not a simple word
+              if [[ "$username" =~ ^[a-zA-Z0-9_-]+$ ]]; then
                 echo "@$username"
               else
                 echo "@$name"
@@ -94,9 +95,9 @@ jobs:
 
           if [ $exit_code -eq 1 ] && [ -n "$breaking_output" ]; then
             echo "found=true" >> $GITHUB_OUTPUT
-            echo "content<<EOF" >> $GITHUB_OUTPUT
-            echo "$breaking_output" >> $GITHUB_OUTPUT
-            echo "EOF" >> $GITHUB_OUTPUT
+            echo "BREAKING_CONTENT<<EOF" >> $GITHUB_ENV
+            echo "$breaking_output" >> $GITHUB_ENV
+            echo "EOF" >> $GITHUB_ENV
           else
             echo "found=false" >> $GITHUB_OUTPUT
           fi
@@ -160,8 +161,7 @@ jobs:
 
           # Prepend breaking changes
           if [ "${{ steps.breaking.outputs.found }}" = "true" ]; then
-            breaking_section="${{ steps.breaking.outputs.content }}"
-            BODY="${breaking_section}
+            BODY="${BREAKING_CONTENT}
 
           ${BODY}"
           fi
