@@ -30,6 +30,7 @@ from ._victron_enums import (
     GeneratorRunningByConditionCode,
     GenericAlarmEnum,
     GenericOnOff,
+    GenericOnOffInverted,
     InverterMode,
     MppOperationMode,
     PhoenixInverterMode,
@@ -1324,6 +1325,14 @@ topics: list[TopicDescriptor] = [
     ),
     # Hub4 topics
     TopicDescriptor(
+        topic="N/{installation_id}/hub4/{device_id}/Overrides/ForceCharge",
+        message_type=MetricKind.SWITCH,
+        short_id="hub4_force_charge",
+        name="Force charge",
+        value_type=ValueType.ENUM,
+        enum=GenericOnOff,
+    ),
+    TopicDescriptor(
         topic="N/{installation_id}/hub4/{device_id}/Overrides/Setpoint",
         message_type=MetricKind.NUMBER,
         short_id="hub4_ac_grid_setpoint",
@@ -2062,7 +2071,7 @@ topics: list[TopicDescriptor] = [
         short_id="system_settings_prevent_ac_feedin",
         name="AC-coupled PV - feed in excess",
         value_type=ValueType.ENUM,
-        enum=GenericOnOff,
+        enum=GenericOnOffInverted,
     ),
     # Dynamic ESS settings topics
     TopicDescriptor(

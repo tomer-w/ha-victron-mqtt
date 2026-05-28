@@ -17,6 +17,7 @@ def unwrap_bool(json_str: str) -> bool | None:
     except (json.JSONDecodeError, KeyError, ValueError, TypeError):
         return None
 
+
 def unwrap_int(json_str: str) -> int | None:
     """Unwrap an integer value from a JSON string."""
     try:
@@ -26,6 +27,7 @@ def unwrap_int(json_str: str) -> int | None:
         return int(data["value"])
     except (json.JSONDecodeError, KeyError, ValueError, TypeError):
         return None
+
 
 def unwrap_int_default_0(json_str: str) -> int:
     """Unwrap an integer value from a JSON string, defaulting to 0."""
@@ -37,6 +39,7 @@ def unwrap_int_default_0(json_str: str) -> int:
     except (json.JSONDecodeError, KeyError, ValueError, TypeError):
         return 0
 
+
 def unwrap_int_seconds_to_hours(json_str: str, precision: int | None) -> float | None:
     """Convert seconds to hours."""
     seconds = unwrap_int(json_str)
@@ -45,6 +48,7 @@ def unwrap_int_seconds_to_hours(json_str: str, precision: int | None) -> float |
     hours = seconds / 3600
     return hours if precision is None else round(hours, precision)
 
+
 def unwrap_int_seconds_to_minutes(json_str: str, precision: int | None) -> float | None:
     """Convert seconds to minutes."""
     seconds = unwrap_int(json_str)
@@ -52,6 +56,7 @@ def unwrap_int_seconds_to_minutes(json_str: str, precision: int | None) -> float
         return None
     minutes = seconds / 60
     return minutes if precision is None else round(minutes, precision)
+
 
 def unwrap_float(json_str: str, precision: int | None, json_value: str = "value") -> float | None:
     """Unwrap a float value from a JSON string."""
@@ -64,6 +69,7 @@ def unwrap_float(json_str: str, precision: int | None, json_value: str = "value"
     except (json.JSONDecodeError, KeyError, ValueError, TypeError):
         return None
 
+
 def unwrap_float_m3_to_liters(json_str: str, precision: int | None) -> float | None:
     """Convert cubic meters to liters."""
     value = unwrap_float(json_str, None)
@@ -71,6 +77,7 @@ def unwrap_float_m3_to_liters(json_str: str, precision: int | None) -> float | N
         return None
     liters = value * 1000
     return liters if precision is None else round(liters, precision)
+
 
 def unwrap_string(json_str: str) -> str | None:
     """Unwrap a string value from a JSON string."""
@@ -92,6 +99,7 @@ def unwrap_enum(json_str: str, enum: type[VictronEnum]) -> VictronEnum | None:
     val = data["value"]
     return enum.from_code(val) if val is not None else None
 
+
 def unwrap_bitmask(json_str: str, enum: type[VictronEnum]) -> str | None:
     """Unwrap a bitmask value from a JSON string."""
     try:
@@ -101,9 +109,10 @@ def unwrap_bitmask(json_str: str, enum: type[VictronEnum]) -> str | None:
     val = data["value"]
     if val is None:
         return None
-    vals = [2**idx for idx,bit in enumerate(bin(val)[:1:-1]) if int(bit)] if int(val)>0 else [0]
+    vals = [2**idx for idx, bit in enumerate(bin(val)[:1:-1]) if int(bit)] if int(val) > 0 else [0]
     enums = [enum.from_code(v) for v in vals]
     return str.join(BITMASK_SEPARATOR, [e.string for e in enums if e is not None])
+
 
 def unwrap_epoch(json_str: str) -> datetime | None:
     """Unwrap a timestamp value from a JSON string."""
@@ -116,13 +125,17 @@ def unwrap_epoch(json_str: str) -> datetime | None:
     except (json.JSONDecodeError, KeyError, ValueError, TypeError):
         return None
 
+
 def wrap_enum(enum_val: VictronEnum | str, enum_expected: type[VictronEnum]) -> str:
     """Wrap an Enum value into a JSON string with a 'value' key."""
     if isinstance(enum_val, VictronEnum):
         return json.dumps({"value": enum_val.code})
     return json.dumps({"value": enum_expected.from_id_or_string(enum_val).code})
 
-def wrap_bitmask(bitmask_val: VictronEnum | str | Iterable[VictronEnum] | Iterable[str], enum_expected: type[VictronEnum]) -> str:
+
+def wrap_bitmask(
+    bitmask_val: VictronEnum | str | Iterable[VictronEnum] | Iterable[str], enum_expected: type[VictronEnum]
+) -> str:
     """Wrap an bitmask value into a JSON string with a 'value' key."""
     if isinstance(bitmask_val, VictronEnum):
         bitmask_val = [bitmask_val]
@@ -137,17 +150,21 @@ def wrap_bitmask(bitmask_val: VictronEnum | str | Iterable[VictronEnum] | Iterab
             val += int(enum_expected.from_id_or_string(v).code)
     return json.dumps({"value": val})
 
+
 def wrap_int(value: int | None) -> str:
     """Wrap an integer value into a JSON string with a 'value' key."""
     return json.dumps({"value": value})
+
 
 def wrap_int_hours_to_seconds(value: int | None) -> str:
     """Wrap an integer value into a JSON string with a 'value' key."""
     return json.dumps({"value": value * 3600 if value is not None else None})
 
+
 def wrap_int_minutes_to_seconds(value: int | None) -> str:
     """Wrap an integer value into a JSON string with a 'value' key."""
     return json.dumps({"value": value * 60 if value is not None else None})
+
 
 def wrap_int_default_0(value: int | None) -> str:
     """Wrap an integer value into a JSON string with a 'value' key, defaulting to 0 if None."""
@@ -163,11 +180,12 @@ def wrap_string(value: str | None) -> str:
     """Wrap a string value into a JSON string with a 'value' key."""
     return json.dumps({"value": value})
 
+
 def wrap_epoch(value: datetime | None) -> str:
     """Wrap a datetime value into a JSON string with a 'value' key in the format of an epoch timestamp."""
     if value is None:
         return json.dumps({"value": None})
-    return json.dumps({"value": datetime.timestamp(value) })
+    return json.dumps({"value": datetime.timestamp(value)})
 
 
 VALUE_TYPE_UNWRAPPER = {
@@ -180,7 +198,7 @@ VALUE_TYPE_UNWRAPPER = {
     ValueType.EPOCH: unwrap_epoch,
     ValueType.INT_SECONDS_TO_HOURS: unwrap_int_seconds_to_hours,
     ValueType.INT_SECONDS_TO_MINUTES: unwrap_int_seconds_to_minutes,
-    ValueType.FLOAT_M3_TO_LITERS: unwrap_float_m3_to_liters
+    ValueType.FLOAT_M3_TO_LITERS: unwrap_float_m3_to_liters,
 }
 
 VALUE_TYPE_WRAPPER = {
@@ -192,5 +210,5 @@ VALUE_TYPE_WRAPPER = {
     ValueType.BITMASK: wrap_bitmask,
     ValueType.EPOCH: wrap_epoch,
     ValueType.INT_SECONDS_TO_HOURS: wrap_int_hours_to_seconds,
-    ValueType.INT_SECONDS_TO_MINUTES: wrap_int_minutes_to_seconds
+    ValueType.INT_SECONDS_TO_MINUTES: wrap_int_minutes_to_seconds,
 }
