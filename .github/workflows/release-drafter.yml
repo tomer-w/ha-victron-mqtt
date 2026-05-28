@@ -1,15 +1,21 @@
-name: Draft Release
+name: Release Drafter
 
 on:
   push:
     branches:
       - main
+  pull_request:
+    types: [opened, reopened, synchronize]
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
-  draft_release:
+  update_release_draft:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    permissions:
+      contents: write
+      pull-requests: write
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -17,21 +23,158 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Get version from manifest
-        id: version
-        run: |
-          version=$(jq -r .version custom_components/victron_mqtt/manifest.json)
-          echo "version=$version" >> $GITHUB_OUTPUT
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.14'
 
-      - name: Create or update draft release
+      - name: Install victron-mqtt library
+        run: pip install victron-mqtt
+
+      - name: Find previous release tag
+        id: prev_tag
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          tag="v${{ steps.version.outputs.version }}"
-          # Check if a draft release already exists for this tag
-          existing=$(gh release list --json tagName,isDraft -q ".[] | select(.tagName == \"$tag\" and .isDraft) | .tagName")
-          if [ -n "$existing" ]; then
-            gh release edit "$tag" --draft --generate-notes
-          else
-            gh release create "$tag" --draft --generate-notes --title "$tag"
+          prev=$(gh release list --json tagName,isDraft -q '[.[] | select(.isDraft | not)] | .[0].tagName')
+          echo "Previous release tag: $prev"
+          echo "tag=$prev" >> $GITHUB_OUTPUT
+
+      - name: Get commit messages since previous tag
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          prev_tag="${{ steps.prev_tag.outputs.tag }}"
+          if [ -z "$prev_tag" ]; then
+            prev_tag=$(git rev-list --max-parents=0 HEAD)
           fi
+          COMMITS=$(git log "$prev_tag"..HEAD --pretty=format:"- %s" | head -20)
+          echo "COMMITS<<EOF" >> $GITHUB_ENV
+          echo "$COMMITS" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+
+          # Collect unique commit authors as GitHub usernames
+          AUTHORS=$(git log "$prev_tag"..HEAD --pretty=format:"%an" | sort -u | while read -r name; do
+            email=$(git log --author="$name" --pretty=format:"%ae" -1)
+            username=$(echo "$email" | sed -n 's/.*+\(.*\)@users.noreply.github.com/\1/p')
+            if [ -n "$username" ]; then
+              echo "@$username"
+            else
+              username=$(gh api "/search/users?q=$email+in:email" --jq '.items[0].login' 2>/dev/null || true)
+              if [ -n "$username" ] && [ "$username" != "null" ]; then
+                echo "@$username"
+              else
+                echo "@$name"
+              fi
+            fi
+          done | sort -u | tr '\n' ' ')
+          echo "AUTHORS=$AUTHORS" >> $GITHUB_ENV
+
+      - name: Detect breaking changes
+        id: breaking
+        run: |
+          prev_tag="${{ steps.prev_tag.outputs.tag }}"
+          if [ -z "$prev_tag" ]; then
+            echo "found=false" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+
+          git show "${prev_tag}:victron_mqtt.json" > old.json 2>/dev/null || true
+          if [ ! -f old.json ] || [ ! -s old.json ]; then
+            echo "found=false" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+
+          set +e
+          breaking_output=$(python -m victron_mqtt.utils.detect_breaking_changes old.json victron_mqtt.json 2>/dev/null)
+          exit_code=$?
+          set -e
+
+          rm -f old.json
+
+          if [ $exit_code -eq 1 ] && [ -n "$breaking_output" ]; then
+            echo "found=true" >> $GITHUB_OUTPUT
+            echo "content<<EOF" >> $GITHUB_OUTPUT
+            echo "$breaking_output" >> $GITHUB_OUTPUT
+            echo "EOF" >> $GITHUB_OUTPUT
+          else
+            echo "found=false" >> $GITHUB_OUTPUT
+          fi
+
+      - uses: release-drafter/release-drafter@v7
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Enhance draft release notes
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          DRAFT_TAG=$(gh release list --limit 50 --json isDraft,tagName -q '[.[] | select(.isDraft)] | .[0].tagName')
+          if [ -z "$DRAFT_TAG" ] || [ "$DRAFT_TAG" = "null" ]; then
+            echo "No draft release found"
+            exit 0
+          fi
+
+          BODY=$(gh release view "$DRAFT_TAG" --json body -q .body)
+
+          if [ -n "$COMMITS" ]; then
+            export BODY
+            BODY=$(python3 -c "
+          import os, re
+          body = os.environ['BODY']
+          commits = os.environ['COMMITS']
+          authors = os.environ.get('AUTHORS', '').strip()
+
+          # Remove release-drafter's empty placeholders
+          body = body.replace('No changes\n', '').replace('No changes', '')
+          body = body.replace('No contributors\n', '').replace('No contributors', '')
+
+          # Split body into sections
+          parts = re.split(r'(## [^\n]+)', body)
+
+          # Modify section contents
+          for i, part in enumerate(parts):
+              if part.strip() == '## Changes' and i + 1 < len(parts):
+                  existing = parts[i + 1].strip()
+                  # Remove lone asterisk (release-drafter empty placeholder)
+                  if existing == '*':
+                      existing = ''
+                  items = []
+                  if existing:
+                      items.append(existing)
+                  items.append(commits)
+                  parts[i + 1] = '\n\n' + '\n'.join(items) + '\n\n'
+              elif part.strip() == '## Contributors' and i + 1 < len(parts):
+                  existing = parts[i + 1].strip()
+                  if not existing and authors:
+                      parts[i + 1] = '\n\n' + authors + '\n'
+
+          body = ''.join(parts)
+
+          if '## Contributors' not in body and authors:
+              body = body.rstrip() + '\n\n## Contributors\n\n' + authors
+
+          print(body.rstrip())
+          ")
+          fi
+
+          # Prepend breaking changes
+          if [ "${{ steps.breaking.outputs.found }}" = "true" ]; then
+            breaking_section="${{ steps.breaking.outputs.content }}"
+            BODY="${breaking_section}
+
+          ${BODY}"
+          fi
+
+          gh release edit "$DRAFT_TAG" --notes "$BODY"
+
+  autolabeler:
+    if: github.event_name == 'pull_request'
+    permissions:
+      contents: read
+      pull-requests: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: release-drafter/release-drafter@v7
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

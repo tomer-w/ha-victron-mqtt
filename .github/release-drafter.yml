@@ -1,0 +1,75 @@
+name-template: 'v$RESOLVED_VERSION ⚡'
+tag-template: 'v$RESOLVED_VERSION'
+categories:
+  - title: '⚠️ Breaking Changes'
+    labels:
+      - 'breaking-change'
+  - title: '🚀 Features'
+    labels:
+      - 'feature'
+      - 'enhancement'
+  - title: '🐛 Bug Fixes'
+    labels:
+      - 'fix'
+      - 'bugfix'
+      - 'bug'
+  - title: '📦 Dependency Updates'
+    labels:
+      - 'dependencies'
+  - title: '🧰 Maintenance'
+    labels:
+      - 'chore'
+      - 'maintenance'
+  - title: '📚 Documentation'
+    labels:
+      - 'documentation'
+      - 'docs'
+change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
+change-title-escapes: '\<*_&'
+version-resolver:
+  major:
+    labels:
+      - 'major'
+  minor:
+    labels:
+      - 'minor'
+  patch:
+    labels:
+      - 'patch'
+  default: patch
+template: |
+  ## Changes
+
+  $CHANGES
+
+  ## Contributors
+
+  $CONTRIBUTORS
+autolabeler:
+  - label: 'chore'
+    files:
+      - '*.md'
+      - '.github/**/*'
+      - '.gitignore'
+  - label: 'documentation'
+    files:
+      - 'docs/**/*'
+      - '*.md'
+  - label: 'feature'
+    branch:
+      - '/feature\/.+/'
+    title:
+      - '/^feat/i'
+  - label: 'bug'
+    branch:
+      - '/fix\/.+/'
+    title:
+      - '/^fix/i'
+      - '/^bug/i'
+  - label: 'dependencies'
+    files:
+      - 'custom_components/victron_mqtt/manifest.json'
+      - 'requirements*.txt'
+    title:
+      - '/dependencies/i'
+      - '/deps/i'
