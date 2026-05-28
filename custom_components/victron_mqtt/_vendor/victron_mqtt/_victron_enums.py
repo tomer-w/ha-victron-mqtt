@@ -60,6 +60,13 @@ class GenericOnOff(VictronEnum):
     ON = (1, "on", "On")
 
 
+class GenericOnOffInverted(VictronEnum):
+    """Inverted On/Off Enum (0=On, 1=Off)"""
+
+    ON = (0, "on", "On")
+    OFF = (1, "off", "Off")
+
+
 class PreferRenewableEnergyEnum(VictronEnum):
     """Prefer Renewable Energy state.
 
