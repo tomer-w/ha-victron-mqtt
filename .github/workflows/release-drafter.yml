@@ -176,6 +176,16 @@ jobs:
           authors = os.environ.get('AUTHORS', '').strip()
           lib_notes = os.environ.get('LIB_NOTES', '').strip()
 
+          # Clean up library notes: remove Contributors section and Changes headers
+          if lib_notes:
+              # Remove ## Contributors section and everything after it per release
+              lib_notes = re.sub(r'## Contributors[^\n]*\n.*?(?=###|\Z)', '', lib_notes, flags=re.DOTALL)
+              # Remove ## Changes headers (keep the content)
+              lib_notes = re.sub(r'^## Changes[^\n]*\n+', '', lib_notes, flags=re.MULTILINE)
+              # Downgrade any remaining ## headers to ####
+              lib_notes = re.sub(r'^## ', '#### ', lib_notes, flags=re.MULTILINE)
+              lib_notes = lib_notes.strip()
+
           # Remove release-drafter's empty placeholders
           body = body.replace('No changes\n', '').replace('No changes', '')
           body = body.replace('No contributors\n', '').replace('No contributors', '')
