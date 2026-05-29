@@ -4,14 +4,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from ._victron_enums import (
-    ChargeSchedule,
-    ESSModeHub4,
-    ESSState,
-    ESSUserMode,
-    GenericOnOff,
-    PreferRenewableEnergyEnum,
-)
+from ._victron_enums import ChargeSchedule, ESSModeHub4, ESSState, ESSUserMode, GenericOnOff, PreferRenewableEnergyEnum
 from .constants import MetricType
 from .data_classes import GpsLocation
 from .formula_common import left_riemann_sum_internal
