@@ -1447,6 +1447,9 @@
       "multi_mppt_mppt_id_yield_yesterday": {
         "name": "MPPT {mppt_id} yield yesterday"
       },
+      "multi_mppt_mpptnumber_current": {
+        "name": "MPPT {mpptnumber} current"
+      },
       "multi_mppt_mpptnumber_power": {
         "name": "MPPT {mpptnumber} power"
       },
@@ -1623,6 +1626,9 @@
           "voltage_current_limited": "Voltage/current limited"
         }
       },
+      "solarcharger_pv_current": {
+        "name": "PV current"
+      },
       "solarcharger_state": {
         "name": "State",
         "state": {
@@ -1658,6 +1664,9 @@
       },
       "solarcharger_time_in_float_today": {
         "name": "Time in float today"
+      },
+      "solarcharger_tracker_tracker_current": {
+        "name": "PV tracker {tracker} current"
       },
       "solarcharger_tracker_tracker_max_power_today": {
         "name": "Tracker {tracker} max power today"
