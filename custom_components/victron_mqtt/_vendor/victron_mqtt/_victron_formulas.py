@@ -4,7 +4,15 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from ._victron_enums import ChargeSchedule, ESSModeHub4, ESSState, ESSUserMode, GenericOnOff, PreferRenewableEnergyEnum
+from ._victron_enums import (
+    ChargeSchedule,
+    ESSModeHub4,
+    ESSState,
+    ESSUserMode,
+    GenericOnOff,
+    PreferRenewableEnergyEnum,
+)
+from .constants import MetricType
 from .data_classes import GpsLocation
 from .formula_common import left_riemann_sum_internal
 from .writable_metric import WritableMetric
@@ -259,3 +267,29 @@ def prefer_renewable_energy_set(
         metric.set(PreferRenewableEnergyEnum.FULL_CHARGE_ACTIVE)
 
     return enabled, None
+
+
+def pv_current(
+    depends_on: dict[str, Metric], _transient_state: FormulaTransientState | None
+) -> tuple[float, None] | None:
+    """Calculate PV current from power and voltage (I = P / V).
+
+    Since /Pv/x/I topics are deprecated in Venus OS, this formula derives
+    PV current by dividing PV power by PV voltage.
+    """
+    power_metric = None
+    voltage_metric = None
+    for metric in depends_on.values():
+        if metric.metric_type == MetricType.POWER:
+            power_metric = metric
+        elif metric.metric_type == MetricType.VOLTAGE:
+            voltage_metric = metric
+
+    if power_metric is None or voltage_metric is None:
+        return None
+    if power_metric.value is None or voltage_metric.value is None:
+        return None
+    if voltage_metric.value == 0:
+        return None
+
+    return power_metric.value / voltage_metric.value, None

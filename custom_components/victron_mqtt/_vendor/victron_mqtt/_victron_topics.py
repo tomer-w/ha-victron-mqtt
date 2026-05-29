@@ -1778,6 +1778,15 @@ topics: list[TopicDescriptor] = [
         metric_type=MetricType.VOLTAGE,
     ),
     TopicDescriptor(
+        topic="$$func/multi/pv_current",
+        message_type=MetricKind.SENSOR,
+        short_id="multi_mppt_{mpptnumber}_current",
+        name="MPPT {mpptnumber} current",
+        metric_type=MetricType.CURRENT,
+        precision=2,
+        depends_on=["multi_mppt_{mpptnumber}_power", "multi_mppt_{mpptnumber}_voltage"],
+    ),
+    TopicDescriptor(
         topic="N/{installation_id}/multi/{device_id}/Relay/0/State",
         message_type=MetricKind.SWITCH,
         short_id="multi_relay0_state",
@@ -2552,6 +2561,15 @@ topics: list[TopicDescriptor] = [
         metric_type=MetricType.VOLTAGE,
     ),
     TopicDescriptor(
+        topic="$$func/solarcharger/pv_current",
+        message_type=MetricKind.SENSOR,
+        short_id="solarcharger_tracker_{tracker}_current",
+        name="PV tracker {tracker:solarcharger_tracker_{tracker}_name} current",
+        metric_type=MetricType.CURRENT,
+        precision=2,
+        depends_on=["solarcharger_tracker_{tracker}_power", "solarcharger_tracker_{tracker}_voltage"],
+    ),
+    TopicDescriptor(
         topic="N/{installation_id}/solarcharger/{device_id}/Relay/0/State",
         message_type=MetricKind.SWITCH,
         short_id="solarcharger_relay_state",
@@ -2582,6 +2600,15 @@ topics: list[TopicDescriptor] = [
         short_id="solarcharger_yield_power",
         name="PV yield power",
         metric_type=MetricType.POWER,
+    ),
+    TopicDescriptor(
+        topic="$$func/solarcharger/pv_current",
+        message_type=MetricKind.SENSOR,
+        short_id="solarcharger_pv_current",
+        name="PV current",
+        metric_type=MetricType.CURRENT,
+        precision=2,
+        depends_on=["solarcharger_yield_power", "solarcharger_voltage"],
     ),
     TopicDescriptor(
         topic="N/{installation_id}/solarcharger/{device_id}/Yield/User",
