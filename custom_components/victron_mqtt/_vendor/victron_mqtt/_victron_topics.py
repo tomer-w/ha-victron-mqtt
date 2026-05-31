@@ -409,7 +409,7 @@ topics: list[TopicDescriptor] = [
         message_type=MetricKind.SENSOR,
         short_id="battery_average_discharge",
         name="Average discharge",
-        metric_type=MetricType.ENERGY,
+        metric_type=MetricType.ELECTRIC_STORAGE_CAPACITY,
     ),
     TopicDescriptor(
         topic="N/{installation_id}/battery/{device_id}/History/ChargeCycles",
@@ -432,7 +432,7 @@ topics: list[TopicDescriptor] = [
         message_type=MetricKind.SENSOR,
         short_id="battery_deepest_discharge",
         name="Deepest discharge",
-        metric_type=MetricType.ENERGY,
+        metric_type=MetricType.ELECTRIC_STORAGE_CAPACITY,
     ),
     TopicDescriptor(
         topic="N/{installation_id}/battery/{device_id}/History/DischargedEnergy",
@@ -446,7 +446,7 @@ topics: list[TopicDescriptor] = [
         message_type=MetricKind.SENSOR,
         short_id="battery_last_discharge",
         name="Last discharge",
-        metric_type=MetricType.ENERGY,
+        metric_type=MetricType.ELECTRIC_STORAGE_CAPACITY,
     ),
     TopicDescriptor(
         topic="N/{installation_id}/battery/{device_id}/History/MaximumVoltage",
@@ -2624,7 +2624,7 @@ topics: list[TopicDescriptor] = [
         short_id="switch_{output}_dimming",
         name="Dimming",
         value_type=ValueType.FLOAT,
-        metric_type=MetricType.PERCENTAGE,
+        metric_type=MetricType.DYNAMIC,
         min="switch_{output}_dimming_min:0",
         max="switch_{output}_dimming_max:100",
         step="switch_{output}_step_size:1",

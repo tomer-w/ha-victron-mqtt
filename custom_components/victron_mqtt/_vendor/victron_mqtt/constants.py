@@ -59,6 +59,7 @@ class MetricType(Enum):
     SPEED = "speed"
     COST = "cost"
     IRRADIANCE = "irradiance"
+    DYNAMIC = "dynamic"
     PROBLEM = "problem"
     CONNECTIVITY = "connectivity"
     RESTART = "restart"
