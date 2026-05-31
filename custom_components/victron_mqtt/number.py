@@ -89,6 +89,11 @@ class VictronNumber(VictronBaseEntity, NumberEntity):
         self._attr_device_class = METRIC_TYPE_TO_DEVICE_CLASS.get(metric.metric_type)
         if self._attr_device_class is not None:
             self._attr_native_unit_of_measurement = metric.unit_of_measurement
+        elif metric.metric_type == MetricType.DYNAMIC:
+            # Dynamic units come from user-configured MQTT topics (e.g.
+            # SwitchableOutput Settings/Unit) and have no translation file
+            # entry, so we must set the unit programmatically.
+            self._attr_native_unit_of_measurement = metric.unit_of_measurement
         self._attr_native_value = metric.value
         if metric.min_value is not None:
             self._attr_native_min_value = metric.min_value
