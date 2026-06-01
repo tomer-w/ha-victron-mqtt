@@ -32,6 +32,7 @@ METRIC_TYPE_TO_DEVICE_CLASS: dict[MetricType, NumberDeviceClass] = {
     MetricType.SPEED: NumberDeviceClass.SPEED,
     MetricType.LIQUID_VOLUME: NumberDeviceClass.VOLUME_STORAGE,
     MetricType.DURATION: NumberDeviceClass.DURATION,
+    MetricType.IRRADIANCE: NumberDeviceClass.IRRADIANCE,
 }
 
 
