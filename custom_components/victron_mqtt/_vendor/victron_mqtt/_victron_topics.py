@@ -1611,6 +1611,27 @@ topics: list[TopicDescriptor] = [
         metric_type=MetricType.VOLTAGE,
     ),
     TopicDescriptor(
+        topic="N/{installation_id}/multi/{device_id}/Ac/Out/{phase}/I",
+        message_type=MetricKind.SENSOR,
+        short_id="multi_acout_current_{phase}",
+        name="Output current on {phase}",
+        metric_type=MetricType.CURRENT,
+    ),
+    TopicDescriptor(
+        topic="N/{installation_id}/multi/{device_id}/Ac/Out/{phase}/P",
+        message_type=MetricKind.SENSOR,
+        short_id="multi_acout_power_{phase}",
+        name="Output power on {phase}",
+        metric_type=MetricType.POWER,
+    ),
+    TopicDescriptor(
+        topic="N/{installation_id}/multi/{device_id}/Ac/Out/{phase}/V",
+        message_type=MetricKind.SENSOR,
+        short_id="multi_acout_voltage_{phase}",
+        name="Output voltage on {phase}",
+        metric_type=MetricType.VOLTAGE,
+    ),
+    TopicDescriptor(
         topic="N/{installation_id}/multi/{device_id}/Dc/0/Temperature",
         message_type=MetricKind.SENSOR,
         short_id="multi_dc_temperature",
@@ -2000,7 +2021,8 @@ topics: list[TopicDescriptor] = [
         hidden=True,
     ),
     TopicDescriptor(
-        topic="N/{installation_id}/settings/{device_id}/Settings/CGwacs/BatteryLife/State",
+        topic="$$func/system/ess_batterylife_state",
+        depends_on=["system_ess_batterylife_state_full"],
         message_type=MetricKind.SENSOR,
         short_id="system_ess_batterylife_state_sensor",
         name="ESS BatteryLife state",

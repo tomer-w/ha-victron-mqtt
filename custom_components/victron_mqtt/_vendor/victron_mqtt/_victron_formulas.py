@@ -93,6 +93,18 @@ def schedule_charge_enabled_set(
     return enabled, None
 
 
+def ess_batterylife_state(
+    depends_on: dict[str, Metric], _transient_state: FormulaTransientState | None
+) -> tuple[ESSState | None, None]:
+    """Pass through the BatteryLife state from the hidden SELECT as a read-only SENSOR."""
+    metric = next(iter(depends_on.values()))
+    if metric.value is None:
+        return None, None
+    if isinstance(metric.value, ESSState):
+        return metric.value, None
+    return ESSState.from_code(int(metric.value)), None
+
+
 def gps_location(
     depends_on: dict[str, Metric],
     _transient_state: FormulaTransientState | None,
