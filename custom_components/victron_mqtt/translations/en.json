@@ -701,8 +701,7 @@
         "unit_of_measurement": "syncs"
       },
       "battery_average_discharge": {
-        "name": "Average discharge",
-        "unit_of_measurement": "Ah"
+        "name": "Average discharge"
       },
       "battery_bms_cable": {
         "name": "BMS cable",
@@ -713,8 +712,7 @@
         }
       },
       "battery_capacity": {
-        "name": "Capacity",
-        "unit_of_measurement": "Ah"
+        "name": "Capacity"
       },
       "battery_cell_cell_id_voltage": {
         "name": "Cell {cell_id} voltage"
@@ -734,19 +732,16 @@
         "name": "Charged energy"
       },
       "battery_consumed_amphours": {
-        "name": "Consumed amp-hours",
-        "unit_of_measurement": "Ah"
+        "name": "Consumed amp-hours"
       },
       "battery_cumulative_ah_drawn": {
-        "name": "Cumulative Ah drawn",
-        "unit_of_measurement": "Ah"
+        "name": "Cumulative Ah drawn"
       },
       "battery_current": {
         "name": "DC bus current"
       },
       "battery_deepest_discharge": {
-        "name": "Deepest discharge",
-        "unit_of_measurement": "Ah"
+        "name": "Deepest discharge"
       },
       "battery_discharged_energy": {
         "name": "Discharged energy"
@@ -816,8 +811,7 @@
         }
       },
       "battery_installed_capacity": {
-        "name": "Installed capacity",
-        "unit_of_measurement": "Ah"
+        "name": "Installed capacity"
       },
       "battery_internal_failure": {
         "name": "Internal failure",
@@ -828,8 +822,7 @@
         }
       },
       "battery_last_discharge": {
-        "name": "Last discharge",
-        "unit_of_measurement": "Ah"
+        "name": "Last discharge"
       },
       "battery_low_cell_voltage": {
         "name": "Low cell voltage",

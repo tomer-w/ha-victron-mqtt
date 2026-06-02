@@ -107,11 +107,7 @@ class VictronSensor(VictronBaseEntity, RestoreSensor):
             self._attr_state_class = METRIC_NATURE_TO_STATE_CLASS.get(
                 metric.metric_nature
             )
-        # Only set native_unit_of_measurement when a device_class is present.
-        # Entities without a device_class get their display unit from
-        # the translation files instead.
-        if self._attr_device_class is not None:
-            self._attr_native_unit_of_measurement = metric.unit_of_measurement
+        self._set_unit_translation()
         self._attr_native_value = VictronSensor._normalize_value(metric.value)
 
     @callback
