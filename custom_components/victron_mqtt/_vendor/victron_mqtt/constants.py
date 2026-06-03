@@ -63,6 +63,7 @@ class MetricType(Enum):
     PROBLEM = "problem"
     CONNECTIVITY = "connectivity"
     RESTART = "restart"
+    LOW_BATTERY = "low_battery"
 
 
 class ValueType(Enum):

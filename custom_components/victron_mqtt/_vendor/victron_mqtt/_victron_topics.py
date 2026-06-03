@@ -1496,7 +1496,7 @@ topics: list[TopicDescriptor] = [
         name="Low battery alarm",
         value_type=ValueType.ENUM,
         enum=GenericAlarmEnum,
-        metric_type=MetricType.PROBLEM,
+        metric_type=MetricType.LOW_BATTERY,
     ),
     TopicDescriptor(
         topic="N/{installation_id}/meteo/{device_id}/BatteryVoltage",
@@ -1608,6 +1608,27 @@ topics: list[TopicDescriptor] = [
         message_type=MetricKind.SENSOR,
         short_id="multi_acout_{output}_voltage_{phase}",
         name="AC-out-{output} voltage on {phase}",
+        metric_type=MetricType.VOLTAGE,
+    ),
+    TopicDescriptor(
+        topic="N/{installation_id}/multi/{device_id}/Ac/Out/{phase}/I",
+        message_type=MetricKind.SENSOR,
+        short_id="multi_acout_current_{phase}",
+        name="Output current on {phase}",
+        metric_type=MetricType.CURRENT,
+    ),
+    TopicDescriptor(
+        topic="N/{installation_id}/multi/{device_id}/Ac/Out/{phase}/P",
+        message_type=MetricKind.SENSOR,
+        short_id="multi_acout_power_{phase}",
+        name="Output power on {phase}",
+        metric_type=MetricType.POWER,
+    ),
+    TopicDescriptor(
+        topic="N/{installation_id}/multi/{device_id}/Ac/Out/{phase}/V",
+        message_type=MetricKind.SENSOR,
+        short_id="multi_acout_voltage_{phase}",
+        name="Output voltage on {phase}",
         metric_type=MetricType.VOLTAGE,
     ),
     TopicDescriptor(
@@ -2000,7 +2021,8 @@ topics: list[TopicDescriptor] = [
         hidden=True,
     ),
     TopicDescriptor(
-        topic="N/{installation_id}/settings/{device_id}/Settings/CGwacs/BatteryLife/State",
+        topic="$$func/system/ess_batterylife_state",
+        depends_on=["system_ess_batterylife_state_full"],
         message_type=MetricKind.SENSOR,
         short_id="system_ess_batterylife_state_sensor",
         name="ESS BatteryLife state",
