@@ -33,6 +33,7 @@ class DeviceType(VictronDeviceEnum):
     SWITCH = ("switch", "switch", "Switch")
     GPS = ("gps", "gps", "GPS")
     SYSTEM_SETUP = ("SystemSetup", "system_setup", "System setup", "system")  # Should be mapped to SYSTEM
+    SERVICES = ("Services", "services", "<Not used>", "system")  # Should be mapped to SYSTEM
     TRANSFER_SWITCH = ("TransferSwitch", "transfer_switch", "Transfer switch")
     DIGITAL_INPUT = ("digitalinput", "digital_input", "Digital input")
     DC_SYSTEM = ("dcsystem", "dc_system", "DC system")
@@ -51,6 +52,20 @@ class DeviceType(VictronDeviceEnum):
     HUB4 = ("hub4", "hub4", "Hub4")
     ACSYSTEM = ("acsystem", "acsystem", "AC system", "system")  # Should be mapped to SYSTEM
     DCDC = ("dcdc", "dcdc", "DC/DC charger")  # Orion XS 1400 in battery to battery charging mode.
+
+
+class DVCCMode(VictronEnum):
+    """DVCC (Distributed Voltage and Current Control) mode.
+
+    Bit 0: DVCC enabled (0=off, 1=on)
+    Bit 1: Forced by system/BMS (0=user-controllable, 1=forced)
+    See https://github.com/victronenergy/dbus-systemcalc-py delegates/dvcc.py
+    """
+
+    OFF = (0, "off", "Off")
+    ON = (1, "on", "On")
+    FORCED_OFF = (2, "forced_off", "Forced off")
+    FORCED_ON = (3, "forced_on", "Forced on")
 
 
 class GenericOnOff(VictronEnum):

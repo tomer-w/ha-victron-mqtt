@@ -271,7 +271,12 @@ class Metric:
         self._value = value
 
         # In case of non-zero update frequency, respect the update frequency limit only for numerical values
-        if not force and self._hub._update_frequency_seconds is not None and isinstance(value, float | int):
+        if (
+            not force
+            and self._hub._update_frequency_seconds is not None
+            and isinstance(value, float | int)
+            and not isinstance(value, bool)  # bool is a subclass of int, but we only want real numeric sensor values.
+        ):
             elapsed = now - self._last_notified
             if elapsed < self._hub._update_frequency_seconds:
                 _LOGGER.debug(

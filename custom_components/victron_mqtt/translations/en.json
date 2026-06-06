@@ -238,6 +238,13 @@
           "on": "On"
         }
       },
+      "system_dvcc": {
+        "name": "DVCC",
+        "state": {
+          "off": "Off",
+          "on": "On"
+        }
+      },
       "system_dynamicess_active": {
         "name": "Dynamic ESS active",
         "state": {
@@ -726,6 +733,14 @@
       "battery_discharged_energy": {
         "name": "Discharged energy"
       },
+      "battery_high_cell_voltage": {
+        "name": "High cell voltage",
+        "state": {
+          "alarm": "Alarm",
+          "no_alarm": "No alarm",
+          "warning": "Warning"
+        }
+      },
       "battery_high_charge_current": {
         "name": "High charge current",
         "state": {
@@ -744,6 +759,14 @@
       },
       "battery_high_discharge_current": {
         "name": "High discharge current",
+        "state": {
+          "alarm": "Alarm",
+          "no_alarm": "No alarm",
+          "warning": "Warning"
+        }
+      },
+      "battery_high_voltage": {
+        "name": "High voltage",
         "state": {
           "alarm": "Alarm",
           "no_alarm": "No alarm",
@@ -776,6 +799,22 @@
       },
       "battery_low_charge_temperature": {
         "name": "Low charge temperature",
+        "state": {
+          "alarm": "Alarm",
+          "no_alarm": "No alarm",
+          "warning": "Warning"
+        }
+      },
+      "battery_low_soc": {
+        "name": "Low state of charge",
+        "state": {
+          "alarm": "Alarm",
+          "no_alarm": "No alarm",
+          "warning": "Warning"
+        }
+      },
+      "battery_low_voltage": {
+        "name": "Low voltage",
         "state": {
           "alarm": "Alarm",
           "no_alarm": "No alarm",
@@ -1380,13 +1419,13 @@
         "name": "AC-in-1 to inverter"
       },
       "multi_acin_current_phase": {
-        "name": "Current {phase}"
+        "name": "Input current on {phase}"
       },
       "multi_acin_power_phase": {
-        "name": "Power on {phase}"
+        "name": "Input power on {phase}"
       },
       "multi_acin_voltage_phase": {
-        "name": "Voltage on {phase}"
+        "name": "Input voltage on {phase}"
       },
       "multi_acout_current_phase": {
         "name": "Output current on {phase}"
@@ -1828,6 +1867,15 @@
       },
       "system_dc_pv_power": {
         "name": "PV power"
+      },
+      "system_dvcc_state": {
+        "name": "DVCC state",
+        "state": {
+          "forced_off": "Forced off",
+          "forced_on": "Forced on",
+          "off": "Off",
+          "on": "On"
+        }
       },
       "system_dynamicess_available_overhead": {
         "name": "Dynamic ESS available overhead"
@@ -2475,6 +2523,13 @@
       },
       "switchable_output_output_state": {
         "name": "State",
+        "state": {
+          "off": "Off",
+          "on": "On"
+        }
+      },
+      "system_dvcc": {
+        "name": "DVCC",
         "state": {
           "off": "Off",
           "on": "On"

@@ -4,7 +4,15 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from ._victron_enums import ChargeSchedule, ESSModeHub4, ESSState, ESSUserMode, GenericOnOff, PreferRenewableEnergyEnum
+from ._victron_enums import (
+    ChargeSchedule,
+    DVCCMode,
+    ESSModeHub4,
+    ESSState,
+    ESSUserMode,
+    GenericOnOff,
+    PreferRenewableEnergyEnum,
+)
 from .constants import MetricType
 from .data_classes import GpsLocation
 from .formula_common import left_riemann_sum_internal
@@ -91,6 +99,50 @@ def schedule_charge_enabled_set(
         metric.set(ChargeSchedule.from_code(-abs(schedule_code)))  # type: ignore[arg-type]
 
     return enabled, None
+
+
+def dvcc_enabled(
+    depends_on: dict[str, Metric], _transient_state: FormulaTransientState | None
+) -> tuple[GenericOnOff | None, None]:
+    """Derive DVCC on/off from Settings/Services/Bol (bit 0 = enabled)."""
+    metric = next(iter(depends_on.values()))
+    if metric.value is None:
+        return None, None
+    code = metric.value.code if isinstance(metric.value, DVCCMode) else int(metric.value)
+    return (GenericOnOff.ON if code & 1 else GenericOnOff.OFF), None
+
+
+def dvcc_enabled_set(
+    value: str, depends_on: dict[str, Metric], _transient_state: FormulaTransientState | None
+) -> tuple[GenericOnOff, None]:
+    """Toggle DVCC by writing 0 or 1 to the hidden Bol SELECT.
+
+    When the system/BMS has forced DVCC (bit 1 set), the write is ignored
+    and the current forced state is returned unchanged.
+    """
+    enabled = value if isinstance(value, GenericOnOff) else GenericOnOff.from_id_or_string(value)
+    assert enabled is not None, "Failed to determine DVCC enabled state"
+    metric = next(iter(depends_on.values()))
+    assert isinstance(metric, WritableMetric), "Expected WritableMetric for dvcc_enabled_set"
+    # Do not override BMS/system-forced state (FORCED_OFF=2, FORCED_ON=3)
+    current_code = metric.value.code if isinstance(metric.value, DVCCMode) else int(metric.value or 0)
+    if current_code & 2:
+        # Forced by system — return current state without writing
+        return (GenericOnOff.ON if current_code & 1 else GenericOnOff.OFF), None
+    metric.set(DVCCMode.ON if enabled == GenericOnOff.ON else DVCCMode.OFF)
+    return enabled, None
+
+
+def dvcc_state(
+    depends_on: dict[str, Metric], _transient_state: FormulaTransientState | None
+) -> tuple[DVCCMode | None, None]:
+    """Pass through the full DVCC state (Off, On, Forced off, Forced on)."""
+    metric = next(iter(depends_on.values()))
+    if metric.value is None:
+        return None, None
+    if isinstance(metric.value, DVCCMode):
+        return metric.value, None
+    return DVCCMode.from_code(int(metric.value)), None
 
 
 def ess_batterylife_state(
