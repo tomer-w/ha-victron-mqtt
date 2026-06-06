@@ -158,12 +158,18 @@ class WritableMetric(Metric):
 
     @property
     def metric_kind(self) -> MetricKind:
-        """Returns the metric kind, resolved dynamically when DYNAMIC."""
+        """Returns the metric kind, resolved dynamically when DYNAMIC.
+
+        DYNAMIC is used for SwitchableOutput State, which is always on/off (0/1)
+        regardless of output type. For dropdown outputs (Type=6 with labels),
+        it resolves to SELECT; otherwise it stays SWITCH.
+
+        Note: dimmable outputs (Type=2) have a separate Dimming topic that is
+        hardcoded as MetricKind.NUMBER — State itself is still a switch.
+        """
         if self._descriptor.message_type == MetricKind.DYNAMIC:
             if self._is_dynamic_dropdown:
                 return MetricKind.SELECT
-            if self._output_type == SwitchableOutputType.DIMMABLE:
-                return MetricKind.NUMBER
             return MetricKind.SWITCH
         return super().metric_kind
 
