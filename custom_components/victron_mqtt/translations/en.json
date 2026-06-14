@@ -57,6 +57,13 @@
           "on": "On"
         }
       },
+      "ev_at_site": {
+        "name": "At site",
+        "state": {
+          "off": "Off",
+          "on": "On"
+        }
+      },
       "evcharger_auto_start": {
         "name": "Auto start",
         "state": {
@@ -350,6 +357,9 @@
       }
     },
     "device_tracker": {
+      "ev_gps_location": {
+        "name": "Location"
+      },
       "gps_location": {
         "name": "Location"
       }
@@ -694,6 +704,14 @@
         "name": "Average discharge",
         "unit_of_measurement": "Ah"
       },
+      "battery_bms_cable": {
+        "name": "BMS cable",
+        "state": {
+          "alarm": "Alarm",
+          "no_alarm": "No alarm",
+          "warning": "Warning"
+        }
+      },
       "battery_capacity": {
         "name": "Capacity",
         "unit_of_measurement": "Ah"
@@ -733,6 +751,14 @@
       "battery_discharged_energy": {
         "name": "Discharged energy"
       },
+      "battery_fuse_blown": {
+        "name": "Fuse blown",
+        "state": {
+          "alarm": "Alarm",
+          "no_alarm": "No alarm",
+          "warning": "Warning"
+        }
+      },
       "battery_high_cell_voltage": {
         "name": "High cell voltage",
         "state": {
@@ -759,6 +785,22 @@
       },
       "battery_high_discharge_current": {
         "name": "High discharge current",
+        "state": {
+          "alarm": "Alarm",
+          "no_alarm": "No alarm",
+          "warning": "Warning"
+        }
+      },
+      "battery_high_internal_temperature": {
+        "name": "High internal temperature",
+        "state": {
+          "alarm": "Alarm",
+          "no_alarm": "No alarm",
+          "warning": "Warning"
+        }
+      },
+      "battery_high_temperature": {
+        "name": "High temperature",
         "state": {
           "alarm": "Alarm",
           "no_alarm": "No alarm",
@@ -807,6 +849,14 @@
       },
       "battery_low_soc": {
         "name": "Low state of charge",
+        "state": {
+          "alarm": "Alarm",
+          "no_alarm": "No alarm",
+          "warning": "Warning"
+        }
+      },
+      "battery_low_temperature": {
+        "name": "Low temperature",
         "state": {
           "alarm": "Alarm",
           "no_alarm": "No alarm",
@@ -890,6 +940,14 @@
       },
       "battery_soh": {
         "name": "State of health"
+      },
+      "battery_state_of_health_alarm": {
+        "name": "State of health alarm",
+        "state": {
+          "alarm": "Alarm",
+          "no_alarm": "No alarm",
+          "warning": "Warning"
+        }
       },
       "battery_temperature": {
         "name": "Temperature"
@@ -1088,6 +1146,86 @@
           "smoke_alarm": "Smoke alarm",
           "touch_input_control": "Touch input control"
         }
+      },
+      "ev_ac_current": {
+        "name": "AC current"
+      },
+      "ev_ac_energy_forward": {
+        "name": "Total energy"
+      },
+      "ev_ac_max_charge_current": {
+        "name": "Max charge current"
+      },
+      "ev_ac_min_charge_current": {
+        "name": "Min charge current"
+      },
+      "ev_ac_nr_of_phases": {
+        "name": "Number of phases"
+      },
+      "ev_ac_power": {
+        "name": "AC power"
+      },
+      "ev_ac_voltage": {
+        "name": "AC voltage"
+      },
+      "ev_alarm_starter_battery_low": {
+        "name": "Starter battery low",
+        "state": {
+          "alarm": "Alarm",
+          "no_alarm": "No alarm",
+          "warning": "Warning"
+        }
+      },
+      "ev_battery_capacity": {
+        "name": "Battery capacity",
+        "unit_of_measurement": "Ah"
+      },
+      "ev_battery_temperature": {
+        "name": "Battery temperature"
+      },
+      "ev_charging_started": {
+        "name": "Charging started"
+      },
+      "ev_charging_state": {
+        "name": "Charging state",
+        "state": {
+          "blocked": "Blocked",
+          "charging": "Charging",
+          "discharging": "Discharging",
+          "low_power_mode": "Low power mode",
+          "not_charging": "Not charging",
+          "scheduled_charging": "Scheduled charging",
+          "sustain": "Sustain",
+          "unavailable": "Unavailable",
+          "wake_up": "Wake up"
+        }
+      },
+      "ev_dc_current": {
+        "name": "DC current"
+      },
+      "ev_dc_power": {
+        "name": "DC power"
+      },
+      "ev_dc_voltage": {
+        "name": "DC voltage"
+      },
+      "ev_last_ev_contact": {
+        "name": "Last EV contact"
+      },
+      "ev_odometer": {
+        "name": "Odometer"
+      },
+      "ev_range_to_go": {
+        "name": "Range to go"
+      },
+      "ev_soc": {
+        "name": "State of charge"
+      },
+      "ev_target_soc": {
+        "name": "Target state of charge"
+      },
+      "ev_vin": {
+        "name": "VIN"
       },
       "evcharger_current": {
         "name": "Current"

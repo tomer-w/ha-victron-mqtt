@@ -16,6 +16,7 @@ class DeviceType(VictronDeviceEnum):
     GRID = ("grid", "grid", "Grid")
     VEBUS = ("vebus", "vebus", "VE.Bus")
     EVCHARGER = ("evcharger", "evcharger", "EV charging station")
+    EV = ("ev", "ev", "Electric vehicle")
     PVINVERTER = ("pvinverter", "pvinverter", "PV inverter")
     TEMPERATURE = ("temperature", "temperature", "Temperature")
     GENERATOR = ("generator", "generator", "Generator")
@@ -171,6 +172,20 @@ class EvChargerMode(VictronEnum):
     MANUAL = (0, "manual", "Manual")
     AUTO = (1, "auto", "Auto")
     SCHEDULED_CHARGE = (2, "scheduled_charge", "Scheduled charge")
+
+
+class EvChargingState(VictronEnum):
+    """EV Charging State Enum"""
+
+    NOT_CHARGING = (0, "not_charging", "Not charging")
+    LOW_POWER_MODE = (1, "low_power_mode", "Low power mode")
+    CHARGING = (3, "charging", "Charging")
+    SUSTAIN = (244, "sustain", "Sustain")
+    WAKE_UP = (245, "wake_up", "Wake up")
+    BLOCKED = (250, "blocked", "Blocked")
+    UNAVAILABLE = (255, "unavailable", "Unavailable")
+    DISCHARGING = (256, "discharging", "Discharging")
+    SCHEDULED_CHARGING = (259, "scheduled_charging", "Scheduled charging")
 
 
 class EvChargerPosition(VictronEnum):

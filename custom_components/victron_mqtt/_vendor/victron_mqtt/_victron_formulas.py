@@ -13,7 +13,7 @@ from ._victron_enums import (
     GenericOnOff,
     PreferRenewableEnergyEnum,
 )
-from .constants import MetricType
+from .constants import MetricKind, MetricType
 from .data_classes import GpsLocation
 from .formula_common import left_riemann_sum_internal
 from .writable_metric import WritableMetric
@@ -161,7 +161,11 @@ def gps_location(
     depends_on: dict[str, Metric],
     _transient_state: FormulaTransientState | None,
 ) -> tuple[GpsLocation | None, None]:
-    """Combine GPS metrics into a single GpsLocation. Returns None when there is no GPS fix."""
+    """Combine GPS metrics into a single GpsLocation. Returns None when there is no GPS fix.
+
+    Matches dependencies by MetricType so this works generically for any
+    device type that provides location sensors (gps, ev, etc.).
+    """
     lat_metric = None
     lon_metric = None
     fix_metric = None
@@ -169,18 +173,19 @@ def gps_location(
     course_metric = None
     speed_metric = None
     for metric in depends_on.values():
-        if metric.generic_short_id == "gps_latitude":
+        mt = metric.metric_type
+        if mt == MetricType.LATITUDE:
             lat_metric = metric
-        elif metric.generic_short_id == "gps_longitude":
+        elif mt == MetricType.LONGITUDE:
             lon_metric = metric
-        elif metric.generic_short_id == "gps_fix":
-            fix_metric = metric
-        elif metric.generic_short_id == "gps_altitude":
+        elif mt == MetricType.ALTITUDE:
             alt_metric = metric
-        elif metric.generic_short_id == "gps_course":
+        elif mt == MetricType.HEADING:
             course_metric = metric
-        elif metric.generic_short_id == "gps_speed":
+        elif mt == MetricType.SPEED:
             speed_metric = metric
+        elif metric.metric_kind == MetricKind.BINARY_SENSOR:
+            fix_metric = metric
 
     if lat_metric is None or lon_metric is None:
         return None, None
