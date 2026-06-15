@@ -244,6 +244,6 @@ jobs:
     steps:
       - uses: release-drafter/release-drafter@v7
         with:
-          disable-releaser: true
+          dry-run: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
