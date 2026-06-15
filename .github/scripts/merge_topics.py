@@ -44,6 +44,7 @@ def main():
         "MetricType.PRESSURE",
         "MetricType.DISTANCE",
         "MetricType.POWER_FACTOR",
+        "MetricType.COST",
         "MetricType.SPEED",
         "MetricType.LIQUID_VOLUME",
         "MetricType.DURATION",

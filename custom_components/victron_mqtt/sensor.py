@@ -42,6 +42,7 @@ METRIC_TYPE_TO_DEVICE_CLASS: dict[MetricType, SensorDeviceClass] = {
     MetricType.PRESSURE: SensorDeviceClass.PRESSURE,
     MetricType.DISTANCE: SensorDeviceClass.DISTANCE,
     MetricType.POWER_FACTOR: SensorDeviceClass.POWER_FACTOR,
+    MetricType.COST: SensorDeviceClass.MONETARY,
     MetricType.SPEED: SensorDeviceClass.SPEED,
     MetricType.LIQUID_VOLUME: SensorDeviceClass.VOLUME_STORAGE,
     MetricType.DURATION: SensorDeviceClass.DURATION,
@@ -111,8 +112,18 @@ class VictronSensor(VictronBaseEntity, RestoreSensor):
             self._attr_state_class = METRIC_NATURE_TO_STATE_CLASS.get(
                 metric.metric_nature
             )
-        self._set_unit_translation()
+        # MONETARY uses hass.config.currency which isn't available in __init__,
+        # so it's handled by the native_unit_of_measurement property instead.
+        if self._attr_device_class != SensorDeviceClass.MONETARY:
+            self._set_unit_translation()
         self._attr_native_value = VictronSensor._normalize_value(metric.value)
+
+    @property
+    def native_unit_of_measurement(self) -> str | None:
+        """Return the unit of measurement."""
+        if self._attr_device_class == SensorDeviceClass.MONETARY:
+            return self.hass.config.currency
+        return self._attr_native_unit_of_measurement
 
     @callback
     def _on_update_cb(self, value: Any) -> None:
