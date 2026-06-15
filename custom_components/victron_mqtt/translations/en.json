@@ -1170,8 +1170,7 @@
         }
       },
       "ev_battery_capacity": {
-        "name": "Battery capacity",
-        "unit_of_measurement": "Ah"
+        "name": "Battery capacity"
       },
       "ev_battery_temperature": {
         "name": "Battery temperature"
@@ -1251,8 +1250,7 @@
         "name": "Power {phase}"
       },
       "evcharger_session_cost": {
-        "name": "Last session cost",
-        "unit_of_measurement": "$"
+        "name": "Last session cost"
       },
       "evcharger_session_energy": {
         "name": "Last session energy"
