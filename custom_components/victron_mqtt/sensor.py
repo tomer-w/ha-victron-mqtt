@@ -123,7 +123,7 @@ class VictronSensor(VictronBaseEntity, RestoreSensor):
         """Return the unit of measurement."""
         if self._attr_device_class == SensorDeviceClass.MONETARY:
             return self.hass.config.currency
-        return self._attr_native_unit_of_measurement
+        return getattr(self, '_attr_native_unit_of_measurement', None)
 
     @callback
     def _on_update_cb(self, value: Any) -> None:
