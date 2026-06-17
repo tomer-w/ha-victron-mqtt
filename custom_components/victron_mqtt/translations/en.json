@@ -44,6 +44,20 @@
           "on": "On"
         }
       },
+      "battery_allow_to_charge": {
+        "name": "Allow to charge",
+        "state": {
+          "off": "Off",
+          "on": "On"
+        }
+      },
+      "battery_allow_to_discharge": {
+        "name": "Allow to discharge",
+        "state": {
+          "off": "Off",
+          "on": "On"
+        }
+      },
       "dcdc_mode": {
         "state": {
           "off": "Off",
