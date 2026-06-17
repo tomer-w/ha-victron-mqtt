@@ -609,6 +609,22 @@ topics: list[TopicDescriptor] = [
         metric_type=MetricType.ELECTRIC_STORAGE_CAPACITY,
     ),
     TopicDescriptor(
+        topic="N/{installation_id}/battery/{device_id}/Io/AllowToCharge",
+        message_type=MetricKind.BINARY_SENSOR,
+        short_id="battery_allow_to_charge",
+        name="Allow to charge",
+        value_type=ValueType.ENUM,
+        enum=GenericOnOff,
+    ),
+    TopicDescriptor(
+        topic="N/{installation_id}/battery/{device_id}/Io/AllowToDischarge",
+        message_type=MetricKind.BINARY_SENSOR,
+        short_id="battery_allow_to_discharge",
+        name="Allow to discharge",
+        value_type=ValueType.ENUM,
+        enum=GenericOnOff,
+    ),
+    TopicDescriptor(
         topic="N/{installation_id}/battery/{device_id}/Soc",
         message_type=MetricKind.SENSOR,
         short_id="battery_soc",
