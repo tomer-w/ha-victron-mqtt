@@ -161,6 +161,14 @@ class TopicDescriptor:
                 self.precision = 2
             if self.metric_nature == MetricNature.NONE:
                 self.metric_nature = MetricNature.MEASUREMENT
+        # Power factor default
+        if self.metric_type == MetricType.POWER_FACTOR:
+            if self.value_type is None:
+                self.value_type = ValueType.FLOAT
+            if self.precision is None:
+                self.precision = 3
+            if self.metric_nature == MetricNature.NONE:
+                self.metric_nature = MetricNature.MEASUREMENT
         # Temperature default
         if self.metric_type == MetricType.TEMPERATURE:
             if self.unit_of_measurement is None:
