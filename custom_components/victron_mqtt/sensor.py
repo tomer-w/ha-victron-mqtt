@@ -113,9 +113,6 @@ class VictronSensor(VictronBaseEntity, RestoreSensor):
             self._attr_state_class = METRIC_NATURE_TO_STATE_CLASS.get(
                 metric.metric_nature
             )
-        # MONETARY uses hass.config.currency which isn't available in __init__.
-        if self._attr_device_class != SensorDeviceClass.MONETARY:
-            self._set_unit_translation()
         self._attr_native_value = VictronSensor._normalize_value(metric.value)
 
     @callback
@@ -135,8 +132,7 @@ class VictronSensor(VictronBaseEntity, RestoreSensor):
 
     async def async_added_to_hass(self) -> None:
         """Restore persistent state for FormulaMetric energy sensors."""
-        if self._attr_device_class == SensorDeviceClass.MONETARY:
-            self._attr_native_unit_of_measurement = self.hass.config.currency
+        self._attr_native_unit_of_measurement = self._native_unit_of_measurement()
 
         # Only restore for cumulative FormulaMetric sensors (TOTAL / TOTAL_INCREASING).
         # These metrics start from 0 on each HA restart, so we restore the

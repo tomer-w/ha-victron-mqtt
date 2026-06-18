@@ -69,9 +69,12 @@ class VictronBaseEntity(Entity):
             metric.generic_short_id not in ENTITIES_DISABLE_BY_DEFAULT
         )
 
-    def _set_unit_translation(self) -> None:
+    def _native_unit_of_measurement(self) -> str | None:
+        if self._metric.metric_type == MetricType.COST:
+            return self.hass.config.currency
+
         unit_of_measurement = self._metric.unit_of_measurement
-        # We need to set the _attr_native_unit_of_measurement in three cases:
+        # We need to provide a native unit in three cases:
         if (
             # 1. Special units which will never need a translation and therefore will not be included in the translation file.
             unit_of_measurement in SPECIAL_NATIVE_UNITS
@@ -85,7 +88,9 @@ class VictronBaseEntity(Entity):
             # entry, so we must set the unit programmatically.
             or self._metric.metric_type == MetricType.DYNAMIC
         ):
-            self._attr_native_unit_of_measurement = unit_of_measurement
+            return unit_of_measurement
+
+        return None
 
     @callback
     @abstractmethod
