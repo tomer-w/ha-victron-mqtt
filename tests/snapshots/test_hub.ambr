@@ -235,89 +235,35 @@
 # ---
 # name: test_number[complex_naming]
   list([
-    EntityRegistryEntrySnapshot({
-      'aliases': list([
-        None,
-      ]),
-      'area_id': None,
-      'capabilities': dict({
+    dict({
+      'attributes': ReadOnlyDict({
+        'device_class': 'current',
+        'friendly_name': 'EV charging station Charge current setpoint',
         'max': 32,
         'min': 0,
         'mode': <NumberMode.AUTO: 'auto'>,
         'step': 1,
+        'unit_of_measurement': 'A',
       }),
-      'config_entry_id': <ANY>,
-      'config_subentry_id': <ANY>,
-      'device_class': None,
-      'device_id': <ANY>,
-      'disabled_by': None,
-      'domain': 'number',
-      'entity_category': None,
       'entity_id': 'number.victron_mqtt_123_evcharger_0_evcharger_set_current',
-      'has_entity_name': True,
-      'hidden_by': None,
-      'icon': None,
-      'id': <ANY>,
-      'labels': set({
-      }),
-      'name': None,
-      'object_id_base': None,
-      'options': dict({
-      }),
-      'original_device_class': <NumberDeviceClass.CURRENT: 'current'>,
-      'original_icon': None,
-      'original_name': 'Charge current setpoint',
-      'platform': 'victron_mqtt',
-      'previous_unique_id': None,
-      'suggested_object_id': 'victron_mqtt_123_evcharger_0_evcharger_set_current',
-      'supported_features': 0,
-      'translation_key': 'evcharger_set_current',
-      'unique_id': 'number.victron_mqtt_123_evcharger_0_evcharger_set_current',
-      'unit_of_measurement': 'A',
+      'state': '16',
     }),
   ])
 # ---
 # name: test_number[simple_naming]
   list([
-    EntityRegistryEntrySnapshot({
-      'aliases': list([
-        None,
-      ]),
-      'area_id': None,
-      'capabilities': dict({
+    dict({
+      'attributes': ReadOnlyDict({
+        'device_class': 'current',
+        'friendly_name': 'EV charging station Charge current setpoint',
         'max': 32,
         'min': 0,
         'mode': <NumberMode.AUTO: 'auto'>,
         'step': 1,
+        'unit_of_measurement': 'A',
       }),
-      'config_entry_id': <ANY>,
-      'config_subentry_id': <ANY>,
-      'device_class': None,
-      'device_id': <ANY>,
-      'disabled_by': None,
-      'domain': 'number',
-      'entity_category': None,
       'entity_id': 'number.ev_charging_station_charge_current_setpoint',
-      'has_entity_name': True,
-      'hidden_by': None,
-      'icon': None,
-      'id': <ANY>,
-      'labels': set({
-      }),
-      'name': None,
-      'object_id_base': 'Charge current setpoint',
-      'options': dict({
-      }),
-      'original_device_class': <NumberDeviceClass.CURRENT: 'current'>,
-      'original_icon': None,
-      'original_name': 'Charge current setpoint',
-      'platform': 'victron_mqtt',
-      'previous_unique_id': None,
-      'suggested_object_id': None,
-      'supported_features': 0,
-      'translation_key': 'evcharger_set_current',
-      'unique_id': 'number.victron_mqtt_evcharger_0_evcharger_set_current',
-      'unit_of_measurement': 'A',
+      'state': '16',
     }),
   ])
 # ---
@@ -505,89 +451,29 @@
 # ---
 # name: test_sensor[complex_naming]
   list([
-    EntityRegistryEntrySnapshot({
-      'aliases': list([
-        None,
-      ]),
-      'area_id': None,
-      'capabilities': dict({
+    dict({
+      'attributes': ReadOnlyDict({
+        'device_class': 'current',
+        'friendly_name': 'Battery DC bus current',
         'state_class': <SensorStateClass.MEASUREMENT: 'measurement'>,
+        'unit_of_measurement': 'A',
       }),
-      'config_entry_id': <ANY>,
-      'config_subentry_id': <ANY>,
-      'device_class': None,
-      'device_id': <ANY>,
-      'disabled_by': None,
-      'domain': 'sensor',
-      'entity_category': None,
       'entity_id': 'sensor.victron_mqtt_123_battery_0_battery_current',
-      'has_entity_name': True,
-      'hidden_by': None,
-      'icon': None,
-      'id': <ANY>,
-      'labels': set({
-      }),
-      'name': None,
-      'object_id_base': None,
-      'options': dict({
-        'sensor': dict({
-          'suggested_display_precision': 1,
-        }),
-      }),
-      'original_device_class': <SensorDeviceClass.CURRENT: 'current'>,
-      'original_icon': None,
-      'original_name': 'DC bus current',
-      'platform': 'victron_mqtt',
-      'previous_unique_id': None,
-      'suggested_object_id': 'victron_mqtt_123_battery_0_battery_current',
-      'supported_features': 0,
-      'translation_key': 'battery_current',
-      'unique_id': 'sensor.victron_mqtt_123_battery_0_battery_current',
-      'unit_of_measurement': 'A',
+      'state': '10.5',
     }),
   ])
 # ---
 # name: test_sensor[simple_naming]
   list([
-    EntityRegistryEntrySnapshot({
-      'aliases': list([
-        None,
-      ]),
-      'area_id': None,
-      'capabilities': dict({
+    dict({
+      'attributes': ReadOnlyDict({
+        'device_class': 'current',
+        'friendly_name': 'Battery DC bus current',
         'state_class': <SensorStateClass.MEASUREMENT: 'measurement'>,
+        'unit_of_measurement': 'A',
       }),
-      'config_entry_id': <ANY>,
-      'config_subentry_id': <ANY>,
-      'device_class': None,
-      'device_id': <ANY>,
-      'disabled_by': None,
-      'domain': 'sensor',
-      'entity_category': None,
       'entity_id': 'sensor.battery_dc_bus_current',
-      'has_entity_name': True,
-      'hidden_by': None,
-      'icon': None,
-      'id': <ANY>,
-      'labels': set({
-      }),
-      'name': None,
-      'object_id_base': 'DC bus current',
-      'options': dict({
-        'sensor': dict({
-          'suggested_display_precision': 1,
-        }),
-      }),
-      'original_device_class': <SensorDeviceClass.CURRENT: 'current'>,
-      'original_icon': None,
-      'original_name': 'DC bus current',
-      'platform': 'victron_mqtt',
-      'previous_unique_id': None,
-      'suggested_object_id': None,
-      'supported_features': 0,
-      'translation_key': 'battery_current',
-      'unique_id': 'sensor.victron_mqtt_battery_0_battery_current',
-      'unit_of_measurement': 'A',
+      'state': '10.5',
     }),
   ])
 # ---
@@ -787,169 +673,49 @@
 # ---
 # name: test_sensor_with_baseline[complex_naming]
   list([
-    EntityRegistryEntrySnapshot({
-      'aliases': list([
-        None,
-      ]),
-      'area_id': None,
-      'capabilities': dict({
-        'state_class': <SensorStateClass.MEASUREMENT: 'measurement'>,
-      }),
-      'config_entry_id': <ANY>,
-      'config_subentry_id': <ANY>,
-      'device_class': None,
-      'device_id': <ANY>,
-      'disabled_by': None,
-      'domain': 'sensor',
-      'entity_category': None,
-      'entity_id': 'sensor.victron_mqtt_123_system_0_system_dc_pv_power',
-      'has_entity_name': True,
-      'hidden_by': None,
-      'icon': None,
-      'id': <ANY>,
-      'labels': set({
-      }),
-      'name': None,
-      'object_id_base': None,
-      'options': dict({
-        'sensor': dict({
-          'suggested_display_precision': 1,
-        }),
-      }),
-      'original_device_class': <SensorDeviceClass.POWER: 'power'>,
-      'original_icon': None,
-      'original_name': 'PV power',
-      'platform': 'victron_mqtt',
-      'previous_unique_id': None,
-      'suggested_object_id': 'victron_mqtt_123_system_0_system_dc_pv_power',
-      'supported_features': 0,
-      'translation_key': 'system_dc_pv_power',
-      'unique_id': 'sensor.victron_mqtt_123_system_0_system_dc_pv_power',
-      'unit_of_measurement': 'W',
-    }),
-    EntityRegistryEntrySnapshot({
-      'aliases': list([
-        None,
-      ]),
-      'area_id': None,
-      'capabilities': dict({
+    dict({
+      'attributes': ReadOnlyDict({
+        'device_class': 'energy',
+        'friendly_name': 'Victron Venus PV energy',
         'state_class': <SensorStateClass.TOTAL: 'total'>,
+        'unit_of_measurement': 'kWh',
       }),
-      'config_entry_id': <ANY>,
-      'config_subentry_id': <ANY>,
-      'device_class': None,
-      'device_id': <ANY>,
-      'disabled_by': None,
-      'domain': 'sensor',
-      'entity_category': None,
       'entity_id': 'sensor.victron_mqtt_123_system_0_system_dc_pv_energy',
-      'has_entity_name': True,
-      'hidden_by': None,
-      'icon': None,
-      'id': <ANY>,
-      'labels': set({
+      'state': '1000.004',
+    }),
+    dict({
+      'attributes': ReadOnlyDict({
+        'device_class': 'power',
+        'friendly_name': 'Victron Venus PV power',
+        'state_class': <SensorStateClass.MEASUREMENT: 'measurement'>,
+        'unit_of_measurement': 'W',
       }),
-      'name': None,
-      'object_id_base': None,
-      'options': dict({
-        'sensor': dict({
-          'suggested_display_precision': 3,
-        }),
-      }),
-      'original_device_class': <SensorDeviceClass.ENERGY: 'energy'>,
-      'original_icon': None,
-      'original_name': 'PV energy',
-      'platform': 'victron_mqtt',
-      'previous_unique_id': None,
-      'suggested_object_id': 'victron_mqtt_123_system_0_system_dc_pv_energy',
-      'supported_features': 0,
-      'translation_key': 'system_dc_pv_energy',
-      'unique_id': 'sensor.victron_mqtt_123_system_0_system_dc_pv_energy',
-      'unit_of_measurement': 'kWh',
+      'entity_id': 'sensor.victron_mqtt_123_system_0_system_dc_pv_power',
+      'state': '4000.0',
     }),
   ])
 # ---
 # name: test_sensor_with_baseline[simple_naming]
   list([
-    EntityRegistryEntrySnapshot({
-      'aliases': list([
-        None,
-      ]),
-      'area_id': None,
-      'capabilities': dict({
-        'state_class': <SensorStateClass.MEASUREMENT: 'measurement'>,
-      }),
-      'config_entry_id': <ANY>,
-      'config_subentry_id': <ANY>,
-      'device_class': None,
-      'device_id': <ANY>,
-      'disabled_by': None,
-      'domain': 'sensor',
-      'entity_category': None,
-      'entity_id': 'sensor.victron_venus_pv_power',
-      'has_entity_name': True,
-      'hidden_by': None,
-      'icon': None,
-      'id': <ANY>,
-      'labels': set({
-      }),
-      'name': None,
-      'object_id_base': 'PV power',
-      'options': dict({
-        'sensor': dict({
-          'suggested_display_precision': 1,
-        }),
-      }),
-      'original_device_class': <SensorDeviceClass.POWER: 'power'>,
-      'original_icon': None,
-      'original_name': 'PV power',
-      'platform': 'victron_mqtt',
-      'previous_unique_id': None,
-      'suggested_object_id': None,
-      'supported_features': 0,
-      'translation_key': 'system_dc_pv_power',
-      'unique_id': 'sensor.victron_mqtt_system_0_system_dc_pv_power',
-      'unit_of_measurement': 'W',
-    }),
-    EntityRegistryEntrySnapshot({
-      'aliases': list([
-        None,
-      ]),
-      'area_id': None,
-      'capabilities': dict({
+    dict({
+      'attributes': ReadOnlyDict({
+        'device_class': 'energy',
+        'friendly_name': 'Victron Venus PV energy',
         'state_class': <SensorStateClass.TOTAL: 'total'>,
+        'unit_of_measurement': 'kWh',
       }),
-      'config_entry_id': <ANY>,
-      'config_subentry_id': <ANY>,
-      'device_class': None,
-      'device_id': <ANY>,
-      'disabled_by': None,
-      'domain': 'sensor',
-      'entity_category': None,
       'entity_id': 'sensor.victron_venus_pv_energy',
-      'has_entity_name': True,
-      'hidden_by': None,
-      'icon': None,
-      'id': <ANY>,
-      'labels': set({
+      'state': '1000.004',
+    }),
+    dict({
+      'attributes': ReadOnlyDict({
+        'device_class': 'power',
+        'friendly_name': 'Victron Venus PV power',
+        'state_class': <SensorStateClass.MEASUREMENT: 'measurement'>,
+        'unit_of_measurement': 'W',
       }),
-      'name': None,
-      'object_id_base': 'PV energy',
-      'options': dict({
-        'sensor': dict({
-          'suggested_display_precision': 3,
-        }),
-      }),
-      'original_device_class': <SensorDeviceClass.ENERGY: 'energy'>,
-      'original_icon': None,
-      'original_name': 'PV energy',
-      'platform': 'victron_mqtt',
-      'previous_unique_id': None,
-      'suggested_object_id': None,
-      'supported_features': 0,
-      'translation_key': 'system_dc_pv_energy',
-      'unique_id': 'sensor.victron_mqtt_system_0_system_dc_pv_energy',
-      'unit_of_measurement': 'kWh',
+      'entity_id': 'sensor.victron_venus_pv_power',
+      'state': '4000.0',
     }),
   ])
 # ---

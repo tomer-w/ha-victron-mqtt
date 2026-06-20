@@ -39,6 +39,21 @@ from pytest_homeassistant_custom_component.common import MockConfigEntry, mock_r
 
 pytestmark = pytest.mark.usefixtures("enable_custom_integrations")
 
+
+def _snapshot_relevant_states(hass: HomeAssistant, entity_ids: list[str]) -> list[dict]:
+    """Snapshot rich state payload while removing volatile metadata."""
+    snapshots: list[dict] = []
+    for entity_id in sorted(entity_ids):
+        state = hass.states.get(entity_id)
+        assert state is not None
+        payload = {
+            key: value
+            for key, value in state.as_dict().items()
+            if key not in {"last_changed", "last_updated", "last_reported", "context"}
+        }
+        snapshots.append(payload)
+    return snapshots
+
 @pytest.fixture(params=[False, True], ids=["complex_naming", "simple_naming"])
 def basic_config(request):
     """Provide basic configuration."""
@@ -281,7 +296,9 @@ async def test_sensor(
 
     # Should have created at least one entity
     assert len(entities) > 0
-    assert entities == snapshot
+    assert _snapshot_relevant_states(
+        hass, [entry.entity_id for entry in entities]
+    ) == snapshot
 
 
 async def test_sensor_without_unit_does_not_crash(
@@ -393,7 +410,9 @@ async def test_number(
 
     # Should have created one entity
     assert len(entities) == 1
-    assert entities == snapshot
+    assert _snapshot_relevant_states(
+        hass, [entry.entity_id for entry in entities]
+    ) == snapshot
 
 
 async def test_select(
@@ -614,6 +633,7 @@ async def test_sensor_with_baseline(
     entities = er.async_entries_for_config_entry(
         entity_registry, mock_config_entry.entry_id
     )
+
     energy_entities = [e for e in entities if "energy" in e.entity_id]
     assert len(energy_entities) > 0
     
@@ -624,7 +644,9 @@ async def test_sensor_with_baseline(
     assert float(state.state) == 1000.004
     # Should have created two entity
     assert len(entities) == 2
-    assert entities == snapshot
+    assert _snapshot_relevant_states(
+        hass, [entry.entity_id for entry in entities]
+    ) == snapshot
 
 
 @patch('custom_components.victron_mqtt._vendor.victron_mqtt.formula_common.time.monotonic')
