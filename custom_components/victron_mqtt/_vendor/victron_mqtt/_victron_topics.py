@@ -1036,7 +1036,7 @@ topics: list[TopicDescriptor] = [
         message_type=MetricKind.SENSOR,
         short_id="ev_charging_started",
         name="Charging started",
-        value_type=ValueType.EPOCH,
+        metric_type=MetricType.TIMESTAMP,
     ),
     TopicDescriptor(
         topic="N/{installation_id}/ev/{device_id}/ChargingState",
@@ -1072,7 +1072,7 @@ topics: list[TopicDescriptor] = [
         message_type=MetricKind.SENSOR,
         short_id="ev_last_ev_contact",
         name="Last EV contact",
-        value_type=ValueType.EPOCH,
+        metric_type=MetricType.TIMESTAMP,
     ),
     TopicDescriptor(
         topic="N/{installation_id}/ev/{device_id}/Odometer",
@@ -1306,7 +1306,7 @@ topics: list[TopicDescriptor] = [
         message_type=MetricKind.SENSOR,
         short_id="generator_next_test_run",
         name="Next test run",
-        value_type=ValueType.EPOCH,
+        metric_type=MetricType.TIMESTAMP,
     ),
     TopicDescriptor(
         topic="N/{installation_id}/generator/{device_id}/RunningByConditionCode",
@@ -3301,14 +3301,14 @@ topics: list[TopicDescriptor] = [
         message_type=MetricKind.SENSOR,
         short_id="system_dynamicess_last_scheduled_end",
         name="Dynamic ESS last scheduled end",
-        value_type=ValueType.EPOCH,
+        metric_type=MetricType.TIMESTAMP,
     ),
     TopicDescriptor(
         topic="N/{installation_id}/system/{device_id}/DynamicEss/LastScheduledStart",
         message_type=MetricKind.SENSOR,
         short_id="system_dynamicess_last_scheduled_start",
         name="Dynamic ESS last scheduled start",
-        value_type=ValueType.EPOCH,
+        metric_type=MetricType.TIMESTAMP,
     ),
     TopicDescriptor(
         topic="N/{installation_id}/system/{device_id}/DynamicEss/MinimumSoc",
