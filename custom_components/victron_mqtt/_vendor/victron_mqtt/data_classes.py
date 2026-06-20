@@ -111,6 +111,9 @@ class TopicDescriptor:
             )
         if self.value_type == ValueType.ENUM:
             self.metric_type = MetricType.ENUM
+        # Timestamp defaults
+        if self.metric_type == MetricType.TIMESTAMP and self.value_type is None:
+            self.value_type = ValueType.EPOCH
         # Voltage default
         if self.metric_type == MetricType.VOLTAGE:
             if self.unit_of_measurement is None:

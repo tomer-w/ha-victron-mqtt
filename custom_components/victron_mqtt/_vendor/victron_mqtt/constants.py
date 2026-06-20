@@ -49,6 +49,7 @@ class MetricType(Enum):
     FREQUENCY = "frequency"
     POWER_FACTOR = "power_factor"
     TIME = "time"
+    TIMESTAMP = "timestamp"
     DURATION = "duration"
     PERCENTAGE = "percentage"
     ELECTRIC_STORAGE_CAPACITY = "electric_storage_capacity"
