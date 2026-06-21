@@ -323,6 +323,27 @@ async def test_sensor_without_unit_does_not_crash(
     assert state.attributes.get("unit_of_measurement") is None
 
 
+async def test_sensor_uses_registry_unit(
+    hass: HomeAssistant,
+    init_integration,
+) -> None:
+    """Test sensor unit is available when the entity is registered."""
+    victron_hub, mock_config_entry = init_integration
+
+    await inject_message(victron_hub, "N/123/battery/0/Dc/0/Current", '{"value": 10.5}')
+    await finalize_injection(victron_hub)
+    await hass.async_block_till_done()
+
+    entity_registry = er.async_get(hass)
+    entities = er.async_entries_for_config_entry(
+        entity_registry, mock_config_entry.entry_id
+    )
+    assert len(entities) > 0
+
+    entity = next(entry for entry in entities if entry.translation_key == "battery_current")
+    assert entity.unit_of_measurement == "A"
+
+
 async def test_monetary_sensor_uses_ha_currency(
     hass: HomeAssistant,
     init_integration,
@@ -340,6 +361,7 @@ async def test_monetary_sensor_uses_ha_currency(
         entity_registry, mock_config_entry.entry_id
     )
     assert len(entities) == 1
+    assert entities[0].unit_of_measurement == "EUR"
 
     state = hass.states.get(entities[0].entity_id)
     assert state is not None
@@ -1091,4 +1113,3 @@ async def test_number_with_step(
     assert state is not None
     assert float(state.state) == 57.6
     assert state.attributes.get("step") == 0.1
-

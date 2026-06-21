@@ -92,7 +92,6 @@ class VictronNumber(VictronBaseEntity, NumberEntity):
             simple_naming,
             installation_id,
         )
-        self._attr_native_unit_of_measurement = None
         self._attr_device_class = METRIC_TYPE_TO_DEVICE_CLASS.get(metric.metric_type)
         self._attr_native_value = metric.value
         if metric.min_value is not None:
@@ -106,11 +105,6 @@ class VictronNumber(VictronBaseEntity, NumberEntity):
     def _on_update_cb(self, value: Any) -> None:
         self._attr_native_value = value
         self.async_write_ha_state()
-
-    async def async_added_to_hass(self) -> None:
-        """Run when entity about to be added to hass."""
-        self._attr_native_unit_of_measurement = self._native_unit_of_measurement()
-        await super().async_added_to_hass()
 
     async def async_set_native_value(self, value: float) -> None:
         """Set a new value."""

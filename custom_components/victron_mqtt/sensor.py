@@ -105,7 +105,6 @@ class VictronSensor(VictronBaseEntity, RestoreSensor):
         super().__init__(
             device, metric, device_info, "sensor", simple_naming, installation_id
         )
-        self._attr_native_unit_of_measurement = None
         self._attr_device_class = METRIC_TYPE_TO_DEVICE_CLASS.get(metric.metric_type)
         # Enum sensors must not have a state class
         if self._attr_device_class == SensorDeviceClass.ENUM:
@@ -133,8 +132,6 @@ class VictronSensor(VictronBaseEntity, RestoreSensor):
 
     async def async_added_to_hass(self) -> None:
         """Restore persistent state for FormulaMetric energy sensors."""
-        self._attr_native_unit_of_measurement = self._native_unit_of_measurement()
-
         # Only restore for cumulative FormulaMetric sensors (TOTAL / TOTAL_INCREASING).
         # These metrics start from 0 on each HA restart, so we restore the
         # previous accumulated value as a baseline and add new increments on top.
