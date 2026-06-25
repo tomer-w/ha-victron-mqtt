@@ -17,7 +17,28 @@ from homeassistant.helpers.entity import Entity
 # Entities that should be marked as diagnostic
 ENTITIES_CATEGORY_DIAGNOSTIC = ["system_heartbeat", "solarcharger_device_off_reason"]
 # Entities that should be disabled by default
-ENTITIES_DISABLE_BY_DEFAULT = ["system_heartbeat", "solarcharger_device_off_reason"]
+ENTITIES_DISABLE_BY_DEFAULT = [
+    "system_heartbeat",
+    "solarcharger_device_off_reason",
+    # Per-tracker solarcharger entities — multiply quickly on multi-tracker chargers
+    # (e.g. RS 450/200 = 4 trackers × 8 entities = 32 extra recorded entities per charger).
+    # Enabled individually by users who need the per-string breakdown.
+    "solarcharger_tracker_{tracker}_power",
+    "solarcharger_tracker_{tracker}_voltage",
+    "solarcharger_tracker_{tracker}_current",
+    "solarcharger_tracker_{tracker}_operation_mode",
+    "solarcharger_tracker_{tracker}_name",
+    "solarcharger_tracker_{tracker}_max_power_today",
+    "solarcharger_tracker_{tracker}_max_voltage_today",
+    "solarcharger_tracker_{tracker}_yield_today",
+    # Per-MPPT multi-device entities — same reason
+    "multi_mppt_{mppt_id}_yield_today",
+    "multi_mppt_{mppt_id}_yield_yesterday",
+    "multi_mppt_{mpptnumber}_state",
+    "multi_mppt_{mpptnumber}_power",
+    "multi_mppt_{mpptnumber}_voltage",
+    "multi_mppt_{mpptnumber}_current",
+]
 # Units that must be provided directly instead of via localization.
 SPECIAL_NATIVE_UNITS = {"%", "Ah"}
 
