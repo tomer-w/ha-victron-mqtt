@@ -3,7 +3,6 @@
 from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
-from syrupy.assertion import SnapshotAssertion
 from custom_components.victron_mqtt._vendor.victron_mqtt import (
     AuthenticationError,
     CannotConnectError,
@@ -31,6 +30,8 @@ from homeassistant.const import (
     CONF_SSL,
     CONF_USERNAME,
 )
+from homeassistant.components.number import NumberMode
+from homeassistant.components.sensor import SensorStateClass
 from homeassistant.core import HomeAssistant, State
 from homeassistant.helpers import entity_registry as er
 from homeassistant.core import State
@@ -38,21 +39,6 @@ from homeassistant.core import State
 from pytest_homeassistant_custom_component.common import MockConfigEntry, mock_restore_cache
 
 pytestmark = pytest.mark.usefixtures("enable_custom_integrations")
-
-
-def _snapshot_relevant_states(hass: HomeAssistant, entity_ids: list[str]) -> list[dict]:
-    """Snapshot rich state payload while removing volatile metadata."""
-    snapshots: list[dict] = []
-    for entity_id in sorted(entity_ids):
-        state = hass.states.get(entity_id)
-        assert state is not None
-        payload = {
-            key: value
-            for key, value in state.as_dict().items()
-            if key not in {"last_changed", "last_updated", "last_reported", "context"}
-        }
-        snapshots.append(payload)
-    return snapshots
 
 @pytest.fixture(params=[False, True], ids=["complex_naming", "simple_naming"])
 def basic_config(request):
@@ -232,7 +218,6 @@ async def test_unregister_add_entities_callback(
 
 async def test_on_new_metric_sensor(
     hass: HomeAssistant,
-    snapshot: SnapshotAssertion,
     init_integration,
 ) -> None:
     """Test _on_new_metric callback creates entities and updates values."""
@@ -278,7 +263,6 @@ async def test_on_new_metric_sensor(
 
 async def test_sensor(
     hass: HomeAssistant,
-    snapshot: SnapshotAssertion,
     init_integration,
 ) -> None:
     victron_hub, mock_config_entry = init_integration
@@ -294,11 +278,17 @@ async def test_sensor(
         entity_registry, mock_config_entry.entry_id
     )
 
-    # Should have created at least one entity
-    assert len(entities) > 0
-    assert _snapshot_relevant_states(
-        hass, [entry.entity_id for entry in entities]
-    ) == snapshot
+    assert len(entities) == 1
+    entity = entities[0]
+    assert entity.translation_key == "battery_current"
+
+    state = hass.states.get(entity.entity_id)
+    assert state is not None
+    assert state.state == "10.5"
+    assert state.attributes["device_class"] == "current"
+    assert state.attributes["friendly_name"] == "Battery DC bus current"
+    assert state.attributes["state_class"] == SensorStateClass.MEASUREMENT
+    assert state.attributes["unit_of_measurement"] == "A"
 
 
 async def test_sensor_without_unit_does_not_crash(
@@ -370,7 +360,6 @@ async def test_monetary_sensor_uses_ha_currency(
 
 async def test_sensor_complex(
     hass: HomeAssistant,
-    snapshot: SnapshotAssertion,
     init_integration,
 ) -> None:
     victron_hub, mock_config_entry = init_integration
@@ -386,14 +375,50 @@ async def test_sensor_complex(
         entity_registry, mock_config_entry.entry_id
     )
 
-    # Should have created 2 entities (Day and Enabled)
     assert len(entities) == 2
-    assert entities == snapshot
+    simple_naming = mock_config_entry.data[CONF_SIMPLE_NAMING]
+    if simple_naming:
+        day_entity_id = "select.victron_venus_ess_batterylife_schedule_charge_2_days"
+        enabled_entity_id = "switch.victron_venus_ess_batterylife_schedule_charge_2_enabled"
+    else:
+        day_entity_id = "select.victron_mqtt_123_system_0_system_ess_schedule_charge_2_days"
+        enabled_entity_id = "switch.victron_mqtt_123_system_0_system_ess_schedule_charge_2_enabled"
+
+    day_entity = next(entity for entity in entities if entity.entity_id == day_entity_id)
+    enabled_entity = next(
+        entity for entity in entities if entity.entity_id == enabled_entity_id
+    )
+
+    assert day_entity.capabilities is not None
+    assert day_entity.capabilities["options"] == [
+        "disabled_sunday",
+        "disabled_weekend",
+        "disabled_weekdays",
+        "disabled_every_day",
+        "disabled_saturday",
+        "disabled_friday",
+        "disabled_thursday",
+        "disabled_wednesday",
+        "disabled_tuesday",
+        "disabled_monday",
+        "sunday",
+        "monday",
+        "tuesday",
+        "wednesday",
+        "thursday",
+        "friday",
+        "saturday",
+        "every_day",
+        "weekdays",
+        "weekends",
+    ]
+    assert day_entity.original_name == "ESS BatteryLife schedule charge 2 days"
+    assert enabled_entity.capabilities is None
+    assert enabled_entity.original_name == "ESS BatteryLife schedule charge 2 enabled"
 
 
 async def test_binary_sensor(
     hass: HomeAssistant,
-    snapshot: SnapshotAssertion,
     init_integration,
 ) -> None:
     victron_hub, mock_config_entry = init_integration
@@ -408,14 +433,17 @@ async def test_binary_sensor(
         entity_registry, mock_config_entry.entry_id
     )
 
-    # Should have created one entity
     assert len(entities) == 1
-    assert entities == snapshot
+    entity = entities[0]
+    assert entity.translation_key == "evcharger_connected"
+
+    state = hass.states.get(entity.entity_id)
+    assert state is not None
+    assert state.state == "on"
 
 
 async def test_number(
     hass: HomeAssistant,
-    snapshot: SnapshotAssertion,
     init_integration,
 ) -> None:
     victron_hub, mock_config_entry = init_integration
@@ -430,16 +458,23 @@ async def test_number(
         entity_registry, mock_config_entry.entry_id
     )
 
-    # Should have created one entity
     assert len(entities) == 1
-    assert _snapshot_relevant_states(
-        hass, [entry.entity_id for entry in entities]
-    ) == snapshot
+    entity = entities[0]
+
+    state = hass.states.get(entity.entity_id)
+    assert state is not None
+    assert state.state == "16"
+    assert state.attributes["device_class"] == "current"
+    assert state.attributes["friendly_name"] == "EV charging station Charge current setpoint"
+    assert state.attributes["max"] == 32
+    assert state.attributes["min"] == 0
+    assert state.attributes["mode"] == NumberMode.AUTO
+    assert state.attributes["step"] == 1
+    assert state.attributes["unit_of_measurement"] == "A"
 
 
 async def test_select(
     hass: HomeAssistant,
-    snapshot: SnapshotAssertion,
     init_integration,
 ) -> None:
     victron_hub, mock_config_entry = init_integration
@@ -453,14 +488,15 @@ async def test_select(
         entity_registry, mock_config_entry.entry_id
     )
 
-    # Should have created one entity
     assert len(entities) == 1
-    assert entities == snapshot
+    entity = entities[0]
+    assert entity.translation_key == "evcharger_mode"
+    assert entity.capabilities is not None
+    assert entity.capabilities["options"] == ["manual", "auto", "scheduled_charge"]
 
 
 async def test_select_main_topic(
     hass: HomeAssistant,
-    snapshot: SnapshotAssertion,
     init_integration,
 ) -> None:
     """Test select entity with main_topic=True still gets translation_key."""
@@ -475,14 +511,16 @@ async def test_select_main_topic(
         entity_registry, mock_config_entry.entry_id
     )
 
-    # Should have created one entity
     assert len(entities) == 1
-    assert entities == snapshot
+    entity = entities[0]
+    assert entity.translation_key == "vebus_inverter_mode"
+    assert entity.capabilities is not None
+    assert entity.capabilities["options"] == ["charger_only", "inverter_only", "on", "off"]
+    assert entity.original_name is None
 
 
 async def test_button(
     hass: HomeAssistant,
-    snapshot: SnapshotAssertion,
     init_integration,
 ) -> None:
     victron_hub, mock_config_entry = init_integration
@@ -497,14 +535,14 @@ async def test_button(
         entity_registry, mock_config_entry.entry_id
     )
 
-    # Should have created one entity
     assert len(entities) == 1
-    assert entities == snapshot
+    entity = entities[0]
+    assert entity.translation_key == "platform_device_reboot"
+    assert entity.original_name == "Device reboot"
 
 
 async def test_switch(
     hass: HomeAssistant,
-    snapshot: SnapshotAssertion,
     init_integration,
 ) -> None:
     victron_hub, mock_config_entry = init_integration
@@ -519,14 +557,14 @@ async def test_switch(
         entity_registry, mock_config_entry.entry_id
     )
 
-    # Should have created one entity
     assert len(entities) == 1
-    assert entities == snapshot
+    entity = entities[0]
+    assert entity.translation_key == "generator_manual_start"
+    assert entity.original_name == "Manual start"
 
 
 async def test_time(
     hass: HomeAssistant,
-    snapshot: SnapshotAssertion,
     init_integration,
 ) -> None:
     victron_hub, mock_config_entry = init_integration
@@ -541,14 +579,18 @@ async def test_time(
         entity_registry, mock_config_entry.entry_id
     )
 
-    # Should have created one entity
     assert len(entities) == 1
-    assert entities == snapshot
+    entity = entities[0]
+    assert entity.translation_key == "system_ess_schedule_charge_slot_start"
+    assert entity.original_name == "ESS BatteryLife schedule charge 0 start"
+
+    state = hass.states.get(entity.entity_id)
+    assert state is not None
+    assert state.state == "00:23:00"
 
 
 async def test_device_tracker(
     hass: HomeAssistant,
-    snapshot: SnapshotAssertion,
     init_integration,
 ) -> None:
     """Test device tracker entity creation from GPS location."""
@@ -569,9 +611,14 @@ async def test_device_tracker(
         entity_registry, mock_config_entry.entry_id
     )
 
-    # Should have created one entity
     assert len(entities) == 1
-    assert entities == snapshot
+    entity = entities[0]
+    assert entity.translation_key == "gps_location"
+
+    state = hass.states.get(entity.entity_id)
+    assert state is not None
+    assert float(state.attributes["latitude"]) == 52.3676
+    assert float(state.attributes["longitude"]) == 4.9041
 
 
 async def test_device_tracker_update(
@@ -618,7 +665,6 @@ async def test_device_tracker_update(
 async def test_sensor_with_baseline(
     mock_time: MagicMock,
     hass: HomeAssistant,
-    snapshot: SnapshotAssertion,
     init_integration,
 ) -> None:
     """Test that baseline IS restored for FormulaMetric sensors with TOTAL state_class.
@@ -664,11 +710,24 @@ async def test_sensor_with_baseline(
     state = hass.states.get(energy_entities[0].entity_id)
     assert state is not None
     assert float(state.state) == 1000.004
-    # Should have created two entity
     assert len(entities) == 2
-    assert _snapshot_relevant_states(
-        hass, [entry.entity_id for entry in entities]
-    ) == snapshot
+    simple_naming = mock_config_entry.data[CONF_SIMPLE_NAMING]
+    if simple_naming:
+        energy_entity_id = "sensor.victron_venus_pv_energy"
+        power_entity_id = "sensor.victron_venus_pv_power"
+    else:
+        energy_entity_id = "sensor.victron_mqtt_123_system_0_system_dc_pv_energy"
+        power_entity_id = "sensor.victron_mqtt_123_system_0_system_dc_pv_power"
+
+    energy_entity = next(entity for entity in entities if entity.entity_id == energy_entity_id)
+    energy_state = hass.states.get(energy_entity.entity_id)
+    assert energy_state is not None
+    assert energy_state.state == "1000.004"
+
+    power_entity = next(entity for entity in entities if entity.entity_id == power_entity_id)
+    power_state = hass.states.get(power_entity.entity_id)
+    assert power_state is not None
+    assert power_state.state == "4000.0"
 
 
 @patch('custom_components.victron_mqtt._vendor.victron_mqtt.formula_common.time.monotonic')
