@@ -33,7 +33,7 @@ class DeviceType(VictronDeviceEnum):
     )  # Orion XS 1400 in alternator to battery charging mode.
     SWITCH = ("switch", "switch", "Switch")
     GPS = ("gps", "gps", "GPS")
-    SYSTEM_SETUP = ("SystemSetup", "system_setup", "System setup", "system")  # Should be mapped to SYSTEM
+    SYSTEM_SETUP = ("SystemSetup", "system_setup", "<Not used>", "system")  # Should be mapped to SYSTEM
     SERVICES = ("Services", "services", "<Not used>", "system")  # Should be mapped to SYSTEM
     TRANSFER_SWITCH = ("TransferSwitch", "transfer_switch", "Transfer switch")
     DIGITAL_INPUT = ("digitalinput", "digital_input", "Digital input")
@@ -46,12 +46,13 @@ class DeviceType(VictronDeviceEnum):
         "system",
     )  # For whatever reason some system topics are under platform
     HEATPUMP = ("heatpump", "heatpump", "Heat pump")
+    NETWORK = ("Network", "network", "<Not used>", "system")  # Network settings are under system
     METEO = ("meteo", "meteo", "Irradiance sensor")
-    DYNAMIC_ESS = ("DynamicEss", "dynamic_ess", "Dynamic ESS", "system")  # Dynamic ESS settings are under system
+    DYNAMIC_ESS = ("DynamicEss", "dynamic_ess", "<Not used>", "system")  # Dynamic ESS settings are under system
     ACLOAD = ("acload", "acload", "AC load")
     CHARGER = ("charger", "charger", "Charger")
     HUB4 = ("hub4", "hub4", "Hub4")
-    ACSYSTEM = ("acsystem", "acsystem", "AC system", "system")  # Should be mapped to SYSTEM
+    ACSYSTEM = ("acsystem", "acsystem", "<Not used>", "system")  # Should be mapped to SYSTEM
     DCDC = ("dcdc", "dcdc", "DC/DC charger")  # Orion XS 1400 in battery to battery charging mode.
 
 
@@ -81,6 +82,14 @@ class GenericOnOffInverted(VictronEnum):
 
     ON = (0, "on", "On")
     OFF = (1, "off", "Off")
+
+
+class VrmPortalMode(VictronEnum):
+    """VRM Portal access level enum."""
+
+    OFF = (0, "off", "Off")
+    READ_ONLY = (1, "read_only", "Read-only")
+    FULL = (2, "full", "Full")
 
 
 class PreferRenewableEnergyEnum(VictronEnum):
