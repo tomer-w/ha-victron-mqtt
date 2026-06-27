@@ -151,24 +151,24 @@ def wrap_bitmask(
     return json.dumps({"value": val})
 
 
-def wrap_int(value: int | None) -> str:
+def wrap_int(value: int | float | None) -> str:
     """Wrap an integer value into a JSON string with a 'value' key."""
-    return json.dumps({"value": value})
+    return json.dumps({"value": int(value) if value is not None else None})
 
 
-def wrap_int_hours_to_seconds(value: int | None) -> str:
+def wrap_int_hours_to_seconds(value: int | float | None) -> str:
     """Wrap an integer value into a JSON string with a 'value' key."""
-    return json.dumps({"value": value * 3600 if value is not None else None})
+    return json.dumps({"value": int(value) * 3600 if value is not None else None})
 
 
-def wrap_int_minutes_to_seconds(value: int | None) -> str:
+def wrap_int_minutes_to_seconds(value: int | float | None) -> str:
     """Wrap an integer value into a JSON string with a 'value' key."""
-    return json.dumps({"value": value * 60 if value is not None else None})
+    return json.dumps({"value": int(value) * 60 if value is not None else None})
 
 
-def wrap_int_default_0(value: int | None) -> str:
+def wrap_int_default_0(value: int | float | None) -> str:
     """Wrap an integer value into a JSON string with a 'value' key, defaulting to 0 if None."""
-    return json.dumps({"value": value if value is not None else 0})
+    return json.dumps({"value": int(value) if value is not None else 0})
 
 
 def wrap_float(value: float | None) -> str:

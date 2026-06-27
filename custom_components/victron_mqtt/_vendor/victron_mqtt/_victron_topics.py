@@ -1,5 +1,5 @@
 """
-Maps all the MQTT topics to either attributes or metrics.
+Defines the TopicDescriptor mappings for Victron MQTT topics and derived formula topics.
 """
 
 from ._victron_enums import (
@@ -42,6 +42,7 @@ from ._victron_enums import (
     SwitchableOutputType,
     TemperatureStatus,
     TemperatureType,
+    VrmPortalMode,
 )
 from .constants import MetricKind, MetricNature, MetricType, RangeType, ValueType
 from .data_classes import TopicDependency, TopicDescriptor
@@ -2001,12 +2002,10 @@ topics: list[TopicDescriptor] = [
     ),
     TopicDescriptor(
         topic="N/{installation_id}/multi/{device_id}/Ess/AcPowerSetpoint",
-        message_type=MetricKind.NUMBER,
+        message_type=MetricKind.SENSOR,
         short_id="multi_ess_ac_power_setpoint",
         name="ESS AC power setpoint",
         metric_type=MetricType.POWER,
-        min=-12500,
-        max=12500,
     ),
     TopicDescriptor(
         topic="N/{installation_id}/multi/{device_id}/Ess/DisableCharge",
@@ -2252,6 +2251,14 @@ topics: list[TopicDescriptor] = [
         min=-10000,  # Dynamic range, depends on device model,
         max=10000,  # Dynamic range, depends on device model
         step=10,
+    ),
+    TopicDescriptor(
+        topic="N/{installation_id}/settings/{device_id}/Settings/CGwacs/AlwaysPeakShave",
+        message_type=MetricKind.SWITCH,
+        short_id="system_ess_always_peak_shave",
+        name="ESS always peak shave",
+        value_type=ValueType.ENUM,
+        enum=GenericOnOff,
     ),
     TopicDescriptor(
         topic="N/{installation_id}/settings/{device_id}/Settings/CGwacs/BatteryLife/MinimumSocLimit",
@@ -2633,6 +2640,15 @@ topics: list[TopicDescriptor] = [
         min=0,
         max=1800,
         depends_on=["generator_{gen_id}_generator_autorun"],
+    ),
+    # Network settings
+    TopicDescriptor(
+        topic="N/{installation_id}/settings/{device_id}/Settings/Network/VrmPortal",
+        message_type=MetricKind.SELECT,
+        short_id="system_vrm_portal_mode",
+        name="VRM portal access level",
+        value_type=ValueType.ENUM,
+        enum=VrmPortalMode,
     ),
     # Relay Custom Name topics
     TopicDescriptor(
@@ -3879,6 +3895,30 @@ topics: list[TopicDescriptor] = [
         metric_type=MetricType.ENERGY,
     ),
     TopicDescriptor(
+        topic="N/{installation_id}/vebus/{device_id}/Hub4/DoNotFeedInOvervoltage",
+        message_type=MetricKind.SWITCH,
+        short_id="vebus_hub4_do_not_feed_in_overvoltage",
+        name="Hub4 do not feed in on overvoltage",
+        value_type=ValueType.ENUM,
+        enum=GenericOnOff,
+    ),
+    TopicDescriptor(
+        topic="N/{installation_id}/vebus/{device_id}/Hub4/FixSolarOffsetTo100mV",
+        message_type=MetricKind.SWITCH,
+        short_id="vebus_hub4_fix_solar_offset_100mv",
+        name="Hub4 fix solar offset to 100mV",
+        value_type=ValueType.ENUM,
+        enum=GenericOnOff,
+    ),
+    TopicDescriptor(
+        topic="N/{installation_id}/vebus/{device_id}/Hub4/TargetPowerIsMaxFeedIn",
+        message_type=MetricKind.SWITCH,
+        short_id="vebus_hub4_target_power_is_max_feed_in",
+        name="Hub4 target power is max feed-in",
+        value_type=ValueType.ENUM,
+        enum=GenericOnOff,
+    ),
+    TopicDescriptor(
         topic="N/{installation_id}/vebus/{device_id}/Hub4/{phase}/AcPowerSetpoint",
         message_type=MetricKind.NUMBER,
         short_id="vebus_ac_power_setpoint_{phase}",
@@ -3895,6 +3935,14 @@ topics: list[TopicDescriptor] = [
         value_type=ValueType.ENUM,
         enum=InverterMode,
         main_topic=True,
+    ),
+    TopicDescriptor(
+        topic="N/{installation_id}/vebus/{device_id}/PvInverter/Disable",
+        message_type=MetricKind.SWITCH,
+        short_id="vebus_pvinverter_disable",
+        name="Vebus PV inverter disable",
+        value_type=ValueType.ENUM,
+        enum=GenericOnOff,
     ),
     TopicDescriptor(
         topic="N/{installation_id}/vebus/{device_id}/Settings/Alarm/System/GridLost",
@@ -3932,5 +3980,14 @@ topics: list[TopicDescriptor] = [
         name="Generator service counter reset",
         unit_of_measurement="resets",
         value_type=ValueType.INT,
+    ),
+    TopicDescriptor(
+        topic="W/{installation_id}/multi/{device_id}/Ess/AcPowerSetpoint",
+        message_type=MetricKind.SERVICE,
+        short_id="multi_service_ess_ac_power_setpoint",
+        name="Set ESS AC power setpoint",
+        metric_type=MetricType.POWER,
+        min=-12500,
+        max=12500,
     ),
 ]

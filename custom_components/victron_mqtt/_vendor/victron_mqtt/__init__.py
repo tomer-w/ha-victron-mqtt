@@ -44,6 +44,7 @@ from ._victron_enums import (
     TemperatureStatus,
     TemperatureType,
     VictronDeviceEnum,
+    VrmPortalMode,
 )
 from .constants import MetricKind, MetricNature, MetricType, OperationMode, RangeType, VictronEnum
 from .data_classes import GpsLocation
@@ -120,5 +121,6 @@ __all__ = [
     "TopicNotFoundError",
     "VictronDeviceEnum",
     "VictronEnum",
+    "VrmPortalMode",
     "WritableMetric",
 ]
