@@ -1,0 +1,71 @@
+name: Generated Files Check
+
+# Verifies that the generated English translations are in sync with the
+# vendored victron_mqtt.json and that every entity actually has a display
+# name. merge_topics.py currently only runs in the version-bump workflow,
+# so a manual catalog/translation edit could otherwise drift unnoticed.
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    types: [opened, reopened, synchronize]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  translations:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.14'
+
+      - name: Regenerate en.json from victron_mqtt.json
+        run: python3 .github/scripts/merge_topics.py
+
+      - name: Fail if en.json is out of date
+        run: |
+          en="custom_components/victron_mqtt/translations/en.json"
+          if ! git diff --quiet "$en"; then
+            echo "::error file=$en::en.json is out of date. Run 'python3 .github/scripts/merge_topics.py' and commit the result (it regenerates entity names from victron_mqtt.json)."
+            git --no-pager diff "$en"
+            exit 1
+          fi
+          echo "en.json is up to date."
+
+      - name: Every entity has a display name
+        run: |
+          python - <<'PY'
+          import json, sys
+
+          en_path = "custom_components/victron_mqtt/translations/en.json"
+          with open(en_path, encoding="utf-8") as f:
+              en = json.load(f)
+
+          # An entry with a "name" key that is null/empty renders as the device
+          # name only. Entries without a "name" key at all (main-device topics)
+          # use the device name on purpose and are fine.
+          missing = []
+          for entity_type, entries in en.get("entity", {}).items():
+              for key, entry in entries.items():
+                  if "name" in entry and entry["name"] in (None, ""):
+                      missing.append(f"{entity_type}.{key}")
+
+          if missing:
+              print("::error::These entities have no display name in en.json, so HA "
+                    "shows only the device name. The name comes from the topic's "
+                    "generic_name in the victron_mqtt library - set it there and "
+                    "re-run merge_topics.py:")
+              for item in missing:
+                  print(f"  - {item}")
+              sys.exit(1)
+          print("OK - every generated entity translation has a non-empty name.")
+          PY
