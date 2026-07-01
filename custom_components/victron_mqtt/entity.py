@@ -68,8 +68,6 @@ class VictronBaseEntity(Entity):
             entity_id = f"{entity_platform}.{ENTITY_PREFIX}_{metric.unique_id}"
         else:
             entity_id = f"{entity_platform}.{ENTITY_PREFIX}_{installation_id}_{metric.unique_id}"
-            # you have to set the entity_id if we want to make the unique_id different from the default entity_id generation (which is based on the entity name)
-            self.entity_id = entity_id
         self._attr_unique_id = entity_id
         self._attr_suggested_display_precision = metric.precision
         # Always set translation_key so HA can resolve state/option translations (e.g. select options).
