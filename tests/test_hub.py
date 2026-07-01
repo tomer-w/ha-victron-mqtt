@@ -376,13 +376,8 @@ async def test_sensor_complex(
     )
 
     assert len(entities) == 2
-    simple_naming = mock_config_entry.data[CONF_SIMPLE_NAMING]
-    if simple_naming:
-        day_entity_id = "select.victron_venus_ess_batterylife_schedule_charge_2_days"
-        enabled_entity_id = "switch.victron_venus_ess_batterylife_schedule_charge_2_enabled"
-    else:
-        day_entity_id = "select.victron_mqtt_123_system_0_system_ess_schedule_charge_2_days"
-        enabled_entity_id = "switch.victron_mqtt_123_system_0_system_ess_schedule_charge_2_enabled"
+    day_entity_id = "select.victron_venus_ess_batterylife_schedule_charge_2_days"
+    enabled_entity_id = "switch.victron_venus_ess_batterylife_schedule_charge_2_enabled"
 
     day_entity = next(entity for entity in entities if entity.entity_id == day_entity_id)
     enabled_entity = next(
@@ -677,14 +672,7 @@ async def test_sensor_with_baseline(
     # Mock time.monotonic() to return a fixed time
     mock_time.return_value = 0
     
-    # The entity_id depends on the naming convention:
-    # simple_naming: HA generates from device name + entity name
-    # complex_naming: includes installation_id in the unique_id/entity_id
-    simple_naming = mock_config_entry.data[CONF_SIMPLE_NAMING]
-    if simple_naming:
-        entity_id = "sensor.victron_venus_pv_energy"
-    else:
-        entity_id = "sensor.victron_mqtt_123_system_0_system_dc_pv_energy"
+    entity_id = "sensor.victron_venus_pv_energy"
     
     # Mock the restore cache with a previous state value of 1000.0
     mock_restore_cache(hass, [State(entity_id, "1000.0")])
@@ -711,13 +699,8 @@ async def test_sensor_with_baseline(
     assert state is not None
     assert float(state.state) == 1000.004
     assert len(entities) == 2
-    simple_naming = mock_config_entry.data[CONF_SIMPLE_NAMING]
-    if simple_naming:
-        energy_entity_id = "sensor.victron_venus_pv_energy"
-        power_entity_id = "sensor.victron_venus_pv_power"
-    else:
-        energy_entity_id = "sensor.victron_mqtt_123_system_0_system_dc_pv_energy"
-        power_entity_id = "sensor.victron_mqtt_123_system_0_system_dc_pv_power"
+    energy_entity_id = "sensor.victron_venus_pv_energy"
+    power_entity_id = "sensor.victron_venus_pv_power"
 
     energy_entity = next(entity for entity in entities if entity.entity_id == energy_entity_id)
     energy_state = hass.states.get(energy_entity.entity_id)
