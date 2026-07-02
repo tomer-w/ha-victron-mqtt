@@ -2,6 +2,14 @@ import ast
 from pathlib import Path
 
 
+def _is_topic_descriptor_call(node: ast.AST) -> bool:
+    return isinstance(node, ast.Call) and isinstance(node.func, ast.Name) and node.func.id == "TopicDescriptor"
+
+
+def _is_string_constant_keyword(keyword: ast.keyword) -> bool:
+    return keyword.arg is not None and isinstance(keyword.value, ast.Constant) and isinstance(keyword.value.value, str)
+
+
 def test_vebus_hub4_disable_charge_uses_existing_ess_switch_id() -> None:
     victron_topics_path = (
         Path(__file__).resolve().parents[1]
@@ -11,13 +19,13 @@ def test_vebus_hub4_disable_charge_uses_existing_ess_switch_id() -> None:
 
     matching_descriptors = []
     for node in ast.walk(module):
-        if not isinstance(node, ast.Call) or not isinstance(node.func, ast.Name) or node.func.id != "TopicDescriptor":
+        if not _is_topic_descriptor_call(node):
             continue
 
         keyword_values = {
             keyword.arg: keyword.value.value
             for keyword in node.keywords
-            if keyword.arg is not None and isinstance(keyword.value, ast.Constant) and isinstance(keyword.value.value, str)
+            if _is_string_constant_keyword(keyword)
         }
         if keyword_values.get("topic") == "N/{installation_id}/vebus/{device_id}/Hub4/DisableCharge":
             matching_descriptors.append(keyword_values)
