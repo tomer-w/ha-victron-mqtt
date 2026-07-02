@@ -3895,6 +3895,14 @@ topics: list[TopicDescriptor] = [
         metric_type=MetricType.ENERGY,
     ),
     TopicDescriptor(
+        topic="N/{installation_id}/vebus/{device_id}/Hub4/DisableCharge",
+        message_type=MetricKind.SWITCH,
+        short_id="multi_disable_charge",
+        name="ESS disable charge",
+        value_type=ValueType.ENUM,
+        enum=GenericOnOff,
+    ),
+    TopicDescriptor(
         topic="N/{installation_id}/vebus/{device_id}/Hub4/DoNotFeedInOvervoltage",
         message_type=MetricKind.SWITCH,
         short_id="vebus_hub4_do_not_feed_in_overvoltage",
