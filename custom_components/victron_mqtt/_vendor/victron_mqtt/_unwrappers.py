@@ -126,6 +126,17 @@ def unwrap_epoch(json_str: str) -> datetime | None:
         return None
 
 
+def unwrap_epoch_default_na(json_str: str) -> datetime | str:
+    """Unwrap an integer value from a JSON string, defaulting to 0."""
+    try:
+        data = json.loads(json_str)
+        if data["value"] is None:
+            return "N/A"
+        return datetime.fromtimestamp(data["value"], tz=UTC)
+    except (json.JSONDecodeError, KeyError, ValueError, TypeError):
+        return "N/A"
+
+
 def wrap_enum(enum_val: VictronEnum | str, enum_expected: type[VictronEnum]) -> str:
     """Wrap an Enum value into a JSON string with a 'value' key."""
     if isinstance(enum_val, VictronEnum):
@@ -196,6 +207,7 @@ VALUE_TYPE_UNWRAPPER = {
     ValueType.ENUM: unwrap_enum,
     ValueType.BITMASK: unwrap_bitmask,
     ValueType.EPOCH: unwrap_epoch,
+    ValueType.EPOCH_DEFAULT_NA: unwrap_epoch_default_na,
     ValueType.INT_SECONDS_TO_HOURS: unwrap_int_seconds_to_hours,
     ValueType.INT_SECONDS_TO_MINUTES: unwrap_int_seconds_to_minutes,
     ValueType.FLOAT_M3_TO_LITERS: unwrap_float_m3_to_liters,

@@ -80,6 +80,7 @@ class ValueType(Enum):
     ENUM = "enum"
     BITMASK = "bitmask"
     EPOCH = "epoch"
+    EPOCH_DEFAULT_NA = "epoch_default_na"
     INT_SECONDS_TO_HOURS = "int_seconds_to_hours"
     INT_SECONDS_TO_MINUTES = "int_seconds_to_minutes"
     FLOAT_M3_TO_LITERS = "float_m3_to_liters"

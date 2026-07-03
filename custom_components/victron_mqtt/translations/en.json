@@ -336,6 +336,13 @@
           "on": "On"
         }
       },
+      "vebus_hub4_disable_charge": {
+        "name": "Hub4 disable charge",
+        "state": {
+          "off": "Off",
+          "on": "On"
+        }
+      },
       "vebus_hub4_do_not_feed_in_overvoltage": {
         "name": "Hub4 do not feed in on overvoltage",
         "state": {
@@ -1890,6 +1897,9 @@
           "sustain_alt": "Sustain alt"
         }
       },
+      "solarcharger_temperature": {
+        "name": "Temperature"
+      },
       "solarcharger_time_in_absorption_today": {
         "name": "Time in absorption today"
       },
@@ -1898,6 +1908,9 @@
       },
       "solarcharger_time_in_float_today": {
         "name": "Time in float today"
+      },
+      "solarcharger_total_pv_yield_system": {
+        "name": "Total PV yield system"
       },
       "solarcharger_tracker_tracker_current": {
         "name": "PV tracker {tracker} current"
@@ -2770,6 +2783,13 @@
       },
       "vebus_device_device_number_power_assist_enabled": {
         "name": "{device_number} PowerAssist enabled",
+        "state": {
+          "off": "Off",
+          "on": "On"
+        }
+      },
+      "vebus_hub4_disable_charge": {
+        "name": "Hub4 disable charge",
         "state": {
           "off": "Off",
           "on": "On"
