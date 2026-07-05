@@ -1034,10 +1034,14 @@ topics: list[TopicDescriptor] = [
     ),
     TopicDescriptor(
         topic="N/{installation_id}/ev/{device_id}/ChargingStarted",
+        depends_on=[
+            "ev_charging_state"
+        ],  # This is just so this topic will not show up with the default value if there is no EV charger at all
         message_type=MetricKind.SENSOR,
         short_id="ev_charging_started",
         name="Charging started",
         metric_type=MetricType.TIMESTAMP,
+        value_type=ValueType.EPOCH_DEFAULT_NA,
     ),
     TopicDescriptor(
         topic="N/{installation_id}/ev/{device_id}/ChargingState",
@@ -2744,6 +2748,13 @@ topics: list[TopicDescriptor] = [
         metric_type=MetricType.CURRENT,
     ),
     TopicDescriptor(
+        topic="N/{installation_id}/solarcharger/{device_id}/Dc/0/Temperature",
+        message_type=MetricKind.SENSOR,
+        short_id="solarcharger_temperature",
+        name="Temperature",
+        metric_type=MetricType.TEMPERATURE,
+    ),
+    TopicDescriptor(
         topic="N/{installation_id}/solarcharger/{device_id}/Dc/0/Voltage",
         message_type=MetricKind.SENSOR,
         short_id="solarcharger_dc_voltage",
@@ -2975,6 +2986,14 @@ topics: list[TopicDescriptor] = [
         metric_type=MetricType.CURRENT,
         precision=2,
         depends_on=["solarcharger_yield_power", "solarcharger_voltage"],
+    ),
+    TopicDescriptor(
+        topic="N/{installation_id}/solarcharger/{device_id}/Yield/System",
+        message_type=MetricKind.SENSOR,
+        short_id="solarcharger_total_pv_yield_system",
+        name="Total PV yield system",
+        metric_type=MetricType.ENERGY,
+        precision=2,
     ),
     TopicDescriptor(
         topic="N/{installation_id}/solarcharger/{device_id}/Yield/User",
@@ -3893,6 +3912,14 @@ topics: list[TopicDescriptor] = [
         short_id="vebus_energy_out_to_inverter",
         name="Energy from out to inverter",
         metric_type=MetricType.ENERGY,
+    ),
+    TopicDescriptor(
+        topic="N/{installation_id}/vebus/{device_id}/Hub4/DisableCharge",
+        message_type=MetricKind.SWITCH,
+        short_id="vebus_hub4_disable_charge",
+        name="Hub4 disable charge",
+        value_type=ValueType.ENUM,
+        enum=GenericOnOff,
     ),
     TopicDescriptor(
         topic="N/{installation_id}/vebus/{device_id}/Hub4/DoNotFeedInOvervoltage",

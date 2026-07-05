@@ -340,7 +340,7 @@ class Hub:
 
         if self.use_ssl:
             _LOGGER.info("Setting up SSL context")
-            ssl_context = ssl.create_default_context()
+            ssl_context = await asyncio.to_thread(ssl.create_default_context)
             ssl_context.check_hostname = False
             ssl_context.verify_mode = ssl.VerifyMode.CERT_NONE
             self._client.tls_set_context(ssl_context)  # type: ignore[arg-type]
