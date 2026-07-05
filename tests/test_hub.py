@@ -358,6 +358,29 @@ async def test_monetary_sensor_uses_ha_currency(
     assert state.attributes.get("unit_of_measurement") == "EUR"
 
 
+async def test_native_unit_of_measurement_special_unit(
+    hass: HomeAssistant,
+    init_integration,
+) -> None:
+    """Test special units like % are exposed as native units."""
+    victron_hub, mock_config_entry = init_integration
+
+    await inject_message(victron_hub, "N/123/battery/0/Soc", '{"value": 85}')
+    await finalize_injection(victron_hub)
+    await hass.async_block_till_done()
+
+    entity_registry = er.async_get(hass)
+    entities = er.async_entries_for_config_entry(
+        entity_registry, mock_config_entry.entry_id
+    )
+    entity = next((entry for entry in entities if entry.unit_of_measurement == "%"), None)
+    assert entity is not None
+
+    state = hass.states.get(entity.entity_id)
+    assert state is not None
+    assert state.attributes["unit_of_measurement"] == "%"
+
+
 async def test_sensor_complex(
     hass: HomeAssistant,
     init_integration,

@@ -115,6 +115,11 @@ class VictronSensor(VictronBaseEntity, RestoreSensor):
             )
         self._attr_native_value = VictronSensor._normalize_value(metric.value)
 
+    @property
+    def native_unit_of_measurement(self) -> str | None:
+        """Return the native unit of measurement."""
+        return self._resolve_native_unit_of_measurement()
+
     @callback
     def _on_update_cb(self, value: Any) -> None:
         if self._baseline is not None:
