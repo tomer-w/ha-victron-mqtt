@@ -123,6 +123,14 @@ class ChargerMode(VictronEnum):
     OFF = (4, "off", "Off")
 
 
+class BMSMode(VictronEnum):
+    """BMS contactor mode enum."""
+
+    ON = (3, "on", "On")
+    OFF = (4, "off", "Off")
+    STANDBY = (252, "standby", "Standby")
+
+
 class InverterMode(VictronEnum):
     """Inverter Mode Enum"""
 

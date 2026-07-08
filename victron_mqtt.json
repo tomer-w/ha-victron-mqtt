@@ -1708,6 +1708,33 @@
       "sub_device_key": null
     },
     {
+      "topic": "N/{installation_id}/battery/{device_id}/Mode",
+      "message_type": "MetricKind.SELECT",
+      "short_id": "battery_bms_mode",
+      "name": "BMS mode",
+      "unit_of_measurement": null,
+      "metric_type": "MetricType.ENUM",
+      "metric_nature": "MetricNature.NONE",
+      "value_type": "ValueType.ENUM",
+      "precision": null,
+      "enum": "BMSMode",
+      "min_max_range": "RangeType.STATIC",
+      "min": null,
+      "max": null,
+      "step": null,
+      "is_adjustable_suffix": null,
+      "output_type": null,
+      "labels": null,
+      "key_values": {},
+      "experimental": false,
+      "depends_on": [],
+      "generic_name": "BMS mode",
+      "is_formula": false,
+      "main_topic": true,
+      "hidden": false,
+      "sub_device_key": null
+    },
+    {
       "topic": "N/{installation_id}/battery/{device_id}/Soc",
       "message_type": "MetricKind.SENSOR",
       "short_id": "battery_soc",
@@ -3186,7 +3213,7 @@
       "key_values": {},
       "experimental": false,
       "depends_on": [
-        "ev_charging_state"
+        "ev_{device_id}_ev_charging_state"
       ],
       "generic_name": "Charging started",
       "is_formula": false,
@@ -13163,6 +13190,26 @@
           "id": "disconnected",
           "name": "Disconnected",
           "value": 240
+        }
+      ]
+    },
+    {
+      "name": "BMSMode",
+      "EnumValues": [
+        {
+          "id": "on",
+          "name": "On",
+          "value": 3
+        },
+        {
+          "id": "off",
+          "name": "Off",
+          "value": 4
+        },
+        {
+          "id": "standby",
+          "name": "Standby",
+          "value": 252
         }
       ]
     },
