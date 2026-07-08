@@ -8,6 +8,7 @@ from ._victron_enums import (
     ACSystemMode,
     ActiveInputEnum,
     BatteryState,
+    BMSMode,
     ChargerMode,
     ChargeSchedule,
     DESSErrorCode,
@@ -626,6 +627,15 @@ topics: list[TopicDescriptor] = [
         enum=GenericOnOff,
     ),
     TopicDescriptor(
+        topic="N/{installation_id}/battery/{device_id}/Mode",
+        message_type=MetricKind.SELECT,
+        short_id="battery_bms_mode",
+        name="BMS mode",
+        value_type=ValueType.ENUM,
+        enum=BMSMode,
+        main_topic=True,
+    ),
+    TopicDescriptor(
         topic="N/{installation_id}/battery/{device_id}/Soc",
         message_type=MetricKind.SENSOR,
         short_id="battery_soc",
@@ -1035,7 +1045,7 @@ topics: list[TopicDescriptor] = [
     TopicDescriptor(
         topic="N/{installation_id}/ev/{device_id}/ChargingStarted",
         depends_on=[
-            "ev_charging_state"
+            "ev_{device_id}_ev_charging_state"
         ],  # This is just so this topic will not show up with the default value if there is no EV charger at all
         message_type=MetricKind.SENSOR,
         short_id="ev_charging_started",

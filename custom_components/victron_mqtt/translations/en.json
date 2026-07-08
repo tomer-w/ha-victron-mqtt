@@ -567,6 +567,13 @@
           "passthrough": "Passthrough"
         }
       },
+      "battery_bms_mode": {
+        "state": {
+          "off": "Off",
+          "on": "On",
+          "standby": "Standby"
+        }
+      },
       "evcharger_mode": {
         "name": "Mode",
         "state": {
@@ -770,6 +777,13 @@
           "alarm": "Alarm",
           "no_alarm": "No alarm",
           "warning": "Warning"
+        }
+      },
+      "battery_bms_mode": {
+        "state": {
+          "off": "Off",
+          "on": "On",
+          "standby": "Standby"
         }
       },
       "battery_capacity": {

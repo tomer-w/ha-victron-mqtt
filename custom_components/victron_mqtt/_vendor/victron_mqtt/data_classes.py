@@ -457,27 +457,6 @@ class ParsedTopic:
         return self._unique_id
 
     @property
-    def display_id(self) -> str:
-        """Get a display identifier with the device-type prefix de-duplicated.
-
-        The ``unique_id`` has a known formatting quirk: when ``short_id`` already
-        starts with the device-type prefix (e.g. ``solarcharger_total_pv_yield``
-        under device ``solarcharger_3``), the resulting id contains the prefix
-        twice — ``solarcharger_3_solarcharger_total_pv_yield``.  ``display_id``
-        strips the redundant leading prefix, yielding ``solarcharger_3_total_pv_yield``.
-
-        ``unique_id`` is intentionally left unchanged for backward compatibility
-        with existing consumers.  ``display_id`` is provided for new consumers
-        that can adopt the cleaner form going forward.
-        """
-        assert self._short_id is not None, f"short_id is None for topic: {self.full_topic}"
-        device_prefix = f"{self.device_type.code}_"
-        short = self._short_id
-        if short.startswith(device_prefix):
-            short = short[len(device_prefix):]
-        return ParsedTopic.make_unique_id(self.get_device_unique_id(), short)
-
-    @property
     def key_values(self) -> dict[str, str]:
         """Get the key values of the ParsedTopic."""
         assert self._key_values is not None, f"key_values is None for topic: {self.full_topic}"
