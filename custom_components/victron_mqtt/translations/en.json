@@ -2266,6 +2266,16 @@
       "system_heartbeat": {
         "name": "GX system heartbeat"
       },
+      "system_pv_on_grid_current_phase": {
+        "name": "PV on grid current {phase}"
+      },
+      "system_pv_on_grid_phases": {
+        "name": "PV on grid phases",
+        "unit_of_measurement": "phases"
+      },
+      "system_pv_on_grid_power_phase": {
+        "name": "PV on grid power {phase}"
+      },
       "system_pv_on_output_current_phase": {
         "name": "PV on output current {phase}"
       },

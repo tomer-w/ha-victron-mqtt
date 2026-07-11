@@ -406,7 +406,7 @@ class ParsedTopic:
         self._key_values = self.get_key_values(topic_desc)
         self._key_values.update(topic_desc.key_values)
         self._short_id = self._replace_ids(topic_desc.short_id).lower()
-        effective_device_id = device_unique_id if device_unique_id else self.get_device_unique_id()
+        effective_device_id = device_unique_id or self.get_device_unique_id()
         self._unique_id = ParsedTopic.make_unique_id(effective_device_id, self._short_id)
         assert topic_desc.name is not None, f"TopicDescriptor name is None for topic: {topic_desc.topic}"
         self._name = self._replace_ids(topic_desc.name)

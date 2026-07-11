@@ -4,9 +4,9 @@ Support for Victron Venus WritableMetric.
 
 import json
 import logging
-from collections.abc import Callable, Iterable
+from collections.abc import Iterable
 from enum import Enum
-from typing import Any, cast
+from typing import Any
 
 from ._unwrappers import VALUE_TYPE_WRAPPER, wrap_bitmask, wrap_enum
 from ._victron_enums import SwitchableOutputType
@@ -187,7 +187,7 @@ class WritableMetric(Metric):
             payload = json.dumps({"value": self._labels.index(value)})  # type: ignore[union-attr]
         else:
             payload = WritableMetric._wrap_payload(self._descriptor, value)
-        self._hub._publish(self._write_topic, payload)
+        self._hub._publish(self._write_topic, payload)  # pylint: disable=protected-access
 
     @staticmethod
     def _wrap_payload(topic_desc: TopicDescriptor, value: str | float | int | bool | Enum) -> str:
@@ -206,7 +206,7 @@ class WritableMetric(Metric):
             )
             return wrap_bitmask(value, topic_desc.enum)
 
-        wrapper = cast("Callable[[Any], str]", VALUE_TYPE_WRAPPER[value_type])
+        wrapper = VALUE_TYPE_WRAPPER[value_type]
         return wrapper(value)
 
     @property

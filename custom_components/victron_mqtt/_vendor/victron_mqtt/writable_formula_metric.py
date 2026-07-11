@@ -22,16 +22,17 @@ class WritableFormulaMetric(WritableMetric, FormulaMetric):
         """Initialize the FormulaMetric."""
         _LOGGER.debug(
             "Creating new FormulaMetric: unique_id=%s, type=%s, nature=%s",
-            descriptor.short_id, descriptor.metric_type, descriptor.metric_nature
+            descriptor.short_id,
+            descriptor.metric_type,
+            descriptor.metric_nature,
         )
         assert descriptor.topic.startswith("$$func")
-        func_name = descriptor.topic.split('/')[-1]
+        func_name = descriptor.topic.split("/")[-1]
         assert ":" in func_name
         write_func_name = func_name.split(":", 1)[1]
         self._write_func = getattr(formulas, write_func_name)
 
-        super().__init__(descriptor = descriptor, **kwargs)
-
+        super().__init__(descriptor=descriptor, **kwargs)
 
     def __str__(self) -> str:
         return f"WritableFormulaMetric({super().__str__()}, transient_state={self.transient_state})"
@@ -39,7 +40,12 @@ class WritableFormulaMetric(WritableMetric, FormulaMetric):
     def __repr__(self) -> str:
         return self.__str__()
 
-    def _keepalive(self, force_invalidate: bool, log_debug: Callable[..., None]):
+    def _keepalive(
+        self,
+        force_invalidate: bool,
+        log_debug: Callable[..., None],
+        stale_timeout: float | None = None,
+    ):
         log_debug("Metric is WritableFormulaMetric so no keepalive for now: %s", self.unique_id)
 
     def set(self, value: str | float | int | bool | VictronEnum) -> None:

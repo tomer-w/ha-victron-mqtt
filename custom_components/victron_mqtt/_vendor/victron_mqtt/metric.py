@@ -217,12 +217,34 @@ class Metric:
         """Sets the on_update callback."""
         self._on_update = value
 
-    def _keepalive(self, force_invalidate: bool, log_debug: Callable[..., None]):
-        """Reset metrics value if no updates or send last values if they got skipped"""
+    def _keepalive(
+        self,
+        force_invalidate: bool,
+        log_debug: Callable[..., None],
+        stale_timeout: float | None = None,
+    ):
+        """Reset metrics value if no updates or send last values if they got skipped.
+
+        stale_timeout, when provided, is a number of seconds: if the metric has not been seen
+        for longer than that, its source is considered to have stopped publishing and the
+        metric is reset to None (unavailable). This relies on the hub periodically forcing a
+        full republish, so the timeout must be larger than that republish interval.
+        """
         if force_invalidate and self._value is not None:
             log_debug("Metric %s is being forced reset", self.unique_id)
             self._handle_message(None, log_debug, update_last_seen=False)  # Dont update the last_seen as it wasnt seen
             return
+        if stale_timeout is not None and self._value is not None:
+            elapsed = time.monotonic() - self._last_seen
+            if elapsed > stale_timeout:
+                log_debug(
+                    "Metric %s has been silent for %.2fs (> %.2fs), resetting to unavailable",
+                    self.unique_id,
+                    elapsed,
+                    stale_timeout,
+                )
+                self._handle_message(None, log_debug, update_last_seen=False)  # Dont update last_seen as it wasnt seen
+                return
         if self._last_seen > self._last_notified:
             log_debug(
                 "Metric %s has been updated at %.2f but not published since %.2fs, re-publishing",

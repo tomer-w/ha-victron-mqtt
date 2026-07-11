@@ -73,7 +73,7 @@ def schedule_charge_enabled(
 
 
 def schedule_charge_enabled_set(
-    value: str, depends_on: dict[str, Metric], _transient_state: FormulaTransientState | None
+    value: str | GenericOnOff, depends_on: dict[str, Metric], _transient_state: FormulaTransientState | None
 ) -> tuple[GenericOnOff, None]:
     """Set schedule charge enabled state."""
 
@@ -108,7 +108,7 @@ def dvcc_enabled(
     metric = next(iter(depends_on.values()))
     if metric.value is None:
         return None, None
-    code = metric.value.code if isinstance(metric.value, DVCCMode) else int(metric.value)
+    code = int(metric.value.code) if isinstance(metric.value, DVCCMode) else int(metric.value)
     return (GenericOnOff.ON if code & 1 else GenericOnOff.OFF), None
 
 
@@ -125,7 +125,7 @@ def dvcc_enabled_set(
     metric = next(iter(depends_on.values()))
     assert isinstance(metric, WritableMetric), "Expected WritableMetric for dvcc_enabled_set"
     # Do not override BMS/system-forced state (FORCED_OFF=2, FORCED_ON=3)
-    current_code = metric.value.code if isinstance(metric.value, DVCCMode) else int(metric.value or 0)
+    current_code = int(metric.value.code) if isinstance(metric.value, DVCCMode) else int(metric.value or 0)
     if current_code & 2:
         # Forced by system — return current state without writing
         return (GenericOnOff.ON if current_code & 1 else GenericOnOff.OFF), None
@@ -232,7 +232,7 @@ def ess_user_mode(
         return ESSUserMode.EXTERNAL_CONTROL, None
 
     state_value = state_metric.value
-    code = state_value.code if isinstance(state_value, ESSState) else int(state_value)
+    code = int(state_value.code) if isinstance(state_value, ESSState) else int(state_value)
 
     if code == 9:
         return ESSUserMode.KEEP_BATTERIES_CHARGED, None
