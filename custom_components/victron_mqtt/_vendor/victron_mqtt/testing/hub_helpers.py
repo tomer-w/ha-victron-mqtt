@@ -95,10 +95,6 @@ async def create_mocked_hub(
             # Set the mocked client explicitly to prevent overwriting
             hub._client = mocked_client
 
-            # Dynamically mock undefined attributes
-            hub._process_device = MagicMock(name="_process_device")
-            hub._process_metric = MagicMock(name="_process_metric")
-
             # Mock connect_async to trigger the _on_connect callback
             def mock_connect_async(*_args: Any, **_kwargs: Any) -> None:
                 hub._on_connect(

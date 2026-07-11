@@ -1,8 +1,9 @@
 """Functions to unwrap the data from the JSON string."""
 
 import json
-from collections.abc import Iterable
+from collections.abc import Callable, Iterable
 from datetime import UTC, datetime
+from typing import Any
 
 from .constants import BITMASK_SEPARATOR, ValueType, VictronEnum
 
@@ -199,7 +200,7 @@ def wrap_epoch(value: datetime | None) -> str:
     return json.dumps({"value": datetime.timestamp(value)})
 
 
-VALUE_TYPE_UNWRAPPER = {
+VALUE_TYPE_UNWRAPPER: dict[ValueType, Callable[..., Any]] = {
     ValueType.INT: unwrap_int,
     ValueType.INT_DEFAULT_0: unwrap_int_default_0,
     ValueType.FLOAT: unwrap_float,
@@ -213,7 +214,7 @@ VALUE_TYPE_UNWRAPPER = {
     ValueType.FLOAT_M3_TO_LITERS: unwrap_float_m3_to_liters,
 }
 
-VALUE_TYPE_WRAPPER = {
+VALUE_TYPE_WRAPPER: dict[ValueType, Callable[..., str]] = {
     ValueType.INT: wrap_int,
     ValueType.INT_DEFAULT_0: wrap_int_default_0,
     ValueType.FLOAT: wrap_float,

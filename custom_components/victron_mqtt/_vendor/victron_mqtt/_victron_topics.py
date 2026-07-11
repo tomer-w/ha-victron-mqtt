@@ -3176,6 +3176,28 @@ topics: list[TopicDescriptor] = [
         metric_type=MetricType.POWER,
     ),
     TopicDescriptor(
+        topic="N/{installation_id}/system/{device_id}/Ac/PvOnGrid/NumberOfPhases",
+        message_type=MetricKind.SENSOR,
+        short_id="system_pv_on_grid_phases",
+        name="PV on grid phases",
+        value_type=ValueType.INT,
+        unit_of_measurement="phases",
+    ),
+    TopicDescriptor(
+        topic="N/{installation_id}/system/{device_id}/Ac/PvOnGrid/{phase}/Current",
+        message_type=MetricKind.SENSOR,
+        short_id="system_pv_on_grid_current_{phase}",
+        name="PV on grid current {phase}",
+        metric_type=MetricType.CURRENT,
+    ),
+    TopicDescriptor(
+        topic="N/{installation_id}/system/{device_id}/Ac/PvOnGrid/{phase}/Power",
+        message_type=MetricKind.SENSOR,
+        short_id="system_pv_on_grid_power_{phase}",
+        name="PV on grid power {phase}",
+        metric_type=MetricType.POWER,
+    ),
+    TopicDescriptor(
         topic="N/{installation_id}/system/{device_id}/Ac/PvOnOutput/NumberOfPhases",
         message_type=MetricKind.SENSOR,
         short_id="system_pv_on_output_phases",
