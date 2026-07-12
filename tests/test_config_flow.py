@@ -4,6 +4,7 @@ from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
 from custom_components.victron_mqtt._vendor.victron_mqtt import CannotConnectError, OperationMode
+from custom_components.victron_mqtt.config_flow import DEFAULT_SSL_PORT
 
 from custom_components.victron_mqtt.const import (
     CONF_EXCLUDED_DEVICES,
@@ -238,7 +239,9 @@ async def test_user_flow_already_configured(hass: HomeAssistant) -> None:
 
 
 @pytest.mark.usefixtures("mock_victron_hub")
-async def test_ssdp_flow_success(hass: HomeAssistant) -> None:
+async def test_ssdp_flow_success(
+    hass: HomeAssistant, mock_victron_hub: MagicMock
+) -> None:
     """Test SSDP discovery flow with successful connection."""
     discovery_info = SsdpServiceInfo(
         ssdp_usn="mock_usn",
@@ -260,16 +263,24 @@ async def test_ssdp_flow_success(hass: HomeAssistant) -> None:
         data=discovery_info,
     )
 
-    assert result["type"] is FlowResultType.CREATE_ENTRY
-    assert (
-        result["title"]
-        == f"Victron OS {MOCK_INSTALLATION_ID} ({MOCK_HOST}:{DEFAULT_PORT})"
+    assert result["type"] is FlowResultType.FORM
+    assert result["step_id"] == "ssdp_confirm"
+    mock_victron_hub.return_value.connect.assert_not_awaited()
+
+    result = await hass.config_entries.flow.async_configure(
+        result["flow_id"],
+        user_input={},
     )
+
+    assert result["type"] is FlowResultType.CREATE_ENTRY
+    assert result["title"] == MOCK_FRIENDLY_NAME
     assert result["data"] == {
         CONF_HOST: MOCK_HOST,
+        CONF_PORT: DEFAULT_PORT,
         CONF_SERIAL: MOCK_SERIAL,
         CONF_INSTALLATION_ID: MOCK_INSTALLATION_ID,
         CONF_MODEL: MOCK_MODEL,
+        CONF_SSL: False,
         CONF_SIMPLE_NAMING: DEFAULT_SIMPLE_NAMING,
     }
 
@@ -277,7 +288,7 @@ async def test_ssdp_flow_success(hass: HomeAssistant) -> None:
 async def test_ssdp_flow_cannot_connect(
     hass: HomeAssistant, mock_victron_hub: MagicMock
 ) -> None:
-    """Test SSDP discovery flow when connection fails, aborts with cannot_connect."""
+    """Test SSDP confirmation aborts when connection fails."""
     mock_victron_hub.return_value.connect.side_effect = CannotConnectError
 
     discovery_info = SsdpServiceInfo(
@@ -300,9 +311,17 @@ async def test_ssdp_flow_cannot_connect(
         data=discovery_info,
     )
 
-    # Should abort when connection fails
+    assert result["type"] is FlowResultType.FORM
+    assert result["step_id"] == "ssdp_confirm"
+
+    result = await hass.config_entries.flow.async_configure(
+        result["flow_id"],
+        user_input={},
+    )
+
     assert result["type"] is FlowResultType.ABORT
     assert result["reason"] == "cannot_connect"
+    assert mock_victron_hub.call_args.kwargs["connect_max_failed_attempts"] == 1
 
 
 @pytest.mark.usefixtures("mock_victron_hub")
@@ -663,7 +682,7 @@ async def test_user_flow_auth_error(
 async def test_ssdp_flow_auth_error(
     hass: HomeAssistant, mock_victron_hub: MagicMock
 ) -> None:
-    """Test SSDP discovery flow aborts on authentication error."""
+    """Test SSDP confirmation routes to auth step on authentication error."""
     mock_victron_hub.return_value.connect.side_effect = AuthenticationError(
         "Invalid credentials"
     )
@@ -688,8 +707,82 @@ async def test_ssdp_flow_auth_error(
         data=discovery_info,
     )
 
-    assert result["type"] is FlowResultType.ABORT
-    assert result["reason"] == "invalid_auth"
+    assert result["type"] is FlowResultType.FORM
+    assert result["step_id"] == "ssdp_confirm"
+
+    result = await hass.config_entries.flow.async_configure(
+        result["flow_id"],
+        user_input={},
+    )
+
+    assert result["type"] is FlowResultType.FORM
+    assert result["step_id"] == "ssdp_auth"
+
+
+async def test_ssdp_auth_ssl_uses_ssl_port(
+    hass: HomeAssistant, mock_victron_hub: MagicMock
+) -> None:
+    """Test SSDP auth flow uses SSL default port when SSL is enabled."""
+    mock_victron_hub.return_value.connect.side_effect = AuthenticationError(
+        "Authentication required"
+    )
+
+    discovery_info = SsdpServiceInfo(
+        ssdp_usn="mock_usn",
+        ssdp_st="upnp:rootdevice",
+        ssdp_location="http://192.168.1.100:80/",
+        upnp={
+            "serialNumber": MOCK_SERIAL,
+            "X_VrmPortalId": MOCK_INSTALLATION_ID,
+            "modelName": MOCK_MODEL,
+            "friendlyName": MOCK_FRIENDLY_NAME,
+            "X_MqttOnLan": "1",
+            "manufacturer": "Victron Energy",
+        },
+    )
+
+    result = await hass.config_entries.flow.async_init(
+        DOMAIN,
+        context={"source": SOURCE_SSDP},
+        data=discovery_info,
+    )
+
+    assert result["type"] is FlowResultType.FORM
+    assert result["step_id"] == "ssdp_confirm"
+
+    result = await hass.config_entries.flow.async_configure(
+        result["flow_id"],
+        user_input={},
+    )
+
+    assert result["type"] is FlowResultType.FORM
+    assert result["step_id"] == "ssdp_auth"
+
+    mock_victron_hub.return_value.connect.side_effect = None
+    mock_victron_hub.return_value.installation_id = MOCK_INSTALLATION_ID
+
+    result = await hass.config_entries.flow.async_configure(
+        result["flow_id"],
+        user_input={
+            CONF_USERNAME: "test-user",
+            CONF_PASSWORD: "test-password",
+            CONF_SSL: True,
+        },
+    )
+
+    assert result["type"] is FlowResultType.CREATE_ENTRY
+    assert result["title"] == MOCK_FRIENDLY_NAME
+    assert result["data"] == {
+        CONF_HOST: MOCK_HOST,
+        CONF_PORT: DEFAULT_SSL_PORT,
+        CONF_SERIAL: MOCK_SERIAL,
+        CONF_INSTALLATION_ID: MOCK_INSTALLATION_ID,
+        CONF_MODEL: MOCK_MODEL,
+        CONF_USERNAME: "test-user",
+        CONF_PASSWORD: "test-password",
+        CONF_SSL: True,
+        CONF_SIMPLE_NAMING: DEFAULT_SIMPLE_NAMING,
+    }
 
 
 async def test_options_flow_auth_error(

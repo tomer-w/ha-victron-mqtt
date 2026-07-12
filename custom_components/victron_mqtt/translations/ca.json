@@ -29,6 +29,17 @@
           "update_frequency": "Freqüència d'actualització en segons. Per defecte és 30 segons. Estableix a 0 per actualitzar sempre.",
           "username": "Nom d'usuari del dispositiu Victron, per defecte és buit. Aquest no és el nom d'usuari de VRM."
         }
+      },
+      "ssdp_confirm": {
+        "description": "Vols configurar {name}?"
+      },
+      "ssdp_auth": {
+        "data": {
+          "username": "Nom d'usuari",
+          "password": "Contrasenya",
+          "ssl": "Usa SSL"
+        },
+        "description": "Es requereix autenticació per a {host}."
       }
     }
   },

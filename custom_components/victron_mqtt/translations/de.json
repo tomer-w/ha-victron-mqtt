@@ -29,6 +29,17 @@
           "update_frequency": "Aktualisierungsintervall in Sekunden. Standard ist 30 Sekunden. 0 = immer aktualisieren.",
           "username": "Benutzername für das Victron-Gerät, standardmäßig leer lassen. Dies ist NICHT Ihr VRM-Benutzername."
         }
+      },
+      "ssdp_confirm": {
+        "description": "Möchten Sie {name} einrichten?"
+      },
+      "ssdp_auth": {
+        "data": {
+          "username": "Benutzername",
+          "password": "Passwort",
+          "ssl": "SSL verwenden"
+        },
+        "description": "Authentifizierung ist für {host} erforderlich."
       }
     }
   },

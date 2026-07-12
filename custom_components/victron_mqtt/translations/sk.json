@@ -33,6 +33,17 @@
           "update_frequency": "Frekvencia aktualizácie v sekundách. Predvolená hodnota je 30 sekúnd. Nastavte na 0 pre neustálu aktualizáciu.",
           "username": "Používateľské meno pre MQTT server, predvolene prázdne. Zariadenia Victron ho nevyžadujú. Potrebné len pri smerovaní cez iný MQTT server."
         }
+      },
+      "ssdp_confirm": {
+        "description": "Chcete nastaviť {name}?"
+      },
+      "ssdp_auth": {
+        "data": {
+          "username": "Používateľské meno",
+          "password": "Heslo",
+          "ssl": "Použiť SSL"
+        },
+        "description": "Pre {host} je potrebná autentifikácia."
       }
     }
   },

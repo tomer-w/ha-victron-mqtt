@@ -29,6 +29,17 @@
           "update_frequency": "Fréquence de mise à jour en secondes. La valeur par défaut est de 30 secondes. Mettre à 0 pour mettre à jour en permanence.",
           "username": "Nom d'utilisateur pour l'appareil Victron, par défaut vide. Ce n'est pas votre nom d'utilisateur VRM."
         }
+      },
+      "ssdp_confirm": {
+        "description": "Voulez-vous configurer {name} ?"
+      },
+      "ssdp_auth": {
+        "data": {
+          "username": "Nom d'utilisateur",
+          "password": "Mot de passe",
+          "ssl": "Utiliser SSL"
+        },
+        "description": "Une authentification est requise pour {host}."
       }
     }
   },

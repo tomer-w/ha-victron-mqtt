@@ -33,6 +33,17 @@
           "update_frequency": "Update frequency in seconds. Default is 30 seconds. Set to 0 to update always.",
           "username": "Username for the MQTT server, default is empty. Not needed by Victron devices. This is only needed if you use route your mqtt messages through non Victron server and it does require username."
         }
+      },
+      "ssdp_confirm": {
+        "description": "Do you want to set up {name}?"
+      },
+      "ssdp_auth": {
+        "data": {
+          "username": "Username",
+          "password": "Password",
+          "ssl": "Use SSL"
+        },
+        "description": "Authentication is required for {host}."
       }
     }
   },
