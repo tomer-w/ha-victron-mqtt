@@ -134,10 +134,7 @@ STEP_SSDP_AUTH_DATA_SCHEMA = vol.Schema(
 )
 
 
-async def validate_input(
-    data: dict[str, Any],
-    connect_max_failed_attempts: int = 3,
-) -> str:
+async def validate_input(data: dict[str, Any]) -> str:
     """Validate the user input allows us to connect.
 
     Data has the keys from zeroconf values as well as user input.
@@ -153,7 +150,6 @@ async def validate_input(
             username=data.get(CONF_USERNAME) or None,
             password=data.get(CONF_PASSWORD) or None,
             use_ssl=data.get(CONF_SSL, False),
-            connect_max_failed_attempts=connect_max_failed_attempts,
             installation_id=data.get(CONF_INSTALLATION_ID) or None,
             serial=data.get(CONF_SERIAL, "noserial"),
             topic_prefix=data.get(CONF_ROOT_TOPIC_PREFIX) or None,
@@ -352,7 +348,7 @@ class VictronMQTTConfigFlow(ConfigFlow, domain=DOMAIN):
                 CONF_SIMPLE_NAMING: DEFAULT_SIMPLE_NAMING,
             }
             try:
-                await validate_input(data, connect_max_failed_attempts=1)
+                await validate_input(data)
             except AuthenticationError:
                 return await self.async_step_ssdp_auth()
             except CannotConnectError:
@@ -413,7 +409,7 @@ class VictronMQTTConfigFlow(ConfigFlow, domain=DOMAIN):
             }
 
             try:
-                await validate_input(data, connect_max_failed_attempts=1)
+                await validate_input(data)
             except AuthenticationError:
                 errors["base"] = "invalid_auth"
             except CannotConnectError:

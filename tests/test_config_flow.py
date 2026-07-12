@@ -321,7 +321,6 @@ async def test_ssdp_flow_cannot_connect(
 
     assert result["type"] is FlowResultType.ABORT
     assert result["reason"] == "cannot_connect"
-    assert mock_victron_hub.call_args.kwargs["connect_max_failed_attempts"] == 1
 
 
 @pytest.mark.usefixtures("mock_victron_hub")
