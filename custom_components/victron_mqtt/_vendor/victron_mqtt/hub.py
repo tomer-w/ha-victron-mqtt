@@ -211,6 +211,7 @@ class Hub:
         self._fallback_placeholders: dict[str, FallbackPlaceholder] = {}
         self._all_metrics: dict[str, Metric] = {}
         self._first_connect = True
+        self._subscribed = False
         self._first_full_publish = True
         self._notified_device_ids: set[str] = set()
         self._connect_failed_attempts = 0
@@ -414,12 +415,24 @@ class Hub:
         reason_code: ReasonCode,
         properties: Properties | None = None,
     ) -> None:
+        # Capture before _on_connect_internal changes it so we can distinguish
+        # first connect (where we must surface errors) from auto-reconnect
+        # (where we must NOT call disconnect, or paho stops retrying).
+        is_initial_connect = self._first_connect
         try:
             self._on_connect_internal(client, userdata, flags, reason_code, properties)
         except Exception as exc:
             _LOGGER.exception("_on_connect exception %s: %s", type(exc), exc)
-            self._connect_failed_reason = exc
-            client.disconnect()
+            if is_initial_connect:
+                # First connect: propagate the error so the caller can handle it
+                self._connect_failed_reason = exc
+                client.disconnect()
+            else:
+                # Reconnect: do NOT disconnect — let paho keep auto-reconnecting.
+                # Subscriptions will be retried from the keepalive loop.
+                _LOGGER.warning(
+                    "Subscription setup failed during reconnect, will retry from keepalive loop"
+                )
 
         try:
             self._schedule_threadsafe(self._connected_event.set)
@@ -451,7 +464,14 @@ class Hub:
                 f"Failed to connect to MQTT broker: {self.host}:{self.port}. Error: {connack_string(reason_code)}"
             )
 
-        _LOGGER.info("Connected to MQTT broker successfully")
+        is_reconnect = not self._first_connect
+        if is_reconnect:
+            _LOGGER.info(
+                "Reconnected to MQTT broker (session_present=%s). Re-establishing subscriptions...",
+                flags.session_present,
+            )
+        else:
+            _LOGGER.info("Connected to MQTT broker successfully")
         self._setup_subscriptions()
 
     def _on_disconnect(
@@ -463,6 +483,7 @@ class Hub:
         _properties: Properties | None = None,
     ) -> None:
         """Handle disconnection callback."""
+        self._subscribed = False
         if reason_code != 0:
             _LOGGER.warning(
                 "Unexpected disconnection from MQTT broker. Error: %s. flags: %s, Reconnecting...",
@@ -852,6 +873,15 @@ class Hub:
         count = 0
         while True:
             try:
+                # If subscriptions were lost (e.g. failed during reconnect), retry them
+                if not self._subscribed and self._client is not None and self._client.is_connected():
+                    _LOGGER.info("Subscriptions not established, retrying subscription setup...")
+                    try:
+                        self._setup_subscriptions()
+                        _LOGGER.info("Subscription retry succeeded")
+                    except Exception as sub_exc:
+                        _LOGGER.warning("Subscription retry failed, will try again: %s", sub_exc)
+
                 self._keepalive()
                 await asyncio.sleep(30)
                 # We should keep alive all metrics every 60 seconds
@@ -1040,6 +1070,7 @@ class Hub:
         assert self.installation_id is not None
         self._subscribe(f"N/{self.installation_id}/full_publish_completed")
         _LOGGER.info("Subscribed to full_publish_completed notification")
+        self._subscribed = True
         self._keepalive(True)
 
     async def _wait_for_connect(self) -> None:
