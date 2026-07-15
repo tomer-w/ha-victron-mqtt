@@ -118,7 +118,7 @@ class Hub:
             raise ConfigEntryAuthFailed(
                 f"Authentication failed for {self.host}: {auth_error}"
             ) from auth_error
-        except CannotConnectError as connect_error:
+        except Exception as connect_error:
             raise ConfigEntryNotReady(
                 f"Cannot connect to the hub: {connect_error}"
             ) from connect_error
