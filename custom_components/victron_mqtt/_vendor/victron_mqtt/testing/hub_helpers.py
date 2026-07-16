@@ -8,7 +8,7 @@ import asyncio
 import json
 import logging
 from itertools import count
-from typing import Any
+from typing import Any, Literal
 from unittest.mock import MagicMock, patch
 
 from paho.mqtt.client import ConnectFlags
@@ -26,7 +26,7 @@ async def create_mocked_hub(
     installation_id: str | None = None,
     operation_mode: OperationMode = OperationMode.FULL,
     device_type_exclude_filter: list[DeviceType] | None = None,
-    update_frequency_seconds: int | None = None,
+    update_frequency_seconds: int | Literal["auto", "auto_power_none"] | None = None,
     disable_keepalive_loop: bool = True,
 ) -> Hub:
     """Create and return a mocked Hub object for testing.
@@ -40,7 +40,9 @@ async def create_mocked_hub(
             automatically set to "123" during connection.
         operation_mode: The operation mode for the Hub (FULL, READ_ONLY, or EXPERIMENTAL).
         device_type_exclude_filter: Optional list of device types to exclude from processing.
-        update_frequency_seconds: Optional update frequency for metrics in seconds.
+        update_frequency_seconds: Optional update frequency for metrics in seconds,
+            or an auto profile ("auto", "auto_power_none") for per-metric-type
+            intervals chosen by the library.
         disable_keepalive_loop: If True (default), disables the keepalive loop to prevent
             background tasks during testing. Set to False if you need to test keepalive behavior.
 
@@ -126,7 +128,7 @@ async def create_mocked_hub(
                 try:
                     options: dict[str, list[dict[str, str]]] = json.loads(json_string)
                     keepalive_options = options.get("keepalive-options", [])
-                    if keepalive_options and isinstance(keepalive_options, list):
+                    if keepalive_options:
                         return keepalive_options[0].get("full-publish-completed-echo", "")
                     return ""
                 except (json.JSONDecodeError, AttributeError, IndexError):

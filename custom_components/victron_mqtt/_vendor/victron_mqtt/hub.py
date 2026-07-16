@@ -10,7 +10,7 @@ import string
 import time
 from collections.abc import Callable
 from dataclasses import replace
-from typing import Any
+from typing import Any, Literal
 
 import paho.mqtt.client as mqtt
 from paho.mqtt.client import Client as MQTTClient
@@ -21,7 +21,7 @@ from paho.mqtt.reasoncodes import ReasonCode
 
 from ._victron_enums import DeviceType
 from ._victron_topics import topics
-from .constants import TOPIC_INSTALLATION_ID, MetricKind, OperationMode
+from .constants import AUTO_UPDATE_INTERVALS, TOPIC_INSTALLATION_ID, MetricKind, OperationMode
 from .data_classes import ParsedTopic, TopicDescriptor, topic_to_device_type
 from .device import Device, FallbackPlaceholder, MetricPlaceholder
 from .formula_metric import FormulaMetric
@@ -34,7 +34,8 @@ CONNECT_MAX_FAILED_ATTEMPTS = 3
 FORCE_INVALIDATE_AFTER_NOT_CONNECTED_SECONDS = 120
 FULL_PUBLISH_MIN_INTERVAL_SECONDS = 180
 FIRST_FULL_PUBLISH_MIN_INTERVAL_SECONDS = 30
-MINIMUM_FULLY_SUPPORTED_VERSION = 3.5
+# Venus OS versions use a two-digit minor ("v3.50", "v3.54"), compared as integer tuples
+MINIMUM_FULLY_SUPPORTED_VERSION = (3, 50)
 # The keepalive loop ticks every 30s. Every Nth tick we send a forced full republish so the
 # broker re-sends every current value, refreshing last_seen for otherwise-constant metrics.
 FULL_REPUBLISH_STALENESS_INTERVAL_CYCLES = 6
@@ -95,7 +96,8 @@ class Hub:
         topic_log_info: str | None = None,
         operation_mode: OperationMode = OperationMode.FULL,
         device_type_exclude_filter: list[DeviceType] | None = None,
-        update_frequency_seconds: int | None = None,
+        update_frequency_seconds: int | Literal["auto", "auto_power_none"] | None = None,
+        ssl_context: ssl.SSLContext | None = None,
     ) -> None:
         """
         Initialize a Hub instance for communicating with a Venus OS MQTT broker.
@@ -112,6 +114,8 @@ class Hub:
             Password for MQTT authentication, or None.
         use_ssl: bool
             If True, an SSL/TLS context will be configured when connecting.
+            WARNING: without `ssl_context`, certificates are NOT verified
+            (GX devices ship with self-signed certificates).
         installation_id: str | None
             If provided, used to replace `{installation_id}` placeholders in topics.
             If None, the installation id will be discovered from the broker when
@@ -129,11 +133,23 @@ class Hub:
             EXPERIMENTAL).
         device_type_exclude_filter: list[DeviceType] | None
             Optional list of device types to exclude from subscriptions.
-        update_frequency_seconds: int | None
+        update_frequency_seconds: int | "auto" | "auto_power_none" | None
             Optional update frequency used by metrics.
             if None = Update only when source data change
             if 0 = Update as new mqtt data received
             if > 0 = Update no more than specified interval (in seconds)
+            if "auto" = Per-metric interval chosen by the library based on the
+            metric type (see AUTO_UPDATE_INTERVALS): fast-changing metrics such
+            as power and current update more often than the rest.
+            if "auto_power_none" = Like "auto", but fast-changing metrics update
+            on every value change with no time limit.
+        ssl_context: ssl.SSLContext | None
+            Custom SSL context for the TLS connection. Provide a context with
+            your CA loaded (e.g. `ssl.create_default_context(cafile=...)`) to
+            enable real certificate verification. When None and `use_ssl` is
+            True, a default context without certificate verification is used.
+            Only valid together with `use_ssl=True`; otherwise `ValueError`
+            is raised.
 
         Behavior
         --------
@@ -148,7 +164,8 @@ class Hub:
         Raises
         ------
         ValueError
-            If `host` is empty or `port` is out of the valid range.
+            If `host` is empty, `port` is out of the valid range, or
+            `ssl_context` is provided without `use_ssl=True`.
         TypeError
             If an argument has an incorrect type.
         """
@@ -167,6 +184,14 @@ class Hub:
             raise ValueError("host must be a non-empty string")
         if not 0 < port < 65536:
             raise ValueError("port must be an integer between 1 and 65535")
+        if ssl_context is not None and not use_ssl:
+            raise ValueError("ssl_context requires use_ssl=True")
+        if (
+            update_frequency_seconds is not None
+            and not isinstance(update_frequency_seconds, int)
+            and update_frequency_seconds not in AUTO_UPDATE_INTERVALS
+        ):
+            raise ValueError(f"update_frequency_seconds must be an int, None or one of {sorted(AUTO_UPDATE_INTERVALS)}")
         _LOGGER.info(
             "Initializing Hub[ID: %d](host=%s, port=%d, username=%s, use_ssl=%s, installation_id=%s, model_name=%s, topic_prefix=%s, operation_mode=%s, device_type_exclude_filter=%s, update_frequency_seconds=%s, topic_log_info=%s)",
             self._instance_id,
@@ -188,6 +213,7 @@ class Hub:
         self.password = password
         self.serial = serial
         self.use_ssl = use_ssl
+        self._ssl_context = ssl_context
         self.port = port
         self._expected_installation_id = installation_id
         self._topic_prefix = topic_prefix
@@ -219,7 +245,7 @@ class Hub:
         # Use monotonic time to avoid issues with system clock changes
         self._last_full_publish_called: float = 0.0
         self._periodic_full_publish_triggered_once = False
-        self._firmware_version: float = 0.0
+        self._firmware_version: tuple[int, ...] = ()
         self._connect_failed_since: float = 0.0
         self._installation_id: str | None = None
 
@@ -317,6 +343,9 @@ class Hub:
             if topic.is_adjustable_suffix and not topic.is_formula
         ]
         self._subscription_list = subscription_list1 + subscription_list2
+        # Populated on each connect() with {installation_id} resolved; _subscription_list stays
+        # as the unresolved template so the Hub can be reconnected cleanly.
+        self._resolved_subscription_list: list[str] = []
         self._pending_formula_topics: list[TopicDescriptor] = [topic for topic in expanded_topics if topic.is_formula]
         for topic in self._pending_formula_topics:
             _LOGGER.info("Formula topic detected: %s", topic.topic)
@@ -333,7 +362,17 @@ class Hub:
             _LOGGER.debug("Event loop closed, callback %s not scheduled", callback.__name__)
 
     async def connect(self) -> None:
-        """Connect to the hub."""
+        """Connect to the hub.
+
+        Raises
+        ------
+        AuthenticationError
+            If the broker rejects the supplied credentials.
+        CannotConnectError
+            For any other failure (connection timeout, dropped connection, missing installation
+            id, etc.). Every non-authentication error is surfaced as CannotConnectError so callers
+            only need to handle these two exception types.
+        """
         _LOGGER.info("Connecting to MQTT broker at %s:%d", self.host, self.port)
         assert self._client is not None
         self._loop = asyncio.get_running_loop()
@@ -341,17 +380,12 @@ class Hub:
         # Based on https://community.victronenergy.com/t/cerbo-mqtt-webui-network-security-profile-configuration/34112
         # it seems that Cerbos will not allow you to configure username, only passwords.
         # still, you do need to put in some username to get the MQTT client work.
-        if self.password is not None:
+        if self.username is not None or self.password is not None:
             username = "victron_mqtt" if self.username is None else self.username
-            _LOGGER.info("Setting auth credentials for user: %s", self.username)
+            _LOGGER.info("Setting auth credentials for user: %s", username)
             self._client.username_pw_set(username, self.password)
 
-        if self.use_ssl:
-            _LOGGER.info("Setting up SSL context")
-            ssl_context = await asyncio.to_thread(ssl.create_default_context)
-            ssl_context.check_hostname = False
-            ssl_context.verify_mode = ssl.VerifyMode.CERT_NONE
-            self._client.tls_set_context(ssl_context)  # type: ignore[arg-type]
+        await self._setup_tls()
 
         self._client.on_connect = self._on_connect
         self._client.on_disconnect = self._on_disconnect
@@ -361,44 +395,89 @@ class Hub:
         self._connect_failed_attempts = 0
         self._connect_failed_since = 0.0
         self._connect_failed_reason = None
+        # Reset per-connection state so the Hub can be reconnected cleanly after a failed attempt.
+        self._first_connect = True
+        self._installation_id = None
+        self._connected_event.clear()
+        self._installation_id_event.clear()
+        self._first_refresh_event.clear()
         # self._loop.set_task_factory(lambda loop, coro: TracedTask(coro, loop=loop, name=name))
         self._last_full_publish_called = time.monotonic()  # Initialize last full publish time
         self._periodic_full_publish_triggered_once = False
 
         _LOGGER.info("Starting paho mqtt")
         self._client.loop_start()
-        _LOGGER.info("Connecting")
-        self._client.connect_async(self.host, self.port)
-        _LOGGER.info("Waiting for connection event")
-        await self._wait_for_connect()
-        if self._connect_failed_reason is not None:
-            reraise_same_exception(self._connect_failed_reason)
-        _LOGGER.info("Successfully connected to MQTT broker at %s:%d", self.host, self.port)
-        await self._wait_for_installation_id(expected_id=self._expected_installation_id)
-        assert self._installation_id is not None
-        # First we need to replace the installation ID in the subscription topics
-        new_list: list[str] = []
-        for topic in self._subscription_list:
-            new_topic = topic.replace("{installation_id}", self._installation_id)
-            new_list.append(new_topic)
-        self._subscription_list = new_list
-        # First setup subscriptions will happen here as we need the installation ID.
-        # Later we will do it from the connect callback
-        self._setup_subscriptions()
-        self._start_keep_alive_loop()
+        try:
+            _LOGGER.info("Connecting")
+            self._client.connect_async(self.host, self.port)
+            _LOGGER.info("Waiting for connection event")
+            await self._wait_for_connect()
+            if self._connect_failed_reason is not None:
+                reraise_same_exception(self._connect_failed_reason)
+            _LOGGER.info("Successfully connected to MQTT broker at %s:%d", self.host, self.port)
+            await self._wait_for_installation_id(expected_id=self._expected_installation_id)
+            assert self._installation_id is not None
+            # Resolve the installation ID in the subscription topics. Keep _subscription_list as
+            # the unresolved template so the Hub can be reconnected cleanly.
+            self._resolved_subscription_list = [
+                topic.replace("{installation_id}", self._installation_id) for topic in self._subscription_list
+            ]
+            # First setup subscriptions will happen here as we need the installation ID.
+            # Later we will do it from the connect callback
+            self._setup_subscriptions()
+            self._start_keep_alive_loop()
+        except Exception as exc:
+            # If anything fails after loop_start(), fully clean up (keepalive task, client
+            # disconnect, paho thread) so nothing is leaked. On HA retry a new Hub is created.
+            _LOGGER.info("Connection setup failed, cleaning up")
+            try:
+                await self.disconnect()
+            except Exception as cleanup_exc:
+                _LOGGER.warning("Error during connect() cleanup, ignoring: %s", cleanup_exc)
+            # Exception contract: surface every non-authentication failure as CannotConnectError so
+            # callers only need to catch AuthenticationError / CannotConnectError. AuthenticationError
+            # and InvalidInstallationIdError are CannotConnectError subclasses and pass through as-is.
+            if isinstance(exc, CannotConnectError):
+                raise
+            raise CannotConnectError(f"Failed to connect to MQTT broker at {self.host}:{self.port}: {exc}") from exc
         _LOGGER.info("Connected. Installation ID: %s", self._installation_id)
+
+    async def _setup_tls(self) -> None:
+        """Configure TLS on the MQTT client if enabled.
+
+        Uses the caller-provided ssl_context when available; otherwise falls
+        back to an unverified context, as GX devices ship with self-signed
+        certificates.
+        """
+        if not self.use_ssl:
+            assert self._ssl_context is None, "ssl_context without use_ssl should have been rejected in __init__"
+            return
+        context = self._ssl_context
+        if context is None:
+            _LOGGER.info(
+                "TLS enabled without certificate verification (GX devices use self-signed certificates). "
+                "Pass ssl_context to Hub() to enable verification."
+            )
+            context = await asyncio.to_thread(ssl.create_default_context)
+            context.check_hostname = False
+            context.verify_mode = ssl.VerifyMode.CERT_NONE
+        else:
+            _LOGGER.info("TLS enabled with caller-provided SSL context")
+        self._client.tls_set_context(context)  # type: ignore[arg-type]
 
     def publish(self, topic_short_id: str, device_id: str, value: str | float | int | None) -> None:
         """Publish a message to the MQTT broker."""
         _LOGGER.info(
             "Publishing message to topic_short_id: %s, device_id: %s, value: %s", topic_short_id, device_id, value
         )
+        if not device_id:
+            raise ValueError("device_id must be provided")
+        if self._installation_id is None:
+            raise NotConnectedError("Cannot publish before connect(): installation ID is not known yet")
         topic_desc = self._service_active_topics.get(topic_short_id)
         if topic_desc is None:
             _LOGGER.error("No active topic found for topic_short_id: %s", topic_short_id)
             raise TopicNotFoundError(f"No active topic found for topic_short_id: {topic_short_id}")
-        assert self._installation_id is not None, "Installation ID must be set before publishing"
-        assert device_id is not None, "Device ID must be provided"
         topic = topic_desc.topic.replace("{installation_id}", self._installation_id).replace("{device_id}", device_id)
         payload = WritableMetric._wrap_payload(topic_desc, value) if value is not None else ""
         self._publish(topic, payload)
@@ -725,16 +804,16 @@ class Hub:
                         ver_str = version_metric.value[1:]
                         if "~" in ver_str:
                             ver_str = ver_str.split("~", 1)[0]
-                        self._firmware_version = float(ver_str)
+                        self._firmware_version = tuple(int(part) for part in ver_str.split("."))
                         if self._firmware_version < MINIMUM_FULLY_SUPPORTED_VERSION:
                             _LOGGER.warning(
-                                "Firmware version is below v3.5: %s. Reduced functionality may occur.",
+                                "Firmware version is below v3.50: %s. Reduced functionality may occur.",
                                 version_metric.value,
                             )
                         else:
                             _LOGGER.info("Firmware version is good enough: %s", version_metric.value)
                     except (ValueError, TypeError):
-                        _LOGGER.error("Firmware version format not float: %s", version_metric.value)
+                        _LOGGER.error("Firmware version format not recognized: %s", version_metric.value)
                 else:
                     _LOGGER.error("Firmware version format not supported: %s", version_metric.value)
             else:
@@ -817,7 +896,8 @@ class Hub:
         _LOGGER.info("Disconnecting from MQTT broker")
         self._stop_keepalive_loop()
         await asyncio.sleep(0.1)
-        self._client.disconnect()  # need to call disconnect so the paho thread will terminate
+        self._client.disconnect()
+        self._client.loop_stop()  # stop the background thread started by loop_start()
         _LOGGER.info("Disconnected from MQTT broker")
         # Give a small delay to allow any pending MQTT messages to be processed
         await asyncio.sleep(0.1)
@@ -1035,7 +1115,7 @@ class Hub:
         if not self._client.is_connected():
             raise NotConnectedError
         # topic_list = [(topic, 0) for topic in topic_map]
-        for topic in self._subscription_list:
+        for topic in self._resolved_subscription_list:
             self._subscribe(topic)
         assert self.installation_id is not None
         self._subscribe(f"N/{self.installation_id}/full_publish_completed")

@@ -26,18 +26,20 @@ class FormulaMetric(Metric):
         """Initialize the FormulaMetric."""
         _LOGGER.debug(
             "Creating new FormulaMetric: unique_id=%s, type=%s, nature=%s",
-            descriptor.short_id, descriptor.metric_type, descriptor.metric_nature
+            descriptor.short_id,
+            descriptor.metric_type,
+            descriptor.metric_nature,
         )
         assert descriptor.is_formula, f"Metric {descriptor.short_id} is not a formula"
         self._depends_on: dict[str, Metric] = {}
         self.transient_state: FormulaTransientState | None = None
         assert descriptor.topic.startswith("$$func")
-        func_name = descriptor.topic.split('/')[-1]
+        func_name = descriptor.topic.split("/")[-1]
         if ":" in func_name:
             func_name = func_name.split(":", 1)[0]
         self._func = getattr(formulas, func_name)
 
-        super().__init__(descriptor = descriptor, **kwargs)
+        super().__init__(descriptor=descriptor, **kwargs)
 
     def init(self, depends_on: dict[str, Metric], log_debug: Callable[..., None]) -> None:
         """Initialize the FormulaMetric with its dependencies."""

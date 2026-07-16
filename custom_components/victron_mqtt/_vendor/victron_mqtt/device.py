@@ -57,6 +57,7 @@ class Device:
         self._serial_number: str | None = None
         self._firmware_version: str | None = None
         self._custom_name: str | None = None
+        self._productid: int | None = None
         self._parent_device: Device | None = parent_device
 
         _LOGGER.debug(
@@ -90,12 +91,15 @@ class Device:
         if value is None:
             _LOGGER.debug("Ignoring empty/None payload for device %s property %s", self.unique_id, short_id)
             return
+
+        if short_id == "victron_productid":
+            assert isinstance(value, int), f"ProductId must be an int, got {value!r}"
+            self._productid = value
+            return
+
         value = str(value)
 
         _LOGGER.debug("Setting device %s property %s = %s", self.unique_id, short_id, value)
-
-        if short_id == "victron_productid":
-            return  # ignore for now
 
         if short_id == "model":
             self._model = value
@@ -358,6 +362,11 @@ class Device:
     def serial_number(self) -> str | None:
         """Return the serial number of the device."""
         return self._serial_number
+
+    @property
+    def product_id(self) -> int | None:
+        """Return the Victron product ID of the device, if known."""
+        return self._productid
 
     @property
     def device_type(self) -> DeviceType:

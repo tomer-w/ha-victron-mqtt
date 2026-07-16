@@ -56,6 +56,53 @@ class DeviceType(VictronDeviceEnum):
     DCDC = ("dcdc", "dcdc", "DC/DC charger")  # Orion XS 1400 in battery to battery charging mode.
 
 
+class VictronProductId(VictronEnum):
+    """Victron product identifiers, published on the ``.../ProductId`` topic.
+
+    - ``code``   : numeric product ID as reported by the GX. Written as a hex
+      literal so it matches Victron's published VE.Direct / VE.Can PID tables
+      1:1 while remaining a plain ``int`` at runtime.
+    - ``id``     : stable snake_case identifier.
+    - ``string`` : human-readable model name.
+
+    This table is seeded from the Victron VE.Direct PID lists and is intentionally
+    not exhaustive. Unknown product IDs simply resolve to ``None`` (callers then
+    fall back to their default), so entries can be added incrementally.
+    """
+
+    # BlueSolar MPPT solar chargers
+    BLUESOLAR_MPPT_75_15 = (0xA042, "bluesolar_mppt_75_15", "BlueSolar MPPT 75/15")
+    BLUESOLAR_MPPT_100_15 = (0xA043, "bluesolar_mppt_100_15", "BlueSolar MPPT 100/15")
+    BLUESOLAR_MPPT_100_30 = (0xA044, "bluesolar_mppt_100_30", "BlueSolar MPPT 100/30")
+    BLUESOLAR_MPPT_100_50 = (0xA045, "bluesolar_mppt_100_50", "BlueSolar MPPT 100/50")
+    BLUESOLAR_MPPT_150_70 = (0xA04A, "bluesolar_mppt_150_70", "BlueSolar MPPT 150/70")
+    BLUESOLAR_MPPT_75_10 = (0xA04C, "bluesolar_mppt_75_10", "BlueSolar MPPT 75/10")
+    BLUESOLAR_MPPT_150_45 = (0xA04D, "bluesolar_mppt_150_45", "BlueSolar MPPT 150/45")
+    BLUESOLAR_MPPT_150_60 = (0xA04E, "bluesolar_mppt_150_60", "BlueSolar MPPT 150/60")
+    BLUESOLAR_MPPT_150_85 = (0xA04F, "bluesolar_mppt_150_85", "BlueSolar MPPT 150/85")
+    # SmartSolar MPPT solar chargers
+    SMARTSOLAR_MPPT_250_100 = (0xA050, "smartsolar_mppt_250_100", "SmartSolar MPPT 250/100")
+    SMARTSOLAR_MPPT_150_100 = (0xA051, "smartsolar_mppt_150_100", "SmartSolar MPPT 150/100")
+    SMARTSOLAR_MPPT_150_85 = (0xA052, "smartsolar_mppt_150_85", "SmartSolar MPPT 150/85")
+    SMARTSOLAR_MPPT_75_15 = (0xA053, "smartsolar_mppt_75_15", "SmartSolar MPPT 75/15")
+    SMARTSOLAR_MPPT_75_10 = (0xA054, "smartsolar_mppt_75_10", "SmartSolar MPPT 75/10")
+    SMARTSOLAR_MPPT_100_15 = (0xA055, "smartsolar_mppt_100_15", "SmartSolar MPPT 100/15")
+    SMARTSOLAR_MPPT_100_30 = (0xA056, "smartsolar_mppt_100_30", "SmartSolar MPPT 100/30")
+    SMARTSOLAR_MPPT_100_50 = (0xA057, "smartsolar_mppt_100_50", "SmartSolar MPPT 100/50")
+    SMARTSOLAR_MPPT_150_35 = (0xA058, "smartsolar_mppt_150_35", "SmartSolar MPPT 150/35")
+    SMARTSOLAR_MPPT_150_100_REV2 = (0xA059, "smartsolar_mppt_150_100_rev2", "SmartSolar MPPT 150/100 rev2")
+    SMARTSOLAR_MPPT_150_85_REV2 = (0xA05A, "smartsolar_mppt_150_85_rev2", "SmartSolar MPPT 150/85 rev2")
+    SMARTSOLAR_MPPT_250_70 = (0xA05B, "smartsolar_mppt_250_70", "SmartSolar MPPT 250/70")
+    SMARTSOLAR_MPPT_250_85 = (0xA05C, "smartsolar_mppt_250_85", "SmartSolar MPPT 250/85")
+    SMARTSOLAR_MPPT_250_60 = (0xA05D, "smartsolar_mppt_250_60", "SmartSolar MPPT 250/60")
+    SMARTSOLAR_MPPT_250_45 = (0xA05E, "smartsolar_mppt_250_45", "SmartSolar MPPT 250/45")
+    SMARTSOLAR_MPPT_100_20 = (0xA05F, "smartsolar_mppt_100_20", "SmartSolar MPPT 100/20")
+    SMARTSOLAR_MPPT_100_20_48V = (0xA060, "smartsolar_mppt_100_20_48v", "SmartSolar MPPT 100/20 48V")
+    SMARTSOLAR_MPPT_150_45 = (0xA061, "smartsolar_mppt_150_45", "SmartSolar MPPT 150/45")
+    SMARTSOLAR_MPPT_150_60 = (0xA062, "smartsolar_mppt_150_60", "SmartSolar MPPT 150/60")
+    SMARTSOLAR_MPPT_150_70 = (0xA063, "smartsolar_mppt_150_70", "SmartSolar MPPT 150/70")
+
+
 class DVCCMode(VictronEnum):
     """DVCC (Distributed Voltage and Current Control) mode.
 

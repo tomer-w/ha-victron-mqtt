@@ -46,7 +46,7 @@ from ._victron_enums import (
     VrmPortalMode,
 )
 from .constants import MetricKind, MetricNature, MetricType, RangeType, ValueType
-from .data_classes import TopicDependency, TopicDescriptor
+from .data_classes import ProductCapabilityRef, TopicDependency, TopicDescriptor
 
 # Good sources for topics is:
 # https://github.com/victronenergy/venus/wiki/dbus
@@ -111,7 +111,7 @@ topics: list[TopicDescriptor] = [
         topic="N/{installation_id}/{device_type}/{device_id}/ProductId",
         message_type=MetricKind.ATTRIBUTE,
         short_id="victron_productid",
-        value_type=ValueType.STRING,
+        value_type=ValueType.INT,
     ),
     TopicDescriptor(
         topic="N/{installation_id}/{device_type}/{device_id}/ProductName",
@@ -259,8 +259,9 @@ topics: list[TopicDescriptor] = [
         short_id="alternator_charge_current_limit",
         name="Charge current limit",
         metric_type=MetricType.CURRENT,
+        min_max_range=RangeType.DYNAMIC,  # prefer the GX-reported max, then the product table, then 200
         min=0,
-        max=200,
+        max=ProductCapabilityRef("max_charge_current", 200),
     ),
     TopicDescriptor(
         topic="N/{installation_id}/alternator/{device_id}/State",
@@ -2020,6 +2021,7 @@ topics: list[TopicDescriptor] = [
         short_id="multi_ess_ac_power_setpoint",
         name="ESS AC power setpoint",
         metric_type=MetricType.POWER,
+        value_type=ValueType.INT_DEFAULT_0,
     ),
     TopicDescriptor(
         topic="N/{installation_id}/multi/{device_id}/Ess/DisableCharge",
@@ -2970,8 +2972,9 @@ topics: list[TopicDescriptor] = [
         short_id="solarcharger_charge_current_limit",
         name="Charge current limit",
         metric_type=MetricType.CURRENT,
+        min_max_range=RangeType.DYNAMIC,  # prefer the GX-reported max, then the product table, then 200
         min=0,
-        max=200,
+        max=ProductCapabilityRef("max_charge_current", 200),
     ),
     TopicDescriptor(
         topic="N/{installation_id}/solarcharger/{device_id}/State",

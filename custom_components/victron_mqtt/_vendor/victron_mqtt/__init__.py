@@ -45,10 +45,22 @@ from ._victron_enums import (
     TemperatureStatus,
     TemperatureType,
     VictronDeviceEnum,
+    VictronProductId,
     VrmPortalMode,
 )
-from .constants import MetricKind, MetricNature, MetricType, OperationMode, RangeType, VictronEnum
-from .data_classes import GpsLocation
+from ._victron_products import ProductCapabilities, get_product_capabilities
+from .constants import (
+    AUTO_UPDATE_INTERVALS,
+    UPDATE_FREQUENCY_AUTO,
+    UPDATE_FREQUENCY_AUTO_POWER_NONE,
+    MetricKind,
+    MetricNature,
+    MetricType,
+    OperationMode,
+    RangeType,
+    VictronEnum,
+)
+from .data_classes import GpsLocation, ProductCapabilityRef
 from .device import Device
 from .formula_metric import FormulaMetric
 from .hub import (
@@ -64,6 +76,9 @@ from .metric import Metric
 from .writable_metric import WritableMetric
 
 __all__ = [
+    "AUTO_UPDATE_INTERVALS",
+    "UPDATE_FREQUENCY_AUTO",
+    "UPDATE_FREQUENCY_AUTO_POWER_NONE",
     "ACActiveInputSource",
     "ACSystemMode",
     "AcInputTypeEnum",
@@ -113,6 +128,8 @@ __all__ = [
     "OperationMode",
     "PhoenixInverterMode",
     "PreferRenewableEnergyEnum",
+    "ProductCapabilities",
+    "ProductCapabilityRef",
     "ProgrammingError",
     "RangeType",
     "SolarChargerDeviceOffReason",
@@ -123,6 +140,8 @@ __all__ = [
     "TopicNotFoundError",
     "VictronDeviceEnum",
     "VictronEnum",
+    "VictronProductId",
     "VrmPortalMode",
     "WritableMetric",
+    "get_product_capabilities",
 ]

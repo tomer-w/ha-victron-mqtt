@@ -10,8 +10,9 @@ from typing import Any
 
 from ._unwrappers import VALUE_TYPE_WRAPPER, wrap_bitmask, wrap_enum
 from ._victron_enums import SwitchableOutputType
+from ._victron_products import get_product_capabilities
 from .constants import MetricKind, ValueType, VictronEnum
-from .data_classes import ParsedTopic, TopicDescriptor
+from .data_classes import ParsedTopic, ProductCapabilityRef, TopicDescriptor
 from .metric import Metric
 
 _LOGGER = logging.getLogger(__name__)
@@ -69,11 +70,18 @@ class WritableMetric(Metric):
             self._labels = None
 
     def _resolve_range_value(
-        self, range_value: int | float | str | None, device_id: str, all_metrics: dict[str, Metric]
+        self,
+        range_value: int | float | str | ProductCapabilityRef | None,
+        device_id: str,
+        all_metrics: dict[str, Metric],
     ) -> int | float | None:
         """Resolve a range value (min/max/step) that may be static or reference another metric."""
         if range_value is None:
             return None
+
+        if isinstance(range_value, ProductCapabilityRef):
+            # Resolve from the device's product capability table, falling back to the default.
+            return self._resolve_product_capability(range_value)
 
         if not isinstance(range_value, str):
             # Static numeric value
@@ -99,6 +107,23 @@ class WritableMetric(Metric):
             return default_value
 
         return ref_metric.value
+
+    def _resolve_product_capability(self, ref: ProductCapabilityRef) -> int | float | None:
+        """Resolve a range value from the device's product capability table."""
+        capabilities = get_product_capabilities(self._device.product_id)
+        if capabilities is not None:
+            # Dynamic lookup: the capability name is only known at runtime.
+            value = getattr(capabilities, ref.capability, None)
+            if value is not None:
+                return value
+        _LOGGER.debug(
+            "Product capability '%s' unavailable for %s (product_id=%s), using default %s",
+            ref.capability,
+            self._descriptor.short_id,
+            self._device.product_id,
+            ref.default,
+        )
+        return ref.default
 
     def _resolve_string_value(self, value: str | None, device_id: str, all_metrics: dict[str, Metric]) -> str | None:
         """Resolve a string value that may be static or reference another metric (format: 'metric_id:default')."""
@@ -181,10 +206,25 @@ class WritableMetric(Metric):
         return super().enum_values
 
     def set(self, value: str | float | int | bool | VictronEnum) -> None:
-        """Set the value of this metric by publishing to the write topic."""
+        """Set the value of this metric by publishing to the write topic.
+
+        Raises
+        ------
+        ValueError
+            If a numeric value is outside the metric's min/max range, or if a
+            dropdown value is not one of the available labels.
+        """
         assert self._write_topic is not None
+        if isinstance(value, float | int) and not isinstance(value, bool):
+            if self._min_value is not None and value < self._min_value:
+                raise ValueError(f"Value {value} is below the minimum {self._min_value} for {self.unique_id}")
+            if self._max_value is not None and value > self._max_value:
+                raise ValueError(f"Value {value} is above the maximum {self._max_value} for {self.unique_id}")
         if self._is_dynamic_dropdown and isinstance(value, str):
-            payload = json.dumps({"value": self._labels.index(value)})  # type: ignore[union-attr]
+            assert self._labels is not None
+            if value not in self._labels:
+                raise ValueError(f"Invalid value '{value}' for {self.unique_id}; valid options: {self._labels}")
+            payload = json.dumps({"value": self._labels.index(value)})
         else:
             payload = WritableMetric._wrap_payload(self._descriptor, value)
         self._hub._publish(self._write_topic, payload)  # pylint: disable=protected-access

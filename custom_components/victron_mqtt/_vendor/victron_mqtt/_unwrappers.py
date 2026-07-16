@@ -95,9 +95,9 @@ def unwrap_enum(json_str: str, enum: type[VictronEnum]) -> VictronEnum | None:
     """Unwrap a string value from a JSON string."""
     try:
         data = json.loads(json_str)
+        val = data["value"]
     except (json.JSONDecodeError, KeyError, ValueError, TypeError):
         return None
-    val = data["value"]
     return enum.from_code(val) if val is not None else None
 
 
@@ -105,12 +105,12 @@ def unwrap_bitmask(json_str: str, enum: type[VictronEnum]) -> str | None:
     """Unwrap a bitmask value from a JSON string."""
     try:
         data = json.loads(json_str)
+        val = data["value"]
+        if val is None:
+            return None
+        vals = [2**idx for idx, bit in enumerate(bin(val)[:1:-1]) if int(bit)] if int(val) > 0 else [0]
     except (json.JSONDecodeError, KeyError, ValueError, TypeError):
         return None
-    val = data["value"]
-    if val is None:
-        return None
-    vals = [2**idx for idx, bit in enumerate(bin(val)[:1:-1]) if int(bit)] if int(val) > 0 else [0]
     enums = [enum.from_code(v) for v in vals]
     return str.join(BITMASK_SEPARATOR, [e.string for e in enums if e is not None])
 
