@@ -2,7 +2,7 @@
 
 from dataclasses import dataclass
 from enum import Enum
-from typing import Self
+from typing import Final, Self
 
 TOPIC_INSTALLATION_ID = "N/+/system/0/Serial"
 
@@ -68,6 +68,22 @@ class MetricType(Enum):
     CONNECTIVITY = "connectivity"
     RESTART = "restart"
     LOW_BATTERY = "low_battery"
+
+
+UPDATE_FREQUENCY_AUTO: Final = "auto"
+UPDATE_FREQUENCY_AUTO_POWER_NONE: Final = "auto_power_none"
+
+# Fast-changing metric types that users typically watch live.
+_FAST_METRIC_TYPES: Final = (MetricType.POWER, MetricType.APPARENT_POWER, MetricType.CURRENT)
+
+# Per-metric-type update intervals for each auto profile. None means no time
+# limit (update on every value change); metric types not listed fall back to
+# AUTO_UPDATE_INTERVAL_DEFAULT.
+AUTO_UPDATE_INTERVALS: dict[str, dict[MetricType, int | None]] = {
+    UPDATE_FREQUENCY_AUTO: dict.fromkeys(_FAST_METRIC_TYPES, 5),
+    UPDATE_FREQUENCY_AUTO_POWER_NONE: dict.fromkeys(_FAST_METRIC_TYPES, None),
+}
+AUTO_UPDATE_INTERVAL_DEFAULT = 30
 
 
 class ValueType(Enum):

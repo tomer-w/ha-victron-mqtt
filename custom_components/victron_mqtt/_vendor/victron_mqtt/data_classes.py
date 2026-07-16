@@ -35,6 +35,19 @@ class TopicDependency:
     required: bool = True
 
 
+@dataclass(frozen=True)
+class ProductCapabilityRef:
+    """Reference resolving a range value (min/max/step) from a product capability.
+
+    When used as a ``min``/``max``/``step`` on a :class:`TopicDescriptor`, the
+    value is looked up per-device from the product capability table (keyed by the
+    device's product ID). If the product is unknown, ``default`` is used.
+    """
+
+    capability: str
+    default: float | int | None = None
+
+
 def topic_to_device_type(topic_parts: list[str]) -> DeviceType | None:
     """Extract the device type from the topic."""
     if topic_parts[0] == "$$func":
@@ -67,15 +80,15 @@ class TopicDescriptor:
     precision: int | None = None
     enum: type[VictronEnum] | None = None
     min_max_range: RangeType = RangeType.STATIC
-    min: float | int | str | None = None
-    max: float | int | str | None = None
-    step: float | int | str | None = None
+    min: float | int | str | ProductCapabilityRef | None = None
+    max: float | int | str | ProductCapabilityRef | None = None
+    step: float | int | str | ProductCapabilityRef | None = None
     is_adjustable_suffix: str | None = None
     output_type: int | str | None = (
         None  # SwitchableOutput type (static or metric reference). When 6 (dropdown), labels are used.
     )
     labels: str | None = None  # JSON labels metric reference (format: 'metric_id:default')
-    key_values: dict[str, str] = field(default_factory=dict)
+    key_values: dict[str, str] = field(default_factory=dict[str, str])
     experimental: bool = False
     # Depends on format is different for regular and formula topics:
     # For regular topics, the depends_on list contains the {device_id}_{metric_short_id} of the metric it depends on

@@ -476,9 +476,12 @@
       "value_type": "ValueType.FLOAT",
       "precision": 1,
       "enum": null,
-      "min_max_range": "RangeType.STATIC",
+      "min_max_range": "RangeType.DYNAMIC",
       "min": 0,
-      "max": 200,
+      "max": {
+        "capability": "max_charge_current",
+        "default": 200
+      },
       "step": null,
       "is_adjustable_suffix": null,
       "output_type": null,
@@ -6488,8 +6491,8 @@
       "unit_of_measurement": "W",
       "metric_type": "MetricType.POWER",
       "metric_nature": "MetricNature.MEASUREMENT",
-      "value_type": "ValueType.FLOAT",
-      "precision": 1,
+      "value_type": "ValueType.INT_DEFAULT_0",
+      "precision": null,
       "enum": null,
       "min_max_range": "RangeType.STATIC",
       "min": null,
@@ -9522,9 +9525,12 @@
       "value_type": "ValueType.FLOAT",
       "precision": 1,
       "enum": null,
-      "min_max_range": "RangeType.STATIC",
+      "min_max_range": "RangeType.DYNAMIC",
       "min": 0,
-      "max": 200,
+      "max": {
+        "capability": "max_charge_current",
+        "default": 200
+      },
       "step": null,
       "is_adjustable_suffix": null,
       "output_type": null,
@@ -15092,6 +15098,156 @@
     {
       "name": "VictronDeviceEnum",
       "EnumValues": []
+    },
+    {
+      "name": "VictronProductId",
+      "EnumValues": [
+        {
+          "id": "bluesolar_mppt_75_15",
+          "name": "BlueSolar MPPT 75/15",
+          "value": 41026
+        },
+        {
+          "id": "bluesolar_mppt_100_15",
+          "name": "BlueSolar MPPT 100/15",
+          "value": 41027
+        },
+        {
+          "id": "bluesolar_mppt_100_30",
+          "name": "BlueSolar MPPT 100/30",
+          "value": 41028
+        },
+        {
+          "id": "bluesolar_mppt_100_50",
+          "name": "BlueSolar MPPT 100/50",
+          "value": 41029
+        },
+        {
+          "id": "bluesolar_mppt_150_70",
+          "name": "BlueSolar MPPT 150/70",
+          "value": 41034
+        },
+        {
+          "id": "bluesolar_mppt_75_10",
+          "name": "BlueSolar MPPT 75/10",
+          "value": 41036
+        },
+        {
+          "id": "bluesolar_mppt_150_45",
+          "name": "BlueSolar MPPT 150/45",
+          "value": 41037
+        },
+        {
+          "id": "bluesolar_mppt_150_60",
+          "name": "BlueSolar MPPT 150/60",
+          "value": 41038
+        },
+        {
+          "id": "bluesolar_mppt_150_85",
+          "name": "BlueSolar MPPT 150/85",
+          "value": 41039
+        },
+        {
+          "id": "smartsolar_mppt_250_100",
+          "name": "SmartSolar MPPT 250/100",
+          "value": 41040
+        },
+        {
+          "id": "smartsolar_mppt_150_100",
+          "name": "SmartSolar MPPT 150/100",
+          "value": 41041
+        },
+        {
+          "id": "smartsolar_mppt_150_85",
+          "name": "SmartSolar MPPT 150/85",
+          "value": 41042
+        },
+        {
+          "id": "smartsolar_mppt_75_15",
+          "name": "SmartSolar MPPT 75/15",
+          "value": 41043
+        },
+        {
+          "id": "smartsolar_mppt_75_10",
+          "name": "SmartSolar MPPT 75/10",
+          "value": 41044
+        },
+        {
+          "id": "smartsolar_mppt_100_15",
+          "name": "SmartSolar MPPT 100/15",
+          "value": 41045
+        },
+        {
+          "id": "smartsolar_mppt_100_30",
+          "name": "SmartSolar MPPT 100/30",
+          "value": 41046
+        },
+        {
+          "id": "smartsolar_mppt_100_50",
+          "name": "SmartSolar MPPT 100/50",
+          "value": 41047
+        },
+        {
+          "id": "smartsolar_mppt_150_35",
+          "name": "SmartSolar MPPT 150/35",
+          "value": 41048
+        },
+        {
+          "id": "smartsolar_mppt_150_100_rev2",
+          "name": "SmartSolar MPPT 150/100 rev2",
+          "value": 41049
+        },
+        {
+          "id": "smartsolar_mppt_150_85_rev2",
+          "name": "SmartSolar MPPT 150/85 rev2",
+          "value": 41050
+        },
+        {
+          "id": "smartsolar_mppt_250_70",
+          "name": "SmartSolar MPPT 250/70",
+          "value": 41051
+        },
+        {
+          "id": "smartsolar_mppt_250_85",
+          "name": "SmartSolar MPPT 250/85",
+          "value": 41052
+        },
+        {
+          "id": "smartsolar_mppt_250_60",
+          "name": "SmartSolar MPPT 250/60",
+          "value": 41053
+        },
+        {
+          "id": "smartsolar_mppt_250_45",
+          "name": "SmartSolar MPPT 250/45",
+          "value": 41054
+        },
+        {
+          "id": "smartsolar_mppt_100_20",
+          "name": "SmartSolar MPPT 100/20",
+          "value": 41055
+        },
+        {
+          "id": "smartsolar_mppt_100_20_48v",
+          "name": "SmartSolar MPPT 100/20 48V",
+          "value": 41056
+        },
+        {
+          "id": "smartsolar_mppt_150_45",
+          "name": "SmartSolar MPPT 150/45",
+          "value": 41057
+        },
+        {
+          "id": "smartsolar_mppt_150_60",
+          "name": "SmartSolar MPPT 150/60",
+          "value": 41058
+        },
+        {
+          "id": "smartsolar_mppt_150_70",
+          "name": "SmartSolar MPPT 150/70",
+          "value": 41059
+        }
+      ]
     },
     {
       "name": "VrmPortalMode",

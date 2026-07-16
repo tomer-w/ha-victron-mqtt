@@ -1,4 +1,5 @@
 """Utility functions for ID manipulation."""
+
 import re
 from collections.abc import Callable
 
@@ -11,13 +12,15 @@ def replace_complex_ids(orig_str: str, match_func: Callable[[re.Match[str]], str
     pattern = re.compile(r"\{(?P<moniker>[^:]+:(?:[^{}]|{[^{}]*})+)\}")
     return pattern.sub(match_func, orig_str)
 
+
 # Complex is: "Switch {output:switch_{output}_custom_name} Dimming"
 # Simple is: "Switch {output} Dimming"
 def replace_complex_id_to_simple(orig_str: str) -> str:
     """Replace complex placeholders in the string with simple ones."""
+
     def replace_match(match: re.Match[str]) -> str:
-        moniker = match.group('moniker')
-        key, suffix = moniker.split(':', 1)
+        moniker = match.group("moniker")
+        key, suffix = moniker.split(":", 1)
         assert key, f"Invalid moniker format: {moniker} in topic: {orig_str}"
         assert suffix, f"Invalid moniker format: {moniker} in topic: {orig_str}"
         return f"{{{key}}}"

@@ -1,6 +1,7 @@
 """
 Support for Victron Venus metrics based on formulas and not direct mqtt topic.
 """
+
 from __future__ import annotations
 
 import time
@@ -14,23 +15,24 @@ if TYPE_CHECKING:
 
     from .metric import Metric
 
+
 @dataclass
 class LRSLastReading(FormulaTransientState):
     """Data class to hold the last reading for Left Riemann Sum calculations."""
+
     timestamp: float
     value: float | None
     accumulated_value: float
+
 
 def _get_lrs_input(depends_on: dict[str, Metric]) -> float | None:
     assert len(depends_on) == 1, "Expected exactly one input metric for LRS"
     metric = next(iter(depends_on.values()))
     return metric.value
 
+
 def calculate_rolling_riemann_sum(
-    current_reading: float,
-    current_time: float,
-    last_reading: LRSLastReading | None,
-    time_interval: float
+    current_reading: float, current_time: float, last_reading: LRSLastReading | None, time_interval: float
 ) -> LRSLastReading:
     """
     Calculate the Left Riemann Sum using only the last reading.
@@ -63,24 +65,22 @@ def calculate_rolling_riemann_sum(
     # Left Riemann sum uses the left (previous) value. Only positive previous
     # power contributes to accumulated charging energy.
     interval_energy = (
-        last_reading.value * dt_hours
-        if last_reading.value is not None and last_reading.value > 0
-        else 0.0
+        last_reading.value * dt_hours if last_reading.value is not None and last_reading.value > 0 else 0.0
     )
 
     # Create new last reading with updated accumulated energy
     new_last_reading = LRSLastReading(
-        timestamp=current_time,
-        value=current_power,
-        accumulated_value=last_reading.accumulated_value + interval_energy
+        timestamp=current_time, value=current_power, accumulated_value=last_reading.accumulated_value + interval_energy
     )
 
     return new_last_reading
 
+
 def left_riemann_sum_internal(
     depends_on: dict[str, Metric],
     adjust_reading: Callable[[float], float],
-    transient_state: FormulaTransientState | None) -> tuple[float, FormulaTransientState] | None:
+    transient_state: FormulaTransientState | None,
+) -> tuple[float, FormulaTransientState] | None:
     """
     Calculate rolling Left Riemann Sum on input.
 
@@ -104,9 +104,6 @@ def left_riemann_sum_internal(
     # Calculate rolling Riemann sum
     current_time = time.monotonic()
     new_last_reading = calculate_rolling_riemann_sum(
-        current_reading=current_reading,
-        current_time=current_time,
-        last_reading=transient_state,
-        time_interval=30
+        current_reading=current_reading, current_time=current_time, last_reading=transient_state, time_interval=30
     )
     return new_last_reading.accumulated_value, new_last_reading
