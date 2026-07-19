@@ -40,6 +40,8 @@ _PRODUCT_CAPABILITIES: dict[VictronProductId, ProductCapabilities] = {
     VictronProductId.BLUESOLAR_MPPT_150_70: ProductCapabilities(max_charge_current=70),
     VictronProductId.BLUESOLAR_MPPT_75_10: ProductCapabilities(max_charge_current=10),
     VictronProductId.BLUESOLAR_MPPT_150_45: ProductCapabilities(max_charge_current=45),
+    VictronProductId.BLUESOLAR_MPPT_150_45_REV2: ProductCapabilities(max_charge_current=45),
+    VictronProductId.BLUESOLAR_MPPT_150_45_REV3: ProductCapabilities(max_charge_current=45),
     VictronProductId.BLUESOLAR_MPPT_150_60: ProductCapabilities(max_charge_current=60),
     VictronProductId.BLUESOLAR_MPPT_150_85: ProductCapabilities(max_charge_current=85),
     # SmartSolar MPPT
@@ -61,8 +63,12 @@ _PRODUCT_CAPABILITIES: dict[VictronProductId, ProductCapabilities] = {
     VictronProductId.SMARTSOLAR_MPPT_100_20: ProductCapabilities(max_charge_current=20),
     VictronProductId.SMARTSOLAR_MPPT_100_20_48V: ProductCapabilities(max_charge_current=20),
     VictronProductId.SMARTSOLAR_MPPT_150_45: ProductCapabilities(max_charge_current=45),
+    VictronProductId.SMARTSOLAR_MPPT_150_45_REV2: ProductCapabilities(max_charge_current=45),
+    VictronProductId.SMARTSOLAR_MPPT_150_45_REV3: ProductCapabilities(max_charge_current=45),
     VictronProductId.SMARTSOLAR_MPPT_150_60: ProductCapabilities(max_charge_current=60),
     VictronProductId.SMARTSOLAR_MPPT_150_70: ProductCapabilities(max_charge_current=70),
+    # Orion XS DC-DC charger (12/12-50 A) -> rated 50 A.
+    VictronProductId.ORION_XS_12V_12V_50A: ProductCapabilities(max_charge_current=50),
 }
 
 

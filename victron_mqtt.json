@@ -15138,6 +15138,16 @@
           "value": 41037
         },
         {
+          "id": "bluesolar_mppt_150_45_rev2",
+          "name": "BlueSolar MPPT 150/45 rev2",
+          "value": 41071
+        },
+        {
+          "id": "bluesolar_mppt_150_45_rev3",
+          "name": "BlueSolar MPPT 150/45 rev3",
+          "value": 41074
+        },
+        {
           "id": "bluesolar_mppt_150_60",
           "name": "BlueSolar MPPT 150/60",
           "value": 41038
@@ -15238,6 +15248,16 @@
           "value": 41057
         },
         {
+          "id": "smartsolar_mppt_150_45_rev2",
+          "name": "SmartSolar MPPT 150/45 rev2",
+          "value": 41066
+        },
+        {
+          "id": "smartsolar_mppt_150_45_rev3",
+          "name": "SmartSolar MPPT 150/45 rev3",
+          "value": 41075
+        },
+        {
           "id": "smartsolar_mppt_150_60",
           "name": "SmartSolar MPPT 150/60",
           "value": 41058
@@ -15246,6 +15266,11 @@
           "id": "smartsolar_mppt_150_70",
           "name": "SmartSolar MPPT 150/70",
           "value": 41059
+        },
+        {
+          "id": "orion_xs_12v_12v_50a",
+          "name": "Orion XS 12V/12V-50A",
+          "value": 41968
         }
       ]
     },
