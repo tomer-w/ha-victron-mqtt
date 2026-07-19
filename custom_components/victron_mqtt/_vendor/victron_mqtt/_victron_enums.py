@@ -78,6 +78,8 @@ class VictronProductId(VictronEnum):
     BLUESOLAR_MPPT_150_70 = (0xA04A, "bluesolar_mppt_150_70", "BlueSolar MPPT 150/70")
     BLUESOLAR_MPPT_75_10 = (0xA04C, "bluesolar_mppt_75_10", "BlueSolar MPPT 75/10")
     BLUESOLAR_MPPT_150_45 = (0xA04D, "bluesolar_mppt_150_45", "BlueSolar MPPT 150/45")
+    BLUESOLAR_MPPT_150_45_REV2 = (0xA06F, "bluesolar_mppt_150_45_rev2", "BlueSolar MPPT 150/45 rev2")
+    BLUESOLAR_MPPT_150_45_REV3 = (0xA072, "bluesolar_mppt_150_45_rev3", "BlueSolar MPPT 150/45 rev3")
     BLUESOLAR_MPPT_150_60 = (0xA04E, "bluesolar_mppt_150_60", "BlueSolar MPPT 150/60")
     BLUESOLAR_MPPT_150_85 = (0xA04F, "bluesolar_mppt_150_85", "BlueSolar MPPT 150/85")
     # SmartSolar MPPT solar chargers
@@ -99,8 +101,12 @@ class VictronProductId(VictronEnum):
     SMARTSOLAR_MPPT_100_20 = (0xA05F, "smartsolar_mppt_100_20", "SmartSolar MPPT 100/20")
     SMARTSOLAR_MPPT_100_20_48V = (0xA060, "smartsolar_mppt_100_20_48v", "SmartSolar MPPT 100/20 48V")
     SMARTSOLAR_MPPT_150_45 = (0xA061, "smartsolar_mppt_150_45", "SmartSolar MPPT 150/45")
+    SMARTSOLAR_MPPT_150_45_REV2 = (0xA06A, "smartsolar_mppt_150_45_rev2", "SmartSolar MPPT 150/45 rev2")
+    SMARTSOLAR_MPPT_150_45_REV3 = (0xA073, "smartsolar_mppt_150_45_rev3", "SmartSolar MPPT 150/45 rev3")
     SMARTSOLAR_MPPT_150_60 = (0xA062, "smartsolar_mppt_150_60", "SmartSolar MPPT 150/60")
     SMARTSOLAR_MPPT_150_70 = (0xA063, "smartsolar_mppt_150_70", "SmartSolar MPPT 150/70")
+    # Orion XS DC-DC charger (VE.Direct); reported under the alternator/dcdc device types.
+    ORION_XS_12V_12V_50A = (0xA3F0, "orion_xs_12v_12v_50a", "Orion XS 12V/12V-50A")
 
 
 class DVCCMode(VictronEnum):
