@@ -46,12 +46,16 @@ from .const import (
     CONF_ROOT_TOPIC_PREFIX,
     CONF_SERIAL,
     CONF_SIMPLE_NAMING,
+    CONF_UPDATE_FREQUENCY_MODE,
     CONF_UPDATE_FREQUENCY_SECONDS,
     DEFAULT_HOST,
     DEFAULT_PORT,
     DEFAULT_SIMPLE_NAMING,
+    DEFAULT_UPDATE_FREQUENCY_MODE,
     DEFAULT_UPDATE_FREQUENCY_SECONDS,
     DOMAIN,
+    UPDATE_FREQUENCY_MODE_AUTO,
+    UPDATE_FREQUENCY_MODE_MANUAL,
 )
 
 _LOGGER = logging.getLogger(__name__)
@@ -113,6 +117,23 @@ STEP_USER_DATA_SCHEMA = vol.Schema(
         ),
         vol.Optional(CONF_SIMPLE_NAMING, default=DEFAULT_SIMPLE_NAMING): bool,
          vol.Optional(CONF_ROOT_TOPIC_PREFIX): str,
+        vol.Required(
+            CONF_UPDATE_FREQUENCY_MODE, default=DEFAULT_UPDATE_FREQUENCY_MODE
+        ): SelectSelector(
+            SelectSelectorConfig(
+                options=[
+                    SelectOptionDict(
+                        value=UPDATE_FREQUENCY_MODE_AUTO,
+                        label="Auto (library decides per metric, recommended)",
+                    ),
+                    SelectOptionDict(
+                        value=UPDATE_FREQUENCY_MODE_MANUAL,
+                        label="Manual (fixed interval below)",
+                    ),
+                ],
+                mode=SelectSelectorMode.LIST,
+            )
+        ),
         vol.Optional(CONF_UPDATE_FREQUENCY_SECONDS, default=DEFAULT_UPDATE_FREQUENCY_SECONDS): int,
         vol.Optional(CONF_EXCLUDED_DEVICES, default=[]): SelectSelector(
             SelectSelectorConfig(
@@ -170,7 +191,7 @@ async def validate_input(data: dict[str, Any]) -> str:
 class VictronMQTTConfigFlow(ConfigFlow, domain=DOMAIN):
     """Handle a config flow for victronvenus."""
 
-    VERSION = 2
+    VERSION = 3
 
     def __init__(self) -> None:
         """Initialize."""

@@ -14,11 +14,14 @@ from custom_components.victron_mqtt.const import (
     CONF_ROOT_TOPIC_PREFIX,
     CONF_SERIAL,
     CONF_SIMPLE_NAMING,
+    CONF_UPDATE_FREQUENCY_MODE,
     CONF_UPDATE_FREQUENCY_SECONDS,
     DEFAULT_PORT,
     DEFAULT_SIMPLE_NAMING,
     DEFAULT_UPDATE_FREQUENCY_SECONDS,
     DOMAIN,
+    UPDATE_FREQUENCY_MODE_AUTO,
+    UPDATE_FREQUENCY_MODE_MANUAL,
 )
 from homeassistant.config_entries import SOURCE_REAUTH, SOURCE_SSDP, SOURCE_USER
 from homeassistant.const import (
@@ -77,6 +80,7 @@ async def test_user_flow_full_config(hass: HomeAssistant) -> None:
             CONF_SSL: False,
             CONF_SIMPLE_NAMING: True,
             CONF_ROOT_TOPIC_PREFIX: "N/test",
+            CONF_UPDATE_FREQUENCY_MODE: UPDATE_FREQUENCY_MODE_MANUAL,
             CONF_UPDATE_FREQUENCY_SECONDS: 60,
         },
     )
@@ -95,6 +99,7 @@ async def test_user_flow_full_config(hass: HomeAssistant) -> None:
         CONF_SSL: False,
         CONF_SIMPLE_NAMING: True,
         CONF_ROOT_TOPIC_PREFIX: "N/test",
+        CONF_UPDATE_FREQUENCY_MODE: UPDATE_FREQUENCY_MODE_MANUAL,
         CONF_UPDATE_FREQUENCY_SECONDS: 60,
         CONF_EXCLUDED_DEVICES: [],
         CONF_INSTALLATION_ID: MOCK_INSTALLATION_ID,
@@ -131,6 +136,7 @@ async def test_user_flow_minimal_config(hass: HomeAssistant) -> None:
         CONF_PORT: DEFAULT_PORT,
         CONF_SSL: False,
         CONF_SIMPLE_NAMING: False,
+        CONF_UPDATE_FREQUENCY_MODE: UPDATE_FREQUENCY_MODE_AUTO,
         CONF_UPDATE_FREQUENCY_SECONDS: DEFAULT_UPDATE_FREQUENCY_SECONDS,
         CONF_OPERATION_MODE: OperationMode.FULL.value,
         CONF_EXCLUDED_DEVICES: [],
@@ -397,6 +403,7 @@ async def test_options_flow_success(hass: HomeAssistant) -> None:
                 CONF_SSL: True,
                 CONF_SIMPLE_NAMING: True,
                 CONF_ROOT_TOPIC_PREFIX: "N/updated",
+                CONF_UPDATE_FREQUENCY_MODE: UPDATE_FREQUENCY_MODE_MANUAL,
                 CONF_UPDATE_FREQUENCY_SECONDS: 45,
             },
         )
@@ -410,6 +417,7 @@ async def test_options_flow_success(hass: HomeAssistant) -> None:
             CONF_SSL: True,
             CONF_SIMPLE_NAMING: True,
             CONF_ROOT_TOPIC_PREFIX: "N/updated",
+            CONF_UPDATE_FREQUENCY_MODE: UPDATE_FREQUENCY_MODE_MANUAL,
             CONF_UPDATE_FREQUENCY_SECONDS: 45,
             CONF_OPERATION_MODE: OperationMode.FULL.value,
             CONF_EXCLUDED_DEVICES: [],
@@ -844,7 +852,8 @@ async def test_migration_v1_to_v2_without_simple_naming(hass: HomeAssistant) -> 
     result = await async_migrate_entry(hass, mock_config_entry)
     assert result is True
     assert mock_config_entry.data[CONF_SIMPLE_NAMING] is False
-    assert mock_config_entry.version == 2
+    assert mock_config_entry.data[CONF_UPDATE_FREQUENCY_MODE] == UPDATE_FREQUENCY_MODE_AUTO
+    assert mock_config_entry.version == 3
 
 
 async def test_migration_v1_to_v2_with_simple_naming_true(hass: HomeAssistant) -> None:
@@ -869,7 +878,8 @@ async def test_migration_v1_to_v2_with_simple_naming_true(hass: HomeAssistant) -
     result = await async_migrate_entry(hass, mock_config_entry)
     assert result is True
     assert mock_config_entry.data[CONF_SIMPLE_NAMING] is True
-    assert mock_config_entry.version == 2
+    assert mock_config_entry.data[CONF_UPDATE_FREQUENCY_MODE] == UPDATE_FREQUENCY_MODE_AUTO
+    assert mock_config_entry.version == 3
 
 
 async def test_migration_v1_to_v2_with_simple_naming_false(hass: HomeAssistant) -> None:
@@ -894,4 +904,86 @@ async def test_migration_v1_to_v2_with_simple_naming_false(hass: HomeAssistant) 
     result = await async_migrate_entry(hass, mock_config_entry)
     assert result is True
     assert mock_config_entry.data[CONF_SIMPLE_NAMING] is False
-    assert mock_config_entry.version == 2
+    assert mock_config_entry.data[CONF_UPDATE_FREQUENCY_MODE] == UPDATE_FREQUENCY_MODE_AUTO
+    assert mock_config_entry.version == 3
+
+
+async def test_migration_v2_to_v3_custom_frequency_becomes_manual(
+    hass: HomeAssistant,
+) -> None:
+    """Test v2->v3 migration marks a non-default interval as manual mode."""
+    mock_config_entry = MockConfigEntry(
+        domain=DOMAIN,
+        unique_id=MOCK_INSTALLATION_ID,
+        version=2,
+        data={
+            CONF_HOST: MOCK_HOST,
+            CONF_PORT: DEFAULT_PORT,
+            CONF_INSTALLATION_ID: MOCK_INSTALLATION_ID,
+            CONF_SSL: False,
+            CONF_SIMPLE_NAMING: False,
+            CONF_UPDATE_FREQUENCY_SECONDS: 45,
+        },
+    )
+    mock_config_entry.add_to_hass(hass)
+
+    from custom_components.victron_mqtt import async_migrate_entry
+
+    result = await async_migrate_entry(hass, mock_config_entry)
+    assert result is True
+    assert mock_config_entry.data[CONF_UPDATE_FREQUENCY_MODE] == UPDATE_FREQUENCY_MODE_MANUAL
+    assert mock_config_entry.data[CONF_UPDATE_FREQUENCY_SECONDS] == 45
+    assert mock_config_entry.version == 3
+
+
+async def test_migration_v2_to_v3_default_frequency_becomes_auto(
+    hass: HomeAssistant,
+) -> None:
+    """Test v2->v3 migration moves the old default interval to auto mode."""
+    mock_config_entry = MockConfigEntry(
+        domain=DOMAIN,
+        unique_id=MOCK_INSTALLATION_ID,
+        version=2,
+        data={
+            CONF_HOST: MOCK_HOST,
+            CONF_PORT: DEFAULT_PORT,
+            CONF_INSTALLATION_ID: MOCK_INSTALLATION_ID,
+            CONF_SSL: False,
+            CONF_SIMPLE_NAMING: False,
+            CONF_UPDATE_FREQUENCY_SECONDS: DEFAULT_UPDATE_FREQUENCY_SECONDS,
+        },
+    )
+    mock_config_entry.add_to_hass(hass)
+
+    from custom_components.victron_mqtt import async_migrate_entry
+
+    result = await async_migrate_entry(hass, mock_config_entry)
+    assert result is True
+    assert mock_config_entry.data[CONF_UPDATE_FREQUENCY_MODE] == UPDATE_FREQUENCY_MODE_AUTO
+    assert mock_config_entry.version == 3
+
+
+async def test_migration_v2_to_v3_missing_frequency_becomes_auto(
+    hass: HomeAssistant,
+) -> None:
+    """Test v2->v3 migration defaults to auto mode when no interval is set."""
+    mock_config_entry = MockConfigEntry(
+        domain=DOMAIN,
+        unique_id=MOCK_INSTALLATION_ID,
+        version=2,
+        data={
+            CONF_HOST: MOCK_HOST,
+            CONF_PORT: DEFAULT_PORT,
+            CONF_INSTALLATION_ID: MOCK_INSTALLATION_ID,
+            CONF_SSL: False,
+            CONF_SIMPLE_NAMING: False,
+        },
+    )
+    mock_config_entry.add_to_hass(hass)
+
+    from custom_components.victron_mqtt import async_migrate_entry
+
+    result = await async_migrate_entry(hass, mock_config_entry)
+    assert result is True
+    assert mock_config_entry.data[CONF_UPDATE_FREQUENCY_MODE] == UPDATE_FREQUENCY_MODE_AUTO
+    assert mock_config_entry.version == 3

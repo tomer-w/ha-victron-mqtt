@@ -4,13 +4,25 @@ import logging
 
 from homeassistant.const import EVENT_HOMEASSISTANT_STOP, Platform
 from homeassistant.core import Event, HomeAssistant, ServiceCall
-from homeassistant.helpers import device_registry as dr, entity_registry as er
+from homeassistant.helpers import device_registry as dr
 from homeassistant.helpers.typing import ConfigType
 from homeassistant.exceptions import HomeAssistantError
 import homeassistant.helpers.config_validation as cv
 
 
-from .const import ATTR_DEVICE_ID, ATTR_METRIC_ID, ATTR_VALUE, CONF_SIMPLE_NAMING, DOMAIN, SERVICE_PUBLISH
+from .const import (
+    ATTR_DEVICE_ID,
+    ATTR_METRIC_ID,
+    ATTR_VALUE,
+    CONF_SIMPLE_NAMING,
+    CONF_UPDATE_FREQUENCY_MODE,
+    CONF_UPDATE_FREQUENCY_SECONDS,
+    DEFAULT_UPDATE_FREQUENCY_SECONDS,
+    DOMAIN,
+    SERVICE_PUBLISH,
+    UPDATE_FREQUENCY_MODE_AUTO,
+    UPDATE_FREQUENCY_MODE_MANUAL,
+)
 from .hub import Hub, VictronGxConfigEntry
 from ._vendor import VICTRON_MQTT_VERSION
 
@@ -94,6 +106,19 @@ async def async_migrate_entry(hass: HomeAssistant, config_entry: VictronGxConfig
             new_data[CONF_SIMPLE_NAMING] = False
         hass.config_entries.async_update_entry(config_entry, data=new_data, version=2)
         _LOGGER.info("Migration to version 2 successful")
+
+    if config_entry.version == 2:
+        new_data = {**config_entry.data}
+        # The old default update frequency was 30 seconds. Users who kept that
+        # default (or never set one) are moved to the new "auto" mode. Any other
+        # explicit interval is preserved as a manual setting.
+        frequency = new_data.get(CONF_UPDATE_FREQUENCY_SECONDS)
+        if frequency is None or frequency == DEFAULT_UPDATE_FREQUENCY_SECONDS:
+            new_data[CONF_UPDATE_FREQUENCY_MODE] = UPDATE_FREQUENCY_MODE_AUTO
+        else:
+            new_data[CONF_UPDATE_FREQUENCY_MODE] = UPDATE_FREQUENCY_MODE_MANUAL
+        hass.config_entries.async_update_entry(config_entry, data=new_data, version=3)
+        _LOGGER.info("Migration to version 3 successful")
 
     return True
 

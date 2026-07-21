@@ -1,7 +1,8 @@
 """Main Hub class."""
 
-from collections.abc import Callable
+from collections.abc import Callable, Mapping
 import logging
+from typing import Any
 
 from ._vendor.victron_mqtt import (
     AuthenticationError,
@@ -12,6 +13,7 @@ from ._vendor.victron_mqtt import (
     Metric as VictronVenusMetric,
     MetricKind,
     OperationMode,
+    UPDATE_FREQUENCY_AUTO,
 )
 
 from homeassistant.config_entries import ConfigEntry
@@ -36,9 +38,12 @@ from .const import (
     CONF_ROOT_TOPIC_PREFIX,
     CONF_SERIAL,
     CONF_SIMPLE_NAMING,
+    CONF_UPDATE_FREQUENCY_MODE,
     CONF_UPDATE_FREQUENCY_SECONDS,
+    DEFAULT_UPDATE_FREQUENCY_MODE,
     DEFAULT_UPDATE_FREQUENCY_SECONDS,
     DOMAIN,
+    UPDATE_FREQUENCY_MODE_MANUAL,
 )
 
 _LOGGER = logging.getLogger(__name__)
@@ -50,6 +55,19 @@ type VictronGxConfigEntry = ConfigEntry[Hub]
 NewMetricCallback = Callable[
     [VictronVenusDevice, VictronVenusMetric, DeviceInfo, str], None
 ]
+
+
+def _resolve_update_frequency(config: Mapping[str, Any]) -> int | str:
+    """Resolve the configured update frequency into the value the library expects.
+
+    In "auto" mode the library picks a per-metric interval; in "manual" mode a
+    fixed interval (in seconds) is used.
+    """
+    mode = config.get(CONF_UPDATE_FREQUENCY_MODE, DEFAULT_UPDATE_FREQUENCY_MODE)
+    if mode == UPDATE_FREQUENCY_MODE_MANUAL:
+        return config.get(CONF_UPDATE_FREQUENCY_SECONDS, DEFAULT_UPDATE_FREQUENCY_SECONDS)
+    return UPDATE_FREQUENCY_AUTO
+
 
 class Hub:
     """Victron MQTT Hub for managing communication and sensors."""
@@ -101,9 +119,7 @@ class Hub:
             topic_log_info=config.get(CONF_ELEVATED_TRACING) or None,
             operation_mode=operation_mode,
             device_type_exclude_filter=excluded_device_types,
-            update_frequency_seconds=config.get(
-                CONF_UPDATE_FREQUENCY_SECONDS, DEFAULT_UPDATE_FREQUENCY_SECONDS
-            ),
+            update_frequency_seconds=_resolve_update_frequency(config),
         )
         self._hub.on_new_metric = self._on_new_metric
         self._config_entry_id = entry.entry_id
