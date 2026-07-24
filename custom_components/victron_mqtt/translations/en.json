@@ -28,8 +28,8 @@
           "root_topic_prefix": "Optional root topic prefix",
           "simple_naming": "Simple naming (no installation id in entity ids)",
           "ssl": "Use SSL",
-          "update_frequency_mode": "Update frequency mode",
           "update_frequency": "Manual update frequency (seconds)",
+          "update_frequency_mode": "Update frequency mode",
           "username": "Username"
         },
         "data_description": {
@@ -42,8 +42,8 @@
           "root_topic_prefix": "Root topic prefix if used via MQTT gateway.",
           "simple_naming": "Use simple naming for entities, can work only when you have single Cerbo on the network.",
           "ssl": "Indicates whether to use SSL to connect to the Victron Device. Normally it is disabled.",
-          "update_frequency_mode": "'Auto' lets the library choose an update interval per metric (fast-changing values like power update more often). 'Manual' uses the fixed interval below for all metrics.",
           "update_frequency": "Only used in 'Manual' mode. Update frequency in seconds. Set to 0 to update always.",
+          "update_frequency_mode": "'Auto' lets the library choose an update interval per metric (fast-changing values like power update more often). 'Manual' uses the fixed interval below for all metrics.",
           "username": "Username for the MQTT server, default is empty. Not needed by Victron devices. This is only needed if you use route your mqtt messages through non Victron server and it does require username."
         }
       }
@@ -2911,8 +2911,8 @@
           "root_topic_prefix": "Optional root topic prefix",
           "simple_naming": "Simple naming (no installation id in entity ids)",
           "ssl": "Use SSL",
-          "update_frequency_mode": "Update frequency mode",
           "update_frequency": "Manual update frequency (seconds)",
+          "update_frequency_mode": "Update frequency mode",
           "username": "Username"
         },
         "data_description": {
@@ -2925,8 +2925,8 @@
           "root_topic_prefix": "Root topic prefix if used via MQTT gateway.",
           "simple_naming": "Use simple naming for entities, can work only when you have single Cerbo on the network.",
           "ssl": "Indicates whether to use SSL to connect to the Victron Device. Normally it is disabled.",
-          "update_frequency_mode": "'Auto' lets the library choose an update interval per metric (fast-changing values like power update more often). 'Manual' uses the fixed interval below for all metrics.",
           "update_frequency": "Only used in 'Manual' mode. Update frequency in seconds. Set to 0 to update always.",
+          "update_frequency_mode": "'Auto' lets the library choose an update interval per metric (fast-changing values like power update more often). 'Manual' uses the fixed interval below for all metrics.",
           "username": "Username for the MQTT server, default is empty. Not needed by Victron devices. This is only needed if you use route your mqtt messages through non Victron server and it does require username."
         }
       }
