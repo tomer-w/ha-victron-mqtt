@@ -97,16 +97,27 @@ class VictronProductId(VictronEnum):
     SMARTSOLAR_MPPT_250_70 = (0xA05B, "smartsolar_mppt_250_70", "SmartSolar MPPT 250/70")
     SMARTSOLAR_MPPT_250_85 = (0xA05C, "smartsolar_mppt_250_85", "SmartSolar MPPT 250/85")
     SMARTSOLAR_MPPT_250_60 = (0xA05D, "smartsolar_mppt_250_60", "SmartSolar MPPT 250/60")
+    SMARTSOLAR_MPPT_250_60_REV2 = (0xA068, "smartsolar_mppt_250_60_rev2", "SmartSolar MPPT 250/60 rev2")
     SMARTSOLAR_MPPT_250_45 = (0xA05E, "smartsolar_mppt_250_45", "SmartSolar MPPT 250/45")
     SMARTSOLAR_MPPT_100_20 = (0xA05F, "smartsolar_mppt_100_20", "SmartSolar MPPT 100/20")
     SMARTSOLAR_MPPT_100_20_48V = (0xA060, "smartsolar_mppt_100_20_48v", "SmartSolar MPPT 100/20 48V")
+    BLUESOLAR_MPPT_100_20_48V = (0xA067, "bluesolar_mppt_100_20_48v", "BlueSolar MPPT 100/20 48V")
     SMARTSOLAR_MPPT_150_45 = (0xA061, "smartsolar_mppt_150_45", "SmartSolar MPPT 150/45")
     SMARTSOLAR_MPPT_150_45_REV2 = (0xA06A, "smartsolar_mppt_150_45_rev2", "SmartSolar MPPT 150/45 rev2")
     SMARTSOLAR_MPPT_150_45_REV3 = (0xA073, "smartsolar_mppt_150_45_rev3", "SmartSolar MPPT 150/45 rev3")
     SMARTSOLAR_MPPT_150_60 = (0xA062, "smartsolar_mppt_150_60", "SmartSolar MPPT 150/60")
     SMARTSOLAR_MPPT_150_70 = (0xA063, "smartsolar_mppt_150_70", "SmartSolar MPPT 150/70")
-    # Orion XS DC-DC charger (VE.Direct); reported under the alternator/dcdc device types.
+    # SmartSolar MPPT VE.Can and RS series (CAN-bus interface variants).
+    SMARTSOLAR_MPPT_VECAN_150_85_REV2 = (
+        0xA10D,
+        "smartsolar_mppt_vecan_150_85_rev2",
+        "SmartSolar MPPT VE.Can 150/85 rev2",
+    )
+    SMARTSOLAR_MPPT_RS_450_100 = (0xA110, "smartsolar_mppt_rs_450_100", "SmartSolar MPPT RS 450/100")
+    # Orion XS 1400 DC-DC charger (VE.Direct); reported under the alternator/dcdc device types.
+    # Output current is settable up to 50 A across all output-voltage configs (1400 W ceiling at 28 V).
     ORION_XS_12V_12V_50A = (0xA3F0, "orion_xs_12v_12v_50a", "Orion XS 12V/12V-50A")
+    ORION_XS_12V_24V_50A = (0xA3F1, "orion_xs_12v_24v_50a", "Orion XS 12V/24V-50A")
 
 
 class DVCCMode(VictronEnum):

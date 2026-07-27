@@ -15228,6 +15228,11 @@
           "value": 41053
         },
         {
+          "id": "smartsolar_mppt_250_60_rev2",
+          "name": "SmartSolar MPPT 250/60 rev2",
+          "value": 41064
+        },
+        {
           "id": "smartsolar_mppt_250_45",
           "name": "SmartSolar MPPT 250/45",
           "value": 41054
@@ -15241,6 +15246,11 @@
           "id": "smartsolar_mppt_100_20_48v",
           "name": "SmartSolar MPPT 100/20 48V",
           "value": 41056
+        },
+        {
+          "id": "bluesolar_mppt_100_20_48v",
+          "name": "BlueSolar MPPT 100/20 48V",
+          "value": 41063
         },
         {
           "id": "smartsolar_mppt_150_45",
@@ -15268,9 +15278,24 @@
           "value": 41059
         },
         {
+          "id": "smartsolar_mppt_vecan_150_85_rev2",
+          "name": "SmartSolar MPPT VE.Can 150/85 rev2",
+          "value": 41229
+        },
+        {
+          "id": "smartsolar_mppt_rs_450_100",
+          "name": "SmartSolar MPPT RS 450/100",
+          "value": 41232
+        },
+        {
           "id": "orion_xs_12v_12v_50a",
           "name": "Orion XS 12V/12V-50A",
           "value": 41968
+        },
+        {
+          "id": "orion_xs_12v_24v_50a",
+          "name": "Orion XS 12V/24V-50A",
+          "value": 41969
         }
       ]
     },
