@@ -1,0 +1,19 @@
+{
+    "include": [
+        "custom_components/victron_mqtt",
+        "tests"
+    ],
+    "exclude": [
+        "**/__pycache__",
+        "**/node_modules",
+        "custom_components/victron_mqtt/_vendor"
+    ],
+    "ignore": [
+        "custom_components/victron_mqtt/_vendor"
+    ],
+    "typeCheckingMode": "basic",
+    "pythonVersion": "3.13",
+    "reportMissingTypeStubs": "none",
+    "reportMissingModuleSource": "none",
+    "reportTypedDictNotRequiredAccess": "none"
+}

@@ -7,5 +7,16 @@
     "files.encoding": "utf8",
     "files.autoGuessEncoding": false,
     "files.eol": "\n",
-    "python-envs.defaultEnvManager": "ms-python.python:system"
+    "python-envs.defaultEnvManager": "ms-python.python:system",
+    // Mypy Type Checker (ms-python.mypy-type-checker): show mypy diagnostics in
+    // the Problems panel using the project's [tool.mypy] config.
+    // - fromEnvironment: use the workspace's mypy (supports Python 3.14 syntax
+    //   used by the installed Home Assistant), not the older bundled one.
+    // - python-version=3.14: match the installed HA / CI runtime so mypy can
+    //   parse it. Per-file scope avoids the custom-component module-path clash.
+    "mypy-type-checker.importStrategy": "fromEnvironment",
+    "mypy-type-checker.reportingScope": "file",
+    "mypy-type-checker.args": [
+        "--python-version=3.14"
+    ]
 }

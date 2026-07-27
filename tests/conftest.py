@@ -5,7 +5,7 @@ from unittest.mock import AsyncMock, patch
 
 import pytest
 from pytest_homeassistant_custom_component.syrupy import HomeAssistantSnapshotExtension
-from syrupy import SnapshotAssertion
+from syrupy.assertion import SnapshotAssertion
 
 
 @pytest.fixture

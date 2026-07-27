@@ -2,7 +2,7 @@
 
 from collections.abc import Callable, Mapping
 import logging
-from typing import Any
+from typing import Any, Literal
 
 from ._vendor.victron_mqtt import (
     AuthenticationError,
@@ -57,7 +57,9 @@ NewMetricCallback = Callable[
 ]
 
 
-def _resolve_update_frequency(config: Mapping[str, Any]) -> int | str:
+def _resolve_update_frequency(
+    config: Mapping[str, Any],
+) -> int | Literal["auto", "auto_power_none"]:
     """Resolve the configured update frequency into the value the library expects.
 
     In "auto" mode the library picks a per-metric interval; in "manual" mode a
@@ -65,8 +67,12 @@ def _resolve_update_frequency(config: Mapping[str, Any]) -> int | str:
     """
     mode = config.get(CONF_UPDATE_FREQUENCY_MODE, DEFAULT_UPDATE_FREQUENCY_MODE)
     if mode == UPDATE_FREQUENCY_MODE_MANUAL:
-        return config.get(CONF_UPDATE_FREQUENCY_SECONDS, DEFAULT_UPDATE_FREQUENCY_SECONDS)
-    return UPDATE_FREQUENCY_AUTO
+        seconds: int = config.get(
+            CONF_UPDATE_FREQUENCY_SECONDS, DEFAULT_UPDATE_FREQUENCY_SECONDS
+        )
+        return seconds
+    auto: Literal["auto"] = UPDATE_FREQUENCY_AUTO
+    return auto
 
 
 class Hub:

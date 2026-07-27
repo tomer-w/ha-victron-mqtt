@@ -85,7 +85,7 @@ def default_port_for(use_ssl: bool) -> int:
     return DEFAULT_SSL_PORT if use_ssl else DEFAULT_PORT
 
 DEVICE_CODES: Sequence[SelectOptionDict] = [
-    {"value": device_type.code, "label": device_type.string}
+    {"value": str(device_type.code), "label": device_type.string}
     for device_type in DeviceType
     if device_type.string != "<Not used>"
 ]

@@ -11,7 +11,8 @@ from ._vendor.victron_mqtt import (
     MetricKind,
 )
 
-from homeassistant.components.device_tracker import SourceType, TrackerEntity
+from homeassistant.components.device_tracker.const import SourceType
+from homeassistant.components.device_tracker.entity import TrackerEntity
 from homeassistant.core import HomeAssistant, callback
 from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback

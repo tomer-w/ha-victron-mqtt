@@ -62,9 +62,6 @@ async def async_setup_services(hass: HomeAssistant, entry: VictronGxConfigEntry)
 
         # Find the hub instance
         hub: Hub = entry.runtime_data
-        if hub is None:
-            raise HomeAssistantError("No Victron MQTT hub found")
-
         hub.publish(metric_id, device_id, value)
 
     # Register the service
