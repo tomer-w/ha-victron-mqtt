@@ -151,7 +151,7 @@ jobs:
           echo "$lib_notes" >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
 
-      - uses: release-drafter/release-drafter@v7
+      - uses: release-drafter/release-drafter@v7.6.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -242,7 +242,7 @@ jobs:
       pull-requests: write
     runs-on: ubuntu-latest
     steps:
-      - uses: release-drafter/release-drafter@v7
+      - uses: release-drafter/release-drafter@v7.6.0
         with:
           dry-run: true
         env:
