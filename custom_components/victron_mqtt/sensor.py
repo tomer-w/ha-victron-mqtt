@@ -1,6 +1,7 @@
 """Support for Victron GX sensors."""
 
 import logging
+import math
 from typing import Any
 
 from ._vendor.victron_mqtt import (
@@ -122,10 +123,11 @@ class VictronSensor(VictronBaseEntity, RestoreSensor):
 
     @callback
     def _on_update_cb(self, value: Any) -> None:
-        if self._baseline is not None:
+        # Enum sensors emit non-numeric values; only add the baseline to numeric
+        # cumulative values.
+        if self._baseline is not None and isinstance(value, int | float):
             value += self._baseline
-        value = self._normalize_value(value)
-        self._attr_native_value = value
+        self._attr_native_value = self._normalize_value(value)
         self.async_write_ha_state()
 
     @staticmethod
@@ -137,25 +139,23 @@ class VictronSensor(VictronBaseEntity, RestoreSensor):
 
     async def async_added_to_hass(self) -> None:
         """Restore persistent state for FormulaMetric energy sensors."""
-        # Only restore for cumulative FormulaMetric sensors (TOTAL / TOTAL_INCREASING).
-        # These metrics start from 0 on each HA restart, so we restore the
-        # previous accumulated value as a baseline and add new increments on top.
-        should_restore = self.state_class in [
+        # Cumulative FormulaMetric sensors (TOTAL / TOTAL_INCREASING) start from
+        # 0 on each HA restart, so we restore the previous accumulated value as a
+        # baseline and add new increments on top.
+        should_restore = self.state_class in (
             SensorStateClass.TOTAL_INCREASING,
             SensorStateClass.TOTAL,
-        ] and isinstance(self._metric, VictronFormulaMetric)
-        self._attr_native_value = self._normalize_value(self._metric.value)
+        ) and isinstance(self._metric, VictronFormulaMetric)
         if not should_restore:
-            # Call parent to register update callbacks
             await super().async_added_to_hass()
             return
 
-        last_state = await self.async_get_last_state()
-        if last_state is None or last_state.state in (None, "unknown", "unavailable"):
-            await super().async_added_to_hass()
-            _LOGGER.info(
+        last_sensor_data = await self.async_get_last_sensor_data()
+        if last_sensor_data is None or last_sensor_data.native_value is None:
+            _LOGGER.debug(
                 "Baseline is missing. Probably first load for %s", self.entity_id
             )
+            await super().async_added_to_hass()
             return
 
         if not isinstance(self._attr_native_value, int | float):
@@ -167,18 +167,22 @@ class VictronSensor(VictronBaseEntity, RestoreSensor):
             await super().async_added_to_hass()
             return
 
-        try:
-            self._baseline = float(last_state.state)
-            self._attr_native_value += self._baseline
-            _LOGGER.info(
-                "Restored baseline of %.3f for %s", self._baseline, self.entity_id
-            )
-        except (ValueError, TypeError):
+        native_value = last_sensor_data.native_value
+        # float() accepts nan/inf, but SensorEntity rejects non-finite values.
+        if not isinstance(native_value, int | float) or not math.isfinite(native_value):
             _LOGGER.warning(
                 "Could not restore state for %s: invalid value '%s' (type: %s)",
                 self.entity_id,
-                last_state.state,
-                type(last_state.state).__name__,
+                native_value,
+                type(native_value).__name__,
             )
-        # Call parent to register update callbacks
+            await super().async_added_to_hass()
+            return
+
+        self._baseline = float(native_value)
+        self._attr_native_value += self._baseline
+        _LOGGER.debug(
+            "Restored baseline of %.3f for %s", self._baseline, self.entity_id
+        )
+
         await super().async_added_to_hass()

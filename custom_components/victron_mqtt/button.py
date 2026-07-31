@@ -59,6 +59,9 @@ async def async_setup_entry(
 class VictronButton(VictronBaseEntity, ButtonEntity):
     """Implementation of a Victron GX button entity."""
 
+    # Buttons are stateless commands with no metric value to reflect.
+    _follow_metric_availability = False
+
     def __init__(
         self,
         device: VictronVenusDevice,

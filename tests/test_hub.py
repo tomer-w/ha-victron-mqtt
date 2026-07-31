@@ -36,7 +36,10 @@ from homeassistant.core import HomeAssistant, State
 from homeassistant.helpers import entity_registry as er
 from homeassistant.core import State
 
-from pytest_homeassistant_custom_component.common import MockConfigEntry, mock_restore_cache
+from pytest_homeassistant_custom_component.common import (
+    MockConfigEntry,
+    mock_restore_cache_with_extra_data,
+)
 
 pytestmark = pytest.mark.usefixtures("enable_custom_integrations")
 
@@ -697,8 +700,16 @@ async def test_sensor_with_baseline(
     
     entity_id = "sensor.victron_venus_pv_energy"
     
-    # Mock the restore cache with a previous state value of 1000.0
-    mock_restore_cache(hass, [State(entity_id, "1000.0")])
+    # Mock the restore cache with a previous native value of 1000.0
+    mock_restore_cache_with_extra_data(
+        hass,
+        [
+            (
+                State(entity_id, "1000.0"),
+                {"native_value": 1000.0, "native_unit_of_measurement": "kWh"},
+            )
+        ],
+    )
 
     # Inject a PV power metric which triggers creation of a FormulaMetric (pv_energy)
     # The FormulaMetric has CUMULATIVE nature which maps to TOTAL state_class (not TOTAL_INCREASING)
@@ -748,8 +759,16 @@ async def test_sensor_baseline_invalid_value(
 
     entity_id = "sensor.victron_venus_pv_energy"
 
-    # Mock the restore cache with an invalid (non-numeric) state
-    mock_restore_cache(hass, [State(entity_id, "not_a_number")])
+    # Mock the restore cache with an invalid (non-numeric) native value
+    mock_restore_cache_with_extra_data(
+        hass,
+        [
+            (
+                State(entity_id, "not_a_number"),
+                {"native_value": "not_a_number", "native_unit_of_measurement": "kWh"},
+            )
+        ],
+    )
 
     await inject_message(victron_hub, "N/123/system/0/Dc/Pv/Power", '{"value": 1000}', mock_time)
     await finalize_injection(victron_hub, disconnect=False, mock_time=mock_time)
