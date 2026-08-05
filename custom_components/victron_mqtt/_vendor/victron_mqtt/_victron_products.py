@@ -74,6 +74,7 @@ _PRODUCT_CAPABILITIES: dict[VictronProductId, ProductCapabilities] = {
     VictronProductId.SMARTSOLAR_MPPT_RS_450_100: ProductCapabilities(max_charge_current=100),
     # Orion XS 1400 DC-DC charger -> output current settable up to 50 A (datasheet: 1-50 A range).
     VictronProductId.ORION_XS_12V_12V_50A: ProductCapabilities(max_charge_current=50),
+    VictronProductId.ORION_XS_12V_12V_70A: ProductCapabilities(max_charge_current=70),
     VictronProductId.ORION_XS_12V_24V_50A: ProductCapabilities(max_charge_current=50),
 }
 
