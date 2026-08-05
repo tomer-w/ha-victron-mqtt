@@ -13,6 +13,13 @@ jobs:
   update-victron-mqtt:
     runs-on: ubuntu-latest
     steps:
+      - name: Generate GitHub App token
+        id: app-token
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ vars.CREATE_PR_APP_ID }}
+          private-key: ${{ secrets.CREATE_PR_APP_PRIVATE_KEY }}
+
       - name: Checkout repository
         uses: actions/checkout@v7
 
@@ -106,6 +113,10 @@ jobs:
         if: steps.check_update.outputs.update_needed == 'true'
         uses: peter-evans/create-pull-request@v8
         with:
+          # Use a GitHub App token (not the default GITHUB_TOKEN) so the created
+          # PR triggers other workflows (e.g. Validate). Events raised by
+          # GITHUB_TOKEN do not trigger further workflow runs by design.
+          token: ${{ steps.app-token.outputs.token }}
           branch: update/victron-mqtt-${{ steps.get_release.outputs.latest_version }}
           delete-branch: true
           title: "Update victron_mqtt to ${{ steps.get_release.outputs.latest_version }}"
