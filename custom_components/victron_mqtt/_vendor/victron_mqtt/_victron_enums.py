@@ -117,6 +117,7 @@ class VictronProductId(VictronEnum):
     # Orion XS 1400 DC-DC charger (VE.Direct); reported under the alternator/dcdc device types.
     # Output current is settable up to 50 A across all output-voltage configs (1400 W ceiling at 28 V).
     ORION_XS_12V_12V_50A = (0xA3F0, "orion_xs_12v_12v_50a", "Orion XS 12V/12V-50A")
+    ORION_XS_12V_12V_70A = (0xA3F2, "orion_xs_12v_12v_70a", "Orion XS 12V/12V-70A")
     ORION_XS_12V_24V_50A = (0xA3F1, "orion_xs_12v_24v_50a", "Orion XS 12V/24V-50A")
 
 

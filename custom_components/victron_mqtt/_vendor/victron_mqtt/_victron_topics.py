@@ -763,7 +763,20 @@ topics: list[TopicDescriptor] = [
         name="Cell voltage deviation",
         metric_type=MetricType.VOLTAGE,
     ),
-    # Charger topics (AC chargers such as Blue Smart IP22 and IP43)
+    # Charger topics (AC chargers such as Blue Smart IP22/IP43 and Skylla-i)
+    TopicDescriptor(
+        topic="N/{installation_id}/charger/{device_id}/Ac/In/CurrentLimit",
+        message_type=MetricKind.NUMBER,
+        short_id="charger_ac_in_current_limit",
+        name="AC input current limit",
+        metric_type=MetricType.CURRENT,
+        value_type=ValueType.FLOAT,
+        min_max_range=RangeType.DYNAMIC,  # GX publishes min/max (e.g. Skylla-i: 0-20 A)
+        min=0,
+        max=32,
+        precision=1,
+        step=0.1,
+    ),
     TopicDescriptor(
         topic="N/{installation_id}/charger/{device_id}/Ac/In/{phase}/I",
         message_type=MetricKind.SENSOR,
@@ -792,6 +805,15 @@ topics: list[TopicDescriptor] = [
         name="Error code",
         value_type=ValueType.ENUM,
         enum=ErrorCode,
+    ),
+    TopicDescriptor(
+        topic="N/{installation_id}/charger/{device_id}/Mode",
+        message_type=MetricKind.SWITCH,
+        short_id="charger_mode",
+        name="Mode",
+        value_type=ValueType.ENUM,
+        enum=ChargerMode,
+        main_topic=True,
     ),
     TopicDescriptor(
         topic="N/{installation_id}/charger/{device_id}/NrOfOutputs",
@@ -1209,19 +1231,25 @@ topics: list[TopicDescriptor] = [
     ),
     TopicDescriptor(
         topic="N/{installation_id}/evcharger/{device_id}/MaxCurrent",
-        message_type=MetricKind.SENSOR,
+        message_type=MetricKind.NUMBER,
         short_id="evcharger_max_set_current",
-        name="Maximum set current",
+        name="Max charging current",
         metric_type=MetricType.CURRENT,
         value_type=ValueType.INT,
+        min="evcharger_min_set_current:6",
+        max=32,
+        step=1,
     ),
     TopicDescriptor(
         topic="N/{installation_id}/evcharger/{device_id}/MinCurrent",
-        message_type=MetricKind.SENSOR,
+        message_type=MetricKind.NUMBER,
         short_id="evcharger_min_set_current",
-        name="Minimum set current",
+        name="Min charging current",
         metric_type=MetricType.CURRENT,
         value_type=ValueType.INT,
+        min=6,
+        max="evcharger_max_set_current:32",
+        step=1,
     ),
     TopicDescriptor(
         topic="N/{installation_id}/evcharger/{device_id}/Mode",
@@ -2059,6 +2087,8 @@ topics: list[TopicDescriptor] = [
         short_id="multi_mppt_{mppt_id}_yield_today",
         name="MPPT {mppt_id} yield today",
         metric_type=MetricType.ENERGY,
+        metric_nature=MetricNature.TOTAL_INCREASING,
+        precision=3,
     ),
     TopicDescriptor(
         topic="N/{installation_id}/multi/{device_id}/History/Daily/0/Yield",
@@ -2066,6 +2096,8 @@ topics: list[TopicDescriptor] = [
         short_id="multi_yield_today",
         name="Yield today",
         metric_type=MetricType.ENERGY,
+        metric_nature=MetricNature.TOTAL_INCREASING,
+        precision=3,
     ),
     TopicDescriptor(
         topic="N/{installation_id}/multi/{device_id}/History/Daily/1/MaxPower",
@@ -2407,7 +2439,7 @@ topics: list[TopicDescriptor] = [
         min_max_range=RangeType.DYNAMIC,
         min=-1,
         max=1000000,
-        step=100,
+        step=1,  # A Althought step=100 would be better (and aligned with Victron UX), but this will not work with the min=-1 value, so we need to use step=1.
     ),
     TopicDescriptor(
         topic="N/{installation_id}/settings/{device_id}/Settings/CGwacs/OvervoltageFeedIn",
@@ -2830,6 +2862,8 @@ topics: list[TopicDescriptor] = [
         short_id="solarcharger_tracker_{tracker}_yield_today",
         name="Tracker {tracker:solarcharger_tracker_{tracker}_name} yield today",
         metric_type=MetricType.ENERGY,
+        metric_nature=MetricNature.TOTAL_INCREASING,
+        precision=3,
     ),
     TopicDescriptor(
         topic="N/{installation_id}/solarcharger/{device_id}/History/Daily/0/TimeInAbsorption",
@@ -2864,7 +2898,8 @@ topics: list[TopicDescriptor] = [
         short_id="solarcharger_yield_today",
         name="Yield today",
         metric_type=MetricType.ENERGY,
-        precision=2,
+        precision=3,
+        metric_nature=MetricNature.TOTAL_INCREASING,
     ),
     TopicDescriptor(
         topic="N/{installation_id}/solarcharger/{device_id}/History/Daily/1/MaxPower",
@@ -3953,6 +3988,14 @@ topics: list[TopicDescriptor] = [
         message_type=MetricKind.SWITCH,
         short_id="vebus_hub4_disable_charge",
         name="Hub4 disable charge",
+        value_type=ValueType.ENUM,
+        enum=GenericOnOff,
+    ),
+    TopicDescriptor(
+        topic="N/{installation_id}/vebus/{device_id}/Hub4/DisableFeedIn",
+        message_type=MetricKind.SWITCH,
+        short_id="vebus_hub4_disable_feed_in",
+        name="Hub4 disable feed-in",
         value_type=ValueType.ENUM,
         enum=GenericOnOff,
     ),
