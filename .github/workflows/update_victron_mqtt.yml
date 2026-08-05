@@ -110,6 +110,7 @@ jobs:
           python3 .github/scripts/merge_topics.py
 
       - name: Create Pull Request
+        id: cpr
         if: steps.check_update.outputs.update_needed == 'true'
         uses: peter-evans/create-pull-request@v8
         with:

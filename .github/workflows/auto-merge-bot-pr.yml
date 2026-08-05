@@ -1,0 +1,38 @@
+name: Auto-merge bot dependency PRs
+
+on:
+  workflow_run:
+    workflows: ["Validate"]
+    types:
+      - completed
+
+permissions:
+  contents: read
+
+jobs:
+  auto-merge:
+    runs-on: ubuntu-latest
+    # Only when Validate fully passed for one of the bot's update branches.
+    if: >-
+      github.event.workflow_run.conclusion == 'success' &&
+      startsWith(github.event.workflow_run.head_branch, 'update/victron-mqtt-')
+    steps:
+      - name: Generate GitHub App token
+        id: app-token
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ vars.CREATE_PR_APP_ID }}
+          private-key: ${{ secrets.CREATE_PR_APP_PRIVATE_KEY }}
+
+      - name: Merge PR
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+          HEAD_BRANCH: ${{ github.event.workflow_run.head_branch }}
+          REPO: ${{ github.repository }}
+        run: |
+          pr_number=$(gh pr list --repo "$REPO" --head "$HEAD_BRANCH" --state open --json number --jq '.[0].number')
+          if [ -z "$pr_number" ] || [ "$pr_number" = "null" ]; then
+            echo "No open PR found for branch $HEAD_BRANCH"
+            exit 0
+          fi
+          gh pr merge --repo "$REPO" --squash --delete-branch "$pr_number"
