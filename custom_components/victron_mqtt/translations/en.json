@@ -71,6 +71,12 @@
           "on": "On"
         }
       },
+      "charger_mode": {
+        "state": {
+          "off": "Off",
+          "on": "On"
+        }
+      },
       "dcdc_mode": {
         "state": {
           "off": "Off",
@@ -356,6 +362,13 @@
           "on": "On"
         }
       },
+      "vebus_hub4_disable_feed_in": {
+        "name": "Hub4 disable feed-in",
+        "state": {
+          "off": "Off",
+          "on": "On"
+        }
+      },
       "vebus_hub4_do_not_feed_in_overvoltage": {
         "name": "Hub4 do not feed in on overvoltage",
         "state": {
@@ -445,6 +458,15 @@
     "number": {
       "alternator_charge_current_limit": {
         "name": "Charge current limit"
+      },
+      "charger_ac_in_current_limit": {
+        "name": "AC input current limit"
+      },
+      "evcharger_max_set_current": {
+        "name": "Max charging current"
+      },
+      "evcharger_min_set_current": {
+        "name": "Min charging current"
       },
       "evcharger_set_current": {
         "name": "Charge current setpoint"
@@ -1049,6 +1071,9 @@
       "charge_mode": {
         "name": "Charge mode"
       },
+      "charger_ac_in_current_limit": {
+        "name": "AC input current limit"
+      },
       "charger_ac_in_current_phase": {
         "name": "AC input current {phase}"
       },
@@ -1311,10 +1336,10 @@
         "name": "Current"
       },
       "evcharger_max_set_current": {
-        "name": "Maximum set current"
+        "name": "Max charging current"
       },
       "evcharger_min_set_current": {
-        "name": "Minimum set current"
+        "name": "Min charging current"
       },
       "evcharger_mode": {
         "name": "Mode",
@@ -2652,6 +2677,12 @@
           "on": "On"
         }
       },
+      "charger_mode": {
+        "state": {
+          "off": "Off",
+          "on": "On"
+        }
+      },
       "dcdc_mode": {
         "state": {
           "off": "Off",
@@ -2827,6 +2858,13 @@
       },
       "vebus_hub4_disable_charge": {
         "name": "Hub4 disable charge",
+        "state": {
+          "off": "Off",
+          "on": "On"
+        }
+      },
+      "vebus_hub4_disable_feed_in": {
+        "name": "Hub4 disable feed-in",
         "state": {
           "off": "Off",
           "on": "On"

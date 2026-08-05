@@ -932,19 +932,31 @@ class Hub:
         count = 0
         while True:
             try:
-                self._keepalive()
+                # Isolate the keepalive send: a failed publish must not skip the sleep or the
+                # periodic metric maintenance below (otherwise stale metrics are never
+                # invalidated and the republish schedule desyncs while sends keep failing).
+                try:
+                    self._keepalive()
+                except Exception as exc:
+                    _LOGGER.exception("Error sending keepalive: %s", exc)
                 await asyncio.sleep(30)
-                # We should keep alive all metrics every 60 seconds
-                count += 1
                 # Old firmwars dont resend values after the keepalive message so we cant use this logic of invalidation if there is no new value
                 if self._firmware_version >= MINIMUM_FULLY_SUPPORTED_VERSION:
+                    # We should keep alive all metrics every 60 seconds
+                    count += 1
                     if count % 2 == 0:
                         # Republish throttled values and mark long-silent sources unavailable (issue #454).
-                        self._keepalive_metrics(stale_timeout=STALE_METRIC_TIMEOUT_SECONDS)
+                        try:
+                            self._keepalive_metrics(stale_timeout=STALE_METRIC_TIMEOUT_SECONDS)
+                        except Exception as exc:
+                            _LOGGER.exception("Error keeping alive metrics: %s", exc)
                     # Periodically force a full republish so the broker re-sends every current
                     # value, refreshing last_seen for constant metrics that would otherwise look stale.
                     if count % FULL_REPUBLISH_STALENESS_INTERVAL_CYCLES == 0:
-                        self._keepalive(force=True)
+                        try:
+                            self._keepalive(force=True)
+                        except Exception as exc:
+                            _LOGGER.exception("Error sending forced keepalive: %s", exc)
             except asyncio.CancelledError:
                 _LOGGER.info("Keepalive loop canceled")
                 raise
