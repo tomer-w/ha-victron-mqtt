@@ -130,7 +130,12 @@ async def async_setup_entry(hass: HomeAssistant, entry: VictronGxConfigEntry) ->
 
     # All platforms should be set up before starting the hub
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
-    await hub.start()
+    try:
+        await hub.start()
+    except Exception:
+        await hass.config_entries.async_unload_platforms(entry, PLATFORMS)
+        hub.unregister_all_new_metric_callbacks()
+        raise
 
     # Register the update listener
     async def _update_listener(hass: HomeAssistant, entry: VictronGxConfigEntry) -> None:

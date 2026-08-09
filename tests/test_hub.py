@@ -3,6 +3,7 @@
 from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
+from custom_components.victron_mqtt import PLATFORMS
 from custom_components.victron_mqtt._vendor.victron_mqtt import (
     AuthenticationError,
     CannotConnectError,
@@ -117,21 +118,34 @@ async def test_hub_start_success(hass: HomeAssistant, init_integration) -> None:
 
 
 async def test_hub_start_connection_error(
-    hass: HomeAssistant, mock_config_entry
+    hass: HomeAssistant, mock_config_entry, mock_victron_hub
 ) -> None:
-    """Test hub start with connection error."""
+    """Test hub startup cleanup after a connection error."""
     mock_config_entry.add_to_hass(hass)
+    mock_victron_hub.connect.side_effect = [
+        CannotConnectError("Connection failed"),
+        None,
+    ]
 
-    with patch(
-        "custom_components.victron_mqtt.hub.VictronVenusHub.connect",
-        side_effect=CannotConnectError("Connection failed"),
-    ):
-        # Attempt to set up the config entry - should fail and mark as SETUP_RETRY
-        await hass.config_entries.async_setup(mock_config_entry.entry_id)
-        await hass.async_block_till_done()
+    # Attempt to set up the config entry - should fail and mark as SETUP_RETRY
+    await hass.config_entries.async_setup(mock_config_entry.entry_id)
+    await hass.async_block_till_done()
 
-        # Verify the config entry is in SETUP_RETRY state (not loaded due to error)
-        assert mock_config_entry.state is ConfigEntryState.SETUP_RETRY
+    # Verify the failed setup did not leave stale platform registrations
+    assert mock_config_entry.state is ConfigEntryState.SETUP_RETRY
+    for platform in PLATFORMS:
+        assert not any(
+            loaded_platform.config_entry is mock_config_entry
+            for loaded_platform in hass.data["entity_components"][platform]._platforms.values()
+        )
+
+    # Run the scheduled retry after the broker recovers
+    mock_config_entry.async_cancel_retry_setup()
+    mock_config_entry._async_setup_again(hass)
+    await hass.async_block_till_done()
+
+    assert mock_config_entry.state is ConfigEntryState.LOADED
+    assert mock_victron_hub.connect.await_count == 2
 
 
 async def test_hub_stop(hass: HomeAssistant, init_integration) -> None:
