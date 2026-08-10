@@ -166,7 +166,7 @@ class TopicDescriptor:
             if self.precision is None:
                 self.precision = 1
             if self.metric_nature == MetricNature.NONE:
-                self.metric_nature = MetricNature.TOTAL
+                self.metric_nature = MetricNature.TOTAL_INCREASING
         # frequency default
         if self.metric_type == MetricType.FREQUENCY:
             if self.unit_of_measurement is None:
