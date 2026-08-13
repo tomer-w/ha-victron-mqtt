@@ -2,6 +2,7 @@
 
 from unittest.mock import AsyncMock, MagicMock, patch
 
+import aiohttp
 import pytest
 from custom_components.victron_mqtt._vendor.victron_mqtt import CannotConnectError, OperationMode
 from custom_components.victron_mqtt.config_flow import DEFAULT_SSL_PORT
@@ -9,6 +10,7 @@ from custom_components.victron_mqtt.config_flow import DEFAULT_SSL_PORT
 from custom_components.victron_mqtt.const import (
     CONF_EXCLUDED_DEVICES,
     CONF_INSTALLATION_ID,
+    CONF_MQTT_TOKEN_PAIRING,
     CONF_OPERATION_MODE,
     CONF_MODEL,
     CONF_ROOT_TOPIC_PREFIX,
@@ -282,11 +284,11 @@ async def test_ssdp_flow_success(
     assert result["title"] == MOCK_FRIENDLY_NAME
     assert result["data"] == {
         CONF_HOST: MOCK_HOST,
-        CONF_PORT: DEFAULT_PORT,
+        CONF_PORT: DEFAULT_SSL_PORT,
         CONF_SERIAL: MOCK_SERIAL,
         CONF_INSTALLATION_ID: MOCK_INSTALLATION_ID,
         CONF_MODEL: MOCK_MODEL,
-        CONF_SSL: False,
+        CONF_SSL: True,
         CONF_SIMPLE_NAMING: DEFAULT_SIMPLE_NAMING,
     }
 
@@ -771,7 +773,6 @@ async def test_ssdp_auth_ssl_uses_ssl_port(
     result = await hass.config_entries.flow.async_configure(
         result["flow_id"],
         user_input={
-            CONF_USERNAME: "test-user",
             CONF_PASSWORD: "test-password",
             CONF_SSL: True,
         },
@@ -785,7 +786,7 @@ async def test_ssdp_auth_ssl_uses_ssl_port(
         CONF_SERIAL: MOCK_SERIAL,
         CONF_INSTALLATION_ID: MOCK_INSTALLATION_ID,
         CONF_MODEL: MOCK_MODEL,
-        CONF_USERNAME: "test-user",
+        CONF_USERNAME: "remoteconsole",
         CONF_PASSWORD: "test-password",
         CONF_SSL: True,
         CONF_SIMPLE_NAMING: DEFAULT_SIMPLE_NAMING,
@@ -987,3 +988,448 @@ async def test_migration_v2_to_v3_missing_frequency_becomes_auto(
     assert result is True
     assert mock_config_entry.data[CONF_UPDATE_FREQUENCY_MODE] == UPDATE_FREQUENCY_MODE_AUTO
     assert mock_config_entry.version == 3
+
+
+@pytest.mark.usefixtures("mock_victron_hub")
+async def test_ssdp_flow_with_mqtt_token_pairing(
+    hass: HomeAssistant, mock_victron_hub: MagicMock
+) -> None:
+    """Test SSDP discovery with X_MqttTokenPairing=1 stores mqtt_token_pairing."""
+    discovery_info = SsdpServiceInfo(
+        ssdp_usn="mock_usn",
+        ssdp_st="upnp:rootdevice",
+        ssdp_location="http://192.168.1.100:80/",
+        upnp={
+            "serialNumber": MOCK_SERIAL,
+            "X_VrmPortalId": MOCK_INSTALLATION_ID,
+            "modelName": MOCK_MODEL,
+            "friendlyName": MOCK_FRIENDLY_NAME,
+            "X_MqttOnLan": "1",
+            "X_MqttTokenPairing": "1",
+            "manufacturer": "Victron Energy",
+        },
+    )
+
+    result = await hass.config_entries.flow.async_init(
+        DOMAIN,
+        context={"source": SOURCE_SSDP},
+        data=discovery_info,
+    )
+
+    assert result["type"] is FlowResultType.FORM
+    assert result["step_id"] == "ssdp_confirm"
+
+    result = await hass.config_entries.flow.async_configure(
+        result["flow_id"],
+        user_input={},
+    )
+
+    assert result["type"] is FlowResultType.CREATE_ENTRY
+    assert result["data"][CONF_MQTT_TOKEN_PAIRING] is True
+
+
+@pytest.mark.usefixtures("mock_victron_hub")
+async def test_ssdp_flow_without_mqtt_token_pairing(
+    hass: HomeAssistant, mock_victron_hub: MagicMock
+) -> None:
+    """Test SSDP discovery without X_MqttTokenPairing does not set the key."""
+    discovery_info = SsdpServiceInfo(
+        ssdp_usn="mock_usn",
+        ssdp_st="upnp:rootdevice",
+        ssdp_location="http://192.168.1.100:80/",
+        upnp={
+            "serialNumber": MOCK_SERIAL,
+            "X_VrmPortalId": MOCK_INSTALLATION_ID,
+            "modelName": MOCK_MODEL,
+            "friendlyName": MOCK_FRIENDLY_NAME,
+            "X_MqttOnLan": "1",
+            "manufacturer": "Victron Energy",
+        },
+    )
+
+    result = await hass.config_entries.flow.async_init(
+        DOMAIN,
+        context={"source": SOURCE_SSDP},
+        data=discovery_info,
+    )
+
+    result = await hass.config_entries.flow.async_configure(
+        result["flow_id"],
+        user_input={},
+    )
+
+    assert result["type"] is FlowResultType.CREATE_ENTRY
+    assert CONF_MQTT_TOKEN_PAIRING not in result["data"]
+
+
+@pytest.mark.usefixtures("mock_victron_hub")
+async def test_ssdp_flow_mqtt_token_pairing_not_one(
+    hass: HomeAssistant, mock_victron_hub: MagicMock
+) -> None:
+    """Test SSDP discovery with X_MqttTokenPairing != '1' does not set the key."""
+    discovery_info = SsdpServiceInfo(
+        ssdp_usn="mock_usn",
+        ssdp_st="upnp:rootdevice",
+        ssdp_location="http://192.168.1.100:80/",
+        upnp={
+            "serialNumber": MOCK_SERIAL,
+            "X_VrmPortalId": MOCK_INSTALLATION_ID,
+            "modelName": MOCK_MODEL,
+            "friendlyName": MOCK_FRIENDLY_NAME,
+            "X_MqttOnLan": "1",
+            "X_MqttTokenPairing": "0",
+            "manufacturer": "Victron Energy",
+        },
+    )
+
+    result = await hass.config_entries.flow.async_init(
+        DOMAIN,
+        context={"source": SOURCE_SSDP},
+        data=discovery_info,
+    )
+
+    result = await hass.config_entries.flow.async_configure(
+        result["flow_id"],
+        user_input={},
+    )
+
+    assert result["type"] is FlowResultType.CREATE_ENTRY
+    assert CONF_MQTT_TOKEN_PAIRING not in result["data"]
+
+
+async def test_ssdp_auth_flow_without_mqtt_token_pairing(
+    hass: HomeAssistant, mock_victron_hub: MagicMock
+) -> None:
+    """Test SSDP auth flow without X_MqttTokenPairing omits mqtt_token_pairing from data."""
+    mock_victron_hub.return_value.connect.side_effect = AuthenticationError(
+        "Authentication required"
+    )
+
+    discovery_info = SsdpServiceInfo(
+        ssdp_usn="mock_usn",
+        ssdp_st="upnp:rootdevice",
+        ssdp_location="http://192.168.1.100:80/",
+        upnp={
+            "serialNumber": MOCK_SERIAL,
+            "X_VrmPortalId": MOCK_INSTALLATION_ID,
+            "modelName": MOCK_MODEL,
+            "friendlyName": MOCK_FRIENDLY_NAME,
+            "X_MqttOnLan": "1",
+            "manufacturer": "Victron Energy",
+        },
+    )
+
+    result = await hass.config_entries.flow.async_init(
+        DOMAIN,
+        context={"source": SOURCE_SSDP},
+        data=discovery_info,
+    )
+
+    result = await hass.config_entries.flow.async_configure(
+        result["flow_id"],
+        user_input={},
+    )
+
+    assert result["type"] is FlowResultType.FORM
+    assert result["step_id"] == "ssdp_auth"
+
+    mock_victron_hub.return_value.connect.side_effect = None
+    mock_victron_hub.return_value.installation_id = MOCK_INSTALLATION_ID
+
+    result = await hass.config_entries.flow.async_configure(
+        result["flow_id"],
+        user_input={
+            CONF_PASSWORD: "test-password",
+            CONF_SSL: False,
+        },
+    )
+
+    assert result["type"] is FlowResultType.CREATE_ENTRY
+    assert CONF_MQTT_TOKEN_PAIRING not in result["data"]
+
+
+async def test_ssdp_token_pairing_success(
+    hass: HomeAssistant, mock_victron_hub: MagicMock
+) -> None:
+    """Test SSDP flow routes to token pairing and creates entry on success."""
+    mock_victron_hub.return_value.connect.side_effect = [
+        AuthenticationError("auth required"),
+        None,
+    ]
+
+    discovery_info = SsdpServiceInfo(
+        ssdp_usn="mock_usn",
+        ssdp_st="upnp:rootdevice",
+        ssdp_location="http://192.168.1.100:80/",
+        upnp={
+            "serialNumber": MOCK_SERIAL,
+            "X_VrmPortalId": MOCK_INSTALLATION_ID,
+            "modelName": MOCK_MODEL,
+            "friendlyName": MOCK_FRIENDLY_NAME,
+            "X_MqttOnLan": "1",
+            "X_MqttTokenPairing": "1",
+            "manufacturer": "Victron Energy",
+        },
+    )
+
+    result = await hass.config_entries.flow.async_init(
+        DOMAIN,
+        context={"source": SOURCE_SSDP},
+        data=discovery_info,
+    )
+
+    assert result["type"] is FlowResultType.FORM
+    assert result["step_id"] == "ssdp_confirm"
+
+    result = await hass.config_entries.flow.async_configure(
+        result["flow_id"],
+        user_input={},
+    )
+
+    assert result["type"] is FlowResultType.FORM
+    assert result["step_id"] == "ssdp_token_pairing"
+
+    mock_response = AsyncMock()
+    mock_response.status = 200
+    mock_response.json = AsyncMock(
+        return_value={
+            "token_name": "token/homeassistant/homeassistant_abc123",
+            "password": "generatedSecretPassword",
+        }
+    )
+
+    mock_session = AsyncMock()
+    mock_session.post = AsyncMock(return_value=mock_response)
+
+    with patch(
+        "custom_components.victron_mqtt.config_flow.async_create_clientsession",
+        return_value=mock_session,
+    ):
+        result = await hass.config_entries.flow.async_configure(
+            result["flow_id"],
+            user_input={},
+        )
+
+    assert result["type"] is FlowResultType.CREATE_ENTRY
+    assert result["data"] == {
+        CONF_HOST: MOCK_HOST,
+        CONF_PORT: DEFAULT_SSL_PORT,
+        CONF_SERIAL: MOCK_SERIAL,
+        CONF_INSTALLATION_ID: MOCK_INSTALLATION_ID,
+        CONF_MODEL: MOCK_MODEL,
+        CONF_USERNAME: "token/homeassistant/homeassistant_abc123",
+        CONF_PASSWORD: "generatedSecretPassword",
+        CONF_SSL: True,
+        CONF_SIMPLE_NAMING: DEFAULT_SIMPLE_NAMING,
+        CONF_MQTT_TOKEN_PAIRING: True,
+    }
+
+
+async def test_ssdp_token_pairing_http_error(
+    hass: HomeAssistant, mock_victron_hub: MagicMock
+) -> None:
+    """Test token pairing shows error when GX returns non-200 (pairing not active)."""
+    mock_victron_hub.return_value.connect.side_effect = AuthenticationError(
+        "auth required"
+    )
+
+    discovery_info = SsdpServiceInfo(
+        ssdp_usn="mock_usn",
+        ssdp_st="upnp:rootdevice",
+        ssdp_location="http://192.168.1.100:80/",
+        upnp={
+            "serialNumber": MOCK_SERIAL,
+            "X_VrmPortalId": MOCK_INSTALLATION_ID,
+            "modelName": MOCK_MODEL,
+            "friendlyName": MOCK_FRIENDLY_NAME,
+            "X_MqttOnLan": "1",
+            "X_MqttTokenPairing": "1",
+            "manufacturer": "Victron Energy",
+        },
+    )
+
+    result = await hass.config_entries.flow.async_init(
+        DOMAIN,
+        context={"source": SOURCE_SSDP},
+        data=discovery_info,
+    )
+
+    result = await hass.config_entries.flow.async_configure(
+        result["flow_id"],
+        user_input={},
+    )
+
+    assert result["step_id"] == "ssdp_token_pairing"
+
+    mock_response = AsyncMock()
+    mock_response.status = 403
+    mock_response.text = AsyncMock(return_value="Pairing mode not active")
+
+    mock_session = AsyncMock()
+    mock_session.post = AsyncMock(return_value=mock_response)
+
+    with patch(
+        "custom_components.victron_mqtt.config_flow.async_create_clientsession",
+        return_value=mock_session,
+    ):
+        result = await hass.config_entries.flow.async_configure(
+            result["flow_id"],
+            user_input={},
+        )
+
+    assert result["type"] is FlowResultType.FORM
+    assert result["step_id"] == "ssdp_token_pairing"
+    assert result["errors"] == {"base": "pairing_failed"}
+
+
+async def test_ssdp_token_pairing_connection_error(
+    hass: HomeAssistant, mock_victron_hub: MagicMock
+) -> None:
+    """Test token pairing shows error when HTTPS connection fails."""
+    mock_victron_hub.return_value.connect.side_effect = AuthenticationError(
+        "auth required"
+    )
+
+    discovery_info = SsdpServiceInfo(
+        ssdp_usn="mock_usn",
+        ssdp_st="upnp:rootdevice",
+        ssdp_location="http://192.168.1.100:80/",
+        upnp={
+            "serialNumber": MOCK_SERIAL,
+            "X_VrmPortalId": MOCK_INSTALLATION_ID,
+            "modelName": MOCK_MODEL,
+            "friendlyName": MOCK_FRIENDLY_NAME,
+            "X_MqttOnLan": "1",
+            "X_MqttTokenPairing": "1",
+            "manufacturer": "Victron Energy",
+        },
+    )
+
+    result = await hass.config_entries.flow.async_init(
+        DOMAIN,
+        context={"source": SOURCE_SSDP},
+        data=discovery_info,
+    )
+
+    result = await hass.config_entries.flow.async_configure(
+        result["flow_id"],
+        user_input={},
+    )
+
+    assert result["step_id"] == "ssdp_token_pairing"
+
+    mock_session = AsyncMock()
+    mock_session.post = AsyncMock(side_effect=aiohttp.ClientError("Connection refused"))
+
+    with patch(
+        "custom_components.victron_mqtt.config_flow.async_create_clientsession",
+        return_value=mock_session,
+    ):
+        result = await hass.config_entries.flow.async_configure(
+            result["flow_id"],
+            user_input={},
+        )
+
+    assert result["type"] is FlowResultType.FORM
+    assert result["step_id"] == "ssdp_token_pairing"
+    assert result["errors"] == {"base": "cannot_connect"}
+
+
+async def test_ssdp_token_pairing_mqtt_connection_fails(
+    hass: HomeAssistant, mock_victron_hub: MagicMock
+) -> None:
+    """Test token pairing shows error when credentials work but MQTT connect fails."""
+    mock_victron_hub.return_value.connect.side_effect = [
+        AuthenticationError("auth required"),
+        CannotConnectError("mqtt down"),
+    ]
+
+    discovery_info = SsdpServiceInfo(
+        ssdp_usn="mock_usn",
+        ssdp_st="upnp:rootdevice",
+        ssdp_location="http://192.168.1.100:80/",
+        upnp={
+            "serialNumber": MOCK_SERIAL,
+            "X_VrmPortalId": MOCK_INSTALLATION_ID,
+            "modelName": MOCK_MODEL,
+            "friendlyName": MOCK_FRIENDLY_NAME,
+            "X_MqttOnLan": "1",
+            "X_MqttTokenPairing": "1",
+            "manufacturer": "Victron Energy",
+        },
+    )
+
+    result = await hass.config_entries.flow.async_init(
+        DOMAIN,
+        context={"source": SOURCE_SSDP},
+        data=discovery_info,
+    )
+
+    result = await hass.config_entries.flow.async_configure(
+        result["flow_id"],
+        user_input={},
+    )
+
+    assert result["step_id"] == "ssdp_token_pairing"
+
+    mock_response = AsyncMock()
+    mock_response.status = 200
+    mock_response.json = AsyncMock(
+        return_value={
+            "token_name": "token/homeassistant/ha_abc",
+            "password": "secret",
+        }
+    )
+
+    mock_session = AsyncMock()
+    mock_session.post = AsyncMock(return_value=mock_response)
+
+    with patch(
+        "custom_components.victron_mqtt.config_flow.async_create_clientsession",
+        return_value=mock_session,
+    ):
+        result = await hass.config_entries.flow.async_configure(
+            result["flow_id"],
+            user_input={},
+        )
+
+    assert result["type"] is FlowResultType.FORM
+    assert result["step_id"] == "ssdp_token_pairing"
+    assert result["errors"] == {"base": "cannot_connect"}
+
+
+async def test_ssdp_no_token_pairing_falls_back_to_manual_auth(
+    hass: HomeAssistant, mock_victron_hub: MagicMock
+) -> None:
+    """Test SSDP without X_MqttTokenPairing routes to manual auth on auth error."""
+    mock_victron_hub.return_value.connect.side_effect = AuthenticationError(
+        "auth required"
+    )
+
+    discovery_info = SsdpServiceInfo(
+        ssdp_usn="mock_usn",
+        ssdp_st="upnp:rootdevice",
+        ssdp_location="http://192.168.1.100:80/",
+        upnp={
+            "serialNumber": MOCK_SERIAL,
+            "X_VrmPortalId": MOCK_INSTALLATION_ID,
+            "modelName": MOCK_MODEL,
+            "friendlyName": MOCK_FRIENDLY_NAME,
+            "X_MqttOnLan": "1",
+            "manufacturer": "Victron Energy",
+        },
+    )
+
+    result = await hass.config_entries.flow.async_init(
+        DOMAIN,
+        context={"source": SOURCE_SSDP},
+        data=discovery_info,
+    )
+
+    result = await hass.config_entries.flow.async_configure(
+        result["flow_id"],
+        user_input={},
+    )
+
+    assert result["type"] is FlowResultType.FORM
+    assert result["step_id"] == "ssdp_auth"

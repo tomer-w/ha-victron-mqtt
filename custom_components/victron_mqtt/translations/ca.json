@@ -3,6 +3,7 @@
     "error": {
       "cannot_connect": "No s'ha pogut connectar a l'amfitrió",
       "invalid_auth": "Problema d'autenticació",
+      "pairing_failed": "L'emparellament ha fallat. Assegureu-vos que el mode d'emparellament estigui actiu al dispositiu GX i torneu-ho a provar.",
       "unknown": "Error desconegut"
     },
     "step": {
@@ -35,11 +36,14 @@
       },
       "ssdp_auth": {
         "data": {
-          "username": "Nom d'usuari",
-          "password": "Contrasenya",
+          "password": "Contrasenya GX",
           "ssl": "Usa SSL"
         },
-        "description": "Es requereix autenticació per a {host}."
+        "description": "Introduïu la **contrasenya GX** del dispositiu GX a {host}."
+      },
+      "ssdp_token_pairing": {
+        "title": "Emparellar amb el dispositiu GX",
+        "description": "Activeu el mode d'emparellament al dispositiu GX abans de prémer Enviar:\n\n- A la interfície del GX: **Configuració** > **Integracions** > **Dispositius MQTT** > **Mode d'emparellament**\n- En dispositius GX sense pantalla integrada: Premeu ràpidament dues vegades el botó integrat\n\nEl mode d'emparellament està actiu durant 120 segons."
       }
     }
   },

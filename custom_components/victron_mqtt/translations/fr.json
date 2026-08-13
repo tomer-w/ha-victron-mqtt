@@ -3,6 +3,7 @@
     "error": {
       "cannot_connect": "Échec de la connexion à l'hôte",
       "invalid_auth": "Problème d'authentification",
+      "pairing_failed": "L'appairage a échoué. Assurez-vous que le mode d'appairage est actif sur l'appareil GX et réessayez.",
       "unknown": "Échec inconnu"
     },
     "step": {
@@ -35,11 +36,14 @@
       },
       "ssdp_auth": {
         "data": {
-          "username": "Nom d'utilisateur",
-          "password": "Mot de passe",
+          "password": "Mot de passe GX",
           "ssl": "Utiliser SSL"
         },
-        "description": "Une authentification est requise pour {host}."
+        "description": "Entrez le **mot de passe GX** de l'appareil GX à {host}."
+      },
+      "ssdp_token_pairing": {
+        "title": "Appairer avec l'appareil GX",
+        "description": "Activez le mode d'appairage sur l'appareil GX avant de cliquer sur Envoyer :\n\n- Via l'interface du GX : **Paramètres** > **Intégrations** > **Appareils MQTT** > **Mode d'appairage**\n- Sur les appareils GX sans écran intégré : Appuyez rapidement deux fois sur le bouton intégré\n\nLe mode d'appairage est actif pendant 120 secondes."
       }
     }
   },

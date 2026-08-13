@@ -16,6 +16,10 @@
     {
       "manufacturer": "Victron Energy",
       "X_MqttOnLan": "1"
+    },
+    {
+      "manufacturer": "Victron Energy",
+      "X_MqttTokenPairing": "1"
     }
   ],
   "version": "2026.8.1"

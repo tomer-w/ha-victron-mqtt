@@ -3,6 +3,7 @@
     "error": {
       "cannot_connect": "Nepodarilo sa pripojiť k hostiteľovi",
       "invalid_auth": "Problém s autentifikáciou",
+      "pairing_failed": "Párovanie zlyhalo. Uistite sa, že je režim párovania na zariadení GX aktívny, a skúste to znova.",
       "unknown": "Neznáma chyba"
     },
     "step": {
@@ -39,11 +40,14 @@
       },
       "ssdp_auth": {
         "data": {
-          "username": "Používateľské meno",
-          "password": "Heslo",
+          "password": "Heslo GX",
           "ssl": "Použiť SSL"
         },
-        "description": "Pre {host} je potrebná autentifikácia."
+        "description": "Zadajte **heslo GX** pre zariadenie GX na {host}."
+      },
+      "ssdp_token_pairing": {
+        "title": "Spárovať so zariadením GX",
+        "description": "Pred stlačením Odoslať aktivujte režim párovania na zariadení GX:\n\n- Cez rozhranie GX: **Nastavenia** > **Integrácie** > **Zariadenia MQTT** > **Režim párovania**\n- Na zariadeniach GX bez vstavanej obrazovky: Rýchlo dvakrát stlačte vstavané tlačidlo\n\nRežim párovania je aktívny 120 sekúnd."
       }
     }
   },
