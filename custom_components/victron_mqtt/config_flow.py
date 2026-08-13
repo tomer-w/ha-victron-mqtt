@@ -13,7 +13,10 @@ from ._vendor.victron_mqtt import (
     CannotConnectError,
     DeviceType,
     Hub as VictronVenusHub,
-    OperationMode
+    OperationMode,
+    PairingError,
+    PairingToken,
+    request_pairing_token,
 )
 import voluptuous as vol
 
@@ -65,10 +68,6 @@ from .const import (
 _LOGGER = logging.getLogger(__name__)
 
 TO_REDACT = {CONF_USERNAME, CONF_PASSWORD}
-
-
-class PairingError(Exception):
-    """Raised when token pairing with the GX device fails."""
 
 
 ENTRY_TITLE_FORMAT = "Victron OS {installation_id} ({host}:{port})"
@@ -446,7 +445,10 @@ class VictronMQTTConfigFlow(ConfigFlow, domain=DOMAIN):
 
         if user_input is not None:
             try:
-                credentials = await self._request_pairing_token()
+                session = async_create_clientsession(self.hass, verify_ssl=False)
+                credentials: PairingToken = await request_pairing_token(
+                    self.hostname, self.installation_id, session
+                )
             except (aiohttp.ClientError, TimeoutError):
                 _LOGGER.exception("Failed to connect to GX device for token pairing")
                 errors["base"] = "cannot_connect"
@@ -462,8 +464,8 @@ class VictronMQTTConfigFlow(ConfigFlow, domain=DOMAIN):
                     CONF_SERIAL: self.serial,
                     CONF_INSTALLATION_ID: self.installation_id,
                     CONF_MODEL: self.model_name,
-                    CONF_USERNAME: credentials["token_name"],
-                    CONF_PASSWORD: credentials["password"],
+                    CONF_USERNAME: credentials.token_name,
+                    CONF_PASSWORD: credentials.password,
                     CONF_SSL: True,
                     CONF_SIMPLE_NAMING: DEFAULT_SIMPLE_NAMING,
                     CONF_MQTT_TOKEN_PAIRING: True,
@@ -494,29 +496,6 @@ class VictronMQTTConfigFlow(ConfigFlow, domain=DOMAIN):
             errors=errors,
             description_placeholders={CONF_HOST: self.hostname},
         )
-
-    async def _request_pairing_token(self) -> dict[str, str]:
-        """Request pairing credentials from the GX device via HTTPS."""
-        session = async_create_clientsession(self.hass, verify_ssl=False)
-        url = f"https://{self.hostname}/auth/generate-token/"
-        resp = await session.post(
-            url,
-            data={
-                "role": "homeassistant",
-                "device_id": self.installation_id,
-            },
-        )
-        if resp.status != 200:
-            body = await resp.text()
-            _LOGGER.error(
-                "Token pairing request failed (HTTP %s): %s", resp.status, body
-            )
-            raise PairingError
-        result: dict[str, str] = await resp.json(content_type=None)
-        _LOGGER.debug(
-            "Token pairing successful, token_name=%s", result.get("token_name")
-        )
-        return result
 
     async def async_step_ssdp_auth(
         self, user_input: dict[str, Any] | None = None
