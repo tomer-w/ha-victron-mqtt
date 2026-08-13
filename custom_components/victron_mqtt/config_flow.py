@@ -48,7 +48,6 @@ from .const import (
     CONF_EXCLUDED_DEVICES,
     CONF_INSTALLATION_ID,
     CONF_MODEL,
-    CONF_MQTT_TOKEN_PAIRING,
     CONF_OPERATION_MODE,
     CONF_ROOT_TOPIC_PREFIX,
     CONF_SERIAL,
@@ -378,8 +377,6 @@ class VictronMQTTConfigFlow(ConfigFlow, domain=DOMAIN):
                 CONF_SSL: True,
                 CONF_SIMPLE_NAMING: DEFAULT_SIMPLE_NAMING,
             }
-            if self.mqtt_token_pairing:
-                data[CONF_MQTT_TOKEN_PAIRING] = True
             try:
                 await validate_input(data)
             except AuthenticationError:
@@ -468,7 +465,6 @@ class VictronMQTTConfigFlow(ConfigFlow, domain=DOMAIN):
                     CONF_PASSWORD: credentials.password,
                     CONF_SSL: True,
                     CONF_SIMPLE_NAMING: DEFAULT_SIMPLE_NAMING,
-                    CONF_MQTT_TOKEN_PAIRING: True,
                 }
                 try:
                     await validate_input(data)
@@ -522,9 +518,6 @@ class VictronMQTTConfigFlow(ConfigFlow, domain=DOMAIN):
                 CONF_SSL: user_input.get(CONF_SSL, True),
                 CONF_SIMPLE_NAMING: DEFAULT_SIMPLE_NAMING,
             }
-            if self.mqtt_token_pairing:
-                data[CONF_MQTT_TOKEN_PAIRING] = True
-
             try:
                 await validate_input(data)
             except AuthenticationError:

@@ -10,7 +10,6 @@ from custom_components.victron_mqtt.config_flow import DEFAULT_SSL_PORT
 from custom_components.victron_mqtt.const import (
     CONF_EXCLUDED_DEVICES,
     CONF_INSTALLATION_ID,
-    CONF_MQTT_TOKEN_PAIRING,
     CONF_OPERATION_MODE,
     CONF_MODEL,
     CONF_ROOT_TOPIC_PREFIX,
@@ -1025,7 +1024,6 @@ async def test_ssdp_flow_with_mqtt_token_pairing(
     )
 
     assert result["type"] is FlowResultType.CREATE_ENTRY
-    assert result["data"][CONF_MQTT_TOKEN_PAIRING] is True
 
 
 @pytest.mark.usefixtures("mock_victron_hub")
@@ -1059,7 +1057,6 @@ async def test_ssdp_flow_without_mqtt_token_pairing(
     )
 
     assert result["type"] is FlowResultType.CREATE_ENTRY
-    assert CONF_MQTT_TOKEN_PAIRING not in result["data"]
 
 
 @pytest.mark.usefixtures("mock_victron_hub")
@@ -1094,7 +1091,6 @@ async def test_ssdp_flow_mqtt_token_pairing_not_one(
     )
 
     assert result["type"] is FlowResultType.CREATE_ENTRY
-    assert CONF_MQTT_TOKEN_PAIRING not in result["data"]
 
 
 async def test_ssdp_auth_flow_without_mqtt_token_pairing(
@@ -1145,7 +1141,6 @@ async def test_ssdp_auth_flow_without_mqtt_token_pairing(
     )
 
     assert result["type"] is FlowResultType.CREATE_ENTRY
-    assert CONF_MQTT_TOKEN_PAIRING not in result["data"]
 
 
 async def test_ssdp_token_pairing_success(
@@ -1221,7 +1216,6 @@ async def test_ssdp_token_pairing_success(
         CONF_PASSWORD: "generatedSecretPassword",
         CONF_SSL: True,
         CONF_SIMPLE_NAMING: DEFAULT_SIMPLE_NAMING,
-        CONF_MQTT_TOKEN_PAIRING: True,
     }
 
 
