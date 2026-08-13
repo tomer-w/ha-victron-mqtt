@@ -5,6 +5,7 @@ from unittest.mock import AsyncMock, MagicMock, patch
 import aiohttp
 import pytest
 from custom_components.victron_mqtt._vendor.victron_mqtt import CannotConnectError, OperationMode
+from custom_components.victron_mqtt._vendor.victron_mqtt.pairing import PairingError, PairingToken
 from custom_components.victron_mqtt.config_flow import DEFAULT_SSL_PORT
 
 from custom_components.victron_mqtt.const import (
@@ -1184,21 +1185,12 @@ async def test_ssdp_token_pairing_success(
     assert result["type"] is FlowResultType.FORM
     assert result["step_id"] == "ssdp_token_pairing"
 
-    mock_response = AsyncMock()
-    mock_response.status = 200
-    mock_response.json = AsyncMock(
-        return_value={
-            "token_name": "token/homeassistant/homeassistant_abc123",
-            "password": "generatedSecretPassword",
-        }
-    )
-
-    mock_session = AsyncMock()
-    mock_session.post = AsyncMock(return_value=mock_response)
-
     with patch(
-        "custom_components.victron_mqtt.config_flow.async_create_clientsession",
-        return_value=mock_session,
+        "custom_components.victron_mqtt.config_flow.request_pairing_token",
+        return_value=PairingToken(
+            token_name="token/homeassistant/homeassistant_abc123",
+            password="generatedSecretPassword",
+        ),
     ):
         result = await hass.config_entries.flow.async_configure(
             result["flow_id"],
@@ -1255,16 +1247,9 @@ async def test_ssdp_token_pairing_http_error(
 
     assert result["step_id"] == "ssdp_token_pairing"
 
-    mock_response = AsyncMock()
-    mock_response.status = 403
-    mock_response.text = AsyncMock(return_value="Pairing mode not active")
-
-    mock_session = AsyncMock()
-    mock_session.post = AsyncMock(return_value=mock_response)
-
     with patch(
-        "custom_components.victron_mqtt.config_flow.async_create_clientsession",
-        return_value=mock_session,
+        "custom_components.victron_mqtt.config_flow.request_pairing_token",
+        side_effect=PairingError("HTTP 403: Pairing mode not active"),
     ):
         result = await hass.config_entries.flow.async_configure(
             result["flow_id"],
@@ -1312,12 +1297,9 @@ async def test_ssdp_token_pairing_connection_error(
 
     assert result["step_id"] == "ssdp_token_pairing"
 
-    mock_session = AsyncMock()
-    mock_session.post = AsyncMock(side_effect=aiohttp.ClientError("Connection refused"))
-
     with patch(
-        "custom_components.victron_mqtt.config_flow.async_create_clientsession",
-        return_value=mock_session,
+        "custom_components.victron_mqtt.config_flow.request_pairing_token",
+        side_effect=aiohttp.ClientError("Connection refused"),
     ):
         result = await hass.config_entries.flow.async_configure(
             result["flow_id"],
@@ -1366,21 +1348,12 @@ async def test_ssdp_token_pairing_mqtt_connection_fails(
 
     assert result["step_id"] == "ssdp_token_pairing"
 
-    mock_response = AsyncMock()
-    mock_response.status = 200
-    mock_response.json = AsyncMock(
-        return_value={
-            "token_name": "token/homeassistant/ha_abc",
-            "password": "secret",
-        }
-    )
-
-    mock_session = AsyncMock()
-    mock_session.post = AsyncMock(return_value=mock_response)
-
     with patch(
-        "custom_components.victron_mqtt.config_flow.async_create_clientsession",
-        return_value=mock_session,
+        "custom_components.victron_mqtt.config_flow.request_pairing_token",
+        return_value=PairingToken(
+            token_name="token/homeassistant/ha_abc",
+            password="secret",
+        ),
     ):
         result = await hass.config_entries.flow.async_configure(
             result["flow_id"],

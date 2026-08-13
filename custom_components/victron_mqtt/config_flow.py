@@ -33,7 +33,6 @@ from homeassistant.const import (
     CONF_SSL,
     CONF_USERNAME,
 )
-from homeassistant.helpers.aiohttp_client import async_create_clientsession
 from homeassistant.helpers.selector import (
     SelectOptionDict,
     SelectSelector,
@@ -442,9 +441,8 @@ class VictronMQTTConfigFlow(ConfigFlow, domain=DOMAIN):
 
         if user_input is not None:
             try:
-                session = async_create_clientsession(self.hass, verify_ssl=False)
                 credentials: PairingToken = await request_pairing_token(
-                    self.hostname, self.installation_id, session
+                    self.hostname, self.installation_id
                 )
             except (aiohttp.ClientError, TimeoutError):
                 _LOGGER.exception("Failed to connect to GX device for token pairing")
