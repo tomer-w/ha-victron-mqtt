@@ -3,19 +3,23 @@
     "error": {
       "cannot_connect": "Failed to connect to host",
       "invalid_auth": "Authentication issue",
+      "pairing_failed": "Token pairing failed. Ensure pairing mode is active on the GX device and try again.",
       "unknown": "Unknown failure"
     },
     "step": {
       "ssdp_auth": {
         "data": {
-          "password": "Password",
-          "ssl": "Use SSL",
-          "username": "Username"
+          "password": "GX Password",
+          "ssl": "Use SSL"
         },
-        "description": "Authentication is required for {host}."
+        "description": "Enter the **GX Password** for the GX device at {host}."
       },
       "ssdp_confirm": {
         "description": "Do you want to set up {name}?"
+      },
+      "ssdp_token_pairing": {
+        "title": "Pair with GX device",
+        "description": "Enable pairing mode on the GX device before pressing Submit:\n\n- Via GX user interface: **Settings** > **Integrations** > **MQTT Devices** > **Pairing mode**\n- On GX devices without a built-in screen: Quickly double-press the built-in button\n\nPairing mode is active for 120 seconds."
       },
       "user": {
         "data": {

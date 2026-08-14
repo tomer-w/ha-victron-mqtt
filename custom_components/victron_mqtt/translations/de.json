@@ -3,6 +3,7 @@
     "error": {
       "cannot_connect": "Verbindung zum Host ist fehlgeschlagen",
       "invalid_auth": "Authentifizierungsfehler",
+      "pairing_failed": "Token-Pairing fehlgeschlagen. Stellen Sie sicher, dass der Pairing-Modus auf dem GX-Gerät aktiv ist, und versuchen Sie es erneut.",
       "unknown": "Unbekannter Fehler"
     },
     "step": {
@@ -35,11 +36,14 @@
       },
       "ssdp_auth": {
         "data": {
-          "username": "Benutzername",
-          "password": "Passwort",
+          "password": "GX-Passwort",
           "ssl": "SSL verwenden"
         },
-        "description": "Authentifizierung ist für {host} erforderlich."
+        "description": "Geben Sie das **GX-Passwort** für das GX-Gerät unter {host} ein."
+      },
+      "ssdp_token_pairing": {
+        "title": "Mit GX-Gerät koppeln",
+        "description": "Aktivieren Sie den Pairing-Modus auf dem GX-Gerät, bevor Sie auf Absenden klicken:\n\n- Über die GX-Benutzeroberfläche: **Einstellungen** > **Integrationen** > **MQTT-Geräte** > **Pairing-Modus**\n- Bei GX-Geräten ohne eingebauten Bildschirm: Drücken Sie schnell zweimal die eingebaute Taste\n\nDer Pairing-Modus ist 120 Sekunden lang aktiv."
       }
     }
   },

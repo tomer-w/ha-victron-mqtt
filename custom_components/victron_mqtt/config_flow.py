@@ -11,7 +11,10 @@ from ._vendor.victron_mqtt import (
     CannotConnectError,
     DeviceType,
     Hub as VictronVenusHub,
-    OperationMode
+    OperationMode,
+    PairingError,
+    PairingToken,
+    request_pairing_token,
 )
 import voluptuous as vol
 
@@ -61,6 +64,7 @@ from .const import (
 _LOGGER = logging.getLogger(__name__)
 
 TO_REDACT = {CONF_USERNAME, CONF_PASSWORD}
+
 
 ENTRY_TITLE_FORMAT = "Victron OS {installation_id} ({host}:{port})"
 DEFAULT_SSL_PORT = 8883
@@ -148,9 +152,8 @@ STEP_USER_DATA_SCHEMA = vol.Schema(
 
 STEP_SSDP_AUTH_DATA_SCHEMA = vol.Schema(
     {
-        vol.Optional(CONF_USERNAME, default=""): str,
         vol.Optional(CONF_PASSWORD, default=""): str,
-        vol.Optional(CONF_SSL, default=False): bool,
+        vol.Optional(CONF_SSL, default=True): bool,
     }
 )
 
@@ -200,6 +203,7 @@ class VictronMQTTConfigFlow(ConfigFlow, domain=DOMAIN):
         self.installation_id: str | None = None
         self.friendly_name: str | None = None
         self.model_name: str | None = None
+        self.mqtt_token_pairing: bool = False
 
     async def async_step_user(
         self, user_input: dict[str, Any] | None = None
@@ -327,13 +331,15 @@ class VictronMQTTConfigFlow(ConfigFlow, domain=DOMAIN):
         self.installation_id = discovery_info.upnp["X_VrmPortalId"]
         self.model_name = discovery_info.upnp["modelName"]
         self.friendly_name = discovery_info.upnp["friendlyName"]
+        self.mqtt_token_pairing = discovery_info.upnp.get("X_MqttTokenPairing") == "1"
         _LOGGER.debug(
-            "SSDP: hostname=%s, serial=%s, installation_id=%s, model_name=%s, friendly_name=%s",
+            "SSDP: hostname=%s, serial=%s, installation_id=%s, model_name=%s, friendly_name=%s, mqtt_token_pairing=%s",
             self.hostname,
             self.serial,
             self.installation_id,
             self.model_name,
             self.friendly_name,
+            self.mqtt_token_pairing,
         )
 
         await self.async_set_unique_id(self.installation_id)
@@ -361,19 +367,38 @@ class VictronMQTTConfigFlow(ConfigFlow, domain=DOMAIN):
         if user_input is not None:
             data: dict[str, Any] = {
                 CONF_HOST: self.hostname,
-                CONF_PORT: DEFAULT_PORT,
+                CONF_PORT: DEFAULT_SSL_PORT,
                 CONF_SERIAL: self.serial,
                 CONF_INSTALLATION_ID: self.installation_id,
                 CONF_MODEL: self.model_name,
-                CONF_SSL: False,
+                CONF_SSL: True,
                 CONF_SIMPLE_NAMING: DEFAULT_SIMPLE_NAMING,
             }
             try:
                 await validate_input(data)
             except AuthenticationError:
+                if self.mqtt_token_pairing:
+                    return await self.async_step_ssdp_token_pairing()
                 return await self.async_step_ssdp_auth()
             except CannotConnectError:
-                return self.async_abort(reason="cannot_connect")
+                # SSL failed, fall back to plain MQTT on port 1883
+                data[CONF_PORT] = DEFAULT_PORT
+                data[CONF_SSL] = False
+                try:
+                    await validate_input(data)
+                except AuthenticationError:
+                    if self.mqtt_token_pairing:
+                        return await self.async_step_ssdp_token_pairing()
+                    return await self.async_step_ssdp_auth()
+                except CannotConnectError:
+                    if self.mqtt_token_pairing:
+                        return await self.async_step_ssdp_token_pairing()
+                    return self.async_abort(reason="cannot_connect")
+                except Exception:
+                    _LOGGER.exception(
+                        "Unexpected error validating SSDP discovery for Victron MQTT"
+                    )
+                    return self.async_abort(reason="unknown")
             except Exception:
                 _LOGGER.exception(
                     "Unexpected error validating SSDP discovery for Victron MQTT"
@@ -384,7 +409,7 @@ class VictronMQTTConfigFlow(ConfigFlow, domain=DOMAIN):
                 title=build_title(
                     self.installation_id,
                     self.hostname,
-                    DEFAULT_PORT,
+                    data[CONF_PORT],
                     self.friendly_name,
                 ),
                 data=data,
@@ -403,6 +428,64 @@ class VictronMQTTConfigFlow(ConfigFlow, domain=DOMAIN):
             },
         )
 
+    async def async_step_ssdp_token_pairing(
+        self, user_input: dict[str, Any] | None = None
+    ) -> ConfigFlowResult:
+        """Handle automatic token pairing with the GX device."""
+        assert self.hostname is not None
+        assert self.installation_id is not None
+
+        errors: dict[str, str] = {}
+
+        if user_input is not None:
+            try:
+                credentials: PairingToken = await request_pairing_token(
+                    self.hostname, self.installation_id
+                )
+            except PairingError:
+                errors["base"] = "pairing_failed"
+            except Exception:
+                _LOGGER.exception("Failed to connect to GX device for token pairing")
+                errors["base"] = "cannot_connect"
+            else:
+                data: dict[str, Any] = {
+                    CONF_HOST: self.hostname,
+                    CONF_PORT: DEFAULT_SSL_PORT,
+                    CONF_SERIAL: self.serial,
+                    CONF_INSTALLATION_ID: self.installation_id,
+                    CONF_MODEL: self.model_name,
+                    CONF_USERNAME: credentials.token_name,
+                    CONF_PASSWORD: credentials.password,
+                    CONF_SSL: True,
+                    CONF_SIMPLE_NAMING: DEFAULT_SIMPLE_NAMING,
+                }
+                try:
+                    await validate_input(data)
+                except AuthenticationError:
+                    errors["base"] = "invalid_auth"
+                except CannotConnectError:
+                    errors["base"] = "cannot_connect"
+                except Exception:
+                    _LOGGER.exception("Unexpected error validating paired credentials")
+                    errors["base"] = "unknown"
+                else:
+                    return self.async_create_entry(
+                        title=build_title(
+                            self.installation_id,
+                            self.hostname,
+                            DEFAULT_SSL_PORT,
+                            self.friendly_name,
+                        ),
+                        data=data,
+                    )
+
+        self._set_confirm_only()
+        return self.async_show_form(
+            step_id="ssdp_token_pairing",
+            errors=errors,
+            description_placeholders={CONF_HOST: self.hostname},
+        )
+
     async def async_step_ssdp_auth(
         self, user_input: dict[str, Any] | None = None
     ) -> ConfigFlowResult:
@@ -419,16 +502,15 @@ class VictronMQTTConfigFlow(ConfigFlow, domain=DOMAIN):
             )
             data: dict[str, Any] = {
                 CONF_HOST: self.hostname,
-                CONF_PORT: default_port_for(user_input.get(CONF_SSL, False)),
+                CONF_PORT: default_port_for(user_input.get(CONF_SSL, True)),
                 CONF_SERIAL: self.serial,
                 CONF_INSTALLATION_ID: self.installation_id,
                 CONF_MODEL: self.model_name,
-                CONF_USERNAME: user_input.get(CONF_USERNAME) or None,
+                CONF_USERNAME: "remoteconsole",
                 CONF_PASSWORD: user_input.get(CONF_PASSWORD) or None,
-                CONF_SSL: user_input.get(CONF_SSL, False),
+                CONF_SSL: user_input.get(CONF_SSL, True),
                 CONF_SIMPLE_NAMING: DEFAULT_SIMPLE_NAMING,
             }
-
             try:
                 await validate_input(data)
             except AuthenticationError:
