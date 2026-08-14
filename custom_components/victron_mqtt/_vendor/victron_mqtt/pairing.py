@@ -24,7 +24,6 @@ class PairingToken:
 async def request_pairing_token(
     host: str,
     device_id: str,
-    session: aiohttp.ClientSession,
     *,
     role: str = "homeassistant",
 ) -> PairingToken:
@@ -38,7 +37,6 @@ async def request_pairing_token(
     Args:
         host: Hostname or IP of the GX device.
         device_id: Alphanumeric identifier for this client (e.g. installation_id).
-        session: An aiohttp ClientSession (caller controls SSL verification).
         role: Role name sent to the GX device (default: "homeassistant").
 
     Returns:
@@ -52,6 +50,20 @@ async def request_pairing_token(
     """
     if not device_id.isalnum():
         raise ValueError(f"device_id must be alphanumeric, got: {device_id!r}")
+
+    async with aiohttp.ClientSession(
+        connector=aiohttp.TCPConnector(ssl=False),
+    ) as session:
+        return await _do_pairing_request(host, device_id, session, role=role)
+
+
+async def _do_pairing_request(
+    host: str,
+    device_id: str,
+    session: aiohttp.ClientSession,
+    *,
+    role: str,
+) -> PairingToken:
     url = f"https://{host}/auth/generate-token/"
     resp = await session.post(
         url,
