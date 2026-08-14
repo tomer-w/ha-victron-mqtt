@@ -6,8 +6,6 @@ from types import MappingProxyType
 from typing import Any
 from urllib.parse import urlparse
 
-import aiohttp
-
 from ._vendor.victron_mqtt import (
     AuthenticationError,
     CannotConnectError,
@@ -444,14 +442,11 @@ class VictronMQTTConfigFlow(ConfigFlow, domain=DOMAIN):
                 credentials: PairingToken = await request_pairing_token(
                     self.hostname, self.installation_id
                 )
-            except (aiohttp.ClientError, TimeoutError):
-                _LOGGER.exception("Failed to connect to GX device for token pairing")
-                errors["base"] = "cannot_connect"
             except PairingError:
                 errors["base"] = "pairing_failed"
             except Exception:
-                _LOGGER.exception("Unexpected error during token pairing")
-                errors["base"] = "unknown"
+                _LOGGER.exception("Failed to connect to GX device for token pairing")
+                errors["base"] = "cannot_connect"
             else:
                 data: dict[str, Any] = {
                     CONF_HOST: self.hostname,

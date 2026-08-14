@@ -2,7 +2,6 @@
 
 from unittest.mock import AsyncMock, MagicMock, patch
 
-import aiohttp
 import pytest
 from custom_components.victron_mqtt._vendor.victron_mqtt import CannotConnectError, OperationMode
 from custom_components.victron_mqtt._vendor.victron_mqtt.pairing import PairingError, PairingToken
@@ -1299,7 +1298,7 @@ async def test_ssdp_token_pairing_connection_error(
 
     with patch(
         "custom_components.victron_mqtt.config_flow.request_pairing_token",
-        side_effect=aiohttp.ClientError("Connection refused"),
+        side_effect=ConnectionError("Connection refused"),
     ):
         result = await hass.config_entries.flow.async_configure(
             result["flow_id"],
