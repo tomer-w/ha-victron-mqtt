@@ -82,38 +82,32 @@ Note: Restart Home Assistant manually if you did not use the `--restart` flag.
 
 The integration can be configured in three ways:
 
-### Method 1: Automatic Discovery
-1. Your Victron device should be automatically discovered if it has MQTT enabled
-2. Go to Settings > Devices & Services
-3. Look for the "Victron MQTT Integration" in the discovered section
-4. Follow the configuration flow
+### Method 1: Automatic Discovery (Recommended)
+
+Your Victron GX device is automatically discovered on the local network. Go to **Settings > Devices & Services** and look for the integration in the "Discovered" section, then confirm to set it up.
+
+> **TL;DR:** On Venus OS v3.80 or newer, just follow the discovery flow — no preparation needed. On older versions, enable MQTT access on the GX device first (*Settings > Integrations > MQTT Access*) — otherwise the device will not be discovered.
+
+#### Details per security profile and Venus OS version
+
+The configuration flow depends on the configured **Local Network Security Profile** of your GX device (under *Settings > General > Access & Security > Local Network Security Profile*) and the Venus OS version:
+
+| Security Profile | Venus OS v3.80 or newer | Venus OS older than v3.80 |
+|---|---|---|
+| **Unsecured** | If MQTT access was not turned on manually, uses **MQTT pairing mode** (see below) and connects via SSL on port 8883 (recommended). If MQTT is already on, connects automatically without credentials on port 1883. | MQTT must be enabled manually on the GX device beforehand (*Settings > Integrations > MQTT Access*). Connects automatically without credentials on port 1883. |
+| **Weak** | Asks you to activate **MQTT pairing mode** on the GX device before pressing Submit (see below). No need to manually enable MQTT — token pairing takes care of it automatically. Connects via SSL on port 8883. | MQTT must be enabled manually on the GX device beforehand (*Settings > Integrations > MQTT Access*). Asks for the **GX Password**¹. Connects via SSL on port 8883. |
+| **Secured** | Same as above. | Same as above. |
+
+¹ The GX Password is printed on the sticker on the GX device, or it is what was set when configuring the Local Network Security Profile (*Settings > General > Access & Security*).
+
+**Activating MQTT pairing mode (v3.80+ only):** Via the GX user interface under *Settings > Integrations > MQTT Devices > Pairing mode*, or by quickly double-pressing the built-in button on GX devices without a screen. Pairing mode stays active for 120 seconds.
 
 ### Method 2: Manual Configuration (Direct Connection)
-1. Go to Settings > Devices & Services
-2. Click "Add Integration"
-3. Search for "Victron MQTT Integration"
-4. Enter the following details:
-   - Host: Your Victron device's hostname or IP (default: venus.local)
-   - Port: (See below)
-   - Username: (See below)
-   - Password: (See below)
-   - SSL: (See below)
+1. Go to **Settings > Devices & Services**
+2. Click **Add Integration** and search for "Victron MQTT Integration"
+3. Enter the connection details (host, port, credentials, SSL, etc.)
 
-Your Victron can be configured to use different levels of security. On the Victron Console (or Remote console) go to the Settings / General menu. The option “Local Network Security Profile” can have one of three options: “Unsecured”, “Weak” or “Secured”. If it is set to “Weak” or “Secured” you will have had to specify a password when setting the option.
-
-Specify values for the Port, Username, Password and SSL options based on the setting of this security profile.
-
-- If the security profile is set to Unsecured”, use the following values:
-   - Port: The unsecure MQTT port number (usually 1883)
-   - User name: Leave blank
-   - Password: Leave blank
-   - SSL: Disabled
-
-- If the security profile is either “Weak” or “Secured”, use the following values:
-   - Port: The secure MQTT port number (usually 8883)
-   - User name: Leave blank
-   - Password: The password defined when setting the security profile
-   - SSL: Enabled
+The recommended settings use SSL on port 8883, `remoteconsole` as username and the *GX Password* as password. If your security profile is "Unsecured", use port 1883 with SSL disabled and leave credentials blank.
 
 ### Method 3: Using Home Assistant MQTT Broker (Bridged Configuration)
 Some users prefer to reduce the direct load on their Victron server and use bridge from the Venus device to a local mosquitto server running as add-on on the HAOS.
