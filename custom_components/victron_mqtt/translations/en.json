@@ -18,8 +18,8 @@
         "description": "Do you want to set up {name}?"
       },
       "ssdp_token_pairing": {
-        "title": "Pair with GX device",
-        "description": "Enable pairing mode on the GX device before pressing Submit:\n\n- Via GX user interface: **Settings** > **Integrations** > **MQTT Devices** > **Pairing mode**\n- On GX devices without a built-in screen: Quickly double-press the built-in button\n\nPairing mode is active for 120 seconds."
+        "description": "Enable pairing mode on the GX device before pressing Submit:\n\n- Via GX user interface: **Settings** > **Integrations** > **MQTT Devices** > **Pairing mode**\n- On GX devices without a built-in screen: Quickly double-press the built-in button\n\nPairing mode is active for 120 seconds.",
+        "title": "Pair with GX device"
       },
       "user": {
         "data": {
