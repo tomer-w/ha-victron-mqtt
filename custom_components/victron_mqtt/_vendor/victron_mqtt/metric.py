@@ -190,6 +190,7 @@ class Metric:
     @property
     def metric_nature(self) -> MetricNature:
         """Returns the metric nature."""
+        assert self._descriptor.metric_nature is not None
         return self._descriptor.metric_nature
 
     @property

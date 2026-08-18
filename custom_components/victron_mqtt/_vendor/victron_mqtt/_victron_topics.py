@@ -2110,7 +2110,8 @@ topics: list[TopicDescriptor] = [
         short_id="multi_mppt_{mppt_id}_yield_yesterday",
         name="MPPT {mppt_id} yield yesterday",
         metric_type=MetricType.ENERGY,
-        metric_nature=MetricNature.MEASUREMENT,
+        # This is a completed historical aggregate, not a present-time measurement, and it can decrease when the previous-day window advances.
+        metric_nature=MetricNature.NONE,
     ),
     TopicDescriptor(
         topic="N/{installation_id}/multi/{device_id}/History/Daily/1/Yield",
@@ -2118,7 +2119,8 @@ topics: list[TopicDescriptor] = [
         short_id="multi_yield_yesterday",
         name="Yield yesterday",
         metric_type=MetricType.ENERGY,
-        metric_nature=MetricNature.MEASUREMENT,
+        # This is a completed historical aggregate, not a present-time measurement, and it can decrease when the previous-day window advances.
+        metric_nature=MetricNature.NONE,
     ),
     TopicDescriptor(
         topic="N/{installation_id}/multi/{device_id}/Pv/{mpptnumber}/MppOperationMode",
@@ -2912,7 +2914,8 @@ topics: list[TopicDescriptor] = [
         short_id="solarcharger_yield_yesterday",
         name="Yield yesterday",
         metric_type=MetricType.ENERGY,
-        metric_nature=MetricNature.MEASUREMENT,
+        # This is a completed historical aggregate, not a present-time measurement, and it can decrease when the previous-day window advances.
+        metric_nature=MetricNature.NONE,
         precision=2,
     ),
     TopicDescriptor(

@@ -75,7 +75,7 @@ class TopicDescriptor:
     name: str | None = None  # More user friendly name, doesnt have to be unique
     unit_of_measurement: str | None = None
     metric_type: MetricType = MetricType.NONE
-    metric_nature: MetricNature = MetricNature.NONE
+    metric_nature: MetricNature | None = None
     value_type: ValueType | None = None
     precision: int | None = None
     enum: type[VictronEnum] | None = None
@@ -135,7 +135,7 @@ class TopicDescriptor:
                 self.value_type = ValueType.FLOAT
             if self.precision is None:
                 self.precision = 3
-            if self.metric_nature == MetricNature.NONE:
+            if self.metric_nature is None:
                 self.metric_nature = MetricNature.MEASUREMENT
         # Power default
         if self.metric_type == MetricType.POWER:
@@ -145,7 +145,7 @@ class TopicDescriptor:
                 self.value_type = ValueType.FLOAT
             if self.precision is None:
                 self.precision = 1
-            if self.metric_nature == MetricNature.NONE:
+            if self.metric_nature is None:
                 self.metric_nature = MetricNature.MEASUREMENT
         # Current default
         if self.metric_type == MetricType.CURRENT:
@@ -155,7 +155,7 @@ class TopicDescriptor:
                 self.value_type = ValueType.FLOAT
             if self.precision is None:
                 self.precision = 1
-            if self.metric_nature == MetricNature.NONE:
+            if self.metric_nature is None:
                 self.metric_nature = MetricNature.MEASUREMENT
         # Energy default
         if self.metric_type == MetricType.ENERGY:
@@ -165,7 +165,7 @@ class TopicDescriptor:
                 self.value_type = ValueType.FLOAT
             if self.precision is None:
                 self.precision = 1
-            if self.metric_nature == MetricNature.NONE:
+            if self.metric_nature is None:
                 self.metric_nature = MetricNature.TOTAL_INCREASING
         # frequency default
         if self.metric_type == MetricType.FREQUENCY:
@@ -175,7 +175,7 @@ class TopicDescriptor:
                 self.value_type = ValueType.FLOAT
             if self.precision is None:
                 self.precision = 2
-            if self.metric_nature == MetricNature.NONE:
+            if self.metric_nature is None:
                 self.metric_nature = MetricNature.MEASUREMENT
         # Power factor default
         if self.metric_type == MetricType.POWER_FACTOR:
@@ -183,7 +183,7 @@ class TopicDescriptor:
                 self.value_type = ValueType.FLOAT
             if self.precision is None:
                 self.precision = 3
-            if self.metric_nature == MetricNature.NONE:
+            if self.metric_nature is None:
                 self.metric_nature = MetricNature.MEASUREMENT
         # Temperature default
         if self.metric_type == MetricType.TEMPERATURE:
@@ -193,7 +193,7 @@ class TopicDescriptor:
                 self.value_type = ValueType.FLOAT
             if self.precision is None:
                 self.precision = 1
-            if self.metric_nature == MetricNature.NONE:
+            if self.metric_nature is None:
                 self.metric_nature = MetricNature.MEASUREMENT
         # Humidity default
         if self.metric_type == MetricType.HUMIDITY:
@@ -203,7 +203,7 @@ class TopicDescriptor:
                 self.value_type = ValueType.FLOAT
             if self.precision is None:
                 self.precision = 1
-            if self.metric_nature == MetricNature.NONE:
+            if self.metric_nature is None:
                 self.metric_nature = MetricNature.MEASUREMENT
         # Pressure default
         if self.metric_type == MetricType.PRESSURE:
@@ -213,7 +213,7 @@ class TopicDescriptor:
                 self.value_type = ValueType.FLOAT
             if self.precision is None:
                 self.precision = 1
-            if self.metric_nature == MetricNature.NONE:
+            if self.metric_nature is None:
                 self.metric_nature = MetricNature.MEASUREMENT
         # Distance default
         if self.metric_type == MetricType.DISTANCE:
@@ -231,7 +231,7 @@ class TopicDescriptor:
                 self.value_type = ValueType.FLOAT
             if self.precision is None:
                 self.precision = 1
-            if self.metric_nature == MetricNature.NONE:
+            if self.metric_nature is None:
                 self.metric_nature = MetricNature.MEASUREMENT
         # Electric storage percentage default
         if self.metric_type == MetricType.ELECTRIC_STORAGE_PERCENTAGE:
@@ -241,7 +241,7 @@ class TopicDescriptor:
                 self.value_type = ValueType.FLOAT
             if self.precision is None:
                 self.precision = 1
-            if self.metric_nature == MetricNature.NONE:
+            if self.metric_nature is None:
                 self.metric_nature = MetricNature.MEASUREMENT
             if self.min is None:
                 self.min = 0
@@ -255,7 +255,7 @@ class TopicDescriptor:
                 self.value_type = ValueType.FLOAT
             if self.precision is None:
                 self.precision = 1
-            if self.metric_nature == MetricNature.NONE:
+            if self.metric_nature is None:
                 self.metric_nature = MetricNature.MEASUREMENT
         # Time default
         if self.metric_type == MetricType.TIME:
@@ -263,7 +263,7 @@ class TopicDescriptor:
                 self.unit_of_measurement = "s"
             if self.value_type is None:
                 self.value_type = ValueType.INT
-            if self.metric_nature == MetricNature.NONE:
+            if self.metric_nature is None:
                 self.metric_nature = MetricNature.MEASUREMENT
             if self.min is None:
                 self.min = 0
@@ -277,7 +277,7 @@ class TopicDescriptor:
                 self.unit_of_measurement = "s"
             if self.value_type is None:
                 self.value_type = ValueType.INT
-            if self.metric_nature == MetricNature.NONE:
+            if self.metric_nature is None:
                 self.metric_nature = MetricNature.MEASUREMENT
             if self.precision is None:
                 self.precision = 0
@@ -287,7 +287,7 @@ class TopicDescriptor:
                 self.value_type = ValueType.FLOAT
             if self.precision is None:
                 self.precision = 2
-            if self.metric_nature == MetricNature.NONE:
+            if self.metric_nature is None:
                 self.metric_nature = MetricNature.MEASUREMENT
         # Irradiance default
         if self.metric_type == MetricType.IRRADIANCE:
@@ -297,7 +297,7 @@ class TopicDescriptor:
                 self.value_type = ValueType.FLOAT
             if self.precision is None:
                 self.precision = 1
-            if self.metric_nature == MetricNature.NONE:
+            if self.metric_nature is None:
                 self.metric_nature = MetricNature.MEASUREMENT
         # General initialization
         if self.value_type not in [
@@ -307,6 +307,8 @@ class TopicDescriptor:
             ValueType.INT_SECONDS_TO_MINUTES,
         ]:
             self.precision = None
+        if self.metric_nature is None:
+            self.metric_nature = MetricNature.NONE
 
     @staticmethod
     def dependency_parts(dependency: str | TopicDependency) -> tuple[str, bool]:
