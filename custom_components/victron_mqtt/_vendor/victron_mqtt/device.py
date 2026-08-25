@@ -144,15 +144,19 @@ class Device:
                 device=self, parsed_topic=parsed_topic, topic_descriptor=topic_desc, value=fallback_value
             )
         value = Device._unwrap_payload(topic_desc, payload)
-        if value is None:
-            log_debug("Ignoring null topic value for device %s metric %s", self.unique_id, topic_desc.short_id)
+        if value is None and not topic_desc.nullable:
+            log_debug(
+                "Ignoring null topic value for device %s metric %s from %s",
+                self.unique_id,
+                topic_desc.short_id,
+                topic,
+            )
             return None
 
         metric = self._metrics.get(parsed_topic.short_id)
         if metric:
             metric._handle_message(value, log_debug)
             return None
-        assert value is not None, f"Value must not be None. topic={topic}, payload={payload}"
         return MetricPlaceholder(self, parsed_topic, topic_desc, payload, value)
 
     @staticmethod
@@ -410,7 +414,7 @@ class MetricPlaceholder:
     parsed_topic: ParsedTopic
     topic_descriptor: TopicDescriptor
     payload: str
-    value: str | float | int | bool | VictronEnum
+    value: str | float | int | bool | VictronEnum | None
 
     def __repr__(self) -> str:
         return f"MetricPlaceholder(device={self.device}, parsed_topic={self.parsed_topic}, topic_descriptor={self.topic_descriptor}, payload={self.payload}, value={self.value})"

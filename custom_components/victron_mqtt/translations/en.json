@@ -532,6 +532,12 @@
       "hub4_ac_grid_setpoint": {
         "name": "AC grid setpoint"
       },
+      "hub4_max_charge_power": {
+        "name": "Maximum charge power"
+      },
+      "hub4_max_discharge_power": {
+        "name": "Maximum discharge power"
+      },
       "multi_ess_min_soc_limit": {
         "name": "ESS minimum SoC limit"
       },
@@ -1573,6 +1579,12 @@
       },
       "hub4_ac_grid_setpoint": {
         "name": "AC grid setpoint"
+      },
+      "hub4_max_charge_power": {
+        "name": "Maximum charge power"
+      },
+      "hub4_max_discharge_power": {
+        "name": "Maximum discharge power"
       },
       "inverter_mode": {
         "state": {

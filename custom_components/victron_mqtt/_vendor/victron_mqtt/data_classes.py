@@ -88,6 +88,7 @@ class TopicDescriptor:
         None  # SwitchableOutput type (static or metric reference). When 6 (dropdown), labels are used.
     )
     labels: str | None = None  # JSON labels metric reference (format: 'metric_id:default')
+    nullable: bool = False  # When True, a null payload may create and update the metric
     key_values: dict[str, str] = field(default_factory=dict[str, str])
     experimental: bool = False
     # Depends on format is different for regular and formula topics:
