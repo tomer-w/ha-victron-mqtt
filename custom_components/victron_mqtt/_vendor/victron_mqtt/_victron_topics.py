@@ -1675,6 +1675,28 @@ topics: list[TopicDescriptor] = [
         enum=GenericOnOff,
     ),
     TopicDescriptor(
+        topic="N/{installation_id}/hub4/{device_id}/Overrides/MaxChargePower",
+        message_type=MetricKind.NUMBER,
+        short_id="hub4_max_charge_power",
+        name="Maximum charge power",
+        metric_type=MetricType.POWER,
+        value_type=ValueType.FLOAT,
+        min=0,
+        max=1000000,
+        nullable=True,
+    ),
+    TopicDescriptor(
+        topic="N/{installation_id}/hub4/{device_id}/Overrides/MaxDischargePower",
+        message_type=MetricKind.NUMBER,
+        short_id="hub4_max_discharge_power",
+        name="Maximum discharge power",
+        metric_type=MetricType.POWER,
+        value_type=ValueType.FLOAT,
+        min=-1,
+        max=1000000,
+        nullable=True,
+    ),
+    TopicDescriptor(
         topic="N/{installation_id}/hub4/{device_id}/Overrides/Setpoint",
         message_type=MetricKind.NUMBER,
         short_id="hub4_ac_grid_setpoint",
@@ -1683,6 +1705,7 @@ topics: list[TopicDescriptor] = [
         value_type=ValueType.INT,
         min=-32767,
         max=32767,
+        nullable=True,
     ),
     # Inverter topics (Like Phoenix)
     TopicDescriptor(
