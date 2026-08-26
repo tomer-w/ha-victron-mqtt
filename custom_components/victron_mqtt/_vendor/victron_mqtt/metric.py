@@ -66,6 +66,7 @@ class Metric:
         self._descriptor: TopicDescriptor = descriptor
         self._unique_id: str = unique_id
         self._value: Any = None
+        self._available = False
         self._short_id: str = short_id
         self._name: str = name
         self._key_values: dict[str, str] = key_values
@@ -153,6 +154,16 @@ class Metric:
     def value(self):
         """Returns the value of the metric."""
         return self._value
+
+    @property
+    def available(self) -> bool:
+        """Return whether the metric source is available."""
+        return self._available
+
+    @property
+    def nullable(self) -> bool:
+        """Return whether None is a valid metric value."""
+        return self._descriptor.nullable
 
     @property
     def short_id(self) -> str:
@@ -244,18 +255,18 @@ class Metric:
         log_debug: Callable[..., None],
         stale_timeout: float | None = None,
     ):
-        """Reset metrics value if no updates or send last values if they got skipped.
+        """Mark stale metrics unavailable or send values that were skipped.
 
         stale_timeout, when provided, is a number of seconds: if the metric has not been seen
         for longer than that, its source is considered to have stopped publishing and the
-        metric is reset to None (unavailable). This relies on the hub periodically forcing a
+        metric is marked unavailable. This relies on the hub periodically forcing a
         full republish, so the timeout must be larger than that republish interval.
         """
-        if force_invalidate and self._value is not None:
+        if force_invalidate and self._available:
             log_debug("Metric %s is being forced reset", self.unique_id)
-            self._handle_message(None, log_debug, update_last_seen=False)  # Dont update the last_seen as it wasnt seen
+            self._handle_message(self._value, log_debug, update_last_seen=False, available=False)
             return
-        if stale_timeout is not None and self._value is not None:
+        if stale_timeout is not None and self._available:
             elapsed = time.monotonic() - self._last_seen
             if elapsed > stale_timeout:
                 log_debug(
@@ -264,7 +275,7 @@ class Metric:
                     elapsed,
                     stale_timeout,
                 )
-                self._handle_message(None, log_debug, update_last_seen=False)  # Dont update last_seen as it wasnt seen
+                self._handle_message(self._value, log_debug, update_last_seen=False, available=False)
                 return
         if self._last_seen > self._last_notified:
             log_debug(
@@ -283,11 +294,16 @@ class Metric:
         log_debug: Callable[..., None],
         update_last_seen: bool = True,
         force: bool = False,
+        available: bool | None = None,
     ):
         """Handle a message."""
         now = time.monotonic()
+        was_available = self._available
         if update_last_seen:
             self._last_seen = now
+            self._available = True
+        elif available is not None:
+            self._available = available
         should_notify = False
         update_interval = self._update_interval_seconds
 
@@ -296,7 +312,7 @@ class Metric:
         if force or update_interval == 0 or self._last_notified == 0:
             should_notify = True
             force = True
-        elif value != self._value:
+        elif value != self._value or self._available != was_available:
             log_debug(
                 "Metric %s value changed: %s -> %s %s",
                 self.unique_id,
@@ -305,7 +321,10 @@ class Metric:
                 self._descriptor.unit_of_measurement or "",
             )
             should_notify = True
-            if self._value is None:
+            if not was_available and self._available:
+                log_debug("Metric became available. forcing it. metric: %s", self.unique_id)
+                force = True
+            elif self._value is None:
                 log_debug("Metric updated to non-None value. forcing it. metric: %s", self.unique_id)
                 force = True
         else:

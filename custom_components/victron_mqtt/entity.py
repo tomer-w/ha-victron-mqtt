@@ -50,9 +50,8 @@ class VictronBaseEntity(Entity):
 
     _attr_should_poll = False
     _attr_has_entity_name = True
-    # When True, the entity is marked unavailable while its metric has no value
-    # (None), instead of exposing that None as the state. Keeping the last known
-    # value avoids persisting None to the restore cache.
+    # When True, entity availability follows the metric source while retaining
+    # the last known value for stale sources.
     _follow_metric_availability = True
 
     def __init__(
@@ -68,7 +67,7 @@ class VictronBaseEntity(Entity):
         self._device = device
         self._metric = metric
         if self._follow_metric_availability:
-            self._attr_available = metric.value is not None
+            self._attr_available = metric.available
         self._attr_device_info = device_info
         if simple_naming:
             entity_id = f"{entity_platform}.{ENTITY_PREFIX}_{metric.unique_id}"
@@ -124,8 +123,8 @@ class VictronBaseEntity(Entity):
         """Handle the metric update. Must be implemented by subclasses."""
 
     @callback
-    def _on_update(self, _: VictronVenusMetric, value: Any) -> None:
-        if self._follow_metric_availability and value is None:
+    def _on_update(self, metric: VictronVenusMetric, value: Any) -> None:
+        if self._follow_metric_availability and not metric.available:
             # The metric value is stale or unavailable. Mark the entity
             # unavailable while keeping the last known value, so accumulated or
             # restored state is preserved across a restart.

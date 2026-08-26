@@ -32,6 +32,11 @@ class FormulaMetric(Metric):
         )
         assert descriptor.is_formula, f"Metric {descriptor.short_id} is not a formula"
         self._depends_on: dict[str, Metric] = {}
+        self._required_dependency_short_ids: set[str] = set()
+        for dependency in descriptor.depends_on:
+            short_id, required = descriptor.dependency_parts(dependency)
+            if required:
+                self._required_dependency_short_ids.add(short_id)
         self.transient_state: FormulaTransientState | None = None
         assert descriptor.topic.startswith("$$func")
         func_name = descriptor.topic.split("/")[-1]
@@ -57,8 +62,19 @@ class FormulaMetric(Metric):
         return self._value
 
     def _handle_formula(self, log_debug: Callable[..., None]):
+        if any(
+            not metric.available and metric.generic_short_id in self._required_dependency_short_ids
+            for metric in self._depends_on.values()
+        ):
+            log_debug("Formula %s has an unavailable required dependency", self._func)
+            self._handle_message(self._value, log_debug, update_last_seen=False, available=False)
+            return
+
+        available_dependencies = {
+            unique_id: metric for unique_id, metric in self._depends_on.items() if metric.available
+        }
         # Formula functions may return None to indicate no value/update.
-        result = self._func(self._depends_on, self.transient_state)
+        result = self._func(available_dependencies, self.transient_state)
         if result is None:
             log_debug("Formula %s returned None", self._func)
             self._handle_message(None, log_debug)

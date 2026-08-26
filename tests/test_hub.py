@@ -30,6 +30,8 @@ from homeassistant.const import (
     CONF_PORT,
     CONF_SSL,
     CONF_USERNAME,
+    STATE_UNAVAILABLE,
+    STATE_UNKNOWN,
 )
 from homeassistant.components.number import NumberMode
 from homeassistant.components.sensor import SensorStateClass
@@ -1156,6 +1158,45 @@ async def test_number_update_cb(
     state = hass.states.get(entity_id)
     assert state is not None
     assert float(state.state) == 32.0
+
+
+async def test_nullable_number_remains_available_with_null_value(
+    hass: HomeAssistant,
+    init_integration,
+) -> None:
+    """Test nullable MQTT null and source unavailability remain distinct."""
+    victron_hub, mock_config_entry = init_integration
+    topic = "N/123/hub4/0/Overrides/MaxChargePower"
+
+    await inject_message(victron_hub, topic, '{"value": 1200.0}')
+    await finalize_injection(victron_hub, disconnect=False)
+    await hass.async_block_till_done()
+
+    entity_registry = er.async_get(hass)
+    entity = next(
+        entity
+        for entity in er.async_entries_for_config_entry(entity_registry, mock_config_entry.entry_id)
+        if entity.translation_key == "hub4_max_charge_power"
+    )
+    state = hass.states.get(entity.entity_id)
+    assert state is not None
+    assert state.state == "1200"
+
+    await inject_message(victron_hub, topic, '{"value": null}')
+    await hass.async_block_till_done()
+
+    state = hass.states.get(entity.entity_id)
+    assert state is not None
+    assert state.state == STATE_UNKNOWN
+
+    metric = victron_hub.devices["hub4_0"].get_metric("hub4_max_charge_power")
+    assert metric is not None
+    metric._keepalive(force_invalidate=True, log_debug=MagicMock())
+    await hass.async_block_till_done()
+
+    state = hass.states.get(entity.entity_id)
+    assert state is not None
+    assert state.state == STATE_UNAVAILABLE
 
 
 async def test_select_update_cb(
