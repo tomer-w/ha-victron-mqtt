@@ -30,12 +30,17 @@ jobs:
 
       - name: Get latest victron_mqtt release
         id: get_release
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
         run: |
-          latest=$(curl -s https://pypi.org/pypi/victron_mqtt/json | jq -r .info.version)
+          set -e
+          latest=$(curl --fail-with-body --silent --show-error https://pypi.org/pypi/victron_mqtt/json | jq -r .info.version)
           echo "latest_version=$latest" >> $GITHUB_OUTPUT
           
           # Get release notes from GitHub (GitHub tags use 'v' prefix)
-          release_notes=$(curl -s "https://api.github.com/repos/tomer-w/victron_mqtt/releases/tags/v$latest" | jq -r '.body // "No release notes available"')
+          release_notes=$(gh api \
+            "repos/tomer-w/victron_mqtt/releases/tags/v$latest" \
+            --jq 'if (.body // "") == "" then "No release notes available" else .body end')
           echo "release_notes<<EOF" >> $GITHUB_OUTPUT
           echo "$release_notes" >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
