@@ -26,6 +26,7 @@ class DeviceType(VictronDeviceEnum):
     MULTI_RS_SOLAR = ("multi", "multi_rs_solar", "Multi RS Solar")
     CGWACS = ("CGwacs", "cgwacs", "<Not used>", "system")  # Should be mapped to SYSTEM
     DC_LOAD = ("dcload", "dc_load", "DC load")
+    DC_SOURCE = ("dcsource", "dc_source", "DC source")
     ALTERNATOR = (
         "alternator",
         "alternator",
