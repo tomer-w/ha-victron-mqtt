@@ -1180,7 +1180,7 @@ async def test_nullable_number_remains_available_with_null_value(
     )
     state = hass.states.get(entity.entity_id)
     assert state is not None
-    assert state.state == "1200"
+    assert state.state == "1200.0"
 
     await inject_message(victron_hub, topic, '{"value": null}')
     await hass.async_block_till_done()
