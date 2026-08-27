@@ -547,6 +547,9 @@
       "multiplus_assist_current_boost_factor": {
         "name": "Assist current boost factor"
       },
+      "pvinverter_power_limit": {
+        "name": "Power limit"
+      },
       "solarcharger_charge_current_limit": {
         "name": "Charge current limit"
       },
@@ -1203,6 +1206,18 @@
       "dcload_voltage": {
         "name": "Voltage"
       },
+      "dcsource_current": {
+        "name": "Current"
+      },
+      "dcsource_power": {
+        "name": "Power"
+      },
+      "dcsource_temperature": {
+        "name": "Temperature"
+      },
+      "dcsource_voltage": {
+        "name": "Voltage"
+      },
       "dcsystem_aux_voltage": {
         "name": "Auxiliary voltage"
       },
@@ -1839,6 +1854,9 @@
       },
       "pvinverter_current_phase": {
         "name": "Current {phase}"
+      },
+      "pvinverter_power_limit": {
+        "name": "Power limit"
       },
       "pvinverter_power_phase": {
         "name": "Power {phase}"
