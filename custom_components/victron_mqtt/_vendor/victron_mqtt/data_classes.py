@@ -165,7 +165,7 @@ class TopicDescriptor:
             if self.value_type is None:
                 self.value_type = ValueType.FLOAT
             if self.precision is None:
-                self.precision = 1
+                self.precision = 3
             if self.metric_nature is None:
                 self.metric_nature = MetricNature.TOTAL_INCREASING
         # frequency default

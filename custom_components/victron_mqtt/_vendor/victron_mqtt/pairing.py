@@ -26,6 +26,7 @@ async def request_pairing_token(
     device_id: str,
     *,
     role: str = "homeassistant",
+    session: aiohttp.ClientSession | None = None,
 ) -> PairingToken:
     """Request MQTT pairing credentials from a GX device via HTTPS.
 
@@ -38,6 +39,8 @@ async def request_pairing_token(
         host: Hostname or IP of the GX device.
         device_id: Alphanumeric identifier for this client (e.g. installation_id).
         role: Role name sent to the GX device (default: "homeassistant").
+        session: Optional aiohttp session to reuse. When *None* a temporary
+            session is created and closed automatically.
 
     Returns:
         A PairingToken with token_name and password fields.
@@ -51,10 +54,13 @@ async def request_pairing_token(
     if not device_id.isalnum():
         raise ValueError(f"device_id must be alphanumeric, got: {device_id!r}")
 
+    if session is not None:
+        return await _do_pairing_request(host, device_id, session, role=role)
+
     async with aiohttp.ClientSession(
         connector=aiohttp.TCPConnector(ssl=False),
-    ) as session:
-        return await _do_pairing_request(host, device_id, session, role=role)
+    ) as new_session:
+        return await _do_pairing_request(host, device_id, new_session, role=role)
 
 
 async def _do_pairing_request(

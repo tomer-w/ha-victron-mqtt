@@ -52,7 +52,7 @@ from ._victron_products import ProductCapabilities, get_product_capabilities
 from .constants import (
     AUTO_UPDATE_INTERVALS,
     UPDATE_FREQUENCY_AUTO,
-    UPDATE_FREQUENCY_AUTO_POWER_NONE,
+    UPDATE_FREQUENCY_AUTO_UNTHROTTLED,
     MetricKind,
     MetricNature,
     MetricType,
@@ -79,7 +79,7 @@ from .writable_metric import WritableMetric
 __all__ = [
     "AUTO_UPDATE_INTERVALS",
     "UPDATE_FREQUENCY_AUTO",
-    "UPDATE_FREQUENCY_AUTO_POWER_NONE",
+    "UPDATE_FREQUENCY_AUTO_UNTHROTTLED",
     "ACActiveInputSource",
     "ACSystemMode",
     "AcInputTypeEnum",
