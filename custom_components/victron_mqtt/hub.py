@@ -59,7 +59,7 @@ NewMetricCallback = Callable[
 
 def _resolve_update_frequency(
     config: Mapping[str, Any],
-) -> int | Literal["auto", "auto_power_none"]:
+) -> int | Literal["auto", "auto_unthrottled"]:
     """Resolve the configured update frequency into the value the library expects.
 
     In "auto" mode the library picks a per-metric interval; in "manual" mode a
