@@ -36,6 +36,7 @@ from homeassistant.const import (
 from homeassistant.components.number import NumberMode
 from homeassistant.components.sensor import SensorStateClass
 from homeassistant.core import HomeAssistant, State
+from homeassistant.helpers import device_registry as dr
 from homeassistant.helpers import entity_registry as er
 from homeassistant.core import State
 
@@ -205,6 +206,34 @@ async def test_map_device_info_no_manufacturer() -> None:
     assert (
         device_info.get("name") == "Unknown Device"
     )  # device_id == "0" uses name only
+
+
+async def test_device_via_device_links(
+    hass: HomeAssistant, init_integration
+) -> None:
+    """Test a child device links to its missing parent via via_device_id."""
+    victron_hub, mock_config_entry = init_integration
+
+    await inject_message(
+        victron_hub,
+        "N/123/battery/0/Dc/0/Current",
+        '{"value": 10.5}',
+    )
+    await finalize_injection(victron_hub)
+    await hass.async_block_till_done()
+
+    device_registry = dr.async_get(hass)
+    system_device = device_registry.async_get_device_by_identifier(
+        (DOMAIN, "123_system_0"), mock_config_entry.entry_id
+    )
+    battery_device = device_registry.async_get_device_by_identifier(
+        (DOMAIN, "123_battery_0"), mock_config_entry.entry_id
+    )
+
+    assert system_device is not None
+    assert system_device.via_device_id is None
+    assert battery_device is not None
+    assert battery_device.via_device_id == system_device.id
 
 
 async def test_unregister_add_entities_callback(

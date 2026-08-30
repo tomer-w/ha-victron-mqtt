@@ -26,7 +26,7 @@ from homeassistant.const import (
 )
 from homeassistant.core import HomeAssistant
 from homeassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
-from homeassistant.helpers.device_registry import DeviceInfo
+from homeassistant.helpers import device_registry as dr
 from homeassistant.helpers.redact import async_redact_data
 
 from .const import (
@@ -53,7 +53,7 @@ TO_REDACT = {CONF_USERNAME, CONF_PASSWORD}
 type VictronGxConfigEntry = ConfigEntry[Hub]
 
 NewMetricCallback = Callable[
-    [VictronVenusDevice, VictronVenusMetric, DeviceInfo, str], None
+    [VictronVenusDevice, VictronVenusMetric, dr.DeviceInfo, str], None
 ]
 
 
@@ -92,6 +92,7 @@ class Hub:
         self.hass = hass
         self.host = config[CONF_HOST]
         self.id = entry.unique_id
+        self._device_registry = dr.async_get(hass)
 
         op = config.get(CONF_OPERATION_MODE, OperationMode.FULL.value)
         operation_mode: OperationMode = (
@@ -159,15 +160,34 @@ class Hub:
         _LOGGER.info("New metric received. Device: %s, Metric: %s", device, metric)
         assert hub.installation_id is not None
         device_info = Hub._map_device_info(device, hub.installation_id)
+        if device.parent_device is not None:
+            device_info["via_device_id"] = self._ensure_device_registered(
+                device.parent_device, hub.installation_id
+            )
         callback = self.new_metric_callbacks.get(metric.metric_kind)
         if callback is not None:
             callback(device, metric, device_info, hub.installation_id)
 
+    def _ensure_device_registered(
+        self, device: VictronVenusDevice, installation_id: str
+    ) -> str:
+        """Register a device and its ancestors, returning its registry ID."""
+        device_info = Hub._map_device_info(device, installation_id)
+        if device.parent_device is not None:
+            device_info["via_device_id"] = self._ensure_device_registered(
+                device.parent_device, installation_id
+            )
+        device_entry = self._device_registry.async_get_or_create(
+            config_entry_id=self._config_entry_id,
+            **device_info,
+        )
+        return device_entry.id
+
     @staticmethod
     def _map_device_info(
         device: VictronVenusDevice, installation_id: str
-    ) -> DeviceInfo:
-        device_info = DeviceInfo(
+    ) -> dr.DeviceInfo:
+        return dr.DeviceInfo(
             identifiers={(DOMAIN, f"{installation_id}_{device.unique_id}")},
             manufacturer=(
                 device.manufacturer
@@ -178,12 +198,6 @@ class Hub:
             model=device.model,
             serial_number=device.serial_number,
         )
-        # Set via_device based on parent_device relationship
-        if device.parent_device is not None:
-            device_info["via_device"] = (DOMAIN, f"{installation_id}_{device.parent_device.unique_id}")
-        elif device.device_type != DeviceType.SYSTEM:
-            device_info["via_device"] = (DOMAIN, f"{installation_id}_system_0")
-        return device_info
 
     def register_new_metric_callback(
         self, kind: MetricKind, new_metric_callback: NewMetricCallback
