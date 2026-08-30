@@ -71,17 +71,22 @@ class MetricType(Enum):
 
 
 UPDATE_FREQUENCY_AUTO: Final = "auto"
-UPDATE_FREQUENCY_AUTO_POWER_NONE: Final = "auto_power_none"
+UPDATE_FREQUENCY_AUTO_UNTHROTTLED: Final = "auto_unthrottled"
 
 # Fast-changing metric types that users typically watch live.
-_FAST_METRIC_TYPES: Final = (MetricType.POWER, MetricType.APPARENT_POWER, MetricType.CURRENT)
+_FAST_METRIC_TYPES: Final = (
+    MetricType.POWER,
+    MetricType.APPARENT_POWER,
+    MetricType.CURRENT,
+    MetricType.LOCATION,
+)
 
 # Per-metric-type update intervals for each auto profile. None means no time
 # limit (update on every value change); metric types not listed fall back to
 # AUTO_UPDATE_INTERVAL_DEFAULT.
 AUTO_UPDATE_INTERVALS: dict[str, dict[MetricType, int | None]] = {
     UPDATE_FREQUENCY_AUTO: dict.fromkeys(_FAST_METRIC_TYPES, 5),
-    UPDATE_FREQUENCY_AUTO_POWER_NONE: dict.fromkeys(_FAST_METRIC_TYPES, None),
+    UPDATE_FREQUENCY_AUTO_UNTHROTTLED: dict.fromkeys(_FAST_METRIC_TYPES, None),
 }
 AUTO_UPDATE_INTERVAL_DEFAULT = 30
 
