@@ -1711,7 +1711,7 @@ topics: list[TopicDescriptor] = [
         name="Maximum charge power",
         metric_type=MetricType.POWER,
         value_type=ValueType.FLOAT,
-        min=0,
+        min=-1,
         max=1000000,
         nullable=True,
     ),
