@@ -116,7 +116,7 @@ async def test_hub_start_success(hass: HomeAssistant, init_integration) -> None:
     victron_hub, mock_config_entry = init_integration
 
     # Verify the hub was started (integration was set up successfully)
-    assert mock_config_entry.state is ConfigEntryState.LOADED
+    assert mock_config_entry.state == ConfigEntryState.LOADED
     assert victron_hub.installation_id == "123"
 
 
@@ -135,7 +135,7 @@ async def test_hub_start_connection_error(
     await hass.async_block_till_done()
 
     # Verify the failed setup did not leave stale platform registrations
-    assert mock_config_entry.state is ConfigEntryState.SETUP_RETRY
+    assert mock_config_entry.state == ConfigEntryState.SETUP_RETRY
     for platform in PLATFORMS:
         assert not any(
             loaded_platform.config_entry is mock_config_entry
@@ -147,7 +147,7 @@ async def test_hub_start_connection_error(
     mock_config_entry._async_setup_again(hass)
     await hass.async_block_till_done()
 
-    assert mock_config_entry.state is ConfigEntryState.LOADED
+    assert mock_config_entry.state == ConfigEntryState.LOADED
     assert mock_victron_hub.connect.await_count == 2
 
 
@@ -156,7 +156,7 @@ async def test_hub_stop(hass: HomeAssistant, init_integration) -> None:
     _, mock_config_entry = init_integration
 
     # Verify it's initially loaded
-    assert mock_config_entry.state is ConfigEntryState.LOADED
+    assert mock_config_entry.state == ConfigEntryState.LOADED
 
     # Unload the config entry (which stops the hub)
     unload_ok = await hass.config_entries.async_unload(mock_config_entry.entry_id)
@@ -164,7 +164,7 @@ async def test_hub_stop(hass: HomeAssistant, init_integration) -> None:
 
     # Verify hub is disconnected by checking config entry state
     assert unload_ok is True
-    assert mock_config_entry.state is ConfigEntryState.NOT_LOADED
+    assert mock_config_entry.state == ConfigEntryState.NOT_LOADED
 
 
 async def test_map_device_info() -> None:
@@ -1037,7 +1037,7 @@ async def test_hub_auth_error(
         await hass.async_block_till_done()
 
         # Auth failures put the entry in SETUP_ERROR state
-        assert mock_config_entry.state is ConfigEntryState.SETUP_ERROR
+        assert mock_config_entry.state == ConfigEntryState.SETUP_ERROR
 
 
 async def test_publish_service(
