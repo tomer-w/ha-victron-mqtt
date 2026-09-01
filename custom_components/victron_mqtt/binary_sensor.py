@@ -2,14 +2,6 @@
 
 from typing import Any
 
-from ._vendor.victron_mqtt import (
-    Device as VictronVenusDevice,
-    Metric as VictronVenusMetric,
-    MetricKind,
-    MetricType,
-    VictronEnum,
-)
-
 from homeassistant.components.binary_sensor import (
     BinarySensorDeviceClass,
     BinarySensorEntity,
@@ -18,6 +10,17 @@ from homeassistant.core import HomeAssistant, callback
 from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
+from ._vendor.victron_mqtt import (
+    Device as VictronVenusDevice,
+)
+from ._vendor.victron_mqtt import (
+    Metric as VictronVenusMetric,
+)
+from ._vendor.victron_mqtt import (
+    MetricKind,
+    MetricType,
+    VictronEnum,
+)
 from .const import BINARY_SENSOR_OFF_ID, BINARY_SENSOR_ON_ID
 from .entity import VictronBaseEntity
 from .hub import VictronGxConfigEntry

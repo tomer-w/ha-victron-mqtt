@@ -3,15 +3,34 @@
 from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
-from custom_components.victron_mqtt._vendor.victron_mqtt import CannotConnectError, OperationMode
-from custom_components.victron_mqtt._vendor.victron_mqtt.pairing import PairingError, PairingToken
-from custom_components.victron_mqtt.config_flow import DEFAULT_SSL_PORT
+from homeassistant.config_entries import SOURCE_REAUTH, SOURCE_SSDP, SOURCE_USER
+from homeassistant.const import (
+    CONF_HOST,
+    CONF_PASSWORD,
+    CONF_PORT,
+    CONF_SSL,
+    CONF_USERNAME,
+)
+from homeassistant.core import HomeAssistant
+from homeassistant.data_entry_flow import FlowResultType
+from homeassistant.helpers.service_info.ssdp import SsdpServiceInfo
+from pytest_homeassistant_custom_component.common import MockConfigEntry
 
+from custom_components.victron_mqtt._vendor.victron_mqtt import (
+    AuthenticationError,
+    CannotConnectError,
+    OperationMode,
+)
+from custom_components.victron_mqtt._vendor.victron_mqtt.pairing import (
+    PairingError,
+    PairingToken,
+)
+from custom_components.victron_mqtt.config_flow import DEFAULT_SSL_PORT
 from custom_components.victron_mqtt.const import (
     CONF_EXCLUDED_DEVICES,
     CONF_INSTALLATION_ID,
-    CONF_OPERATION_MODE,
     CONF_MODEL,
+    CONF_OPERATION_MODE,
     CONF_ROOT_TOPIC_PREFIX,
     CONF_SERIAL,
     CONF_SIMPLE_NAMING,
@@ -24,20 +43,6 @@ from custom_components.victron_mqtt.const import (
     UPDATE_FREQUENCY_MODE_AUTO,
     UPDATE_FREQUENCY_MODE_MANUAL,
 )
-from homeassistant.config_entries import SOURCE_REAUTH, SOURCE_SSDP, SOURCE_USER
-from homeassistant.const import (
-    CONF_HOST,
-    CONF_PASSWORD,
-    CONF_PORT,
-    CONF_SSL,
-    CONF_USERNAME,
-)
-from homeassistant.core import HomeAssistant
-from homeassistant.data_entry_flow import FlowResultType
-from homeassistant.exceptions import ConfigEntryAuthFailed
-from homeassistant.helpers.service_info.ssdp import SsdpServiceInfo
-from pytest_homeassistant_custom_component.common import MockConfigEntry
-from custom_components.victron_mqtt._vendor.victron_mqtt import AuthenticationError
 
 pytestmark = pytest.mark.usefixtures("mock_setup_entry", "enable_custom_integrations")
 MOCK_INSTALLATION_ID = "d41243d9b9c6"

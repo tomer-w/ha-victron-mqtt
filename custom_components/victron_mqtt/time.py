@@ -1,21 +1,26 @@
 """Support for Victron GX time entities."""
 
-from datetime import time
 import logging
+from datetime import time
 from typing import TYPE_CHECKING, Any
-
-from ._vendor.victron_mqtt import (
-    Device as VictronVenusDevice,
-    Metric as VictronVenusMetric,
-    MetricKind,
-    WritableMetric as VictronVenusWritableMetric,
-)
 
 from homeassistant.components.time import TimeEntity
 from homeassistant.core import HomeAssistant, callback
 from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
+from ._vendor.victron_mqtt import (
+    Device as VictronVenusDevice,
+)
+from ._vendor.victron_mqtt import (
+    Metric as VictronVenusMetric,
+)
+from ._vendor.victron_mqtt import (
+    MetricKind,
+)
+from ._vendor.victron_mqtt import (
+    WritableMetric as VictronVenusWritableMetric,
+)
 from .entity import VictronBaseEntity
 from .hub import VictronGxConfigEntry
 

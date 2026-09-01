@@ -2,14 +2,14 @@
 
 import logging
 
+import homeassistant.helpers.config_validation as cv
 from homeassistant.const import EVENT_HOMEASSISTANT_STOP, Platform
 from homeassistant.core import Event, HomeAssistant, ServiceCall
+from homeassistant.exceptions import HomeAssistantError
 from homeassistant.helpers import device_registry as dr
 from homeassistant.helpers.typing import ConfigType
-from homeassistant.exceptions import HomeAssistantError
-import homeassistant.helpers.config_validation as cv
 
-
+from ._vendor import VICTRON_MQTT_VERSION
 from .const import (
     ATTR_DEVICE_ID,
     ATTR_METRIC_ID,
@@ -24,7 +24,6 @@ from .const import (
     UPDATE_FREQUENCY_MODE_MANUAL,
 )
 from .hub import Hub, VictronGxConfigEntry
-from ._vendor import VICTRON_MQTT_VERSION
 
 _LOGGER = logging.getLogger(__name__)
 _VICTRON_MQTT_LOGGER = logging.getLogger("victron_mqtt")
@@ -180,5 +179,8 @@ async def async_remove_config_entry_device(
     config_entry: VictronGxConfigEntry,
     device_entry: dr.DeviceEntry,
 ) -> bool:
-    """Always allow removing a device from the config entry. Worse case it will be re-created on the next restart if it still exists in the hub."""
+    """Allow removing a device from the config entry.
+
+    It will be re-created after the next restart if it still exists in the hub.
+    """
     return True

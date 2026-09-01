@@ -4,13 +4,6 @@ from __future__ import annotations
 
 from typing import Any
 
-from ._vendor.victron_mqtt import (
-    Device as VictronVenusDevice,
-    GpsLocation,
-    Metric as VictronVenusMetric,
-    MetricKind,
-)
-
 from homeassistant.components.device_tracker.const import SourceType
 from homeassistant.components.device_tracker.entity import TrackerEntity
 from homeassistant.core import HomeAssistant, callback
@@ -18,6 +11,16 @@ from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from homeassistant.helpers.typing import StateType
 
+from ._vendor.victron_mqtt import (
+    Device as VictronVenusDevice,
+)
+from ._vendor.victron_mqtt import (
+    GpsLocation,
+    MetricKind,
+)
+from ._vendor.victron_mqtt import (
+    Metric as VictronVenusMetric,
+)
 from .entity import VictronBaseEntity
 from .hub import VictronGxConfigEntry
 

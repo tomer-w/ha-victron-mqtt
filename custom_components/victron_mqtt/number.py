@@ -2,19 +2,24 @@
 
 from typing import TYPE_CHECKING, Any
 
-from ._vendor.victron_mqtt import (
-    Device as VictronVenusDevice,
-    Metric as VictronVenusMetric,
-    MetricKind,
-    MetricType,
-    WritableMetric as VictronVenusWritableMetric,
-)
-
 from homeassistant.components.number import NumberDeviceClass, NumberEntity
 from homeassistant.core import HomeAssistant, callback
 from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
+from ._vendor.victron_mqtt import (
+    Device as VictronVenusDevice,
+)
+from ._vendor.victron_mqtt import (
+    Metric as VictronVenusMetric,
+)
+from ._vendor.victron_mqtt import (
+    MetricKind,
+    MetricType,
+)
+from ._vendor.victron_mqtt import (
+    WritableMetric as VictronVenusWritableMetric,
+)
 from .entity import VictronBaseEntity
 from .hub import VictronGxConfigEntry
 

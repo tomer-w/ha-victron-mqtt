@@ -3,16 +3,20 @@
 from abc import abstractmethod
 from typing import Any
 
-from ._vendor.victron_mqtt import (
-    Device as VictronVenusDevice,
-    Metric as VictronVenusMetric,
-    MetricType,
-)
-
 from homeassistant.const import EntityCategory
 from homeassistant.core import callback
 from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.entity import Entity
+
+from ._vendor.victron_mqtt import (
+    Device as VictronVenusDevice,
+)
+from ._vendor.victron_mqtt import (
+    Metric as VictronVenusMetric,
+)
+from ._vendor.victron_mqtt import (
+    MetricType,
+)
 
 # Entities that should be marked as diagnostic
 ENTITIES_CATEGORY_DIAGNOSTIC = ["system_heartbeat", "solarcharger_device_off_reason"]

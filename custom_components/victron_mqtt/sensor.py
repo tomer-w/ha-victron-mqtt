@@ -4,25 +4,30 @@ import logging
 import math
 from typing import Any
 
-from ._vendor.victron_mqtt import (
-    Device as VictronVenusDevice,
-    FormulaMetric as VictronFormulaMetric,
-    Metric as VictronVenusMetric,
-    MetricKind,
-    MetricNature,
-    MetricType,
-    VictronEnum,
-)
-
 from homeassistant.components.sensor import (
-    SensorDeviceClass,
     RestoreSensor,
+    SensorDeviceClass,
     SensorStateClass,
 )
 from homeassistant.core import HomeAssistant, callback
 from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
+from ._vendor.victron_mqtt import (
+    Device as VictronVenusDevice,
+)
+from ._vendor.victron_mqtt import (
+    FormulaMetric as VictronFormulaMetric,
+)
+from ._vendor.victron_mqtt import (
+    Metric as VictronVenusMetric,
+)
+from ._vendor.victron_mqtt import (
+    MetricKind,
+    MetricNature,
+    MetricType,
+    VictronEnum,
+)
 from .entity import VictronBaseEntity
 from .hub import VictronGxConfigEntry
 

@@ -1,20 +1,8 @@
 """Main Hub class."""
 
-from collections.abc import Callable, Mapping
 import logging
+from collections.abc import Callable, Mapping
 from typing import Any, Literal
-
-from ._vendor.victron_mqtt import (
-    AuthenticationError,
-    CannotConnectError,
-    Device as VictronVenusDevice,
-    DeviceType,
-    Hub as VictronVenusHub,
-    Metric as VictronVenusMetric,
-    MetricKind,
-    OperationMode,
-    UPDATE_FREQUENCY_AUTO,
-)
 
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import (
@@ -29,6 +17,23 @@ from homeassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from homeassistant.helpers import device_registry as dr
 from homeassistant.helpers.redact import async_redact_data
 
+from ._vendor.victron_mqtt import (
+    UPDATE_FREQUENCY_AUTO,
+    AuthenticationError,
+    CannotConnectError,
+    DeviceType,
+    MetricKind,
+    OperationMode,
+)
+from ._vendor.victron_mqtt import (
+    Device as VictronVenusDevice,
+)
+from ._vendor.victron_mqtt import (
+    Hub as VictronVenusHub,
+)
+from ._vendor.victron_mqtt import (
+    Metric as VictronVenusMetric,
+)
 from .const import (
     CONF_ELEVATED_TRACING,
     CONF_EXCLUDED_DEVICES,

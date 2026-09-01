@@ -4,7 +4,6 @@ from pathlib import Path
 
 import pytest
 
-
 CUSTOM_COMPONENTS_DIR = Path(__file__).parent.parent / "custom_components" / "victron_mqtt"
 
 
@@ -17,7 +16,7 @@ def get_shell_scripts() -> list[Path]:
 def test_shell_scripts_have_unix_line_endings(script_path: Path) -> None:
     """Verify shell scripts use Unix line endings (LF) not Windows (CRLF)."""
     content = script_path.read_bytes()
-    
+
     # Check for CRLF (Windows line endings)
     assert b"\r\n" not in content, (
         f"{script_path.name} has Windows line endings (CRLF). "
@@ -29,7 +28,7 @@ def test_shell_scripts_have_unix_line_endings(script_path: Path) -> None:
 def test_shell_scripts_have_no_bom(script_path: Path) -> None:
     """Verify shell scripts don't have UTF-8 BOM which breaks bash."""
     content = script_path.read_bytes()
-    
+
     # UTF-8 BOM bytes
     utf8_bom = b"\xef\xbb\xbf"
     assert not content.startswith(utf8_bom), (

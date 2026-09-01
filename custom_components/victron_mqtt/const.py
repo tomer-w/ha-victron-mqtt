@@ -1,7 +1,5 @@
 """Constants for the victron_mqtt integration."""
-from ._vendor.victron_mqtt import MetricNature
 
-from homeassistant.components.sensor import SensorStateClass
 
 # Integration specific values (custom / builtin Home Assistant)
 DOMAIN = "victron_mqtt"

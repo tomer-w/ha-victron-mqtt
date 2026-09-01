@@ -1,23 +1,11 @@
 """Config flow for victron mqtt integration."""
 
-from collections.abc import Mapping, Sequence
 import logging
-from types import MappingProxyType
+from collections.abc import Mapping, Sequence
 from typing import Any
 from urllib.parse import urlparse
 
-from ._vendor.victron_mqtt import (
-    AuthenticationError,
-    CannotConnectError,
-    DeviceType,
-    Hub as VictronVenusHub,
-    OperationMode,
-    PairingError,
-    PairingToken,
-    request_pairing_token,
-)
 import voluptuous as vol
-
 from homeassistant.config_entries import (
     ConfigEntry,
     ConfigFlow,
@@ -31,15 +19,27 @@ from homeassistant.const import (
     CONF_SSL,
     CONF_USERNAME,
 )
+from homeassistant.helpers.redact import async_redact_data
 from homeassistant.helpers.selector import (
     SelectOptionDict,
     SelectSelector,
     SelectSelectorConfig,
     SelectSelectorMode,
 )
-from homeassistant.helpers.redact import async_redact_data
 from homeassistant.helpers.service_info.ssdp import SsdpServiceInfo
 
+from ._vendor.victron_mqtt import (
+    AuthenticationError,
+    CannotConnectError,
+    DeviceType,
+    OperationMode,
+    PairingError,
+    PairingToken,
+    request_pairing_token,
+)
+from ._vendor.victron_mqtt import (
+    Hub as VictronVenusHub,
+)
 from .const import (
     CONF_ELEVATED_TRACING,
     CONF_EXCLUDED_DEVICES,

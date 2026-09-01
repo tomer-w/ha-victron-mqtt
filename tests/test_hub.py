@@ -3,26 +3,8 @@
 from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
-from custom_components.victron_mqtt import PLATFORMS
-from custom_components.victron_mqtt._vendor.victron_mqtt import (
-    AuthenticationError,
-    CannotConnectError,
-    Device as VictronVenusDevice,
-    Hub as VictronVenusHub,
-)
-from custom_components.victron_mqtt._vendor.victron_mqtt.testing import create_mocked_hub, finalize_injection, inject_message
-
-from custom_components.victron_mqtt.const import (
-    CONF_EXCLUDED_DEVICES,
-    CONF_INSTALLATION_ID,
-    CONF_MODEL,
-    CONF_ROOT_TOPIC_PREFIX,
-    CONF_SERIAL,
-    CONF_UPDATE_FREQUENCY_SECONDS,
-    CONF_SIMPLE_NAMING,
-    DOMAIN,
-)
-from custom_components.victron_mqtt.hub import Hub
+from homeassistant.components.number import NumberMode
+from homeassistant.components.sensor import SensorStateClass
 from homeassistant.config_entries import ConfigEntryState
 from homeassistant.const import (
     CONF_HOST,
@@ -33,17 +15,41 @@ from homeassistant.const import (
     STATE_UNAVAILABLE,
     STATE_UNKNOWN,
 )
-from homeassistant.components.number import NumberMode
-from homeassistant.components.sensor import SensorStateClass
 from homeassistant.core import HomeAssistant, State
 from homeassistant.helpers import device_registry as dr
 from homeassistant.helpers import entity_registry as er
-from homeassistant.core import State
-
 from pytest_homeassistant_custom_component.common import (
     MockConfigEntry,
     mock_restore_cache_with_extra_data,
 )
+
+from custom_components.victron_mqtt import PLATFORMS
+from custom_components.victron_mqtt._vendor.victron_mqtt import (
+    AuthenticationError,
+    CannotConnectError,
+)
+from custom_components.victron_mqtt._vendor.victron_mqtt import (
+    Device as VictronVenusDevice,
+)
+from custom_components.victron_mqtt._vendor.victron_mqtt import (
+    Hub as VictronVenusHub,
+)
+from custom_components.victron_mqtt._vendor.victron_mqtt.testing import (
+    create_mocked_hub,
+    finalize_injection,
+    inject_message,
+)
+from custom_components.victron_mqtt.const import (
+    CONF_EXCLUDED_DEVICES,
+    CONF_INSTALLATION_ID,
+    CONF_MODEL,
+    CONF_ROOT_TOPIC_PREFIX,
+    CONF_SERIAL,
+    CONF_SIMPLE_NAMING,
+    CONF_UPDATE_FREQUENCY_SECONDS,
+    DOMAIN,
+)
+from custom_components.victron_mqtt.hub import Hub
 
 pytestmark = pytest.mark.usefixtures("enable_custom_integrations")
 
@@ -488,11 +494,11 @@ async def test_binary_sensor(
     init_integration,
 ) -> None:
     victron_hub, mock_config_entry = init_integration
-    
+
     # Inject a binary sensor metric (evcharger connected state)
     await inject_message(victron_hub, "N/123/evcharger/0/Connected", "{\"value\": 1}")
     await finalize_injection(victron_hub)
-    
+
     # Verify entity was created by checking entity registry
     entity_registry = er.async_get(hass)
     entities = er.async_entries_for_config_entry(
@@ -513,7 +519,7 @@ async def test_number(
     init_integration,
 ) -> None:
     victron_hub, mock_config_entry = init_integration
-    
+
     # Inject a number metric (evcharger set current)
     await inject_message(victron_hub, "N/123/evcharger/0/SetCurrent", "{\"value\": 16.0}")
     await finalize_injection(victron_hub)
@@ -742,9 +748,9 @@ async def test_sensor_with_baseline(
     victron_hub, mock_config_entry = init_integration
     # Mock time.monotonic() to return a fixed time
     mock_time.return_value = 0
-    
+
     entity_id = "sensor.victron_venus_pv_energy"
-    
+
     # Mock the restore cache with a previous native value of 1000.0
     mock_restore_cache_with_extra_data(
         hass,
@@ -771,7 +777,7 @@ async def test_sensor_with_baseline(
 
     energy_entities = [e for e in entities if "energy" in e.entity_id]
     assert len(energy_entities) > 0
-    
+
     # Since state_class is TOTAL and this is a FormulaMetric, baseline IS restored
     # The value = baseline (1000.0) + formula accumulated energy (0.004)
     state = hass.states.get(energy_entities[0].entity_id)

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-"""
-Script to send SSDP discovery packet to trigger Victron MQTT integration in Home Assistant.
+"""Send an SSDP discovery packet to trigger Victron MQTT integration.
+
 This simulates a Victron device announcing itself on the network.
 """
 
@@ -24,7 +24,7 @@ def get_local_ip():
         local_ip = s.getsockname()[0]
         s.close()
         return local_ip
-    except Exception:
+    except OSError:
         # Fallback to localhost
         return "127.0.0.1"
 
@@ -115,7 +115,7 @@ def send_ssdp_notify():
         print("\n[SSDP] Packet content:")
         print(message)
         return True
-    except Exception as e:
+    except OSError as e:
         print(f"[ERROR] Failed to send SSDP packet: {e}")
         return False
     finally:
@@ -172,7 +172,7 @@ if __name__ == "__main__":
                 print("[HTTP] ✓ Server is responding correctly")
             else:
                 print(f"[HTTP] ✗ Server returned status {response.status}")
-    except Exception as e:
+    except OSError as e:
         print(f"[HTTP] ✗ Server test failed: {e}")
         print("[ERROR] HTTP server is not running properly!")
         sys.exit(1)

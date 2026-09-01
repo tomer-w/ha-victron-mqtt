@@ -34,7 +34,11 @@ jobs:
           run: |
             python -m pip install --upgrade pip
             pip install -r requirements.txt
-            pip install pyright==1.1.411
+            pip install mypy pyright==1.1.411 ruff
+        - name: Run Ruff
+          run: ruff check custom_components/victron_mqtt --exclude custom_components/victron_mqtt/_vendor tests
+        - name: Run mypy
+          run: mypy --python-version=3.14 custom_components/victron_mqtt
         - name: Run pyright
           run: pyright
   test:
