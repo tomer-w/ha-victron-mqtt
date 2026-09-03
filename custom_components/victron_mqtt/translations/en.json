@@ -1852,6 +1852,21 @@
       "platform_venus_firmware_installed_version": {
         "name": "Installed version"
       },
+      "platform_venus_firmware_progress": {
+        "name": "Firmware update progress"
+      },
+      "platform_venus_firmware_state": {
+        "name": "Firmware update state",
+        "state": {
+          "checking": "Checking",
+          "downloading_and_installing": "Downloading and installing",
+          "error_during_check": "Error during check",
+          "error_during_update": "Error during update",
+          "idle": "Idle",
+          "rebooting": "Rebooting",
+          "update_file_not_found": "Update file not found"
+        }
+      },
       "pvinverter_current_phase": {
         "name": "Current {phase}"
       },

@@ -8,7 +8,7 @@ from __future__ import annotations
 import logging
 import time
 from collections.abc import Callable
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING
 
 from .constants import (
     AUTO_UPDATE_INTERVAL_DEFAULT,
@@ -16,9 +16,8 @@ from .constants import (
     MetricKind,
     MetricNature,
     MetricType,
-    VictronEnum,
 )
-from .data_classes import ParsedTopic, TopicDescriptor
+from .data_classes import MetricValue, ParsedTopic, TopicDescriptor
 from .id_utils import replace_complex_ids
 
 if TYPE_CHECKING:
@@ -30,7 +29,7 @@ if TYPE_CHECKING:
 
 _LOGGER = logging.getLogger(__name__)
 
-CallbackOnUpdate = Callable[["Metric", Any], None]
+CallbackOnUpdate = Callable[["Metric", MetricValue], None]
 
 
 class Metric:
@@ -65,7 +64,7 @@ class Metric:
         self._device: Device = device
         self._descriptor: TopicDescriptor = descriptor
         self._unique_id: str = unique_id
-        self._value: Any = None
+        self._value: MetricValue = None
         self._available = False
         self._short_id: str = short_id
         self._name: str = name
@@ -134,7 +133,7 @@ class Metric:
         """Add a dependency to the metric."""
         self._depend_on_me.append(formula_metric)
 
-    def format_value(self, value: str | float | int | bool | VictronEnum | None) -> str:
+    def format_value(self, value: MetricValue) -> str:
         """Returns the formatted value of the metric."""
         if value is None:
             return ""
@@ -146,12 +145,12 @@ class Metric:
         return f"{value} {units}"
 
     @property
-    def formatted_value(self):
+    def formatted_value(self) -> str:
         """Returns the value of the metric."""
         return self.format_value(self._value)
 
     @property
-    def value(self):
+    def value(self) -> MetricValue:
         """Returns the value of the metric."""
         return self._value
 
@@ -254,7 +253,7 @@ class Metric:
         force_invalidate: bool,
         log_debug: Callable[..., None],
         stale_timeout: float | None = None,
-    ):
+    ) -> None:
         """Mark stale metrics unavailable or send values that were skipped.
 
         stale_timeout, when provided, is a number of seconds: if the metric has not been seen
@@ -290,12 +289,12 @@ class Metric:
 
     def _handle_message(
         self,
-        value: str | float | int | bool | VictronEnum | None,
+        value: MetricValue,
         log_debug: Callable[..., None],
         update_last_seen: bool = True,
         force: bool = False,
         available: bool | None = None,
-    ):
+    ) -> None:
         """Handle a message."""
         now = time.monotonic()
         was_available = self._available

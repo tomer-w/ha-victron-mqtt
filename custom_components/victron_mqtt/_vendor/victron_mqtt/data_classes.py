@@ -5,6 +5,7 @@ from __future__ import annotations
 import logging
 import re
 from dataclasses import dataclass, field
+from datetime import datetime
 
 from ._victron_enums import DeviceType
 from .constants import MetricKind, MetricNature, MetricType, RangeType, ValueType, VictronEnum
@@ -25,6 +26,9 @@ class GpsLocation:
 
     def __str__(self) -> str:
         return f"({self.latitude}, {self.longitude})"
+
+
+MetricValue = str | float | int | bool | datetime | VictronEnum | GpsLocation | None
 
 
 @dataclass(frozen=True)
@@ -112,7 +116,7 @@ class TopicDescriptor:
             f"name={self.name})"
         )
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         assert self.message_type == MetricKind.ATTRIBUTE or self.name is not None
         if self.message_type == MetricKind.DYNAMIC:
             assert self.output_type is not None, f"DYNAMIC metric '{self.short_id}' must have output_type defined"
@@ -331,7 +335,7 @@ class ParsedTopic:
     full_topic: str
     _unique_id: str | None = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self._short_id: str | None = None
         self._name: str | None = None
         self._key_values: dict[str, str] = {}
@@ -349,7 +353,7 @@ class ParsedTopic:
             f")"
         )
 
-    def __hash__(self):
+    def __hash__(self) -> int:
         """Make ParsedTopic hashable for use as dictionary keys."""
         return hash(self.full_topic)
 

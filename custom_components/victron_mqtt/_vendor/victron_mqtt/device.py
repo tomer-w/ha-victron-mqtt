@@ -19,7 +19,7 @@ from ._unwrappers import (
 )
 from ._victron_enums import SwitchableOutputType
 from .constants import MetricKind, OperationMode, RangeType, VictronEnum
-from .data_classes import ParsedTopic, TopicDescriptor
+from .data_classes import MetricValue, ParsedTopic, TopicDescriptor
 from .formula_metric import FormulaMetric
 from .metric import Metric
 from .writable_formula_metric import WritableFormulaMetric
@@ -160,20 +160,23 @@ class Device:
         return MetricPlaceholder(self, parsed_topic, topic_desc, payload, value)
 
     @staticmethod
-    def _unwrap_payload(topic_desc: TopicDescriptor, payload: str) -> str | float | int | bool | VictronEnum | None:
+    def _unwrap_payload(topic_desc: TopicDescriptor, payload: str) -> MetricValue:
         assert topic_desc.value_type is not None
         unwrapper = VALUE_TYPE_UNWRAPPER[topic_desc.value_type]
         if unwrapper in [unwrap_enum, unwrap_bitmask]:
             assert topic_desc.enum is not None, f"enum must be set for topic: {topic_desc.topic}"
-            return unwrapper(payload, topic_desc.enum)
-        if unwrapper in [
+            value = unwrapper(payload, topic_desc.enum)
+        elif unwrapper in [
             unwrap_float,
             unwrap_int_seconds_to_hours,
             unwrap_int_seconds_to_minutes,
             unwrap_float_m3_to_liters,
         ]:
-            return unwrapper(payload, topic_desc.precision)
-        return unwrapper(payload)
+            value = unwrapper(payload, topic_desc.precision)
+        else:
+            value = unwrapper(payload)
+        assert isinstance(value, MetricValue)
+        return value
 
     @staticmethod
     def _is_same_adjustable_topics(topic: str, adjustable_topic: str) -> bool:
@@ -414,7 +417,7 @@ class MetricPlaceholder:
     parsed_topic: ParsedTopic
     topic_descriptor: TopicDescriptor
     payload: str
-    value: str | float | int | bool | VictronEnum | None
+    value: MetricValue
 
     def __repr__(self) -> str:
         return f"MetricPlaceholder(device={self.device}, parsed_topic={self.parsed_topic}, topic_descriptor={self.topic_descriptor}, payload={self.payload}, value={self.value})"

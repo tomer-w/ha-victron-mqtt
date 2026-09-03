@@ -150,6 +150,18 @@ class GenericOnOffInverted(VictronEnum):
     OFF = (1, "off", "Off")
 
 
+class FirmwareUpdateState(VictronEnum):
+    """GX firmware update state."""
+
+    UPDATE_FILE_NOT_FOUND = (997, "update_file_not_found", "Update file not found")
+    ERROR_DURING_UPDATE = (998, "error_during_update", "Error during update")
+    ERROR_DURING_CHECK = (999, "error_during_check", "Error during check")
+    IDLE = (1000, "idle", "Idle")
+    CHECKING = (1001, "checking", "Checking")
+    DOWNLOADING_AND_INSTALLING = (1002, "downloading_and_installing", "Downloading and installing")
+    REBOOTING = (1003, "rebooting", "Rebooting")
+
+
 class VrmPortalMode(VictronEnum):
     """VRM Portal access level enum."""
 

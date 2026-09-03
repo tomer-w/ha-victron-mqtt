@@ -22,7 +22,7 @@ from paho.mqtt.reasoncodes import ReasonCode
 from ._victron_enums import DeviceType
 from ._victron_topics import topics
 from .constants import AUTO_UPDATE_INTERVALS, TOPIC_INSTALLATION_ID, MetricKind, OperationMode
-from .data_classes import ParsedTopic, TopicDescriptor, topic_to_device_type
+from .data_classes import MetricValue, ParsedTopic, TopicDescriptor, topic_to_device_type
 from .device import Device, FallbackPlaceholder, MetricPlaceholder
 from .formula_metric import FormulaMetric
 from .id_utils import reraise_same_exception
@@ -463,9 +463,9 @@ class Hub:
             context.verify_mode = ssl.VerifyMode.CERT_NONE
         else:
             _LOGGER.info("TLS enabled with caller-provided SSL context")
-        self._client.tls_set_context(context)  # type: ignore[arg-type]
+        self._client.tls_set_context(context)  # pyright: ignore[reportUnknownMemberType]
 
-    def publish(self, topic_short_id: str, device_id: str, value: str | float | int | None) -> None:
+    def publish(self, topic_short_id: str, device_id: str, value: MetricValue) -> None:
         """Publish a message to the MQTT broker."""
         _LOGGER.info(
             "Publishing message to topic_short_id: %s, device_id: %s, value: %s", topic_short_id, device_id, value
@@ -798,10 +798,12 @@ class Hub:
             version_metric_name = "system_0_platform_venus_firmware_installed_version"
             version_metric = self._all_metrics.get(version_metric_name)
             if version_metric and version_metric.value:
-                if version_metric.value[0] == "v":
+                version_value = version_metric.value
+                assert isinstance(version_value, str)
+                if version_value[0] == "v":
                     try:
                         # Accept versions like 'v3.70' and 'v3.70~15' by stripping any '~' suffix
-                        ver_str = version_metric.value[1:]
+                        ver_str = version_value[1:]
                         if "~" in ver_str:
                             ver_str = ver_str.split("~", 1)[0]
                         self._firmware_version = tuple(int(part) for part in ver_str.split("."))
@@ -1286,7 +1288,7 @@ class Hub:
         return self._on_new_metric
 
     @on_new_metric.setter
-    def on_new_metric(self, value: CallbackOnNewMetric | None):
+    def on_new_metric(self, value: CallbackOnNewMetric | None) -> None:
         """Sets the on_new_metric callback."""
         self._on_new_metric = value
 
@@ -1296,7 +1298,7 @@ class Hub:
         return self._on_new_device
 
     @on_new_device.setter
-    def on_new_device(self, value: CallbackOnNewDevice | None):
+    def on_new_device(self, value: CallbackOnNewDevice | None) -> None:
         """Sets the on_new_device callback."""
         self._on_new_device = value
 
@@ -1313,6 +1315,7 @@ class Hub:
         try:
             publish_completed_message = json.loads(value)
             echo = publish_completed_message.get("full-publish-completed-echo", None)
+            assert echo is None or isinstance(echo, str)
             return echo
         except (json.JSONDecodeError, KeyError, ValueError, TypeError):
             _LOGGER.error("Failed to extract keepalive echo: %s", value)

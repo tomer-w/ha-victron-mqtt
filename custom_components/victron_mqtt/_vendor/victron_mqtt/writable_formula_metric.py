@@ -7,8 +7,7 @@ from collections.abc import Callable
 from typing import Any
 
 from . import _victron_formulas as formulas
-from .constants import VictronEnum
-from .data_classes import TopicDescriptor
+from .data_classes import MetricValue, TopicDescriptor
 from .formula_metric import FormulaMetric
 from .writable_metric import WritableMetric
 
@@ -45,10 +44,10 @@ class WritableFormulaMetric(WritableMetric, FormulaMetric):
         force_invalidate: bool,
         log_debug: Callable[..., None],
         stale_timeout: float | None = None,
-    ):
+    ) -> None:
         log_debug("Metric is WritableFormulaMetric so no keepalive for now: %s", self.unique_id)
 
-    def set(self, value: str | float | int | bool | VictronEnum) -> None:
+    def set(self, value: MetricValue) -> None:
         # Determine log level based on the substring
         is_info_level = self._hub._topic_log_info and self._hub._topic_log_info in self._descriptor.topic
         log_debug = _LOGGER.info if is_info_level else _LOGGER.debug
