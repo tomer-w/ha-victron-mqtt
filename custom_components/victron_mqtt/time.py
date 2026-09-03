@@ -77,7 +77,9 @@ class VictronTime(VictronBaseEntity, TimeEntity):
             device, metric, device_info, "time", simple_naming, installation_id
         )
         assert metric.unit_of_measurement == "min"
-        self._attr_native_value = VictronTime.victron_time_to_time(metric.value)
+        value = metric.value
+        assert value is None or isinstance(value, int | float)
+        self._attr_native_value = VictronTime.victron_time_to_time(value)
 
     @callback
     def _on_update_cb(self, value: Any) -> None:
@@ -98,10 +100,11 @@ class VictronTime(VictronBaseEntity, TimeEntity):
         self._metric.set(total_minutes)
 
     @staticmethod
-    def victron_time_to_time(value: int | None) -> time | None:
+    def victron_time_to_time(value: int | float | None) -> time | None:
         """Convert minutes since midnight to time object."""
         if value is None:
             return None
+        assert not isinstance(value, float) or value.is_integer()
         total_minutes = int(value)
         hours = total_minutes // 60
         minutes = total_minutes % 60

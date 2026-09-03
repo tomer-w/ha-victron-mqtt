@@ -98,7 +98,9 @@ class VictronNumber(VictronBaseEntity, NumberEntity):
             installation_id,
         )
         self._attr_device_class = METRIC_TYPE_TO_DEVICE_CLASS.get(metric.metric_type)
-        self._attr_native_value = metric.value
+        value = metric.value
+        assert value is None or isinstance(value, int | float)
+        self._attr_native_value = value
         if metric.min_value is not None:
             self._attr_native_min_value = metric.min_value
         if metric.max_value is not None:
