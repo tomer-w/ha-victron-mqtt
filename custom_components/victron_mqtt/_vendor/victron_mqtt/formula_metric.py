@@ -14,7 +14,7 @@ if TYPE_CHECKING:
     from collections.abc import Callable
 
     from .constants import FormulaTransientState
-    from .data_classes import TopicDescriptor
+    from .data_classes import MetricValue, TopicDescriptor
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -58,10 +58,10 @@ class FormulaMetric(Metric):
         return self.__str__()
 
     @property
-    def value(self):
+    def value(self) -> MetricValue:
         return self._value
 
-    def _handle_formula(self, log_debug: Callable[..., None]):
+    def _handle_formula(self, log_debug: Callable[..., None]) -> None:
         if any(
             not metric.available and metric.generic_short_id in self._required_dependency_short_ids
             for metric in self._depends_on.values()

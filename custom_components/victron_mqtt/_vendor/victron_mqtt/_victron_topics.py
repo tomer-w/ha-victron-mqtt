@@ -29,6 +29,7 @@ from ._victron_enums import (
     EvChargerPosition,
     EvChargerStatus,
     EvChargingState,
+    FirmwareUpdateState,
     FluidType,
     GeneratorRunningByConditionCode,
     GenericAlarmEnum,
@@ -2156,6 +2157,8 @@ topics: list[TopicDescriptor] = [
         short_id="multi_max_power_yesterday",
         name="Max power yesterday",
         metric_type=MetricType.POWER,
+        # This is a completed historical aggregate, not a present-time measurement, and it can decrease when the previous-day window advances.
+        metric_nature=MetricNature.NONE,
     ),
     TopicDescriptor(
         topic="N/{installation_id}/multi/{device_id}/History/Daily/1/Pv/{mppt_id}/Yield",
@@ -2276,6 +2279,22 @@ topics: list[TopicDescriptor] = [
         value_type=ValueType.STRING,
         short_id="platform_venus_firmware_available_version",
         name="Available version",
+    ),
+    TopicDescriptor(
+        topic="N/{installation_id}/platform/{device_id}/Firmware/Progress",
+        message_type=MetricKind.SENSOR,
+        short_id="platform_venus_firmware_progress",
+        name="Firmware update progress",
+        metric_type=MetricType.PERCENTAGE,
+        value_type=ValueType.INT,
+    ),
+    TopicDescriptor(
+        topic="N/{installation_id}/platform/{device_id}/Firmware/State",
+        message_type=MetricKind.SENSOR,
+        short_id="platform_venus_firmware_state",
+        name="Firmware update state",
+        value_type=ValueType.ENUM,
+        enum=FirmwareUpdateState,
     ),
     # PV Inverter topics
     TopicDescriptor(
@@ -2969,6 +2988,8 @@ topics: list[TopicDescriptor] = [
         short_id="solarcharger_max_power_yesterday",
         name="Max power yesterday",
         metric_type=MetricType.POWER,
+        # This is a completed historical aggregate, not a present-time measurement, and it can decrease when the previous-day window advances.
+        metric_nature=MetricNature.NONE,
     ),
     TopicDescriptor(
         topic="N/{installation_id}/solarcharger/{device_id}/History/Daily/1/Yield",
@@ -4158,5 +4179,19 @@ topics: list[TopicDescriptor] = [
         metric_type=MetricType.POWER,
         min=-12500,
         max=12500,
+    ),
+    TopicDescriptor(
+        topic="W/{installation_id}/platform/{device_id}/Firmware/Online/Check",
+        message_type=MetricKind.SERVICE,
+        short_id="platform_service_venus_firmware_check",
+        name="Check for firmware update",
+        value_type=ValueType.INT,
+    ),
+    TopicDescriptor(
+        topic="W/{installation_id}/platform/{device_id}/Firmware/Online/Install",
+        message_type=MetricKind.SERVICE,
+        short_id="platform_service_venus_firmware_install",
+        name="Install firmware update",
+        value_type=ValueType.INT,
     ),
 ]

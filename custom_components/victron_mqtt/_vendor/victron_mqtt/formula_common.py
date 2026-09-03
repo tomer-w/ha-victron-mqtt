@@ -28,7 +28,9 @@ class LRSLastReading(FormulaTransientState):
 def _get_lrs_input(depends_on: dict[str, Metric]) -> float | None:
     assert len(depends_on) == 1, "Expected exactly one input metric for LRS"
     metric = next(iter(depends_on.values()))
-    return metric.value
+    value = metric.value
+    assert value is None or isinstance(value, int | float)
+    return value
 
 
 def calculate_rolling_riemann_sum(

@@ -5,14 +5,13 @@ Support for Victron Venus WritableMetric.
 import json
 import logging
 from collections.abc import Iterable
-from enum import Enum
 from typing import Any
 
 from ._unwrappers import VALUE_TYPE_WRAPPER, wrap_bitmask, wrap_enum
 from ._victron_enums import SwitchableOutputType
 from ._victron_products import get_product_capabilities
 from .constants import MetricKind, ValueType, VictronEnum
-from .data_classes import ParsedTopic, ProductCapabilityRef, TopicDescriptor
+from .data_classes import MetricValue, ParsedTopic, ProductCapabilityRef, TopicDescriptor
 from .metric import Metric
 
 _LOGGER = logging.getLogger(__name__)
@@ -52,9 +51,15 @@ class WritableMetric(Metric):
     def phase2_init(self, device_id: str, all_metrics: dict[str, Metric]) -> None:
         """Phase 2 initialization of the WritableMetric."""
         super().phase2_init(device_id, all_metrics)
-        self._min_value = self._resolve_range_value(self._descriptor.min, device_id, all_metrics)
-        self._max_value = self._resolve_range_value(self._descriptor.max, device_id, all_metrics)
-        self._step_value = self._resolve_range_value(self._descriptor.step, device_id, all_metrics)
+        min_value = self._resolve_range_value(self._descriptor.min, device_id, all_metrics)
+        max_value = self._resolve_range_value(self._descriptor.max, device_id, all_metrics)
+        step_value = self._resolve_range_value(self._descriptor.step, device_id, all_metrics)
+        assert min_value is None or isinstance(min_value, int | float)
+        assert max_value is None or isinstance(max_value, int | float)
+        assert step_value is None or isinstance(step_value, int | float)
+        self._min_value = min_value
+        self._max_value = max_value
+        self._step_value = step_value
         self._unit_of_measurement = self._resolve_string_value(
             self._descriptor.unit_of_measurement, device_id, all_metrics
         )
@@ -74,7 +79,7 @@ class WritableMetric(Metric):
         range_value: int | float | str | ProductCapabilityRef | None,
         device_id: str,
         all_metrics: dict[str, Metric],
-    ) -> int | float | None:
+    ) -> int | float | VictronEnum | None:
         """Resolve a range value (min/max/step) that may be static or reference another metric."""
         if range_value is None:
             return None
@@ -106,7 +111,9 @@ class WritableMetric(Metric):
             )
             return default_value
 
-        return ref_metric.value
+        value = ref_metric.value
+        assert value is None or isinstance(value, int | float | VictronEnum)
+        return value
 
     def _resolve_product_capability(self, ref: ProductCapabilityRef) -> int | float | None:
         """Resolve a range value from the device's product capability table."""
@@ -115,6 +122,7 @@ class WritableMetric(Metric):
             # Dynamic lookup: the capability name is only known at runtime.
             value = getattr(capabilities, ref.capability, None)
             if value is not None:
+                assert isinstance(value, int | float)
                 return value
         _LOGGER.debug(
             "Product capability '%s' unavailable for %s (product_id=%s), using default %s",
@@ -205,7 +213,7 @@ class WritableMetric(Metric):
             return self._labels
         return super().enum_values
 
-    def set(self, value: str | float | int | bool | VictronEnum) -> None:
+    def set(self, value: MetricValue) -> None:
         """Set the value of this metric by publishing to the write topic.
 
         Raises
@@ -230,7 +238,7 @@ class WritableMetric(Metric):
         self._hub._publish(self._write_topic, payload)  # pylint: disable=protected-access
 
     @staticmethod
-    def _wrap_payload(topic_desc: TopicDescriptor, value: str | float | int | bool | Enum) -> str:
+    def _wrap_payload(topic_desc: TopicDescriptor, value: MetricValue) -> str:
         assert topic_desc.value_type is not None
         value_type = topic_desc.value_type
 
@@ -250,11 +258,11 @@ class WritableMetric(Metric):
         return wrapper(value)
 
     @property
-    def value(self):
+    def value(self) -> MetricValue:
         """Get the current value of this metric."""
         return self._value
 
     @value.setter
-    def value(self, new_value: str | float | int | bool | VictronEnum) -> None:
+    def value(self, new_value: MetricValue) -> None:
         """Set a new value for this metric."""
         self.set(new_value)

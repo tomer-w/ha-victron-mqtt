@@ -4,20 +4,24 @@ This module provides utilities for downstream projects that use victron_mqtt
 to write their own tests involving Hub objects and MQTT message simulation.
 """
 
+from __future__ import annotations
+
 import asyncio
 import json
 import logging
 from itertools import count
-from typing import Any, Literal
+from typing import TYPE_CHECKING, Any, Literal
 from unittest.mock import MagicMock, patch
 
 from paho.mqtt.client import ConnectFlags
 from paho.mqtt.packettypes import PacketTypes
 from paho.mqtt.reasoncodes import ReasonCode
 
-from .._victron_enums import DeviceType
 from ..constants import TOPIC_INSTALLATION_ID, OperationMode
 from ..hub import Hub
+
+if TYPE_CHECKING:
+    from .._victron_enums import DeviceType
 
 logger = logging.getLogger(__name__)
 
@@ -171,7 +175,7 @@ async def sleep_short(mock_time: MagicMock | None = None):
         mock_time: Optional MagicMock for time.monotonic() to advance time simulation.
     """
     if mock_time:
-        times = count(0, 0.05)  # Start at 0, increment by 0.05 each call
+        times = count(0.0, 0.05)  # Start at 0, increment by 0.05 each call
         mock_time.side_effect = lambda: next(times)
     await asyncio.sleep(0.01)  # Allow event loop to process any scheduled callbacks
     if mock_time:
@@ -188,7 +192,7 @@ async def hub_disconnect(hub: Hub, mock_time: MagicMock | None = None):
     logger.info("calling hub.disconnect()")
     if mock_time:
         # As hub.disconnect is using asyncio.sleep(0.1), creating a sequence of increasing times
-        times = count(0, 0.05)  # Start at 0, increment by 0.05 each call
+        times = count(0.0, 0.05)  # Start at 0, increment by 0.05 each call
         mock_time.side_effect = lambda: next(times)
     await hub.disconnect()
     if mock_time:

@@ -65,10 +65,13 @@ def schedule_charge_enabled(
 
     assert len(depends_on) == 1, "Expected exactly one input metric for schedule_charge_enabled"
     metric = next(iter(depends_on.values()))
-    if metric.value is None:
+    value = metric.value
+    if value is None:
         return None, None
+    assert isinstance(value, ChargeSchedule)
+    assert isinstance(value.code, int)
 
-    ret_val = GenericOnOff.ON if metric.value.code >= 0 else GenericOnOff.OFF
+    ret_val = GenericOnOff.ON if value.code >= 0 else GenericOnOff.OFF
     return ret_val, None
 
 
@@ -92,11 +95,11 @@ def schedule_charge_enabled_set(
         if schedule_value == ChargeSchedule.DISABLED_SUNDAY:
             metric.set(ChargeSchedule.SUNDAY)  # No idea why they didnt choose non zero for Sunday
         elif schedule_code < 0:
-            metric.set(ChargeSchedule.from_code(abs(schedule_code)))  # type: ignore[arg-type]
+            metric.set(ChargeSchedule.from_code(abs(schedule_code)))
     elif schedule_value == ChargeSchedule.SUNDAY:
         metric.set(ChargeSchedule.DISABLED_SUNDAY)  # No idea why they didnt choose non zero for Sunday
     elif schedule_code >= 0:
-        metric.set(ChargeSchedule.from_code(-abs(schedule_code)))  # type: ignore[arg-type]
+        metric.set(ChargeSchedule.from_code(-abs(schedule_code)))
 
     return enabled, None
 
@@ -106,9 +109,11 @@ def dvcc_enabled(
 ) -> tuple[GenericOnOff | None, None]:
     """Derive DVCC on/off from Settings/Services/Bol (bit 0 = enabled)."""
     metric = next(iter(depends_on.values()))
-    if metric.value is None:
+    metric_value = metric.value
+    if metric_value is None:
         return None, None
-    code = int(metric.value.code) if isinstance(metric.value, DVCCMode) else int(metric.value)
+    assert isinstance(metric_value, DVCCMode | str | float | int)
+    code = int(metric_value.code) if isinstance(metric_value, DVCCMode) else int(metric_value)
     return (GenericOnOff.ON if code & 1 else GenericOnOff.OFF), None
 
 
@@ -125,7 +130,9 @@ def dvcc_enabled_set(
     metric = next(iter(depends_on.values()))
     assert isinstance(metric, WritableMetric), "Expected WritableMetric for dvcc_enabled_set"
     # Do not override BMS/system-forced state (FORCED_OFF=2, FORCED_ON=3)
-    current_code = int(metric.value.code) if isinstance(metric.value, DVCCMode) else int(metric.value or 0)
+    metric_value = metric.value
+    assert metric_value is None or isinstance(metric_value, DVCCMode | str | float | int)
+    current_code = int(metric_value.code) if isinstance(metric_value, DVCCMode) else int(metric_value or 0)
     if current_code & 2:
         # Forced by system — return current state without writing
         return (GenericOnOff.ON if current_code & 1 else GenericOnOff.OFF), None
@@ -138,11 +145,13 @@ def dvcc_state(
 ) -> tuple[DVCCMode | None, None]:
     """Pass through the full DVCC state (Off, On, Forced off, Forced on)."""
     metric = next(iter(depends_on.values()))
-    if metric.value is None:
+    metric_value = metric.value
+    if metric_value is None:
         return None, None
-    if isinstance(metric.value, DVCCMode):
-        return metric.value, None
-    return DVCCMode.from_code(int(metric.value)), None
+    if isinstance(metric_value, DVCCMode):
+        return metric_value, None
+    assert isinstance(metric_value, str | float | int)
+    return DVCCMode.from_code(int(metric_value)), None
 
 
 def ess_batterylife_state(
@@ -150,11 +159,13 @@ def ess_batterylife_state(
 ) -> tuple[ESSState | None, None]:
     """Pass through the BatteryLife state from the hidden SELECT as a read-only SENSOR."""
     metric = next(iter(depends_on.values()))
-    if metric.value is None:
+    metric_value = metric.value
+    if metric_value is None:
         return None, None
-    if isinstance(metric.value, ESSState):
-        return metric.value, None
-    return ESSState.from_code(int(metric.value)), None
+    if isinstance(metric_value, ESSState):
+        return metric_value, None
+    assert isinstance(metric_value, str | float | int)
+    return ESSState.from_code(int(metric_value)), None
 
 
 def gps_location(
@@ -196,12 +207,23 @@ def gps_location(
     if fix_metric is not None and fix_metric.value == GenericOnOff.OFF:
         return None, None
 
+    latitude = lat_metric.value
+    longitude = lon_metric.value
+    altitude = alt_metric.value if alt_metric else None
+    course = course_metric.value if course_metric else None
+    speed = speed_metric.value if speed_metric else None
+    assert isinstance(latitude, float | int)
+    assert isinstance(longitude, float | int)
+    assert altitude is None or isinstance(altitude, float | int)
+    assert course is None or isinstance(course, float | int)
+    assert speed is None or isinstance(speed, float | int)
+
     return GpsLocation(
-        latitude=lat_metric.value,
-        longitude=lon_metric.value,
-        altitude=alt_metric.value if alt_metric else None,
-        course=course_metric.value if course_metric else None,
-        speed=speed_metric.value if speed_metric else None,
+        latitude=latitude,
+        longitude=longitude,
+        altitude=altitude,
+        course=course,
+        speed=speed,
     ), None
 
 
@@ -232,6 +254,7 @@ def ess_user_mode(
         return ESSUserMode.EXTERNAL_CONTROL, None
 
     state_value = state_metric.value
+    assert isinstance(state_value, ESSState | str | float | int)
     code = int(state_value.code) if isinstance(state_value, ESSState) else int(state_value)
 
     if code == 9:
@@ -349,9 +372,13 @@ def pv_current(
 
     if power_metric is None or voltage_metric is None:
         return None
-    if power_metric.value is None or voltage_metric.value is None:
+    power = power_metric.value
+    voltage = voltage_metric.value
+    if power is None or voltage is None:
         return None
-    if voltage_metric.value == 0:
+    assert isinstance(power, float | int)
+    assert isinstance(voltage, float | int)
+    if voltage == 0:
         return None
 
-    return power_metric.value / voltage_metric.value, None
+    return power / voltage, None
