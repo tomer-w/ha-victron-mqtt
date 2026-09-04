@@ -10,6 +10,7 @@ from homeassistant.components.update import (
     UpdateEntity,
     UpdateEntityFeature,
 )
+from homeassistant.const import STATE_ON
 from homeassistant.core import HomeAssistant, callback
 from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
@@ -198,6 +199,8 @@ class VictronFirmwareUpdateEntity(UpdateEntity):
         """Initialize the firmware update entity."""
         self._entry = entry
         self._hub = entry.runtime_data
+        self._firmware_versions = self._hub.firmware_versions
+        self._last_logged_versions: tuple[str | None, str | None] | None = None
         self._attr_unique_id = f"{entry.unique_id}_firmware"
         self._attr_device_info = DeviceInfo(
             identifiers={(DOMAIN, f"{entry.unique_id}_system_0")}
@@ -206,18 +209,26 @@ class VictronFirmwareUpdateEntity(UpdateEntity):
     @property
     def installed_version(self) -> str | None:
         """Return the installed Venus OS version."""
-        return self._hub.firmware_versions[0]
+        return self._firmware_versions[0]
 
     @property
     def latest_version(self) -> str | None:
         """Return the latest available Venus OS version."""
-        return self._hub.firmware_versions[1]
+        return self._firmware_versions[1]
 
     @property
     def available(self) -> bool:
         """Return whether both firmware version metrics are available."""
-        installed, latest = self._hub.firmware_versions
+        installed, latest = self._firmware_versions
         return installed is not None and latest is not None
+
+    def version_is_newer(self, latest_version: str, installed_version: str) -> bool:
+        """Return whether the latest Venus OS version is newer."""
+        parsed_latest = _parse_version(latest_version)
+        parsed_installed = _parse_version(installed_version)
+        if parsed_latest is None or parsed_installed is None:
+            return super().version_is_newer(latest_version, installed_version)
+        return parsed_latest > parsed_installed
 
     async def async_install(
         self, version: str | None, backup: bool, **kwargs: object
@@ -253,3 +264,27 @@ class VictronFirmwareUpdateEntity(UpdateEntity):
 
     async def async_update(self) -> None:
         """Refresh the entity from the latest in-memory MQTT values."""
+        versions = self._hub.firmware_versions
+        if versions == self._last_logged_versions:
+            return
+
+        self._firmware_versions = versions
+        self._last_logged_versions = versions
+        installed, latest = versions
+        parsed_installed = _parse_version(installed) if installed is not None else None
+        parsed_latest = _parse_version(latest) if latest is not None else None
+        entity_state = self.state
+        update_expected = entity_state == STATE_ON
+        _LOGGER.info(
+            "GX firmware versions for hub %s: installed=%r (parsed=%s), "
+            "latest=%r (parsed=%s), entity_available=%s, "
+            "update_expected=%s, entity_state=%s",
+            getattr(self._hub, "id", "unknown"),
+            installed,
+            parsed_installed,
+            latest,
+            parsed_latest,
+            self.available,
+            update_expected,
+            entity_state,
+        )

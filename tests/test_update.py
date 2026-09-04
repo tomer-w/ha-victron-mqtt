@@ -1,5 +1,6 @@
 """Test the Victron firmware update entity."""
 
+import logging
 from unittest.mock import AsyncMock, MagicMock, PropertyMock, patch
 
 import pytest
@@ -56,6 +57,64 @@ def test_firmware_update_details() -> None:
     assert entity.supported_features == (
         UpdateEntityFeature.INSTALL | UpdateEntityFeature.PROGRESS
     )
+    assert entity.available
+
+
+@pytest.mark.parametrize(
+    ("installed", "latest", "expected_state"),
+    [
+        ("v3.80~36", "v3.80~45", "on"),
+        ("v3.80~45", "v3.80~36", "off"),
+    ],
+)
+def test_firmware_update_compares_victron_builds(
+    installed: str, latest: str, expected_state: str
+) -> None:
+    """Test Home Assistant state uses Victron build ordering."""
+    entity, _ = _create_entity(installed, latest)
+
+    assert entity.state == expected_state
+
+
+async def test_update_logs_firmware_versions_when_they_change(
+    caplog: pytest.LogCaptureFixture,
+) -> None:
+    """Test polling traces version comparison decisions without duplicate logs."""
+    entity, hub = _create_entity("v3.80~36", "v3.80~45")
+    hub.id = "test-hub"
+
+    with caplog.at_level(logging.INFO):
+        await entity.async_update()
+        await entity.async_update()
+        hub.firmware_versions = ("v3.80~45", "v3.80~45")
+        await entity.async_update()
+
+    messages = [
+        record.getMessage()
+        for record in caplog.records
+        if record.name == "custom_components.victron_mqtt.update"
+        and record.getMessage().startswith("GX firmware versions")
+    ]
+    assert len(messages) == 2
+    assert "installed='v3.80~36' (parsed=(3, 80, 36))" in messages[0]
+    assert "latest='v3.80~45' (parsed=(3, 80, 45))" in messages[0]
+    assert "entity_available=True, update_expected=True, entity_state=on" in messages[0]
+    assert "update_expected=False, entity_state=off" in messages[1]
+
+
+async def test_update_caches_consistent_firmware_version_snapshot() -> None:
+    """Test entity properties use the version pair captured during polling."""
+    entity, hub = _create_entity("v3.80~36", None)
+
+    hub.firmware_versions = ("v3.80~36", "v3.80~45")
+    assert entity.installed_version == "v3.80~36"
+    assert entity.latest_version is None
+    assert not entity.available
+
+    await entity.async_update()
+
+    assert entity.installed_version == "v3.80~36"
+    assert entity.latest_version == "v3.80~45"
     assert entity.available
 
 
