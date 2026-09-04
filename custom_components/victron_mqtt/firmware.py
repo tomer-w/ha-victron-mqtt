@@ -132,10 +132,15 @@ def _schedule_firmware_refresh(
         entry.entry_id,
         _CHECK_RESULT_DELAY,
     )
+
+    @callback
+    def _async_check_after_delay(_now: object) -> None:
+        async_check_firmware_update(hass, entry)
+
     entry._firmware_refresh_unsub = async_call_later(
         hass,
         _CHECK_RESULT_DELAY,
-        lambda _now: async_check_firmware_update(hass, entry),
+        _async_check_after_delay,
     )
 
 
@@ -167,9 +172,13 @@ def async_setup_firmware_monitor(
     async_check_firmware_update(hass, entry)
     _async_refresh_firmware_update(hass, entry)
 
+    @callback
+    def _async_refresh_at_interval(_now: object) -> None:
+        _async_refresh_firmware_update(hass, entry)
+
     interval_unsub = async_track_time_interval(
         hass,
-        lambda _now: _async_refresh_firmware_update(hass, entry),
+        _async_refresh_at_interval,
         _CHECK_INTERVAL,
     )
 

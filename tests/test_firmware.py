@@ -4,7 +4,7 @@ from datetime import timedelta
 from unittest.mock import MagicMock, patch
 
 import pytest
-from homeassistant.core import HomeAssistant
+from homeassistant.core import HassJob, HassJobType, HomeAssistant
 from homeassistant.helpers import issue_registry as ir
 from pytest_homeassistant_custom_component.common import MockConfigEntry
 
@@ -103,6 +103,7 @@ async def test_refresh_requests_online_check_before_updating_issue(
 
     entry.runtime_data.check_firmware_update.assert_called_once_with()
     callback = call_later.call_args.args[2]
+    assert HassJob(callback).job_type is HassJobType.Callback
     callback(None)
     assert ir.async_get(hass).async_get_issue(DOMAIN, firmware_issue_id(entry))
 
@@ -121,6 +122,7 @@ async def test_monitor_checks_online_firmware_weekly(hass: HomeAssistant) -> Non
 
     entry.runtime_data.check_firmware_update.assert_called_once_with()
     assert track_interval.call_args.args[2] == timedelta(days=7)
+    assert HassJob(track_interval.call_args.args[1]).job_type is HassJobType.Callback
 
 
 async def test_monitor_replaces_existing_timers(hass: HomeAssistant) -> None:
