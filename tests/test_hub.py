@@ -1,6 +1,6 @@
 """Test the Victron GX MQTT Hub class."""
 
-from unittest.mock import AsyncMock, MagicMock, patch
+from unittest.mock import AsyncMock, MagicMock, call, patch
 
 import pytest
 from homeassistant.components.number import NumberMode
@@ -27,6 +27,7 @@ from custom_components.victron_mqtt import PLATFORMS
 from custom_components.victron_mqtt._vendor.victron_mqtt import (
     AuthenticationError,
     CannotConnectError,
+    FirmwareUpdateState,
 )
 from custom_components.victron_mqtt._vendor.victron_mqtt import (
     Device as VictronVenusDevice,
@@ -124,6 +125,48 @@ async def test_hub_start_success(hass: HomeAssistant, init_integration) -> None:
     # Verify the hub was started (integration was set up successfully)
     assert mock_config_entry.state == ConfigEntryState.LOADED
     assert victron_hub.installation_id == "123"
+
+
+async def test_firmware_versions(hass: HomeAssistant, init_integration) -> None:
+    """Test installed and available firmware versions are exposed by the hub."""
+    victron_hub, mock_config_entry = init_integration
+
+    await inject_message(
+        victron_hub,
+        "N/123/platform/0/Firmware/Installed/Version",
+        '{"value": "v3.60"}',
+    )
+    await inject_message(
+        victron_hub,
+        "N/123/platform/0/Firmware/Online/AvailableVersion",
+        '{"value": "v3.70"}',
+    )
+    await inject_message(
+        victron_hub,
+        "N/123/platform/0/Firmware/State",
+        '{"value": 1002}',
+    )
+    await inject_message(
+        victron_hub,
+        "N/123/platform/0/Firmware/Progress",
+        '{"value": 42}',
+    )
+    await finalize_injection(victron_hub)
+    await hass.async_block_till_done()
+
+    assert mock_config_entry.runtime_data.firmware_versions == ("v3.60", "v3.70")
+    assert mock_config_entry.runtime_data.firmware_update_status == (
+        FirmwareUpdateState.DOWNLOADING_AND_INSTALLING,
+        42,
+    )
+    with patch.object(victron_hub, "publish") as publish:
+        mock_config_entry.runtime_data.check_firmware_update()
+        mock_config_entry.runtime_data.install_firmware_update()
+
+    assert publish.call_args_list == [
+        call("platform_service_venus_firmware_check", "0", 1),
+        call("platform_service_venus_firmware_install", "0", 1),
+    ]
 
 
 async def test_hub_start_connection_error(

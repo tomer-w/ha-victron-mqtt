@@ -2517,6 +2517,33 @@
       }
     }
   },
+  "issues": {
+    "firmware_update_available": {
+      "title": "Pre {model} je dostupná aktualizácia firmvéru",
+      "fix_flow": {
+        "step": {
+          "init": {
+            "title": "Nainštalovať aktualizáciu firmvéru?",
+            "description": "Zariadenie GX stiahne a nainštaluje najnovší firmvér Venus OS a potom sa reštartuje. Počas aktualizácie nechajte zariadenie zapnuté."
+          }
+        },
+        "progress": {
+          "installing_firmware": "Sťahuje a inštaluje sa firmvér. Zariadenie GX sa môže počas tohto procesu reštartovať."
+        },
+        "abort": {
+          "entry_not_loaded": "Zariadenie GX momentálne nie je pripojené.",
+          "invalid_available_version": "Dostupná verzia firmvéru je neplatná.",
+          "update_file_not_found": "Zariadenie GX nenašlo súbor aktualizácie firmvéru.",
+          "error_during_update": "Zariadenie GX hlásilo chybu počas inštalácie firmvéru.",
+          "error_during_check": "Zariadenie GX hlásilo chybu počas kontroly firmvéru.",
+          "update_timed_out": "Aktualizácia firmvéru sa nedokončila do dvoch hodín."
+        },
+        "create_entry": {
+          "default": "Firmvér zariadenia GX bol úspešne aktualizovaný."
+        }
+      }
+    }
+  },
   "selector": {
     "operation_mode": {
       "options": {
