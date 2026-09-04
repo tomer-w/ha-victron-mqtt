@@ -15,6 +15,7 @@ from custom_components.victron_mqtt.update import (
     VictronFirmwareUpdateEntity,
     _async_install_firmware_update,
     _parse_version,
+    async_setup_entry,
 )
 
 
@@ -58,6 +59,21 @@ def test_firmware_update_details() -> None:
         UpdateEntityFeature.INSTALL | UpdateEntityFeature.PROGRESS
     )
     assert entity.available
+
+
+async def test_setup_refreshes_firmware_versions_before_add() -> None:
+    """Test setup refreshes the firmware entity immediately."""
+    entry = MockConfigEntry(domain=DOMAIN, unique_id="123")
+    entry.runtime_data = MagicMock()
+    async_add_entities = MagicMock()
+
+    await async_setup_entry(MagicMock(), entry, async_add_entities)
+
+    async_add_entities.assert_called_once()
+    entities, update_before_add = async_add_entities.call_args.args
+    assert len(entities) == 1
+    assert isinstance(entities[0], VictronFirmwareUpdateEntity)
+    assert update_before_add is True
 
 
 @pytest.mark.parametrize(

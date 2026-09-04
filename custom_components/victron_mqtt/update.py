@@ -180,7 +180,7 @@ async def async_setup_entry(
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
     """Set up the GX firmware update entity."""
-    async_add_entities([VictronFirmwareUpdateEntity(config_entry)])
+    async_add_entities([VictronFirmwareUpdateEntity(config_entry)], True)
 
 
 class VictronFirmwareUpdateEntity(UpdateEntity):
