@@ -1,10 +1,10 @@
 """Repair flows for Victron MQTT."""
 
 import asyncio
+import logging
 from collections.abc import Callable
 
 import voluptuous as vol
-
 from homeassistant import data_entry_flow
 from homeassistant.components.repairs import RepairsFlow
 from homeassistant.config_entries import ConfigEntryState
@@ -13,6 +13,8 @@ from homeassistant.core import HomeAssistant
 from ._vendor.victron_mqtt import FirmwareUpdateState
 from .firmware import _parse_version
 from .hub import Hub, VictronGxConfigEntry
+
+_LOGGER = logging.getLogger(__name__)
 
 _INSTALL_POLL_INTERVAL = 1
 _INSTALL_TIMEOUT = 2 * 60 * 60
@@ -38,18 +40,42 @@ async def _async_install_firmware_update(
     update_progress: Callable[[float], None],
 ) -> None:
     """Install firmware and report progress until the target version is active."""
+    hub_id = getattr(hub, "id", "unknown")
     target_version = _parse_version(available_version)
     if target_version is None:
+        _LOGGER.warning(
+            "Cannot install GX firmware for hub %s: invalid available version %r",
+            hub_id,
+            available_version,
+        )
         raise FirmwareUpdateError("invalid_available_version")
 
+    _LOGGER.info(
+        "Starting GX firmware installation for hub %s, target version %s",
+        hub_id,
+        available_version,
+    )
     hub.install_firmware_update()
     last_progress: float | None = None
+    last_state: FirmwareUpdateState | None = None
 
     try:
         async with asyncio.timeout(_INSTALL_TIMEOUT):
             while True:
                 state, progress = hub.firmware_update_status
+                if state is not last_state:
+                    _LOGGER.debug(
+                        "GX firmware installation state changed for hub %s: %s",
+                        hub_id,
+                        state,
+                    )
+                    last_state = state
                 if state in _UPDATE_ERROR_REASONS:
+                    _LOGGER.warning(
+                        "GX firmware installation failed for hub %s: state=%s",
+                        hub_id,
+                        state,
+                    )
                     raise FirmwareUpdateError(_UPDATE_ERROR_REASONS[state])
 
                 normalized_progress = (
@@ -62,6 +88,11 @@ async def _async_install_firmware_update(
                     and normalized_progress != last_progress
                 ):
                     update_progress(normalized_progress)
+                    _LOGGER.debug(
+                        "GX firmware installation progress for hub %s: %.0f%%",
+                        hub_id,
+                        normalized_progress * 100,
+                    )
                     last_progress = normalized_progress
 
                 installed_version, _ = hub.firmware_versions
@@ -70,16 +101,25 @@ async def _async_install_firmware_update(
                     if installed_version is not None
                     else None
                 )
-                if (
-                    parsed_installed is not None
-                    and parsed_installed >= target_version
-                ):
+                if parsed_installed is not None and parsed_installed >= target_version:
                     if last_progress != 1.0:
                         update_progress(1.0)
+                    _LOGGER.info(
+                        "GX firmware installation completed for hub %s: "
+                        "installed=%s, target=%s",
+                        hub_id,
+                        installed_version,
+                        available_version,
+                    )
                     return
 
                 await asyncio.sleep(_INSTALL_POLL_INTERVAL)
     except TimeoutError as exc:
+        _LOGGER.warning(
+            "GX firmware installation timed out for hub %s after %s seconds",
+            hub_id,
+            _INSTALL_TIMEOUT,
+        )
         raise FirmwareUpdateError("update_timed_out") from exc
 
 
@@ -101,10 +141,23 @@ class FirmwareUpdateRepairFlow(RepairsFlow):
     ) -> data_entry_flow.FlowResult:
         """Confirm firmware installation."""
         if self._entry is None or self._entry.state is not ConfigEntryState.LOADED:
+            _LOGGER.warning(
+                "Cannot start GX firmware repair: config entry is not loaded"
+            )
             return self.async_abort(reason="entry_not_loaded")
         if self._available_version is None:
+            _LOGGER.warning(
+                "Cannot start GX firmware repair for config entry %s: "
+                "available version is missing",
+                self._entry.entry_id,
+            )
             return self.async_abort(reason="invalid_available_version")
         if user_input is not None:
+            _LOGGER.info(
+                "GX firmware installation confirmed for config entry %s, target=%s",
+                self._entry.entry_id,
+                self._available_version,
+            )
             return await self.async_step_install()
 
         return self.async_show_form(step_id="init", data_schema=vol.Schema({}))
@@ -116,6 +169,10 @@ class FirmwareUpdateRepairFlow(RepairsFlow):
         assert self._entry is not None
         assert self._available_version is not None
         if self._install_task is None:
+            _LOGGER.debug(
+                "Creating GX firmware installation task for config entry %s",
+                self._entry.entry_id,
+            )
             self._install_task = self.hass.async_create_task(
                 _async_install_firmware_update(
                     self._entry.runtime_data,
@@ -135,6 +192,11 @@ class FirmwareUpdateRepairFlow(RepairsFlow):
         try:
             self._install_task.result()
         except FirmwareUpdateError as err:
+            _LOGGER.warning(
+                "GX firmware repair aborted for config entry %s: %s",
+                self._entry.entry_id,
+                err.reason,
+            )
             return self.async_abort(reason=err.reason)
 
         return self.async_show_progress_done(next_step_id="finish")
@@ -165,6 +227,14 @@ async def async_create_fix_flow(
         and entry.state is ConfigEntryState.LOADED
         and isinstance(entry.runtime_data, Hub)
         else None
+    )
+    _LOGGER.debug(
+        "Creating GX firmware repair flow: issue_id=%s, config_entry_id=%r, "
+        "entry_loaded=%s, available_version=%r",
+        issue_id,
+        config_entry_id,
+        typed_entry is not None,
+        available_version,
     )
     return FirmwareUpdateRepairFlow(
         typed_entry,

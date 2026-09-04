@@ -45,7 +45,18 @@ def async_check_firmware_update(
 ) -> None:
     """Create or clear the firmware update repair issue."""
     installed, available = entry.runtime_data.firmware_versions
+    _LOGGER.debug(
+        "Checking GX firmware for config entry %s: installed=%r, available=%r",
+        entry.entry_id,
+        installed,
+        available,
+    )
     if installed is None or available is None:
+        _LOGGER.debug(
+            "Cannot compare GX firmware for config entry %s because version "
+            "metrics are not available yet",
+            entry.entry_id,
+        )
         return
 
     installed_version = _parse_version(installed)
@@ -60,6 +71,12 @@ def async_check_firmware_update(
 
     issue_id = firmware_issue_id(entry)
     if installed_version < available_version:
+        _LOGGER.info(
+            "GX firmware update available for config entry %s: %s -> %s",
+            entry.entry_id,
+            installed,
+            available,
+        )
         ir.async_create_issue(
             hass,
             DOMAIN,
@@ -82,6 +99,12 @@ def async_check_firmware_update(
         )
         return
 
+    _LOGGER.debug(
+        "GX firmware is current for config entry %s: installed=%s, available=%s",
+        entry.entry_id,
+        installed,
+        available,
+    )
     ir.async_delete_issue(hass, DOMAIN, issue_id)
 
 
@@ -90,6 +113,10 @@ def _cancel_pending_refresh(entry: VictronGxConfigEntry) -> None:
     """Cancel any pending delayed firmware refresh for this entry."""
     refresh_unsub = getattr(entry, "_firmware_refresh_unsub", None)
     if refresh_unsub is not None:
+        _LOGGER.debug(
+            "Canceling pending GX firmware result check for config entry %s",
+            entry.entry_id,
+        )
         refresh_unsub()
         delattr(entry, "_firmware_refresh_unsub")
 
@@ -100,6 +127,11 @@ def _schedule_firmware_refresh(
 ) -> None:
     """Schedule a delayed firmware availability check and cancel stale ones."""
     _cancel_pending_refresh(entry)
+    _LOGGER.debug(
+        "Scheduling GX firmware result check for config entry %s in %s seconds",
+        entry.entry_id,
+        _CHECK_RESULT_DELAY,
+    )
     entry._firmware_refresh_unsub = async_call_later(
         hass,
         _CHECK_RESULT_DELAY,
@@ -112,6 +144,9 @@ def _async_refresh_firmware_update(
     hass: HomeAssistant, entry: VictronGxConfigEntry
 ) -> None:
     """Ask the GX device to refresh online firmware availability."""
+    _LOGGER.debug(
+        "Requesting online GX firmware check for config entry %s", entry.entry_id
+    )
     entry.runtime_data.check_firmware_update()
     _schedule_firmware_refresh(hass, entry)
 
@@ -120,8 +155,13 @@ def async_setup_firmware_monitor(
     hass: HomeAssistant, entry: VictronGxConfigEntry
 ) -> None:
     """Set up immediate comparison and weekly online firmware checks."""
+    _LOGGER.debug("Setting up GX firmware monitor for config entry %s", entry.entry_id)
     previous_unsub = getattr(entry, "_firmware_monitor_unsub", None)
     if previous_unsub is not None:
+        _LOGGER.debug(
+            "Replacing existing GX firmware monitor for config entry %s",
+            entry.entry_id,
+        )
         previous_unsub()
 
     async_check_firmware_update(hass, entry)
@@ -133,10 +173,27 @@ def async_setup_firmware_monitor(
         _CHECK_INTERVAL,
     )
 
-    entry._firmware_monitor_unsub = lambda: (
-        _cancel_pending_refresh(entry),
-        interval_unsub(),
-    )
+    unsubscribed = False
+
+    @callback
+    def _async_unsub_firmware_monitor() -> None:
+        nonlocal unsubscribed
+        if unsubscribed:
+            return
+        unsubscribed = True
+        _LOGGER.debug(
+            "Stopping GX firmware monitor for config entry %s", entry.entry_id
+        )
+        _cancel_pending_refresh(entry)
+        interval_unsub()
+        if (
+            getattr(entry, "_firmware_monitor_unsub", None)
+            is _async_unsub_firmware_monitor
+        ):
+            delattr(entry, "_firmware_monitor_unsub")
+
+    entry._firmware_monitor_unsub = _async_unsub_firmware_monitor
+    entry.async_on_unload(_async_unsub_firmware_monitor)
 
 
 @callback

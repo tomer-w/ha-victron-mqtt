@@ -10,8 +10,8 @@ from pytest_homeassistant_custom_component.common import MockConfigEntry
 
 from custom_components.victron_mqtt.const import CONF_MODEL, DOMAIN
 from custom_components.victron_mqtt.firmware import (
-    _parse_version,
     _async_refresh_firmware_update,
+    _parse_version,
     async_check_firmware_update,
     async_setup_firmware_monitor,
     firmware_issue_id,
@@ -35,9 +35,7 @@ def test_parse_version(value: str, expected: tuple[int, ...] | None) -> None:
     assert _parse_version(value) == expected
 
 
-def _create_entry(
-    installed: str | None, available: str | None
-) -> MockConfigEntry:
+def _create_entry(installed: str | None, available: str | None) -> MockConfigEntry:
     entry = MockConfigEntry(
         domain=DOMAIN,
         data={CONF_MODEL: "Cerbo GX"},
@@ -82,16 +80,14 @@ async def test_current_firmware_clears_repair_issue(
     """Test current firmware clears an existing repair issue."""
     entry = _create_entry("v3.60", "v3.70")
     async_check_firmware_update(hass, entry)
-    assert ir.async_get(hass).async_get_issue(
-        DOMAIN, firmware_issue_id(entry)
-    ) is not None
+    assert (
+        ir.async_get(hass).async_get_issue(DOMAIN, firmware_issue_id(entry)) is not None
+    )
 
     entry.runtime_data.firmware_versions = (installed, available)
     async_check_firmware_update(hass, entry)
 
-    assert (
-        ir.async_get(hass).async_get_issue(DOMAIN, firmware_issue_id(entry)) is None
-    )
+    assert ir.async_get(hass).async_get_issue(DOMAIN, firmware_issue_id(entry)) is None
 
 
 async def test_refresh_requests_online_check_before_updating_issue(
@@ -164,6 +160,4 @@ async def test_unknown_firmware_does_not_create_issue(
 
     async_check_firmware_update(hass, entry)
 
-    assert (
-        ir.async_get(hass).async_get_issue(DOMAIN, firmware_issue_id(entry)) is None
-    )
+    assert ir.async_get(hass).async_get_issue(DOMAIN, firmware_issue_id(entry)) is None
