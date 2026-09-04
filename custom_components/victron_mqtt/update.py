@@ -4,6 +4,7 @@ import asyncio
 import logging
 import re
 from collections.abc import Callable
+from datetime import timedelta
 
 from homeassistant.components.update import (
     UpdateDeviceClass,
@@ -20,6 +21,8 @@ from .const import DOMAIN
 from .hub import Hub, VictronGxConfigEntry
 
 _LOGGER = logging.getLogger(__name__)
+
+SCAN_INTERVAL = timedelta(seconds=30)
 
 _FIRMWARE_UPDATE_URL = "https://www.victronenergy.com/blog/category/firmware-software/"
 _INSTALL_POLL_INTERVAL = 1

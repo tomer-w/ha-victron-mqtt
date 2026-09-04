@@ -1,6 +1,7 @@
 """Test the Victron firmware update entity."""
 
 import logging
+from datetime import timedelta
 from unittest.mock import AsyncMock, MagicMock, PropertyMock, patch
 
 import pytest
@@ -11,6 +12,7 @@ from custom_components.victron_mqtt._vendor.victron_mqtt import FirmwareUpdateSt
 from custom_components.victron_mqtt.const import DOMAIN
 from custom_components.victron_mqtt.hub import Hub
 from custom_components.victron_mqtt.update import (
+    SCAN_INTERVAL,
     FirmwareUpdateError,
     VictronFirmwareUpdateEntity,
     _async_install_firmware_update,
@@ -59,6 +61,7 @@ def test_firmware_update_details() -> None:
         UpdateEntityFeature.INSTALL | UpdateEntityFeature.PROGRESS
     )
     assert entity.available
+    assert timedelta(seconds=30) == SCAN_INTERVAL
 
 
 async def test_setup_refreshes_firmware_versions_before_add() -> None:
