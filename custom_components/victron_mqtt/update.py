@@ -29,7 +29,8 @@ _UPDATE_ERROR_REASONS = {
     FirmwareUpdateState.ERROR_DURING_CHECK: "error_during_check",
 }
 _VERSION_PATTERN = re.compile(
-    r"^v?(?P<core>\d+(?:\.\d+)*)(?:[.-]?rc\d+)?$", re.IGNORECASE
+    r"^v?(?P<core>\d+(?:\.\d+)*)(?:~(?P<build>\d+))?$",
+    re.IGNORECASE,
 )
 
 
@@ -44,14 +45,15 @@ class FirmwareUpdateError(Exception):
 
 def _parse_version(value: str) -> tuple[int, ...] | None:
     """Parse a Venus OS version into comparable numeric components."""
-    normalized = value.strip().split("~", 1)[0]
-    match = _VERSION_PATTERN.fullmatch(normalized)
+    match = _VERSION_PATTERN.fullmatch(value.strip())
     if match is None:
         return None
 
     parts = [int(part) for part in match.group("core").split(".")]
     while len(parts) > 1 and parts[-1] == 0:
         parts.pop()
+    if build := match.group("build"):
+        parts.append(int(build))
     return tuple(parts)
 
 

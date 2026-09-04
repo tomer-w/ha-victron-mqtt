@@ -31,9 +31,10 @@ def _create_entity(
     ("value", "expected"),
     [
         ("v3.70", (3, 70)),
-        ("v3.70~15", (3, 70)),
-        ("3.70.0", (3, 70)),
-        ("V3.70.0-rc1", (3, 70)),
+        ("v3.70~15", (3, 70, 15)),
+        ("v2.62.1", (2, 62, 1)),
+        ("V3.70.0", (3, 70)),
+        ("v3.70-rc1", None),
         ("not-a-version", None),
     ],
 )
@@ -119,6 +120,32 @@ async def test_install_reports_progress_until_target_version() -> None:
 
     hub.install_firmware_update.assert_called_once_with()
     assert progress == [0.25, 1.0]
+
+
+async def test_install_waits_for_target_firmware_build() -> None:
+    """Test an older build of the same Venus OS version does not complete."""
+    hub = MagicMock(spec=Hub)
+    type(hub).firmware_update_status = PropertyMock(
+        side_effect=[
+            (FirmwareUpdateState.IDLE, None),
+            (FirmwareUpdateState.DOWNLOADING_AND_INSTALLING, 25),
+            (FirmwareUpdateState.REBOOTING, 100),
+        ]
+    )
+    versions = PropertyMock(
+        side_effect=[
+            ("v3.80~36", "v3.80~45"),
+            ("v3.80~45", "v3.80~45"),
+        ]
+    )
+    type(hub).firmware_versions = versions
+
+    with patch(
+        "custom_components.victron_mqtt.update.asyncio.sleep", new=AsyncMock()
+    ):
+        await _async_install_firmware_update(hub, "v3.80~45", MagicMock())
+
+    assert versions.call_count == 2
 
 
 async def test_install_ignores_stale_failure_until_status_changes() -> None:
