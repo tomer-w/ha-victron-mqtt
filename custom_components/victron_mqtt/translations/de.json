@@ -1077,6 +1077,11 @@
       "vebus_inverter_setting_alarm_grid_lost": {
         "name": "Einstellung Netzausfall-Alarm"
       }
+    },
+    "update": {
+      "firmware": {
+        "name": "Venus OS"
+      }
     }
   },
   "options": {
@@ -1112,33 +1117,6 @@
           "ssl": "Gibt an, ob SSL Verschlüsselung zur Verbindung mit dem Victron-Gerät verwendet wird. Normalerweise deaktiviert.",
           "update_frequency": "Aktualisierungsintervall in Sekunden. Standard ist 30 Sekunden. 0 = immer aktualisieren.",
           "username": "Benutzername für das Victron-Gerät, standardmäßig leer lassen. Dies ist NICHT Ihr VRM-Benutzername."
-        }
-      }
-    }
-  },
-  "issues": {
-    "firmware_update_available": {
-      "title": "Firmware-Update für {model} verfügbar",
-      "fix_flow": {
-        "step": {
-          "init": {
-            "title": "Firmware-Update installieren?",
-            "description": "Das GX-Gerät lädt die neueste Venus OS-Firmware herunter, installiert sie und startet anschließend neu. Lassen Sie das Gerät während des Updates eingeschaltet."
-          }
-        },
-        "progress": {
-          "installing_firmware": "Firmware wird heruntergeladen und installiert. Das GX-Gerät kann während dieses Vorgangs neu starten."
-        },
-        "abort": {
-          "entry_not_loaded": "Das GX-Gerät ist derzeit nicht verbunden.",
-          "invalid_available_version": "Die verfügbare Firmware-Version ist ungültig.",
-          "update_file_not_found": "Das GX-Gerät konnte die Firmware-Update-Datei nicht finden.",
-          "error_during_update": "Das GX-Gerät hat beim Installieren der Firmware einen Fehler gemeldet.",
-          "error_during_check": "Das GX-Gerät hat beim Prüfen der Firmware einen Fehler gemeldet.",
-          "update_timed_out": "Das Firmware-Update wurde nicht innerhalb von zwei Stunden abgeschlossen."
-        },
-        "create_entry": {
-          "default": "Die Firmware des GX-Geräts wurde erfolgreich aktualisiert."
         }
       }
     }

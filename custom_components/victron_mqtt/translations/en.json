@@ -2974,6 +2974,11 @@
         "name": "ESS BatteryLife schedule charge {slot} start",
         "unit_of_measurement": "min"
       }
+    },
+    "update": {
+      "firmware": {
+        "name": "Venus OS"
+      }
     }
   },
   "options": {
@@ -3015,33 +3020,6 @@
           "update_frequency": "Only used in 'Manual' mode. Update frequency in seconds. Set to 0 to update always.",
           "update_frequency_mode": "'Auto' lets the library choose an update interval per metric (fast-changing values like power update more often). 'Manual' uses the fixed interval below for all metrics.",
           "username": "Username for the MQTT server, default is empty. Not needed by Victron devices. This is only needed if you use route your mqtt messages through non Victron server and it does require username."
-        }
-      }
-    }
-  },
-  "issues": {
-    "firmware_update_available": {
-      "title": "Firmware update available for {model}",
-      "fix_flow": {
-        "step": {
-          "init": {
-            "title": "Install firmware update?",
-            "description": "The GX device will download and install the latest Venus OS firmware, then reboot. Keep the device powered during the update."
-          }
-        },
-        "progress": {
-          "installing_firmware": "Downloading and installing firmware. The GX device may reboot during this process."
-        },
-        "abort": {
-          "entry_not_loaded": "The GX device is not currently connected.",
-          "invalid_available_version": "The available firmware version is invalid.",
-          "update_file_not_found": "The GX device could not find the firmware update file.",
-          "error_during_update": "The GX device reported an error while installing the firmware.",
-          "error_during_check": "The GX device reported an error while checking the firmware.",
-          "update_timed_out": "The firmware update did not finish within two hours."
-        },
-        "create_entry": {
-          "default": "The GX device firmware was updated successfully."
         }
       }
     }

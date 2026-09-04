@@ -14,6 +14,7 @@ from homeassistant.const import (
     CONF_USERNAME,
     STATE_UNAVAILABLE,
     STATE_UNKNOWN,
+    Platform,
 )
 from homeassistant.core import HomeAssistant, State
 from homeassistant.helpers import device_registry as dr
@@ -53,6 +54,19 @@ from custom_components.victron_mqtt.const import (
 from custom_components.victron_mqtt.hub import Hub
 
 pytestmark = pytest.mark.usefixtures("enable_custom_integrations")
+
+
+def _metric_entities(
+    hass: HomeAssistant, config_entry: MockConfigEntry
+) -> list[er.RegistryEntry]:
+    """Return non-update entities belonging to a config entry."""
+    return [
+        entity
+        for entity in er.async_entries_for_config_entry(
+            er.async_get(hass), config_entry.entry_id
+        )
+        if entity.domain != Platform.UPDATE
+    ]
 
 @pytest.fixture(params=[False, True], ids=["complex_naming", "simple_naming"])
 def basic_config(request):
@@ -370,10 +384,7 @@ async def test_sensor(
     await hass.async_block_till_done()
 
     # Verify entity was created by checking entity registry
-    entity_registry = er.async_get(hass)
-    entities = er.async_entries_for_config_entry(
-        entity_registry, mock_config_entry.entry_id
-    )
+    entities = _metric_entities(hass, mock_config_entry)
 
     assert len(entities) == 1
     entity = entities[0]
@@ -399,10 +410,7 @@ async def test_sensor_without_unit_does_not_crash(
     await finalize_injection(victron_hub)
     await hass.async_block_till_done()
 
-    entity_registry = er.async_get(hass)
-    entities = er.async_entries_for_config_entry(
-        entity_registry, mock_config_entry.entry_id
-    )
+    entities = _metric_entities(hass, mock_config_entry)
     assert len(entities) == 1
 
     state = hass.states.get(entities[0].entity_id)
@@ -443,10 +451,7 @@ async def test_monetary_sensor_uses_ha_currency(
     await finalize_injection(victron_hub)
     await hass.async_block_till_done()
 
-    entity_registry = er.async_get(hass)
-    entities = er.async_entries_for_config_entry(
-        entity_registry, mock_config_entry.entry_id
-    )
+    entities = _metric_entities(hass, mock_config_entry)
     assert len(entities) == 1
     assert entities[0].unit_of_measurement == "EUR"
 
@@ -490,10 +495,7 @@ async def test_sensor_complex(
     await hass.async_block_till_done()
 
     # Verify entity was created by checking entity registry
-    entity_registry = er.async_get(hass)
-    entities = er.async_entries_for_config_entry(
-        entity_registry, mock_config_entry.entry_id
-    )
+    entities = _metric_entities(hass, mock_config_entry)
 
     assert len(entities) == 2
     day_entity_id = "select.victron_venus_ess_batterylife_schedule_charge_2_days"
@@ -543,10 +545,7 @@ async def test_binary_sensor(
     await finalize_injection(victron_hub)
 
     # Verify entity was created by checking entity registry
-    entity_registry = er.async_get(hass)
-    entities = er.async_entries_for_config_entry(
-        entity_registry, mock_config_entry.entry_id
-    )
+    entities = _metric_entities(hass, mock_config_entry)
 
     assert len(entities) == 1
     entity = entities[0]
@@ -568,10 +567,7 @@ async def test_number(
     await finalize_injection(victron_hub)
 
     # Verify entity was created by checking entity registry
-    entity_registry = er.async_get(hass)
-    entities = er.async_entries_for_config_entry(
-        entity_registry, mock_config_entry.entry_id
-    )
+    entities = _metric_entities(hass, mock_config_entry)
 
     assert len(entities) == 1
     entity = entities[0]
@@ -598,10 +594,7 @@ async def test_select(
     await inject_message(victron_hub, "N/123/evcharger/0/Mode", "{\"value\": 1}")
     await finalize_injection(victron_hub)
 
-    entity_registry = er.async_get(hass)
-    entities = er.async_entries_for_config_entry(
-        entity_registry, mock_config_entry.entry_id
-    )
+    entities = _metric_entities(hass, mock_config_entry)
 
     assert len(entities) == 1
     entity = entities[0]
@@ -621,10 +614,7 @@ async def test_select_main_topic(
     await inject_message(victron_hub, "N/123/vebus/289/Mode", '{"value": 3}')
     await finalize_injection(victron_hub)
 
-    entity_registry = er.async_get(hass)
-    entities = er.async_entries_for_config_entry(
-        entity_registry, mock_config_entry.entry_id
-    )
+    entities = _metric_entities(hass, mock_config_entry)
 
     assert len(entities) == 1
     entity = entities[0]
@@ -645,10 +635,7 @@ async def test_button(
     await finalize_injection(victron_hub)
 
     # Verify entity was created by checking entity registry
-    entity_registry = er.async_get(hass)
-    entities = er.async_entries_for_config_entry(
-        entity_registry, mock_config_entry.entry_id
-    )
+    entities = _metric_entities(hass, mock_config_entry)
 
     assert len(entities) == 1
     entity = entities[0]
@@ -667,10 +654,7 @@ async def test_switch(
     await finalize_injection(victron_hub)
 
     # Verify entity was created by checking entity registry
-    entity_registry = er.async_get(hass)
-    entities = er.async_entries_for_config_entry(
-        entity_registry, mock_config_entry.entry_id
-    )
+    entities = _metric_entities(hass, mock_config_entry)
 
     assert len(entities) == 1
     entity = entities[0]
@@ -689,10 +673,7 @@ async def test_time(
     await finalize_injection(victron_hub)
 
     # Verify entity was created by checking entity registry
-    entity_registry = er.async_get(hass)
-    entities = er.async_entries_for_config_entry(
-        entity_registry, mock_config_entry.entry_id
-    )
+    entities = _metric_entities(hass, mock_config_entry)
 
     assert len(entities) == 1
     entity = entities[0]
@@ -721,10 +702,7 @@ async def test_device_tracker(
     await finalize_injection(victron_hub)
 
     # Verify entity was created by checking entity registry
-    entity_registry = er.async_get(hass)
-    entities = er.async_entries_for_config_entry(
-        entity_registry, mock_config_entry.entry_id
-    )
+    entities = _metric_entities(hass, mock_config_entry)
 
     assert len(entities) == 1
     entity = entities[0]
@@ -813,10 +791,7 @@ async def test_sensor_with_baseline(
     await inject_message(victron_hub, "N/123/system/0/Dc/Pv/Power", '{"value": 4000}', mock_time)
 
     # Find the energy entity (FormulaMetric)
-    entity_registry = er.async_get(hass)
-    entities = er.async_entries_for_config_entry(
-        entity_registry, mock_config_entry.entry_id
-    )
+    entities = _metric_entities(hass, mock_config_entry)
 
     energy_entities = [e for e in entities if "energy" in e.entity_id]
     assert len(energy_entities) > 0

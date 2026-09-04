@@ -23,7 +23,6 @@ from .const import (
     UPDATE_FREQUENCY_MODE_AUTO,
     UPDATE_FREQUENCY_MODE_MANUAL,
 )
-from .firmware import async_delete_firmware_issue, async_setup_firmware_monitor
 from .hub import Hub, VictronGxConfigEntry
 
 _LOGGER = logging.getLogger(__name__)
@@ -40,6 +39,7 @@ PLATFORMS: list[Platform] = [
     Platform.SENSOR,
     Platform.SWITCH,
     Platform.TIME,
+    Platform.UPDATE,
 ]
 
 async def async_setup_services(hass: HomeAssistant, entry: VictronGxConfigEntry) -> None:
@@ -152,8 +152,6 @@ async def async_setup_entry(hass: HomeAssistant, entry: VictronGxConfigEntry) ->
         hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, _async_stop)
     )
 
-    async_setup_firmware_monitor(hass, entry)
-
     # Register services
     await async_setup_services(hass, entry)
     _LOGGER.debug("sync_setup_entry completed for entry: %s", entry.entry_id)
@@ -177,10 +175,6 @@ async def async_unload_entry(hass: HomeAssistant, entry: VictronGxConfigEntry) -
 
     return True
 
-
-async def async_remove_entry(hass: HomeAssistant, entry: VictronGxConfigEntry) -> None:
-    """Clean up resources when a config entry is removed."""
-    async_delete_firmware_issue(hass, entry)
 
 async def async_remove_config_entry_device(
     hass: HomeAssistant,

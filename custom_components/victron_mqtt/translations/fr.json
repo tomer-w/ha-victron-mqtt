@@ -1146,6 +1146,11 @@
       "vebus_inverter_setting_alarm_grid_lost": {
         "name": "Paramètre d'alarme de perte de réseau"
       }
+    },
+    "update": {
+      "firmware": {
+        "name": "Venus OS"
+      }
     }
   },
   "options": {
@@ -1181,33 +1186,6 @@
           "ssl": "Indique s'il faut utiliser SSL pour se connecter à l'appareil Victron. Normalement, il est désactivé.",
           "update_frequency": "Fréquence de mise à jour en secondes. La valeur par défaut est de 30 secondes. Mettre à 0 pour mettre à jour en permanence.",
           "username": "Nom d'utilisateur pour l'appareil Victron, par défaut vide. Ce n'est pas votre nom d'utilisateur VRM."
-        }
-      }
-    }
-  },
-  "issues": {
-    "firmware_update_available": {
-      "title": "Mise à jour du micrologiciel disponible pour {model}",
-      "fix_flow": {
-        "step": {
-          "init": {
-            "title": "Installer la mise à jour du micrologiciel ?",
-            "description": "L'appareil GX téléchargera et installera le dernier micrologiciel Venus OS, puis redémarrera. Laissez l'appareil sous tension pendant la mise à jour."
-          }
-        },
-        "progress": {
-          "installing_firmware": "Téléchargement et installation du micrologiciel. L'appareil GX peut redémarrer pendant cette opération."
-        },
-        "abort": {
-          "entry_not_loaded": "L'appareil GX n'est pas connecté actuellement.",
-          "invalid_available_version": "La version du micrologiciel disponible n'est pas valide.",
-          "update_file_not_found": "L'appareil GX n'a pas trouvé le fichier de mise à jour du micrologiciel.",
-          "error_during_update": "L'appareil GX a signalé une erreur pendant l'installation du micrologiciel.",
-          "error_during_check": "L'appareil GX a signalé une erreur pendant la vérification du micrologiciel.",
-          "update_timed_out": "La mise à jour du micrologiciel ne s'est pas terminée dans les deux heures."
-        },
-        "create_entry": {
-          "default": "Le micrologiciel de l'appareil GX a été mis à jour."
         }
       }
     }

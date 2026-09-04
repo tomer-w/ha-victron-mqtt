@@ -1074,6 +1074,11 @@
       "vebus_inverter_setting_alarm_grid_lost": {
         "name": "Configuració d'alarma de pèrdua de xarxa"
       }
+    },
+    "update": {
+      "firmware": {
+        "name": "Venus OS"
+      }
     }
   },
   "options": {
@@ -1109,33 +1114,6 @@
           "ssl": "Indica si fer servir SSL per a connectar-se al dispositiu Victron. Normalment ha d'estar deshabilitat.",
           "update_frequency": "Freqüència d'actualització en segons. Per defecte és 30 segons. Estableix a 0 per actualitzar sempre.",
           "username": "Nom d'usuari del dispositiu Victron, per defecte és buit. Aquest no és el nom d'usuari de VRM."
-        }
-      }
-    }
-  },
-  "issues": {
-    "firmware_update_available": {
-      "title": "Actualització de microprogramari disponible per a {model}",
-      "fix_flow": {
-        "step": {
-          "init": {
-            "title": "Voleu instal·lar l'actualització del microprogramari?",
-            "description": "El dispositiu GX baixarà i instal·larà l'últim microprogramari Venus OS i després es reiniciarà. Manteniu el dispositiu encès durant l'actualització."
-          }
-        },
-        "progress": {
-          "installing_firmware": "S'està baixant i instal·lant el microprogramari. El dispositiu GX es pot reiniciar durant aquest procés."
-        },
-        "abort": {
-          "entry_not_loaded": "El dispositiu GX no està connectat actualment.",
-          "invalid_available_version": "La versió de microprogramari disponible no és vàlida.",
-          "update_file_not_found": "El dispositiu GX no ha pogut trobar el fitxer d'actualització del microprogramari.",
-          "error_during_update": "El dispositiu GX ha informat d'un error durant la instal·lació del microprogramari.",
-          "error_during_check": "El dispositiu GX ha informat d'un error durant la comprovació del microprogramari.",
-          "update_timed_out": "L'actualització del microprogramari no ha finalitzat en dues hores."
-        },
-        "create_entry": {
-          "default": "El microprogramari del dispositiu GX s'ha actualitzat correctament."
         }
       }
     }
