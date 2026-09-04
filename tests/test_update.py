@@ -50,7 +50,7 @@ def test_firmware_update_details() -> None:
     assert entity.installed_version == "v3.60"
     assert entity.latest_version == "v3.70"
     assert entity.release_url == (
-        "https://www.victronenergy.com/support-and-download/software"
+        "https://www.victronenergy.com/blog/category/firmware-software/"
     )
     assert entity.supported_features == (
         UpdateEntityFeature.INSTALL | UpdateEntityFeature.PROGRESS
@@ -79,11 +79,30 @@ async def test_install_only_starts_from_install_action() -> None:
     assert entity.in_progress is False
 
 
+async def test_expected_install_failure_does_not_escape_entity_service() -> None:
+    """Test a GX update failure does not become a WebSocket API exception."""
+    entity, _ = _create_entity()
+    entity.hass = MagicMock()
+
+    with (
+        patch.object(entity, "async_write_ha_state"),
+        patch(
+            "custom_components.victron_mqtt.update._async_install_firmware_update",
+            new=AsyncMock(side_effect=FirmwareUpdateError("error_during_update")),
+        ),
+    ):
+        await entity.async_install(None, False)
+
+    assert entity.in_progress is False
+    assert entity.update_percentage is None
+
+
 async def test_install_reports_progress_until_target_version() -> None:
     """Test firmware installation reports progress and survives reboot state."""
     hub = MagicMock(spec=Hub)
     type(hub).firmware_update_status = PropertyMock(
         side_effect=[
+            (FirmwareUpdateState.IDLE, None),
             (FirmwareUpdateState.DOWNLOADING_AND_INSTALLING, 25),
             (FirmwareUpdateState.REBOOTING, 100),
         ]
@@ -102,6 +121,29 @@ async def test_install_reports_progress_until_target_version() -> None:
     assert progress == [0.25, 1.0]
 
 
+async def test_install_ignores_stale_failure_until_status_changes() -> None:
+    """Test a previous attempt's failure is not assigned to the new attempt."""
+    hub = MagicMock(spec=Hub)
+    update_status = PropertyMock(
+        side_effect=[
+            (FirmwareUpdateState.ERROR_DURING_UPDATE, None),
+            (FirmwareUpdateState.ERROR_DURING_UPDATE, 10),
+            (FirmwareUpdateState.DOWNLOADING_AND_INSTALLING, 10),
+            (FirmwareUpdateState.ERROR_DURING_UPDATE, 10),
+        ]
+    )
+    type(hub).firmware_update_status = update_status
+    type(hub).firmware_versions = PropertyMock(return_value=("v3.60", "v3.70"))
+
+    with (
+        patch("custom_components.victron_mqtt.update.asyncio.sleep", new=AsyncMock()),
+        pytest.raises(FirmwareUpdateError, match="error_during_update"),
+    ):
+        await _async_install_firmware_update(hub, "v3.70", MagicMock())
+
+    assert update_status.call_count == 4
+
+
 @pytest.mark.parametrize(
     ("state", "reason"),
     [
@@ -115,9 +157,18 @@ async def test_install_reports_device_error(
 ) -> None:
     """Test GX firmware failures report specific reasons."""
     hub = MagicMock(spec=Hub)
-    type(hub).firmware_update_status = PropertyMock(return_value=(state, None))
+    type(hub).firmware_update_status = PropertyMock(
+        side_effect=[
+            (FirmwareUpdateState.IDLE, None),
+            (state, None),
+        ]
+    )
+    type(hub).firmware_versions = PropertyMock(return_value=("v3.60", "v3.70"))
 
-    with pytest.raises(FirmwareUpdateError, match=reason) as err:
+    with (
+        patch("custom_components.victron_mqtt.update.asyncio.sleep", new=AsyncMock()),
+        pytest.raises(FirmwareUpdateError, match=reason) as err,
+    ):
         await _async_install_firmware_update(hub, "v3.70", MagicMock())
 
     assert err.value.reason == reason

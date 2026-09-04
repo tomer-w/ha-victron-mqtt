@@ -20,7 +20,7 @@ from .hub import Hub, VictronGxConfigEntry
 
 _LOGGER = logging.getLogger(__name__)
 
-_FIRMWARE_UPDATE_URL = "https://www.victronenergy.com/support-and-download/software"
+_FIRMWARE_UPDATE_URL = "https://www.victronenergy.com/blog/category/firmware-software/"
 _INSTALL_POLL_INTERVAL = 1
 _INSTALL_TIMEOUT = 2 * 60 * 60
 _UPDATE_ERROR_REASONS = {
@@ -76,6 +76,18 @@ async def _async_install_firmware_update(
         hub_id,
         available_version,
     )
+    initial_state, _ = hub.firmware_update_status
+    stale_failure_state = (
+        initial_state if initial_state in _UPDATE_ERROR_REASONS else None
+    )
+    if stale_failure_state is not None:
+        _LOGGER.debug(
+            "Ignoring pre-existing GX firmware failure for hub %s until state "
+            "changes: state=%s",
+            hub_id,
+            initial_state,
+        )
+
     hub.install_firmware_update()
     last_progress: float | None = None
     last_state: FirmwareUpdateState | None = None
@@ -91,6 +103,21 @@ async def _async_install_firmware_update(
                         state,
                     )
                     last_state = state
+                if stale_failure_state is not None:
+                    if state is stale_failure_state:
+                        _LOGGER.debug(
+                            "GX firmware state %s still did not change for hub %s",
+                            state,
+                            hub_id,
+                        )
+                        await asyncio.sleep(_INSTALL_POLL_INTERVAL)
+                        continue
+                    _LOGGER.debug(
+                        "GX firmware status changed for hub %s; subsequent "
+                        "failures belong to the new installation attempt",
+                        hub_id,
+                    )
+                    stale_failure_state = None
                 if state in _UPDATE_ERROR_REASONS:
                     _LOGGER.warning(
                         "GX firmware installation failed for hub %s: state=%s",
@@ -207,11 +234,19 @@ class VictronFirmwareUpdateEntity(UpdateEntity):
             self.async_write_ha_state()
 
         try:
-            await _async_install_firmware_update(
-                self._hub, latest_version, _async_update_progress
-            )
+            try:
+                await _async_install_firmware_update(
+                    self._hub, latest_version, _async_update_progress
+                )
+            except FirmwareUpdateError as err:
+                _LOGGER.debug(
+                    "Handled GX firmware installation failure for hub %s: %s",
+                    getattr(self._hub, "id", "unknown"),
+                    err.reason,
+                )
         finally:
             self._attr_in_progress = False
+            self._attr_update_percentage = None
             self.async_write_ha_state()
 
     async def async_update(self) -> None:
