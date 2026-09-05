@@ -17,7 +17,7 @@ from custom_components.victron_mqtt.update import (
     FirmwareUpdateError,
     VictronFirmwareUpdateEntity,
     _async_install_firmware_update,
-    _parse_version,
+    _VenusVersion,
     async_setup_entry,
 )
 
@@ -35,17 +35,17 @@ def _create_entity(
 @pytest.mark.parametrize(
     ("value", "expected"),
     [
-        ("v3.70", (3, 70)),
-        ("v3.70~15", (3, 70, 15)),
-        ("v2.62.1", (2, 62, 1)),
-        ("V3.70.0", (3, 70)),
+        ("v3.70", _VenusVersion((3, 70))),
+        ("v3.70~15", _VenusVersion((3, 70), beta_build=15)),
+        ("v2.62.1", _VenusVersion((2, 62, 1))),
+        ("V3.70.0", _VenusVersion((3, 70))),
         ("v3.70-rc1", None),
         ("not-a-version", None),
     ],
 )
-def test_parse_version(value: str, expected: tuple[int, ...] | None) -> None:
+def test_parse_version(value: str, expected: _VenusVersion | None) -> None:
     """Test Venus OS version normalization."""
-    assert _parse_version(value) == expected
+    assert _VenusVersion.parse(value) == expected
 
 
 def test_firmware_update_details() -> None:
@@ -85,6 +85,9 @@ async def test_setup_refreshes_firmware_versions_before_add() -> None:
     [
         ("v3.80~36", "v3.80~45", "on"),
         ("v3.80~45", "v3.80~36", "off"),
+        ("v3.80~46", "v3.80", "on"),
+        ("v3.80", "v3.80~46", "off"),
+        ("v3.80", "v3.80.1", "on"),
         ("v3.80~45", None, "off"),
     ],
 )
@@ -117,8 +120,14 @@ async def test_update_logs_firmware_versions_when_they_change(
         and record.getMessage().startswith("GX firmware versions")
     ]
     assert len(messages) == 2
-    assert "installed='v3.80~36' (parsed=(3, 80, 36))" in messages[0]
-    assert "latest='v3.80~45' (parsed=(3, 80, 45))" in messages[0]
+    assert (
+        "installed='v3.80~36' "
+        "(parsed=_VenusVersion(core=(3, 80), beta_build=36))"
+    ) in messages[0]
+    assert (
+        "latest='v3.80~45' "
+        "(parsed=_VenusVersion(core=(3, 80), beta_build=45))"
+    ) in messages[0]
     assert "entity_available=True, update_expected=True, entity_state=on" in messages[0]
     assert "update_expected=False, entity_state=off" in messages[1]
 

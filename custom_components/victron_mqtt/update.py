@@ -4,7 +4,10 @@ import asyncio
 import logging
 import re
 from collections.abc import Callable
+from dataclasses import dataclass
 from datetime import timedelta
+from functools import total_ordering
+from typing import Self
 
 from homeassistant.components.update import (
     UpdateDeviceClass,
@@ -47,20 +50,42 @@ class FirmwareUpdateError(Exception):
         self.reason = reason
 
 
-def _parse_version(value: str) -> tuple[int, ...] | None:
-    """Parse a Venus OS version into comparable numeric components."""
-    match = _VERSION_PATTERN.fullmatch(value.strip())
-    if match is None:
-        return None
+@total_ordering
+@dataclass(frozen=True)
+class _VenusVersion:
+    """Represent a comparable Venus OS version."""
 
-    parts = [int(part) for part in match.group("core").split(".")]
-    while len(parts) > 1 and parts[-1] == 0:
-        parts.pop()
-    if build := match.group("build"):
-        parts.append(int(build))
-    return tuple(parts)
+    core: tuple[int, ...]
+    beta_build: int | None = None
 
+    @classmethod
+    def parse(cls, value: str) -> Self | None:
+        """Parse a Venus OS version."""
+        match = _VERSION_PATTERN.fullmatch(value.strip())
+        if match is None:
+            return None
 
+        parts = [int(part) for part in match.group("core").split(".")]
+        while len(parts) > 1 and parts[-1] == 0:
+            parts.pop()
+        build = match.group("build")
+        return cls(
+            core=tuple(parts),
+            beta_build=int(build) if build is not None else None,
+        )
+
+    def __lt__(self, other: Self) -> bool:
+        """Order beta builds before the final release of the same version."""
+        return self._comparison_key < other._comparison_key
+
+    @property
+    def _comparison_key(self) -> tuple[tuple[int, ...], bool, int]:
+        """Return the internal key used for version ordering."""
+        return (
+            self.core,
+            self.beta_build is None,
+            self.beta_build if self.beta_build is not None else 0,
+        )
 async def _async_install_firmware_update(
     hub: Hub,
     available_version: str,
@@ -68,7 +93,7 @@ async def _async_install_firmware_update(
 ) -> None:
     """Install firmware and report progress until the target version is active."""
     hub_id = getattr(hub, "id", "unknown")
-    target_version = _parse_version(available_version)
+    target_version = _VenusVersion.parse(available_version)
     if target_version is None:
         _LOGGER.warning(
             "Cannot install GX firmware for hub %s: invalid available version %r",
@@ -151,7 +176,7 @@ async def _async_install_firmware_update(
 
                 installed_version, _ = hub.firmware_versions
                 parsed_installed = (
-                    _parse_version(installed_version)
+                    _VenusVersion.parse(installed_version)
                     if installed_version is not None
                     else None
                 )
@@ -227,8 +252,8 @@ class VictronFirmwareUpdateEntity(UpdateEntity):
 
     def version_is_newer(self, latest_version: str, installed_version: str) -> bool:
         """Return whether the latest Venus OS version is newer."""
-        parsed_latest = _parse_version(latest_version)
-        parsed_installed = _parse_version(installed_version)
+        parsed_latest = _VenusVersion.parse(latest_version)
+        parsed_installed = _VenusVersion.parse(installed_version)
         if parsed_latest is None or parsed_installed is None:
             return super().version_is_newer(latest_version, installed_version)
         return parsed_latest > parsed_installed
@@ -274,8 +299,10 @@ class VictronFirmwareUpdateEntity(UpdateEntity):
         self._firmware_versions = versions
         self._last_logged_versions = versions
         installed, latest = versions
-        parsed_installed = _parse_version(installed) if installed is not None else None
-        parsed_latest = _parse_version(latest) if latest is not None else None
+        parsed_installed = (
+            _VenusVersion.parse(installed) if installed is not None else None
+        )
+        parsed_latest = _VenusVersion.parse(latest) if latest is not None else None
         entity_state = self.state
         update_expected = entity_state == STATE_ON
         _LOGGER.info(
