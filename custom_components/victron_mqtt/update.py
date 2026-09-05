@@ -64,7 +64,7 @@ def _parse_version(value: str) -> tuple[int, ...] | None:
 async def _async_install_firmware_update(
     hub: Hub,
     available_version: str,
-    update_progress: Callable[[float], None],
+    update_progress: Callable[[int], None],
 ) -> None:
     """Install firmware and report progress until the target version is active."""
     hub_id = getattr(hub, "id", "unknown")
@@ -95,7 +95,7 @@ async def _async_install_firmware_update(
         )
 
     hub.install_firmware_update()
-    last_progress: float | None = None
+    last_progress: int | None = None
     last_state: FirmwareUpdateState | None = None
 
     try:
@@ -133,10 +133,10 @@ async def _async_install_firmware_update(
                     raise FirmwareUpdateError(_UPDATE_ERROR_REASONS[state])
 
                 normalized_progress = (
-                    min(max(progress, 0), 100) / 100 if progress is not None else None
+                    min(max(progress, 0), 100) if progress is not None else None
                 )
                 if state is FirmwareUpdateState.REBOOTING:
-                    normalized_progress = 1.0
+                    normalized_progress = 100
                 if (
                     normalized_progress is not None
                     and normalized_progress != last_progress
@@ -145,7 +145,7 @@ async def _async_install_firmware_update(
                     _LOGGER.debug(
                         "GX firmware installation progress for hub %s: %.0f%%",
                         hub_id,
-                        normalized_progress * 100,
+                        normalized_progress,
                     )
                     last_progress = normalized_progress
 
@@ -156,8 +156,8 @@ async def _async_install_firmware_update(
                     else None
                 )
                 if parsed_installed is not None and parsed_installed >= target_version:
-                    if last_progress != 1.0:
-                        update_progress(1.0)
+                    if last_progress != 100:
+                        update_progress(100)
                     _LOGGER.info(
                         "GX firmware installation completed for hub %s: "
                         "installed=%s, target=%s",
@@ -245,8 +245,8 @@ class VictronFirmwareUpdateEntity(UpdateEntity):
         self.async_write_ha_state()
 
         @callback
-        def _async_update_progress(progress: float) -> None:
-            self._attr_update_percentage = round(progress * 100)
+        def _async_update_progress(progress: int) -> None:
+            self._attr_update_percentage = progress
             self.async_write_ha_state()
 
         try:

@@ -1,6 +1,7 @@
 """Test the Victron firmware update entity."""
 
 import logging
+from collections.abc import Callable
 from datetime import timedelta
 from unittest.mock import AsyncMock, MagicMock, PropertyMock, patch
 
@@ -159,6 +160,39 @@ async def test_install_only_starts_from_install_action() -> None:
     assert entity.in_progress is False
 
 
+async def test_install_exposes_progress_after_state_was_read() -> None:
+    """Test Home Assistant refreshes cached properties when `_attr_*` changes."""
+    entity, _ = _create_entity()
+    entity.hass = MagicMock()
+    states: list[tuple[bool | None, int | float | None]] = []
+
+    async def install(
+        hub: Hub, version: str, update_progress: Callable[[int], None]
+    ) -> None:
+        update_progress(25)
+
+    # Home Assistant reads state attributes before an install is requested.
+    state_attributes = entity.state_attributes
+    assert state_attributes is not None
+    assert state_attributes["in_progress"] is False
+    with (
+        patch.object(
+            entity,
+            "async_write_ha_state",
+            side_effect=lambda: states.append(
+                (entity.in_progress, entity.update_percentage)
+            ),
+        ),
+        patch(
+            "custom_components.victron_mqtt.update._async_install_firmware_update",
+            side_effect=install,
+        ),
+    ):
+        await entity.async_install(None, False)
+
+    assert states == [(True, None), (True, 25), (False, None)]
+
+
 async def test_install_does_not_start_without_available_version() -> None:
     """Test no firmware install starts when no online version is advertised."""
     entity, hub = _create_entity("v3.80~46", None)
@@ -205,7 +239,7 @@ async def test_install_reports_progress_until_target_version() -> None:
     type(hub).firmware_versions = PropertyMock(
         side_effect=[("v3.60", "v3.70"), ("v3.70", "v3.70")]
     )
-    progress: list[float] = []
+    progress: list[int] = []
 
     with patch(
         "custom_components.victron_mqtt.update.asyncio.sleep", new=AsyncMock()
@@ -213,7 +247,7 @@ async def test_install_reports_progress_until_target_version() -> None:
         await _async_install_firmware_update(hub, "v3.70", progress.append)
 
     hub.install_firmware_update.assert_called_once_with()
-    assert progress == [0.25, 1.0]
+    assert progress == [25, 100]
 
 
 async def test_install_waits_for_target_firmware_build() -> None:
@@ -255,14 +289,16 @@ async def test_install_ignores_stale_failure_until_status_changes() -> None:
     )
     type(hub).firmware_update_status = update_status
     type(hub).firmware_versions = PropertyMock(return_value=("v3.60", "v3.70"))
+    progress: list[int] = []
 
     with (
         patch("custom_components.victron_mqtt.update.asyncio.sleep", new=AsyncMock()),
         pytest.raises(FirmwareUpdateError, match="error_during_update"),
     ):
-        await _async_install_firmware_update(hub, "v3.70", MagicMock())
+        await _async_install_firmware_update(hub, "v3.70", progress.append)
 
     assert update_status.call_count == 4
+    assert progress == [10]
 
 
 @pytest.mark.parametrize(
