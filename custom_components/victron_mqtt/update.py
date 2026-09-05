@@ -6,7 +6,6 @@ import re
 from collections.abc import Callable
 from dataclasses import dataclass
 from datetime import timedelta
-from functools import total_ordering
 from typing import Self
 
 from homeassistant.components.update import (
@@ -50,7 +49,6 @@ class FirmwareUpdateError(Exception):
         self.reason = reason
 
 
-@total_ordering
 @dataclass(frozen=True)
 class _VenusVersion:
     """Represent a comparable Venus OS version."""
@@ -78,6 +76,10 @@ class _VenusVersion:
         """Order beta builds before the final release of the same version."""
         return self._comparison_key < other._comparison_key
 
+    def __ge__(self, other: Self) -> bool:
+        """Return whether this version is at least the other version."""
+        return self._comparison_key >= other._comparison_key
+
     @property
     def _comparison_key(self) -> tuple[tuple[int, ...], bool, int]:
         """Return the internal key used for version ordering."""
@@ -86,6 +88,8 @@ class _VenusVersion:
             self.beta_build is None,
             self.beta_build if self.beta_build is not None else 0,
         )
+
+
 async def _async_install_firmware_update(
     hub: Hub,
     available_version: str,

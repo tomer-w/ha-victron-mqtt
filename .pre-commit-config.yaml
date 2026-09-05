@@ -1,14 +1,19 @@
 repos:
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.1.6
+    rev: v0.16.5
     hooks:
       - id: ruff
+        exclude: ^custom_components/victron_mqtt/_vendor/
         args:
           - --fix
       - id: ruff-format
+        exclude: ^custom_components/victron_mqtt/_vendor/
 
-  - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.7.0
+  - repo: local
     hooks:
       - id: mypy
-        files: ^((custom_components|script|tests)/.+)?[^/]+\.py$
+        name: mypy
+        entry: mypy --python-version=3.14 custom_components/victron_mqtt
+        language: system
+        pass_filenames: false
+        types: [python]
