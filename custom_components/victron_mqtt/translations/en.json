@@ -2974,11 +2974,6 @@
         "name": "ESS BatteryLife schedule charge {slot} start",
         "unit_of_measurement": "min"
       }
-    },
-    "update": {
-      "firmware": {
-        "name": "Venus OS"
-      }
     }
   },
   "options": {

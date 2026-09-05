@@ -13,6 +13,7 @@ from typing import TYPE_CHECKING
 from .constants import (
     AUTO_UPDATE_INTERVAL_DEFAULT,
     AUTO_UPDATE_INTERVALS,
+    UNTHROTTLED_METRIC_TYPES,
     MetricKind,
     MetricNature,
     MetricType,
@@ -77,9 +78,11 @@ class Metric:
         self._generic_short_id = self._descriptor.short_id
         self._generic_name = self._descriptor.generic_name
         frequency = hub._update_frequency_seconds
-        if isinstance(frequency, str):
+        if descriptor.metric_type in UNTHROTTLED_METRIC_TYPES:
+            self._update_interval_seconds = None
+        elif isinstance(frequency, str):
             # The only string values Hub accepts are the auto profiles.
-            self._update_interval_seconds: int | None = AUTO_UPDATE_INTERVALS[frequency].get(
+            self._update_interval_seconds = AUTO_UPDATE_INTERVALS[frequency].get(
                 descriptor.metric_type, AUTO_UPDATE_INTERVAL_DEFAULT
             )
         else:

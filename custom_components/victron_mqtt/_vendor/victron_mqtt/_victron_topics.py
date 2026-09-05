@@ -2287,6 +2287,7 @@ topics: list[TopicDescriptor] = [
         name="Firmware update progress",
         metric_type=MetricType.PERCENTAGE,
         value_type=ValueType.INT,
+        nullable=True,
     ),
     TopicDescriptor(
         topic="N/{installation_id}/platform/{device_id}/Firmware/State",
