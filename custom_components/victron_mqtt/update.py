@@ -217,13 +217,13 @@ class VictronFirmwareUpdateEntity(UpdateEntity):
     @property
     def latest_version(self) -> str | None:
         """Return the latest available Venus OS version."""
-        return self._firmware_versions[1]
+        installed, latest = self._firmware_versions
+        return latest if latest is not None else installed
 
     @property
     def available(self) -> bool:
-        """Return whether both firmware version metrics are available."""
-        installed, latest = self._firmware_versions
-        return installed is not None and latest is not None
+        """Return whether the installed firmware version is available."""
+        return self.installed_version is not None
 
     def version_is_newer(self, latest_version: str, installed_version: str) -> bool:
         """Return whether the latest Venus OS version is newer."""
@@ -237,7 +237,7 @@ class VictronFirmwareUpdateEntity(UpdateEntity):
         self, version: str | None, backup: bool, **kwargs: object
     ) -> None:
         """Install the latest Venus OS firmware after Home Assistant confirms."""
-        latest_version = self.latest_version
+        latest_version = self._firmware_versions[1]
         if latest_version is None:
             return
 

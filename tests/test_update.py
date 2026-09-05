@@ -84,6 +84,7 @@ async def test_setup_refreshes_firmware_versions_before_add() -> None:
     [
         ("v3.80~36", "v3.80~45", "on"),
         ("v3.80~45", "v3.80~36", "off"),
+        ("v3.80~45", None, "off"),
     ],
 )
 def test_firmware_update_compares_victron_builds(
@@ -127,8 +128,8 @@ async def test_update_caches_consistent_firmware_version_snapshot() -> None:
 
     hub.firmware_versions = ("v3.80~36", "v3.80~45")
     assert entity.installed_version == "v3.80~36"
-    assert entity.latest_version is None
-    assert not entity.available
+    assert entity.latest_version == "v3.80~36"
+    assert entity.available
 
     await entity.async_update()
 
@@ -156,6 +157,21 @@ async def test_install_only_starts_from_install_action() -> None:
     assert install.await_args is not None
     assert install.await_args.args[:2] == (hub, "v3.70")
     assert entity.in_progress is False
+
+
+async def test_install_does_not_start_without_available_version() -> None:
+    """Test no firmware install starts when no online version is advertised."""
+    entity, hub = _create_entity("v3.80~46", None)
+    entity.hass = MagicMock()
+
+    with patch(
+        "custom_components.victron_mqtt.update._async_install_firmware_update",
+        new=AsyncMock(),
+    ) as install:
+        await entity.async_install(None, False)
+
+    install.assert_not_awaited()
+    hub.install_firmware_update.assert_not_called()
 
 
 async def test_expected_install_failure_does_not_escape_entity_service() -> None:
