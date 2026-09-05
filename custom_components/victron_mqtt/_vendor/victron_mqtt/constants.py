@@ -83,6 +83,12 @@ _FAST_METRIC_TYPES: Final = (
     MetricType.LOCATION,
 )
 
+UNTHROTTLED_METRIC_TYPES: Final = (
+    MetricType.PERCENTAGE,
+    MetricType.ELECTRIC_STORAGE_PERCENTAGE,
+    MetricType.HUMIDITY,
+)
+
 # Per-metric-type update intervals for each auto profile. None means no time
 # limit (update on every value change); metric types not listed fall back to
 # AUTO_UPDATE_INTERVAL_DEFAULT.
