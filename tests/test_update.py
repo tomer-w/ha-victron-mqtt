@@ -17,7 +17,6 @@ from custom_components.victron_mqtt.update import (
     FirmwareUpdateError,
     VictronFirmwareUpdateEntity,
     _async_install_firmware_update,
-    _VenusVersion,
     async_setup_entry,
 )
 
@@ -30,22 +29,6 @@ def _create_entity(
     hub.firmware_versions = (installed, latest)
     entry.runtime_data = hub
     return VictronFirmwareUpdateEntity(entry), hub
-
-
-@pytest.mark.parametrize(
-    ("value", "expected"),
-    [
-        ("v3.70", _VenusVersion((3, 70))),
-        ("v3.70~15", _VenusVersion((3, 70), beta_build=15)),
-        ("v2.62.1", _VenusVersion((2, 62, 1))),
-        ("V3.70.0", _VenusVersion((3, 70))),
-        ("v3.70-rc1", None),
-        ("not-a-version", None),
-    ],
-)
-def test_parse_version(value: str, expected: _VenusVersion | None) -> None:
-    """Test Venus OS version normalization."""
-    assert _VenusVersion.parse(value) == expected
 
 
 def test_firmware_update_details() -> None:
@@ -84,17 +67,17 @@ async def test_setup_refreshes_firmware_versions_before_add() -> None:
     ("installed", "latest", "expected_state"),
     [
         ("v3.80~36", "v3.80~45", "on"),
-        ("v3.80~45", "v3.80~36", "off"),
+        ("v3.80~45", "v3.80~36", "on"),
         ("v3.80~46", "v3.80", "on"),
-        ("v3.80", "v3.80~46", "off"),
+        ("v3.80", "v3.80~46", "on"),
         ("v3.80", "v3.80.1", "on"),
         ("v3.80~45", None, "off"),
     ],
 )
-def test_firmware_update_compares_victron_builds(
+def test_firmware_update_uses_victron_offered_version(
     installed: str, latest: str, expected_state: str
 ) -> None:
-    """Test Home Assistant state uses Victron build ordering."""
+    """Test any different version offered by Victron is an available update."""
     entity, _ = _create_entity(installed, latest)
 
     assert entity.state == expected_state
@@ -120,14 +103,7 @@ async def test_update_logs_firmware_versions_when_they_change(
         and record.getMessage().startswith("GX firmware versions")
     ]
     assert len(messages) == 2
-    assert (
-        "installed='v3.80~36' "
-        "(parsed=_VenusVersion(core=(3, 80), beta_build=36))"
-    ) in messages[0]
-    assert (
-        "latest='v3.80~45' "
-        "(parsed=_VenusVersion(core=(3, 80), beta_build=45))"
-    ) in messages[0]
+    assert "installed='v3.80~36', latest='v3.80~45'" in messages[0]
     assert "entity_available=True, update_expected=True, entity_state=on" in messages[0]
     assert "update_expected=False, entity_state=off" in messages[1]
 
@@ -250,17 +226,24 @@ async def test_install_reports_progress_until_target_version() -> None:
     )
     progress: list[int] = []
 
-    with patch(
-        "custom_components.victron_mqtt.update.asyncio.sleep", new=AsyncMock()
-    ):
+    with patch("custom_components.victron_mqtt.update.asyncio.sleep", new=AsyncMock()):
         await _async_install_firmware_update(hub, "v3.70", progress.append)
 
     hub.install_firmware_update.assert_called_once_with()
     assert progress == [25, 100]
 
 
-async def test_install_waits_for_target_firmware_build() -> None:
-    """Test an older build of the same Venus OS version does not complete."""
+@pytest.mark.parametrize(
+    ("initial_version", "target_version"),
+    [
+        ("v3.80~36", "v3.80~45"),
+        ("v3.80~45", "v3.80~36"),
+    ],
+)
+async def test_install_waits_for_exact_target_version(
+    initial_version: str, target_version: str
+) -> None:
+    """Test upgrades and downgrades wait for the exact target version."""
     hub = MagicMock(spec=Hub)
     type(hub).firmware_update_status = PropertyMock(
         side_effect=[
@@ -271,16 +254,14 @@ async def test_install_waits_for_target_firmware_build() -> None:
     )
     versions = PropertyMock(
         side_effect=[
-            ("v3.80~36", "v3.80~45"),
-            ("v3.80~45", "v3.80~45"),
+            (initial_version, target_version),
+            (target_version, target_version),
         ]
     )
     type(hub).firmware_versions = versions
 
-    with patch(
-        "custom_components.victron_mqtt.update.asyncio.sleep", new=AsyncMock()
-    ):
-        await _async_install_firmware_update(hub, "v3.80~45", MagicMock())
+    with patch("custom_components.victron_mqtt.update.asyncio.sleep", new=AsyncMock()):
+        await _async_install_firmware_update(hub, target_version, MagicMock())
 
     assert versions.call_count == 2
 

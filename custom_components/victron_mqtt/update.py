@@ -2,11 +2,8 @@
 
 import asyncio
 import logging
-import re
 from collections.abc import Callable
-from dataclasses import dataclass
 from datetime import timedelta
-from typing import Self
 
 from homeassistant.components.update import (
     UpdateDeviceClass,
@@ -34,10 +31,6 @@ _UPDATE_ERROR_REASONS = {
     FirmwareUpdateState.ERROR_DURING_UPDATE: "error_during_update",
     FirmwareUpdateState.ERROR_DURING_CHECK: "error_during_check",
 }
-_VERSION_PATTERN = re.compile(
-    r"^v?(?P<core>\d+(?:\.\d+)*)(?:~(?P<build>\d+))?$",
-    re.IGNORECASE,
-)
 
 
 class FirmwareUpdateError(Exception):
@@ -49,47 +42,6 @@ class FirmwareUpdateError(Exception):
         self.reason = reason
 
 
-@dataclass(frozen=True)
-class _VenusVersion:
-    """Represent a comparable Venus OS version."""
-
-    core: tuple[int, ...]
-    beta_build: int | None = None
-
-    @classmethod
-    def parse(cls, value: str) -> Self | None:
-        """Parse a Venus OS version."""
-        match = _VERSION_PATTERN.fullmatch(value.strip())
-        if match is None:
-            return None
-
-        parts = [int(part) for part in match.group("core").split(".")]
-        while len(parts) > 1 and parts[-1] == 0:
-            parts.pop()
-        build = match.group("build")
-        return cls(
-            core=tuple(parts),
-            beta_build=int(build) if build is not None else None,
-        )
-
-    def __lt__(self, other: Self) -> bool:
-        """Order beta builds before the final release of the same version."""
-        return self._comparison_key < other._comparison_key
-
-    def __ge__(self, other: Self) -> bool:
-        """Return whether this version is at least the other version."""
-        return self._comparison_key >= other._comparison_key
-
-    @property
-    def _comparison_key(self) -> tuple[tuple[int, ...], bool, int]:
-        """Return the internal key used for version ordering."""
-        return (
-            self.core,
-            self.beta_build is None,
-            self.beta_build if self.beta_build is not None else 0,
-        )
-
-
 async def _async_install_firmware_update(
     hub: Hub,
     available_version: str,
@@ -97,15 +49,6 @@ async def _async_install_firmware_update(
 ) -> None:
     """Install firmware and report progress until the target version is active."""
     hub_id = getattr(hub, "id", "unknown")
-    target_version = _VenusVersion.parse(available_version)
-    if target_version is None:
-        _LOGGER.warning(
-            "Cannot install GX firmware for hub %s: invalid available version %r",
-            hub_id,
-            available_version,
-        )
-        raise FirmwareUpdateError("invalid_available_version")
-
     _LOGGER.info(
         "Starting GX firmware installation for hub %s, target version %s",
         hub_id,
@@ -179,12 +122,7 @@ async def _async_install_firmware_update(
                     last_progress = normalized_progress
 
                 installed_version, _ = hub.firmware_versions
-                parsed_installed = (
-                    _VenusVersion.parse(installed_version)
-                    if installed_version is not None
-                    else None
-                )
-                if parsed_installed is not None and parsed_installed >= target_version:
+                if installed_version == available_version:
                     if last_progress != 100:
                         update_progress(100)
                     _LOGGER.info(
@@ -255,12 +193,8 @@ class VictronFirmwareUpdateEntity(UpdateEntity):
         return self.installed_version is not None
 
     def version_is_newer(self, latest_version: str, installed_version: str) -> bool:
-        """Return whether the latest Venus OS version is newer."""
-        parsed_latest = _VenusVersion.parse(latest_version)
-        parsed_installed = _VenusVersion.parse(installed_version)
-        if parsed_latest is None or parsed_installed is None:
-            return super().version_is_newer(latest_version, installed_version)
-        return parsed_latest > parsed_installed
+        """Return whether Victron offers a different Venus OS version."""
+        return latest_version != installed_version
 
     async def async_install(
         self, version: str | None, backup: bool, **kwargs: object
@@ -303,21 +237,15 @@ class VictronFirmwareUpdateEntity(UpdateEntity):
         self._firmware_versions = versions
         self._last_logged_versions = versions
         installed, latest = versions
-        parsed_installed = (
-            _VenusVersion.parse(installed) if installed is not None else None
-        )
-        parsed_latest = _VenusVersion.parse(latest) if latest is not None else None
         entity_state = self.state
         update_expected = entity_state == STATE_ON
         _LOGGER.info(
-            "GX firmware versions for hub %s: installed=%r (parsed=%s), "
-            "latest=%r (parsed=%s), entity_available=%s, "
+            "GX firmware versions for hub %s: installed=%r, latest=%r, "
+            "entity_available=%s, "
             "update_expected=%s, entity_state=%s",
             getattr(self._hub, "id", "unknown"),
             installed,
-            parsed_installed,
             latest,
-            parsed_latest,
             self.available,
             update_expected,
             entity_state,
