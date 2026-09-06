@@ -169,7 +169,7 @@ class VictronFirmwareUpdateEntity(UpdateEntity):
         """Initialize the firmware update entity."""
         self._entry = entry
         self._hub = entry.runtime_data
-        self._firmware_versions = self._hub.firmware_versions
+        self._installed_version, self._online_version = self._hub.firmware_versions
         self._last_logged_versions: tuple[str | None, str | None] | None = None
         self._attr_unique_id = f"{entry.unique_id}_firmware"
         self._attr_device_info = DeviceInfo(
@@ -179,13 +179,16 @@ class VictronFirmwareUpdateEntity(UpdateEntity):
     @property
     def installed_version(self) -> str | None:
         """Return the installed Venus OS version."""
-        return self._firmware_versions[0]
+        return self._installed_version
 
     @property
     def latest_version(self) -> str | None:
         """Return the latest available Venus OS version."""
-        installed, latest = self._firmware_versions
-        return latest if latest is not None else installed
+        return (
+            self._online_version
+            if self._online_version is not None
+            else self._installed_version
+        )
 
     @property
     def available(self) -> bool:
@@ -193,14 +196,14 @@ class VictronFirmwareUpdateEntity(UpdateEntity):
         return self.installed_version is not None
 
     def version_is_newer(self, latest_version: str, installed_version: str) -> bool:
-        """Return whether Victron offers a different Venus OS version."""
-        return latest_version != installed_version
+        """Return whether Victron offers a Venus OS firmware build."""
+        return self._online_version is not None
 
     async def async_install(
         self, version: str | None, backup: bool, **kwargs: object
     ) -> None:
         """Install the latest Venus OS firmware after Home Assistant confirms."""
-        latest_version = self._firmware_versions[1]
+        latest_version = self._online_version
         if latest_version is None:
             return
 
@@ -234,9 +237,8 @@ class VictronFirmwareUpdateEntity(UpdateEntity):
         if versions == self._last_logged_versions:
             return
 
-        self._firmware_versions = versions
+        self._installed_version, self._online_version = versions
         self._last_logged_versions = versions
-        installed, latest = versions
         entity_state = self.state
         update_expected = entity_state == STATE_ON
         _LOGGER.info(
@@ -244,8 +246,8 @@ class VictronFirmwareUpdateEntity(UpdateEntity):
             "entity_available=%s, "
             "update_expected=%s, entity_state=%s",
             getattr(self._hub, "id", "unknown"),
-            installed,
-            latest,
+            self._installed_version,
+            self._online_version,
             self.available,
             update_expected,
             entity_state,

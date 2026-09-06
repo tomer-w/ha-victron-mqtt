@@ -52,6 +52,7 @@ async def test_setup_refreshes_firmware_versions_before_add() -> None:
     """Test setup refreshes the firmware entity immediately."""
     entry = MockConfigEntry(domain=DOMAIN, unique_id="123")
     entry.runtime_data = MagicMock()
+    entry.runtime_data.firmware_versions = (None, None)
     async_add_entities = MagicMock()
 
     await async_setup_entry(MagicMock(), entry, async_add_entities)
@@ -71,16 +72,24 @@ async def test_setup_refreshes_firmware_versions_before_add() -> None:
         ("v3.80~46", "v3.80", "on"),
         ("v3.80", "v3.80~46", "on"),
         ("v3.80", "v3.80.1", "on"),
+        ("v3.80~45", "v3.80~45", "off"),
         ("v3.80~45", None, "off"),
     ],
 )
 def test_firmware_update_uses_victron_offered_version(
     installed: str, latest: str, expected_state: str
 ) -> None:
-    """Test any different version offered by Victron is an available update."""
+    """Test any firmware build offered by Victron is an available update."""
     entity, _ = _create_entity(installed, latest)
 
     assert entity.state == expected_state
+
+
+def test_equal_version_label_still_has_victron_offer() -> None:
+    """Test equal display labels retain Victron's underlying offer signal."""
+    entity, _ = _create_entity("v3.80~45", "v3.80~45")
+
+    assert entity.version_is_newer("v3.80~45", "v3.80~45")
 
 
 async def test_update_logs_firmware_versions_when_they_change(
@@ -93,7 +102,7 @@ async def test_update_logs_firmware_versions_when_they_change(
     with caplog.at_level(logging.INFO):
         await entity.async_update()
         await entity.async_update()
-        hub.firmware_versions = ("v3.80~45", "v3.80~45")
+        hub.firmware_versions = ("v3.80~45", None)
         await entity.async_update()
 
     messages = [
