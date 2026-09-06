@@ -47,7 +47,11 @@ async def async_setup_entry(
     ) -> None:
         """Handle new device tracker metric discovery."""
         async_add_entities(
-            [VictronDeviceTracker(device, metric, device_info, hub.simple_naming, installation_id)]
+            [
+                VictronDeviceTracker(
+                    device, metric, device_info, hub.simple_naming, installation_id
+                )
+            ]
         )
 
     hub.register_new_metric_callback(MetricKind.DEVICE_TRACKER, on_new_metric)
@@ -55,10 +59,6 @@ async def async_setup_entry(
 
 class VictronDeviceTracker(VictronBaseEntity, TrackerEntity):
     """Implementation of a Victron GX device tracker."""
-
-    # A missing GPS fix is a valid state (cleared location), not stale data,
-    # so the tracker must not be marked unavailable when the value is None.
-    _follow_metric_availability = False
 
     _attr_source_type = SourceType.GPS
 
@@ -71,7 +71,14 @@ class VictronDeviceTracker(VictronBaseEntity, TrackerEntity):
         installation_id: str,
     ) -> None:
         """Initialize the device tracker."""
-        super().__init__(device, metric, device_info, "device_tracker", simple_naming, installation_id)
+        super().__init__(
+            device,
+            metric,
+            device_info,
+            "device_tracker",
+            simple_naming,
+            installation_id,
+        )
         self._update_from_location(metric.value)
 
     @callback
