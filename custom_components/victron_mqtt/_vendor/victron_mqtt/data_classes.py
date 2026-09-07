@@ -210,6 +210,9 @@ class TopicDescriptor:
                 self.precision = 1
             if self.metric_nature is None:
                 self.metric_nature = MetricNature.MEASUREMENT
+        # Percentage default
+        if self.metric_type == MetricType.PERCENTAGE and self.unit_of_measurement is None:
+            self.unit_of_measurement = "%"
         # Pressure default
         if self.metric_type == MetricType.PRESSURE:
             if self.unit_of_measurement is None:

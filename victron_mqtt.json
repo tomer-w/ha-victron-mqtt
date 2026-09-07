@@ -7598,7 +7598,7 @@
       "message_type": "MetricKind.SENSOR",
       "short_id": "platform_venus_firmware_progress",
       "name": "Firmware update progress",
-      "unit_of_measurement": null,
+      "unit_of_measurement": "%",
       "metric_type": "MetricType.PERCENTAGE",
       "metric_nature": "MetricNature.NONE",
       "value_type": "ValueType.INT",
