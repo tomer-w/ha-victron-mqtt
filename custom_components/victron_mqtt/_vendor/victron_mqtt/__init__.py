@@ -2,6 +2,7 @@
 A Asynchronous Python API client for the Victron Venus OS.
 """
 
+from ._firmware import FirmwareUpdateError, FirmwareUpdateErrorReason, FirmwareUpdateInfo
 from ._victron_enums import (
     ACActiveInputSource,
     AcInputTypeEnum,
@@ -111,6 +112,9 @@ __all__ = [
     "EvChargerPosition",
     "EvChargerStatus",
     "EvChargingState",
+    "FirmwareUpdateError",
+    "FirmwareUpdateErrorReason",
+    "FirmwareUpdateInfo",
     "FirmwareUpdateState",
     "FluidType",
     "FormulaMetric",
