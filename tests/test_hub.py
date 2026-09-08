@@ -1,6 +1,6 @@
 """Test the Victron GX MQTT Hub class."""
 
-from unittest.mock import AsyncMock, MagicMock, call, patch
+from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
 from homeassistant.components.number import NumberMode
@@ -28,6 +28,7 @@ from custom_components.victron_mqtt import PLATFORMS
 from custom_components.victron_mqtt._vendor.victron_mqtt import (
     AuthenticationError,
     CannotConnectError,
+    FirmwareUpdateInfo,
     FirmwareUpdateState,
 )
 from custom_components.victron_mqtt._vendor.victron_mqtt import (
@@ -68,6 +69,7 @@ def _metric_entities(
         if entity.domain != Platform.UPDATE
     ]
 
+
 @pytest.fixture(params=[False, True], ids=["complex_naming", "simple_naming"])
 def basic_config(request):
     """Provide basic configuration."""
@@ -100,13 +102,13 @@ def mock_config_entry(basic_config):
 @pytest.fixture
 def mock_victron_hub():
     """Create a mock VictronVenusHub."""
-    with patch(
-        "custom_components.victron_mqtt.hub.VictronVenusHub"
-    ) as mock_hub_class:
+    with patch("custom_components.victron_mqtt.hub.VictronVenusHub") as mock_hub_class:
         mock_hub = MagicMock(spec=VictronVenusHub)
         mock_hub.connect = AsyncMock()
         mock_hub.disconnect = AsyncMock()
         mock_hub.publish = MagicMock()
+        mock_hub.firmware_update_info = FirmwareUpdateInfo(None, None, None, None)
+        mock_hub.install_firmware_update = AsyncMock()
         mock_hub.installation_id = "12345"
         mock_hub_class.return_value = mock_hub
         yield mock_hub
@@ -120,9 +122,7 @@ async def init_integration(hass: HomeAssistant, mock_config_entry):
     # Mock the VictronVenusHub
     victron_hub = await create_mocked_hub()
 
-    with patch(
-        "custom_components.victron_mqtt.hub.VictronVenusHub"
-    ) as mock_hub_class:
+    with patch("custom_components.victron_mqtt.hub.VictronVenusHub") as mock_hub_class:
         mock_hub_class.return_value = victron_hub
 
         # Set up the config entry
@@ -141,8 +141,8 @@ async def test_hub_start_success(hass: HomeAssistant, init_integration) -> None:
     assert victron_hub.installation_id == "123"
 
 
-async def test_firmware_versions(hass: HomeAssistant, init_integration) -> None:
-    """Test installed and available firmware versions are exposed by the hub."""
+async def test_firmware_update_info(hass: HomeAssistant, init_integration) -> None:
+    """Test firmware update handling is delegated to the library hub."""
     victron_hub, mock_config_entry = init_integration
 
     await inject_message(
@@ -168,19 +168,19 @@ async def test_firmware_versions(hass: HomeAssistant, init_integration) -> None:
     await finalize_injection(victron_hub)
     await hass.async_block_till_done()
 
-    assert mock_config_entry.runtime_data.firmware_versions == ("v3.60", "v3.70")
-    assert mock_config_entry.runtime_data.firmware_update_status == (
-        FirmwareUpdateState.DOWNLOADING_AND_INSTALLING,
-        42,
-    )
-    with patch.object(victron_hub, "publish") as publish:
-        mock_config_entry.runtime_data.check_firmware_update()
-        mock_config_entry.runtime_data.install_firmware_update()
+    info = mock_config_entry.runtime_data.firmware_update_info
+    assert info.installed_version == "v3.60"
+    assert info.available_version == "v3.70"
+    assert info.state is FirmwareUpdateState.DOWNLOADING_AND_INSTALLING
+    assert info.progress == 42
 
-    assert publish.call_args_list == [
-        call("platform_service_venus_firmware_check", "0", 1),
-        call("platform_service_venus_firmware_install", "0", 1),
-    ]
+    progress_callback = MagicMock()
+    with patch.object(
+        victron_hub, "install_firmware_update", new=AsyncMock()
+    ) as install:
+        await mock_config_entry.runtime_data.install_firmware_update(progress_callback)
+
+    install.assert_awaited_once_with(progress_callback)
 
 
 async def test_hub_start_connection_error(
@@ -202,7 +202,9 @@ async def test_hub_start_connection_error(
     for platform in PLATFORMS:
         assert not any(
             loaded_platform.config_entry is mock_config_entry
-            for loaded_platform in hass.data["entity_components"][platform]._platforms.values()
+            for loaded_platform in hass.data["entity_components"][
+                platform
+            ]._platforms.values()
         )
 
     # Run the scheduled retry after the broker recovers
@@ -271,9 +273,7 @@ async def test_map_device_info_no_manufacturer() -> None:
     )  # device_id == "0" uses name only
 
 
-async def test_device_via_device_links(
-    hass: HomeAssistant, init_integration
-) -> None:
+async def test_device_via_device_links(hass: HomeAssistant, init_integration) -> None:
     """Test a child device links to its missing parent via via_device_id."""
     victron_hub, mock_config_entry = init_integration
 
@@ -406,7 +406,9 @@ async def test_sensor_without_unit_does_not_crash(
     """Test unitless EV sensors are created without native unit errors."""
     victron_hub, mock_config_entry = init_integration
 
-    await inject_message(victron_hub, "N/123/ev/40/LastEvContact", '{"value": 1780575127}')
+    await inject_message(
+        victron_hub, "N/123/ev/40/LastEvContact", '{"value": 1780575127}'
+    )
     await finalize_injection(victron_hub)
     await hass.async_block_till_done()
 
@@ -435,7 +437,9 @@ async def test_sensor_uses_registry_unit(
     )
     assert len(entities) > 0
 
-    entity = next(entry for entry in entities if entry.translation_key == "battery_current")
+    entity = next(
+        entry for entry in entities if entry.translation_key == "battery_current"
+    )
     assert entity.unit_of_measurement == "A"
 
 
@@ -447,7 +451,9 @@ async def test_monetary_sensor_uses_ha_currency(
     victron_hub, mock_config_entry = init_integration
     hass.config.currency = "EUR"
 
-    await inject_message(victron_hub, "N/123/evcharger/0/Session/Cost", '{"value": 1.23}')
+    await inject_message(
+        victron_hub, "N/123/evcharger/0/Session/Cost", '{"value": 1.23}'
+    )
     await finalize_injection(victron_hub)
     await hass.async_block_till_done()
 
@@ -475,7 +481,9 @@ async def test_native_unit_of_measurement_special_unit(
     entities = er.async_entries_for_config_entry(
         entity_registry, mock_config_entry.entry_id
     )
-    entity = next((entry for entry in entities if entry.unit_of_measurement == "%"), None)
+    entity = next(
+        (entry for entry in entities if entry.unit_of_measurement == "%"), None
+    )
     assert entity is not None
 
     state = hass.states.get(entity.entity_id)
@@ -490,7 +498,11 @@ async def test_sensor_complex(
     victron_hub, mock_config_entry = init_integration
 
     # Inject the MQTT message
-    await inject_message(victron_hub, "N/123/settings/0/Settings/CGwacs/BatteryLife/Schedule/Charge/2/Day", "{\"value\": -7}")
+    await inject_message(
+        victron_hub,
+        "N/123/settings/0/Settings/CGwacs/BatteryLife/Schedule/Charge/2/Day",
+        '{"value": -7}',
+    )
     await finalize_injection(victron_hub)
     await hass.async_block_till_done()
 
@@ -501,7 +513,9 @@ async def test_sensor_complex(
     day_entity_id = "select.victron_venus_ess_batterylife_schedule_charge_2_days"
     enabled_entity_id = "switch.victron_venus_ess_batterylife_schedule_charge_2_enabled"
 
-    day_entity = next(entity for entity in entities if entity.entity_id == day_entity_id)
+    day_entity = next(
+        entity for entity in entities if entity.entity_id == day_entity_id
+    )
     enabled_entity = next(
         entity for entity in entities if entity.entity_id == enabled_entity_id
     )
@@ -541,7 +555,7 @@ async def test_binary_sensor(
     victron_hub, mock_config_entry = init_integration
 
     # Inject a binary sensor metric (evcharger connected state)
-    await inject_message(victron_hub, "N/123/evcharger/0/Connected", "{\"value\": 1}")
+    await inject_message(victron_hub, "N/123/evcharger/0/Connected", '{"value": 1}')
     await finalize_injection(victron_hub)
 
     # Verify entity was created by checking entity registry
@@ -563,7 +577,7 @@ async def test_number(
     victron_hub, mock_config_entry = init_integration
 
     # Inject a number metric (evcharger set current)
-    await inject_message(victron_hub, "N/123/evcharger/0/SetCurrent", "{\"value\": 16.0}")
+    await inject_message(victron_hub, "N/123/evcharger/0/SetCurrent", '{"value": 16.0}')
     await finalize_injection(victron_hub)
 
     # Verify entity was created by checking entity registry
@@ -576,7 +590,10 @@ async def test_number(
     assert state is not None
     assert state.state == "16"
     assert state.attributes["device_class"] == "current"
-    assert state.attributes["friendly_name"] == "EV charging station Charge current setpoint"
+    assert (
+        state.attributes["friendly_name"]
+        == "EV charging station Charge current setpoint"
+    )
     assert state.attributes["max"] == 32
     assert state.attributes["min"] == 0
     assert state.attributes["mode"] == NumberMode.AUTO
@@ -591,7 +608,7 @@ async def test_select(
     victron_hub, mock_config_entry = init_integration
 
     # Inject a select metric (evcharger mode) - use numeric enum value
-    await inject_message(victron_hub, "N/123/evcharger/0/Mode", "{\"value\": 1}")
+    await inject_message(victron_hub, "N/123/evcharger/0/Mode", '{"value": 1}')
     await finalize_injection(victron_hub)
 
     entities = _metric_entities(hass, mock_config_entry)
@@ -620,7 +637,12 @@ async def test_select_main_topic(
     entity = entities[0]
     assert entity.translation_key == "vebus_inverter_mode"
     assert entity.capabilities is not None
-    assert entity.capabilities["options"] == ["charger_only", "inverter_only", "on", "off"]
+    assert entity.capabilities["options"] == [
+        "charger_only",
+        "inverter_only",
+        "on",
+        "off",
+    ]
     assert entity.original_name is None
 
 
@@ -631,7 +653,7 @@ async def test_button(
     victron_hub, mock_config_entry = init_integration
 
     # Inject a button metric (platform device reboot) - GenericOnOff enum value
-    await inject_message(victron_hub, "N/123/platform/0/Device/Reboot", "{\"value\": 1}")
+    await inject_message(victron_hub, "N/123/platform/0/Device/Reboot", '{"value": 1}')
     await finalize_injection(victron_hub)
 
     # Verify entity was created by checking entity registry
@@ -650,7 +672,7 @@ async def test_switch(
     victron_hub, mock_config_entry = init_integration
 
     # Inject a switch metric (generator manual start - writable)
-    await inject_message(victron_hub, "N/123/generator/0/ManualStart", "{\"value\": 0}")
+    await inject_message(victron_hub, "N/123/generator/0/ManualStart", '{"value": 0}')
     await finalize_injection(victron_hub)
 
     # Verify entity was created by checking entity registry
@@ -669,7 +691,11 @@ async def test_time(
     victron_hub, mock_config_entry = init_integration
 
     # Inject a time metric (schedule charge start time in minutes 0-86400)
-    await inject_message(victron_hub, "N/123/settings/0/Settings/CGwacs/BatteryLife/Schedule/Charge/0/Start", "{\"value\": 1380}")
+    await inject_message(
+        victron_hub,
+        "N/123/settings/0/Settings/CGwacs/BatteryLife/Schedule/Charge/0/Start",
+        '{"value": 1380}',
+    )
     await finalize_injection(victron_hub)
 
     # Verify entity was created by checking entity registry
@@ -693,8 +719,12 @@ async def test_device_tracker(
     victron_hub, mock_config_entry = init_integration
 
     # Inject all GPS metrics required by the gps_location formula
-    await inject_message(victron_hub, "N/123/gps/0/Position/Latitude", '{"value": 52.3676}')
-    await inject_message(victron_hub, "N/123/gps/0/Position/Longitude", '{"value": 4.9041}')
+    await inject_message(
+        victron_hub, "N/123/gps/0/Position/Latitude", '{"value": 52.3676}'
+    )
+    await inject_message(
+        victron_hub, "N/123/gps/0/Position/Longitude", '{"value": 4.9041}'
+    )
     await inject_message(victron_hub, "N/123/gps/0/Fix", '{"value": 1}')
     await inject_message(victron_hub, "N/123/gps/0/Altitude", '{"value": 10.0}')
     await inject_message(victron_hub, "N/123/gps/0/Course", '{"value": 0.0}')
@@ -721,8 +751,12 @@ async def test_device_tracker_update(
     """Test device tracker state updates via MQTT (_on_update_cb)."""
     victron_hub, mock_config_entry = init_integration
 
-    await inject_message(victron_hub, "N/123/gps/0/Position/Latitude", '{"value": 52.3676}')
-    await inject_message(victron_hub, "N/123/gps/0/Position/Longitude", '{"value": 4.9041}')
+    await inject_message(
+        victron_hub, "N/123/gps/0/Position/Latitude", '{"value": 52.3676}'
+    )
+    await inject_message(
+        victron_hub, "N/123/gps/0/Position/Longitude", '{"value": 4.9041}'
+    )
     await inject_message(victron_hub, "N/123/gps/0/Fix", '{"value": 1}')
     await inject_message(victron_hub, "N/123/gps/0/Altitude", '{"value": 10.0}')
     await inject_message(victron_hub, "N/123/gps/0/Course", '{"value": 0.0}')
@@ -744,8 +778,12 @@ async def test_device_tracker_update(
     assert float(state.attributes["longitude"]) == 4.9041
 
     # Update via MQTT - triggers _on_update_cb with new coordinates
-    await inject_message(victron_hub, "N/123/gps/0/Position/Latitude", '{"value": 48.8566}')
-    await inject_message(victron_hub, "N/123/gps/0/Position/Longitude", '{"value": 2.3522}')
+    await inject_message(
+        victron_hub, "N/123/gps/0/Position/Latitude", '{"value": 48.8566}'
+    )
+    await inject_message(
+        victron_hub, "N/123/gps/0/Position/Longitude", '{"value": 2.3522}'
+    )
     await hass.async_block_till_done()
 
     state = hass.states.get(entity_id)
@@ -754,7 +792,9 @@ async def test_device_tracker_update(
     assert float(state.attributes["longitude"]) == 2.3522
 
 
-@patch('custom_components.victron_mqtt._vendor.victron_mqtt.formula_common.time.monotonic')
+@patch(
+    "custom_components.victron_mqtt._vendor.victron_mqtt.formula_common.time.monotonic"
+)
 async def test_sensor_with_baseline(
     mock_time: MagicMock,
     hass: HomeAssistant,
@@ -785,10 +825,14 @@ async def test_sensor_with_baseline(
 
     # Inject a PV power metric which triggers creation of a FormulaMetric (pv_energy)
     # The FormulaMetric has CUMULATIVE nature which maps to TOTAL state_class (not TOTAL_INCREASING)
-    await inject_message(victron_hub, "N/123/system/0/Dc/Pv/Power", '{"value": 1000}', mock_time)
+    await inject_message(
+        victron_hub, "N/123/system/0/Dc/Pv/Power", '{"value": 1000}', mock_time
+    )
     await finalize_injection(victron_hub, disconnect=False, mock_time=mock_time)
     mock_time.return_value = 15
-    await inject_message(victron_hub, "N/123/system/0/Dc/Pv/Power", '{"value": 4000}', mock_time)
+    await inject_message(
+        victron_hub, "N/123/system/0/Dc/Pv/Power", '{"value": 4000}', mock_time
+    )
 
     # Find the energy entity (FormulaMetric)
     entities = _metric_entities(hass, mock_config_entry)
@@ -805,18 +849,24 @@ async def test_sensor_with_baseline(
     energy_entity_id = "sensor.victron_venus_pv_energy"
     power_entity_id = "sensor.victron_venus_pv_power"
 
-    energy_entity = next(entity for entity in entities if entity.entity_id == energy_entity_id)
+    energy_entity = next(
+        entity for entity in entities if entity.entity_id == energy_entity_id
+    )
     energy_state = hass.states.get(energy_entity.entity_id)
     assert energy_state is not None
     assert energy_state.state == "1000.004"
 
-    power_entity = next(entity for entity in entities if entity.entity_id == power_entity_id)
+    power_entity = next(
+        entity for entity in entities if entity.entity_id == power_entity_id
+    )
     power_state = hass.states.get(power_entity.entity_id)
     assert power_state is not None
     assert power_state.state == "4000.0"
 
 
-@patch('custom_components.victron_mqtt._vendor.victron_mqtt.formula_common.time.monotonic')
+@patch(
+    "custom_components.victron_mqtt._vendor.victron_mqtt.formula_common.time.monotonic"
+)
 async def test_sensor_baseline_invalid_value(
     mock_time: MagicMock,
     hass: HomeAssistant,
@@ -839,10 +889,14 @@ async def test_sensor_baseline_invalid_value(
         ],
     )
 
-    await inject_message(victron_hub, "N/123/system/0/Dc/Pv/Power", '{"value": 1000}', mock_time)
+    await inject_message(
+        victron_hub, "N/123/system/0/Dc/Pv/Power", '{"value": 1000}', mock_time
+    )
     await finalize_injection(victron_hub, disconnect=False, mock_time=mock_time)
     mock_time.return_value = 15
-    await inject_message(victron_hub, "N/123/system/0/Dc/Pv/Power", '{"value": 4000}', mock_time)
+    await inject_message(
+        victron_hub, "N/123/system/0/Dc/Pv/Power", '{"value": 4000}', mock_time
+    )
 
     entity_registry = er.async_get(hass)
     entities = er.async_entries_for_config_entry(
@@ -960,7 +1014,10 @@ async def test_select_option(
     assert entity is not None
     with patch.object(entity._metric, "set", wraps=entity._metric.set) as mock_set:
         await hass.services.async_call(
-            "select", "select_option", {"entity_id": entity_id, "option": options[0]}, blocking=True
+            "select",
+            "select_option",
+            {"entity_id": entity_id, "option": options[0]},
+            blocking=True,
         )
         await hass.async_block_till_done()
         mock_set.assert_called_once_with(options[0])
@@ -1001,7 +1058,10 @@ async def test_number_set_value(
     assert entity is not None
     with patch.object(entity._metric, "set", wraps=entity._metric.set) as mock_set:
         await hass.services.async_call(
-            "number", "set_value", {"entity_id": entity_id, "value": 10.0}, blocking=True
+            "number",
+            "set_value",
+            {"entity_id": entity_id, "value": 10.0},
+            blocking=True,
         )
         await hass.async_block_till_done()
         mock_set.assert_called_once_with(10.0)
@@ -1015,7 +1075,11 @@ async def test_time_set_value(
     victron_hub, mock_config_entry = init_integration
 
     # 1380 minutes = 23:00
-    await inject_message(victron_hub, "N/123/settings/0/Settings/CGwacs/BatteryLife/Schedule/Charge/0/Start", '{"value": 1380}')
+    await inject_message(
+        victron_hub,
+        "N/123/settings/0/Settings/CGwacs/BatteryLife/Schedule/Charge/0/Start",
+        '{"value": 1380}',
+    )
     await finalize_injection(victron_hub)
     await hass.async_block_till_done()
 
@@ -1031,7 +1095,11 @@ async def test_time_set_value(
     assert state is not None
 
     # Update value via MQTT (triggers _on_update_cb)
-    await inject_message(victron_hub, "N/123/settings/0/Settings/CGwacs/BatteryLife/Schedule/Charge/0/Start", '{"value": 480}')
+    await inject_message(
+        victron_hub,
+        "N/123/settings/0/Settings/CGwacs/BatteryLife/Schedule/Charge/0/Start",
+        '{"value": 480}',
+    )
     await hass.async_block_till_done()
     state = hass.states.get(entity_id)
     assert state is not None
@@ -1041,15 +1109,16 @@ async def test_time_set_value(
     assert entity is not None
     with patch.object(entity._metric, "set", wraps=entity._metric.set) as mock_set:
         await hass.services.async_call(
-            "time", "set_value", {"entity_id": entity_id, "time": "12:30:00"}, blocking=True
+            "time",
+            "set_value",
+            {"entity_id": entity_id, "time": "12:30:00"},
+            blocking=True,
         )
         await hass.async_block_till_done()
         mock_set.assert_called_once_with(750)  # 12*60 + 30 = 750 minutes
 
 
-async def test_hub_auth_error(
-    hass: HomeAssistant, mock_config_entry
-) -> None:
+async def test_hub_auth_error(hass: HomeAssistant, mock_config_entry) -> None:
     """Test hub start with authentication error raises ConfigEntryAuthFailed."""
     mock_config_entry.add_to_hass(hass)
 
@@ -1160,7 +1229,9 @@ async def test_enum_sensor(
     """Test enum sensor creation and update (covers enum options and VictronEnum normalization)."""
     victron_hub, mock_config_entry = init_integration
 
-    await inject_message(victron_hub, "N/123/system/0/SystemState/State", '{"value": 1}')
+    await inject_message(
+        victron_hub, "N/123/system/0/SystemState/State", '{"value": 1}'
+    )
     await finalize_injection(victron_hub, disconnect=False)
     await hass.async_block_till_done()
 
@@ -1178,7 +1249,9 @@ async def test_enum_sensor(
     assert state.attributes.get("options") is not None
 
     # Update via MQTT to trigger _on_update_cb with VictronEnum
-    await inject_message(victron_hub, "N/123/system/0/SystemState/State", '{"value": 3}')
+    await inject_message(
+        victron_hub, "N/123/system/0/SystemState/State", '{"value": 3}'
+    )
     await hass.async_block_till_done()
 
     state = hass.states.get(entity_id)
@@ -1228,7 +1301,9 @@ async def test_nullable_number_remains_available_with_null_value(
     entity_registry = er.async_get(hass)
     entity = next(
         entity
-        for entity in er.async_entries_for_config_entry(entity_registry, mock_config_entry.entry_id)
+        for entity in er.async_entries_for_config_entry(
+            entity_registry, mock_config_entry.entry_id
+        )
         if entity.translation_key == "hub4_max_charge_power"
     )
     state = hass.states.get(entity.entity_id)
@@ -1289,7 +1364,11 @@ async def test_number_with_step(
     """Test number entity with step attribute from metric."""
     victron_hub, mock_config_entry = init_integration
 
-    await inject_message(victron_hub, "N/123/settings/0/Settings/SystemSetup/MaxChargeVoltage", '{"value": 57.6}')
+    await inject_message(
+        victron_hub,
+        "N/123/settings/0/Settings/SystemSetup/MaxChargeVoltage",
+        '{"value": 57.6}',
+    )
     await finalize_injection(victron_hub)
     await hass.async_block_till_done()
 
