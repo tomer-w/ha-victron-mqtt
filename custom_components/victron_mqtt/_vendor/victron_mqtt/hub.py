@@ -19,6 +19,8 @@ from paho.mqtt.enums import CallbackAPIVersion
 from paho.mqtt.properties import Properties
 from paho.mqtt.reasoncodes import ReasonCode
 
+from . import _firmware
+from ._firmware import FirmwareUpdateError, FirmwareUpdateErrorReason, FirmwareUpdateInfo, get_firmware_update_info
 from ._victron_enums import DeviceType
 from ._victron_topics import topics
 from .constants import AUTO_UPDATE_INTERVALS, TOPIC_INSTALLATION_ID, MetricKind, OperationMode
@@ -248,6 +250,7 @@ class Hub:
         self._firmware_version: tuple[int, ...] = ()
         self._connect_failed_since: float = 0.0
         self._installation_id: str | None = None
+        self._firmware_update_lock = asyncio.Lock()
 
         # Filter the active topics
         metrics_active_topics: list[TopicDescriptor] = []
@@ -1205,6 +1208,55 @@ class Hub:
         if metric is not None and metric._descriptor.hidden:
             return None
         return metric
+
+    @property
+    def firmware_update_info(self) -> FirmwareUpdateInfo:
+        """Return the current GX firmware update information.
+
+        The result is a snapshot built from the latest in-memory MQTT values;
+        reading this property does not perform network I/O. Fields are None when
+        their source metrics have not arrived or are unavailable.
+        """
+        return get_firmware_update_info(self)
+
+    async def install_firmware_update(
+        self,
+        progress_callback: Callable[[int], None] | None = None,
+        *,
+        timeout: float = 2 * 60 * 60,
+        poll_interval: float = 1,
+    ) -> None:
+        """Install available GX firmware and monitor it until completion.
+
+        Parameters
+        ----------
+        progress_callback: Callable[[int], None] | None
+            Optional synchronous callback invoked when normalized installation
+            progress changes. Values range from 0 through 100.
+        timeout: float
+            Maximum seconds to wait for the installed version to reach the
+            version offered at invocation time. Defaults to two hours.
+        poll_interval: float
+            Seconds between checks of in-memory MQTT state. Defaults to one
+            second.
+
+        Raises
+        ------
+        FirmwareUpdateError
+            If no update is available, another caller is already monitoring an
+            update, the GX reports a failure, or the operation times out.
+        ValueError
+            If timeout or poll_interval is not greater than zero.
+
+        Notes
+        -----
+        When the GX already reports an active installation, this method resumes
+        monitoring without publishing a second install command.
+        """
+        if self._firmware_update_lock.locked():
+            raise FirmwareUpdateError(FirmwareUpdateErrorReason.UPDATE_ALREADY_IN_PROGRESS)
+        async with self._firmware_update_lock:
+            await _firmware._install_firmware_update(self, progress_callback, timeout, poll_interval)
 
     @property
     def devices(self) -> dict[str, Device]:
