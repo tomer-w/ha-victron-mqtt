@@ -146,6 +146,7 @@ class Hub:
         _LOGGER.info("Starting hub")
         try:
             await self._hub.connect()
+            self._hub.check_firmware_update()
         except AuthenticationError as auth_error:
             raise ConfigEntryAuthFailed(
                 f"Authentication failed for {self.host}: {auth_error}"

@@ -108,6 +108,7 @@ def mock_victron_hub():
         mock_hub.disconnect = AsyncMock()
         mock_hub.publish = MagicMock()
         mock_hub.firmware_update_info = FirmwareUpdateInfo(None, None, None, None)
+        mock_hub.check_firmware_update = MagicMock()
         mock_hub.install_firmware_update = AsyncMock()
         mock_hub.installation_id = "12345"
         mock_hub_class.return_value = mock_hub
@@ -199,6 +200,7 @@ async def test_hub_start_connection_error(
 
     # Verify the failed setup did not leave stale platform registrations
     assert mock_config_entry.state == ConfigEntryState.SETUP_RETRY
+    mock_victron_hub.check_firmware_update.assert_not_called()
     for platform in PLATFORMS:
         assert not any(
             loaded_platform.config_entry is mock_config_entry
@@ -214,6 +216,7 @@ async def test_hub_start_connection_error(
 
     assert mock_config_entry.state == ConfigEntryState.LOADED
     assert mock_victron_hub.connect.await_count == 2
+    mock_victron_hub.check_firmware_update.assert_called_once_with()
 
 
 async def test_hub_stop(hass: HomeAssistant, init_integration) -> None:
