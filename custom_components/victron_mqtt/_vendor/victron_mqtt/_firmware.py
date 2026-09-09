@@ -18,6 +18,7 @@ _AVAILABLE_VERSION_METRIC = "system_0_platform_venus_firmware_available_version"
 _INSTALLED_VERSION_METRIC = "system_0_platform_venus_firmware_installed_version"
 _PROGRESS_METRIC = "system_0_platform_venus_firmware_progress"
 _STATE_METRIC = "system_0_platform_venus_firmware_state"
+_CHECK_SERVICE = "platform_service_venus_firmware_check"
 _INSTALL_SERVICE = "platform_service_venus_firmware_install"
 
 _ACTIVE_STATES = {
@@ -129,6 +130,15 @@ def get_firmware_update_info(hub: Hub) -> FirmwareUpdateInfo:
         progress = 100
 
     return FirmwareUpdateInfo(installed_version, available_version, state, progress)
+
+
+async def _check_firmware_updates(  # pyright: ignore[reportUnusedFunction] - called by Hub
+    hub: Hub, poll_interval: float
+) -> None:
+    """Periodically ask the GX device to check for firmware updates."""
+    while True:
+        hub.publish(_CHECK_SERVICE, "0", 1)
+        await asyncio.sleep(poll_interval)
 
 
 async def _install_firmware_update(  # pyright: ignore[reportUnusedFunction] - called by Hub

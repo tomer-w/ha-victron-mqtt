@@ -251,6 +251,7 @@ class Hub:
         self._connect_failed_since: float = 0.0
         self._installation_id: str | None = None
         self._firmware_update_lock = asyncio.Lock()
+        self._firmware_check_task: asyncio.Task[None] | None = None
 
         # Filter the active topics
         metrics_active_topics: list[TopicDescriptor] = []
@@ -900,6 +901,7 @@ class Hub:
         """Disconnect from the hub."""
         _LOGGER.info("Disconnecting from MQTT broker")
         self._stop_keepalive_loop()
+        self._stop_firmware_update_checks()
         await asyncio.sleep(0.1)
         self._client.disconnect()
         self._client.loop_stop()  # stop the background thread started by loop_start()
@@ -1218,6 +1220,24 @@ class Hub:
         their source metrics have not arrived or are unavailable.
         """
         return get_firmware_update_info(self)
+
+    def check_firmware_update(self, poll_interval: float = 7 * 24 * 60 * 60) -> None:
+        """Start periodically asking the GX device to check for firmware updates.
+
+        The first check is published immediately. Subsequent checks are
+        published every poll_interval seconds. Calling this method again
+        replaces the existing schedule.
+        """
+        if poll_interval <= 0:
+            raise ValueError("poll_interval must be greater than zero")
+        self._stop_firmware_update_checks()
+        self._firmware_check_task = asyncio.create_task(_firmware._check_firmware_updates(self, poll_interval))
+
+    def _stop_firmware_update_checks(self) -> None:
+        """Stop periodically checking for GX firmware updates."""
+        if self._firmware_check_task is not None:
+            self._firmware_check_task.cancel()
+            self._firmware_check_task = None
 
     async def install_firmware_update(
         self,
