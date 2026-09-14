@@ -61,6 +61,7 @@ type VictronGxConfigEntry = ConfigEntry[Hub]
 NewMetricCallback = Callable[
     [VictronVenusDevice, VictronVenusMetric, dr.DeviceInfo, str], None
 ]
+FirmwareUpdateCallback = Callable[[FirmwareUpdateInfo], None]
 
 
 def _resolve_update_frequency(
@@ -138,8 +139,10 @@ class Hub:
             update_frequency_seconds=_resolve_update_frequency(config),
         )
         self._hub.on_new_metric = self._on_new_metric
+        self._hub.on_firmware_update = self._on_firmware_update
         self._config_entry_id = entry.entry_id
         self.new_metric_callbacks: dict[MetricKind, NewMetricCallback] = {}
+        self._firmware_update_callback: FirmwareUpdateCallback | None = None
 
     async def start(self) -> None:
         """Start the Victron MQTT hub."""
@@ -171,6 +174,29 @@ class Hub:
     ) -> None:
         """Install available firmware using the library lifecycle handler."""
         await self._hub.install_firmware_update(progress_callback)
+
+    def register_firmware_update_callback(
+        self, firmware_update_callback: FirmwareUpdateCallback
+    ) -> Callable[[], None]:
+        """Register a callback for aggregate firmware update changes."""
+        assert self._firmware_update_callback is None, (
+            "A firmware update callback is already registered"
+        )
+        self._firmware_update_callback = firmware_update_callback
+
+        def unregister() -> None:
+            if self._firmware_update_callback is firmware_update_callback:
+                self._firmware_update_callback = None
+
+        return unregister
+
+    def _on_firmware_update(
+        self, hub: VictronVenusHub, info: FirmwareUpdateInfo
+    ) -> None:
+        """Forward library firmware notifications to the update entity."""
+        callback = self._firmware_update_callback
+        if callback is not None:
+            callback(info)
 
     def _on_new_metric(
         self,

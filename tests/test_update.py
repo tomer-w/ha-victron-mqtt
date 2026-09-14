@@ -2,7 +2,6 @@
 
 import logging
 from collections.abc import Callable
-from datetime import timedelta
 from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
@@ -17,7 +16,6 @@ from custom_components.victron_mqtt._vendor.victron_mqtt import (
 )
 from custom_components.victron_mqtt.const import DOMAIN
 from custom_components.victron_mqtt.update import (
-    SCAN_INTERVAL,
     VictronFirmwareUpdateEntity,
     async_setup_entry,
 )
@@ -33,7 +31,9 @@ def _create_entity(
     )
     hub.install_firmware_update = AsyncMock()
     entry.runtime_data = hub
-    return VictronFirmwareUpdateEntity(entry), hub
+    entity = VictronFirmwareUpdateEntity(entry)
+    entity.hass = MagicMock()
+    return entity, hub
 
 
 def test_firmware_update_details() -> None:
@@ -50,11 +50,11 @@ def test_firmware_update_details() -> None:
         UpdateEntityFeature.INSTALL | UpdateEntityFeature.PROGRESS
     )
     assert entity.available
-    assert timedelta(seconds=30) == SCAN_INTERVAL
+    assert entity.should_poll is False
 
 
-async def test_setup_refreshes_firmware_info_before_add() -> None:
-    """Test setup refreshes the firmware entity immediately."""
+async def test_setup_adds_firmware_entity_without_polling() -> None:
+    """Test setup adds the notification-driven firmware entity."""
     entry = MockConfigEntry(domain=DOMAIN, unique_id="123")
     entry.runtime_data = MagicMock()
     entry.runtime_data.firmware_update_info = FirmwareUpdateInfo(None, None, None, None)
@@ -63,10 +63,35 @@ async def test_setup_refreshes_firmware_info_before_add() -> None:
     await async_setup_entry(MagicMock(), entry, async_add_entities)
 
     async_add_entities.assert_called_once()
-    entities, update_before_add = async_add_entities.call_args.args
+    (entities,) = async_add_entities.call_args.args
     assert len(entities) == 1
     assert isinstance(entities[0], VictronFirmwareUpdateEntity)
-    assert update_before_add is True
+
+
+async def test_entity_subscribes_to_firmware_notifications() -> None:
+    """Test firmware notifications update state and unsubscribe on removal."""
+    entity, hub = _create_entity("v3.60", None)
+    unsubscribe = MagicMock()
+    hub.register_firmware_update_callback.return_value = unsubscribe
+
+    await entity.async_added_to_hass()
+
+    callback = hub.register_firmware_update_callback.call_args.args[0]
+    callback(
+        FirmwareUpdateInfo(
+            "v3.60",
+            "v3.70",
+            FirmwareUpdateState.DOWNLOADING_AND_INSTALLING,
+            25,
+        )
+    )
+
+    assert entity.latest_version == "v3.70"
+    assert entity.in_progress is True
+    assert entity.update_percentage == 25
+
+    await entity.async_remove()
+    unsubscribe.assert_called_once_with()
 
 
 @pytest.mark.parametrize(
@@ -97,20 +122,19 @@ def test_equal_version_label_still_has_victron_offer() -> None:
     assert entity.version_is_newer("v3.80~45", "v3.80~45")
 
 
-async def test_update_logs_firmware_versions_when_they_change(
+def test_notification_logs_firmware_versions_when_they_change(
     caplog: pytest.LogCaptureFixture,
 ) -> None:
-    """Test polling traces version comparison decisions without duplicate logs."""
+    """Test notifications trace version changes without duplicate logs."""
     entity, hub = _create_entity("v3.80~36", "v3.80~45")
     hub.id = "test-hub"
 
     with caplog.at_level(logging.INFO):
-        await entity.async_update()
-        await entity.async_update()
-        hub.firmware_update_info = FirmwareUpdateInfo(
-            "v3.80~45", None, FirmwareUpdateState.IDLE, None
+        entity._on_firmware_update(hub.firmware_update_info)
+        entity._on_firmware_update(hub.firmware_update_info)
+        entity._on_firmware_update(
+            FirmwareUpdateInfo("v3.80~45", None, FirmwareUpdateState.IDLE, None)
         )
-        await entity.async_update()
 
     messages = [
         record.getMessage()
@@ -124,36 +148,35 @@ async def test_update_logs_firmware_versions_when_they_change(
     assert "update_expected=False, entity_state=off" in messages[1]
 
 
-async def test_update_caches_consistent_firmware_version_snapshot() -> None:
-    """Test entity properties use the version pair captured during polling."""
+def test_notification_caches_consistent_firmware_version_snapshot() -> None:
+    """Test entity properties use the version pair from a notification."""
     entity, hub = _create_entity("v3.80~36", None)
 
-    hub.firmware_update_info = FirmwareUpdateInfo(
-        "v3.80~36", "v3.80~45", FirmwareUpdateState.IDLE, None
-    )
+    info = FirmwareUpdateInfo("v3.80~36", "v3.80~45", FirmwareUpdateState.IDLE, None)
     assert entity.installed_version == "v3.80~36"
     assert entity.latest_version == "v3.80~36"
     assert entity.available
 
-    await entity.async_update()
+    entity._on_firmware_update(info)
 
     assert entity.installed_version == "v3.80~36"
     assert entity.latest_version == "v3.80~45"
     assert entity.available
 
 
-async def test_update_refreshes_progress_when_versions_do_not_change() -> None:
-    """Test polling refreshes lifecycle state independently of version logging."""
+def test_notification_refreshes_progress_when_versions_do_not_change() -> None:
+    """Test notifications refresh lifecycle state independently of version logging."""
     entity, hub = _create_entity()
 
-    await entity.async_update()
-    hub.firmware_update_info = FirmwareUpdateInfo(
-        "v3.60",
-        "v3.70",
-        FirmwareUpdateState.DOWNLOADING_AND_INSTALLING,
-        25,
+    entity._on_firmware_update(hub.firmware_update_info)
+    entity._on_firmware_update(
+        FirmwareUpdateInfo(
+            "v3.60",
+            "v3.70",
+            FirmwareUpdateState.DOWNLOADING_AND_INSTALLING,
+            25,
+        )
     )
-    await entity.async_update()
 
     assert entity.in_progress is True
     assert entity.update_percentage == 25

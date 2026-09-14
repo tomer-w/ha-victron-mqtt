@@ -145,6 +145,10 @@ async def test_hub_start_success(hass: HomeAssistant, init_integration) -> None:
 async def test_firmware_update_info(hass: HomeAssistant, init_integration) -> None:
     """Test firmware update handling is delegated to the library hub."""
     victron_hub, mock_config_entry = init_integration
+    notification = MagicMock()
+    unsubscribe = mock_config_entry.runtime_data.register_firmware_update_callback(
+        notification
+    )
 
     await inject_message(
         victron_hub,
@@ -174,6 +178,10 @@ async def test_firmware_update_info(hass: HomeAssistant, init_integration) -> No
     assert info.available_version == "v3.70"
     assert info.state is FirmwareUpdateState.DOWNLOADING_AND_INSTALLING
     assert info.progress == 42
+    notification.assert_called_with(info)
+
+    unsubscribe()
+    assert mock_config_entry.runtime_data._firmware_update_callback is None
 
     progress_callback = MagicMock()
     with patch.object(

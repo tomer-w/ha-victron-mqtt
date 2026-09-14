@@ -1,7 +1,6 @@
 """Firmware updates for Victron GX devices."""
 
 import logging
-from datetime import timedelta
 
 from homeassistant.components.update import (
     UpdateDeviceClass,
@@ -13,13 +12,11 @@ from homeassistant.core import HomeAssistant, callback
 from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
-from ._vendor.victron_mqtt import FirmwareUpdateError
+from ._vendor.victron_mqtt import FirmwareUpdateError, FirmwareUpdateInfo
 from .const import DOMAIN
 from .hub import VictronGxConfigEntry
 
 _LOGGER = logging.getLogger(__name__)
-
-SCAN_INTERVAL = timedelta(seconds=30)
 
 _FIRMWARE_UPDATE_URL = "https://www.victronenergy.com/blog/category/firmware-software/"
 
@@ -30,7 +27,7 @@ async def async_setup_entry(
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
     """Set up the GX firmware update entity."""
-    async_add_entities([VictronFirmwareUpdateEntity(config_entry)], True)
+    async_add_entities([VictronFirmwareUpdateEntity(config_entry)])
 
 
 class VictronFirmwareUpdateEntity(UpdateEntity):
@@ -40,7 +37,7 @@ class VictronFirmwareUpdateEntity(UpdateEntity):
     _attr_has_entity_name = True
     _attr_name = "Venus OS firmware"
     _attr_release_url = _FIRMWARE_UPDATE_URL
-    _attr_should_poll = True
+    _attr_should_poll = False
     _attr_supported_features = (
         UpdateEntityFeature.INSTALL | UpdateEntityFeature.PROGRESS
     )
@@ -53,9 +50,18 @@ class VictronFirmwareUpdateEntity(UpdateEntity):
         self._installed_version = info.installed_version
         self._online_version = info.available_version
         self._last_logged_versions: tuple[str | None, str | None] | None = None
+        self._attr_in_progress = info.in_progress
+        self._attr_update_percentage = info.progress if info.in_progress else None
         self._attr_unique_id = f"{entry.unique_id}_firmware"
         self._attr_device_info = DeviceInfo(
             identifiers={(DOMAIN, f"{entry.unique_id}_system_0")}
+        )
+
+    async def async_added_to_hass(self) -> None:
+        """Subscribe to firmware update notifications."""
+        await super().async_added_to_hass()
+        self.async_on_remove(
+            self._hub.register_firmware_update_callback(self._on_firmware_update)
         )
 
     @property
@@ -79,7 +85,7 @@ class VictronFirmwareUpdateEntity(UpdateEntity):
 
     def version_is_newer(self, latest_version: str, installed_version: str) -> bool:
         """Return whether Victron offers a Venus OS firmware build."""
-        return self._online_version is not None
+        return latest_version is not None
 
     async def async_install(
         self, version: str | None, backup: bool, **kwargs: object
@@ -111,13 +117,14 @@ class VictronFirmwareUpdateEntity(UpdateEntity):
             self._attr_update_percentage = None
             self.async_write_ha_state()
 
-    async def async_update(self) -> None:
-        """Refresh the entity from the latest in-memory MQTT values."""
-        info = self._hub.firmware_update_info
+    @callback
+    def _on_firmware_update(self, info: FirmwareUpdateInfo) -> None:
+        """Refresh the entity from a firmware update notification."""
         versions = (info.installed_version, info.available_version)
         self._attr_in_progress = info.in_progress
         self._attr_update_percentage = info.progress if info.in_progress else None
         if versions == self._last_logged_versions:
+            self.async_write_ha_state()
             return
 
         self._installed_version, self._online_version = versions
@@ -135,3 +142,4 @@ class VictronFirmwareUpdateEntity(UpdateEntity):
             update_expected,
             entity_state,
         )
+        self.async_write_ha_state()
