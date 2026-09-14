@@ -79,6 +79,7 @@ _running_client_id = 0
 
 CallbackOnNewMetric = Callable[["Hub", Device, Metric], None]
 CallbackOnNewDevice = Callable[["Hub", Device], None]
+CallbackOnFirmwareUpdate = Callable[["Hub", FirmwareUpdateInfo], None]
 
 
 class Hub:
@@ -227,6 +228,8 @@ class Hub:
         self._connected_event = asyncio.Event()
         self._on_new_metric: CallbackOnNewMetric | None = None
         self._on_new_device: CallbackOnNewDevice | None = None
+        self._on_firmware_update: CallbackOnFirmwareUpdate | None = None
+        self._last_firmware_update_info = FirmwareUpdateInfo(None, None, None, None)
         self._topic_log_info = topic_log_info
         self._operation_mode = operation_mode
         self._device_type_exclude_filter = device_type_exclude_filter
@@ -825,6 +828,7 @@ class Hub:
             else:
                 _LOGGER.warning("Version metric not found: %s", version_metric_name)
         self._schedule_threadsafe(self._first_refresh_event.set)
+        self._notify_firmware_update()
         self._first_full_publish = False
         _LOGGER.debug("Full publish handling completed")
 
@@ -886,6 +890,8 @@ class Hub:
 
         device = self._get_or_create_device(parsed_topic, desc)
         placeholder = device.handle_message(fallback_to_metric_topic, topic, parsed_topic, desc, payload, log_debug)
+        if placeholder is None and desc.short_id.startswith("platform_venus_firmware_"):
+            self._notify_firmware_update()
         if isinstance(placeholder, MetricPlaceholder):
             existing_placeholder = self._metrics_placeholders.get(placeholder.parsed_topic.unique_id)
             if existing_placeholder:
@@ -980,6 +986,7 @@ class Hub:
             log_debug = _LOGGER.info if is_info_level else _LOGGER.debug
 
             metric._keepalive(force_invalidate, log_debug, stale_timeout=stale_timeout)
+        self._notify_firmware_update()
 
     def _start_keep_alive_loop(self) -> None:
         """Start the keep_alive loop."""
@@ -1221,6 +1228,15 @@ class Hub:
         """
         return get_firmware_update_info(self)
 
+    def _notify_firmware_update(self) -> None:
+        """Notify when the aggregate firmware update information changes."""
+        info = self.firmware_update_info
+        if info == self._last_firmware_update_info:
+            return
+        self._last_firmware_update_info = info
+        if callable(self._on_firmware_update):
+            self._schedule_threadsafe(self._on_firmware_update, self, info)
+
     def check_firmware_update(self, poll_interval: float = 7 * 24 * 60 * 60) -> None:
         """Start periodically asking the GX device to check for firmware updates.
 
@@ -1373,6 +1389,16 @@ class Hub:
     def on_new_device(self, value: CallbackOnNewDevice | None) -> None:
         """Sets the on_new_device callback."""
         self._on_new_device = value
+
+    @property
+    def on_firmware_update(self) -> CallbackOnFirmwareUpdate | None:
+        """Return the callback invoked when firmware update information changes."""
+        return self._on_firmware_update
+
+    @on_firmware_update.setter
+    def on_firmware_update(self, value: CallbackOnFirmwareUpdate | None) -> None:
+        """Set the callback invoked when firmware update information changes."""
+        self._on_firmware_update = value
 
     def generate_keepalive_options(self, force: bool) -> str:
         """Generate a string for keepalive options with a configurable echo value."""
