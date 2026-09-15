@@ -2277,6 +2277,7 @@ topics: list[TopicDescriptor] = [
         value_type=ValueType.STRING,
         short_id="platform_venus_firmware_available_version",
         name="Available version",
+        nullable=True,
     ),
     TopicDescriptor(
         topic="N/{installation_id}/platform/{device_id}/Firmware/Progress",
