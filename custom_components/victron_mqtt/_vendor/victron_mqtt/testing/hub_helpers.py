@@ -13,7 +13,7 @@ from itertools import count
 from typing import TYPE_CHECKING, Any, Literal
 from unittest.mock import MagicMock, patch
 
-from paho.mqtt.client import ConnectFlags
+from paho.mqtt.client import MQTT_ERR_SUCCESS, ConnectFlags
 from paho.mqtt.packettypes import PacketTypes
 from paho.mqtt.reasoncodes import ReasonCode
 
@@ -120,15 +120,37 @@ async def create_mocked_hub(
             # Mock on_message to handle incoming messages
             mocked_client.on_message = MagicMock(name="on_message")
 
-            # Mock _subscribe to automatically publish a message to TOPIC_INSTALLATION_ID
-            def mock_subscribe(topic: str):
-                if topic == TOPIC_INSTALLATION_ID or topic == TOPIC_INSTALLATION_ID.replace("+", "123"):
+            mocked_installation_id = installation_id or "123"
+            message_ids = count(1)
+
+            # Mock subscribe acknowledgements and installation ID discovery.
+            def mock_subscribe(topic: str) -> tuple[Any, int]:
+                message_id = next(message_ids)
+                if topic == TOPIC_INSTALLATION_ID or topic == TOPIC_INSTALLATION_ID.replace(
+                    "+", mocked_installation_id
+                ):
                     mocked_client.on_message(
-                        mocked_client, None, MagicMock(topic="N/123/system/0/Serial", payload=b'{"value": "123"}')
+                        mocked_client,
+                        None,
+                        MagicMock(
+                            topic=f"N/{mocked_installation_id}/system/0/Serial",
+                            payload=json.dumps({"value": mocked_installation_id}).encode(),
+                        ),
                     )
-                    return
+                    return MQTT_ERR_SUCCESS, message_id
                 assert "{installation_id}" not in topic
                 assert not topic.startswith("N/+")
+                if topic.startswith(f"N/{mocked_installation_id}/"):
+                    assert hub._loop is not None
+                    hub._loop.call_soon(
+                        mocked_client.on_subscribe,
+                        mocked_client,
+                        None,
+                        message_id,
+                        [ReasonCode(PacketTypes.SUBACK, identifier=0)],
+                        None,
+                    )
+                return MQTT_ERR_SUCCESS, message_id
 
             mocked_client.subscribe = MagicMock(name="subscribe", side_effect=mock_subscribe)
 
@@ -144,14 +166,17 @@ async def create_mocked_hub(
                     return ""
 
             def mock_publish(topic: str, value: str) -> None:
-                if topic == "R/123/keepalive" and "suppress-republish" not in str(value):
+                if topic == f"R/{mocked_installation_id}/keepalive" and "suppress-republish" not in str(value):
                     echo = parse_keepalive_options(value)
                     keepalive_payload = json.dumps({"full-publish-completed-echo": echo, "value": 42})
                     logger.info("Sending mocked full_publish_completed")
                     mocked_client.on_message(
                         mocked_client,
                         None,
-                        MagicMock(topic="N/123/full_publish_completed", payload=keepalive_payload.encode()),
+                        MagicMock(
+                            topic=f"N/{mocked_installation_id}/full_publish_completed",
+                            payload=keepalive_payload.encode(),
+                        ),
                     )
                     logger.info("Mocked full_publish_completed")
                 if topic.startswith("W/"):
