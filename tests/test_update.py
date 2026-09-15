@@ -33,6 +33,7 @@ def _create_entity(
     entry.runtime_data = hub
     entity = VictronFirmwareUpdateEntity(entry)
     entity.hass = MagicMock()
+    entity.async_write_ha_state = MagicMock()
     return entity, hub
 
 

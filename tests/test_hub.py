@@ -142,13 +142,28 @@ async def test_hub_start_success(hass: HomeAssistant, init_integration) -> None:
     assert victron_hub.installation_id == "123"
 
 
+def test_firmware_update_callback_unregisters(
+    hass: HomeAssistant, mock_config_entry
+) -> None:
+    """Test firmware update callbacks are forwarded and can be unregistered."""
+    with patch("custom_components.victron_mqtt.hub.VictronVenusHub"):
+        hub = Hub(hass, mock_config_entry)
+
+    notification = MagicMock()
+    unsubscribe = hub.register_firmware_update_callback(notification)
+    info = FirmwareUpdateInfo("v3.60", "v3.70", FirmwareUpdateState.IDLE, None)
+
+    hub._on_firmware_update(MagicMock(), info)
+
+    notification.assert_called_once_with(info)
+    unsubscribe()
+    assert hub._firmware_update_callback is None
+
+
 async def test_firmware_update_info(hass: HomeAssistant, init_integration) -> None:
     """Test firmware update handling is delegated to the library hub."""
     victron_hub, mock_config_entry = init_integration
-    notification = MagicMock()
-    unsubscribe = mock_config_entry.runtime_data.register_firmware_update_callback(
-        notification
-    )
+    assert mock_config_entry.runtime_data._firmware_update_callback is not None
 
     await inject_message(
         victron_hub,
@@ -178,10 +193,18 @@ async def test_firmware_update_info(hass: HomeAssistant, init_integration) -> No
     assert info.available_version == "v3.70"
     assert info.state is FirmwareUpdateState.DOWNLOADING_AND_INSTALLING
     assert info.progress == 42
-    notification.assert_called_with(info)
-
-    unsubscribe()
-    assert mock_config_entry.runtime_data._firmware_update_callback is None
+    firmware_entity = next(
+        entity
+        for entity in er.async_entries_for_config_entry(
+            er.async_get(hass), mock_config_entry.entry_id
+        )
+        if entity.domain == Platform.UPDATE
+    )
+    firmware_state = hass.states.get(firmware_entity.entity_id)
+    assert firmware_state is not None
+    assert firmware_state.state == "on"
+    assert firmware_state.attributes["in_progress"] is True
+    assert firmware_state.attributes["update_percentage"] == 42
 
     progress_callback = MagicMock()
     with patch.object(
