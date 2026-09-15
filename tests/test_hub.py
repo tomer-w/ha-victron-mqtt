@@ -45,9 +45,7 @@ from custom_components.victron_mqtt._vendor.victron_mqtt.testing import (
 from custom_components.victron_mqtt.const import (
     CONF_EXCLUDED_DEVICES,
     CONF_INSTALLATION_ID,
-    CONF_MODEL,
     CONF_ROOT_TOPIC_PREFIX,
-    CONF_SERIAL,
     CONF_SIMPLE_NAMING,
     CONF_UPDATE_FREQUENCY_SECONDS,
     DOMAIN,
@@ -80,8 +78,6 @@ def basic_config(request):
         CONF_PASSWORD: "test_pass",
         CONF_SSL: False,
         CONF_INSTALLATION_ID: "12345",
-        CONF_MODEL: "Venus GX",
-        CONF_SERIAL: "HQ12345678",
         CONF_ROOT_TOPIC_PREFIX: "N/",
         CONF_UPDATE_FREQUENCY_SECONDS: 30,
         CONF_SIMPLE_NAMING: request.param,
@@ -145,10 +141,6 @@ async def test_hub_start_success(hass: HomeAssistant, init_integration) -> None:
 async def test_firmware_update_info(hass: HomeAssistant, init_integration) -> None:
     """Test firmware update handling is delegated to the library hub."""
     victron_hub, mock_config_entry = init_integration
-    notification = MagicMock()
-    unsubscribe = mock_config_entry.runtime_data.register_firmware_update_callback(
-        notification
-    )
 
     await inject_message(
         victron_hub,
@@ -178,10 +170,20 @@ async def test_firmware_update_info(hass: HomeAssistant, init_integration) -> No
     assert info.available_version == "v3.70"
     assert info.state is FirmwareUpdateState.DOWNLOADING_AND_INSTALLING
     assert info.progress == 42
-    notification.assert_called_with(info)
 
-    unsubscribe()
-    assert mock_config_entry.runtime_data._firmware_update_callback is None
+    update_entity = next(
+        entity
+        for entity in er.async_entries_for_config_entry(
+            er.async_get(hass), mock_config_entry.entry_id
+        )
+        if entity.domain == Platform.UPDATE
+    )
+    state = hass.states.get(update_entity.entity_id)
+    assert state is not None
+    assert state.attributes["installed_version"] == "v3.60"
+    assert state.attributes["latest_version"] == "v3.70"
+    assert state.attributes["in_progress"] is True
+    assert state.attributes["update_percentage"] == 42
 
     progress_callback = MagicMock()
     with patch.object(

@@ -77,14 +77,15 @@ async def test_entity_subscribes_to_firmware_notifications() -> None:
     await entity.async_added_to_hass()
 
     callback = hub.register_firmware_update_callback.call_args.args[0]
-    callback(
-        FirmwareUpdateInfo(
-            "v3.60",
-            "v3.70",
-            FirmwareUpdateState.DOWNLOADING_AND_INSTALLING,
-            25,
+    with patch.object(entity, "async_write_ha_state"):
+        callback(
+            FirmwareUpdateInfo(
+                "v3.60",
+                "v3.70",
+                FirmwareUpdateState.DOWNLOADING_AND_INSTALLING,
+                25,
+            )
         )
-    )
 
     assert entity.latest_version == "v3.70"
     assert entity.in_progress is True
@@ -129,7 +130,10 @@ def test_notification_logs_firmware_versions_when_they_change(
     entity, hub = _create_entity("v3.80~36", "v3.80~45")
     hub.id = "test-hub"
 
-    with caplog.at_level(logging.INFO):
+    with (
+        caplog.at_level(logging.INFO),
+        patch.object(entity, "async_write_ha_state"),
+    ):
         entity._on_firmware_update(hub.firmware_update_info)
         entity._on_firmware_update(hub.firmware_update_info)
         entity._on_firmware_update(
@@ -157,7 +161,8 @@ def test_notification_caches_consistent_firmware_version_snapshot() -> None:
     assert entity.latest_version == "v3.80~36"
     assert entity.available
 
-    entity._on_firmware_update(info)
+    with patch.object(entity, "async_write_ha_state"):
+        entity._on_firmware_update(info)
 
     assert entity.installed_version == "v3.80~36"
     assert entity.latest_version == "v3.80~45"
@@ -168,15 +173,16 @@ def test_notification_refreshes_progress_when_versions_do_not_change() -> None:
     """Test notifications refresh lifecycle state independently of version logging."""
     entity, hub = _create_entity()
 
-    entity._on_firmware_update(hub.firmware_update_info)
-    entity._on_firmware_update(
-        FirmwareUpdateInfo(
-            "v3.60",
-            "v3.70",
-            FirmwareUpdateState.DOWNLOADING_AND_INSTALLING,
-            25,
+    with patch.object(entity, "async_write_ha_state"):
+        entity._on_firmware_update(hub.firmware_update_info)
+        entity._on_firmware_update(
+            FirmwareUpdateInfo(
+                "v3.60",
+                "v3.70",
+                FirmwareUpdateState.DOWNLOADING_AND_INSTALLING,
+                25,
+            )
         )
-    )
 
     assert entity.in_progress is True
     assert entity.update_percentage == 25

@@ -29,10 +29,8 @@ from custom_components.victron_mqtt.config_flow import DEFAULT_SSL_PORT
 from custom_components.victron_mqtt.const import (
     CONF_EXCLUDED_DEVICES,
     CONF_INSTALLATION_ID,
-    CONF_MODEL,
     CONF_OPERATION_MODE,
     CONF_ROOT_TOPIC_PREFIX,
-    CONF_SERIAL,
     CONF_SIMPLE_NAMING,
     CONF_UPDATE_FREQUENCY_MODE,
     CONF_UPDATE_FREQUENCY_SECONDS,
@@ -289,9 +287,7 @@ async def test_ssdp_flow_success(
     assert result["data"] == {
         CONF_HOST: MOCK_HOST,
         CONF_PORT: DEFAULT_SSL_PORT,
-        CONF_SERIAL: MOCK_SERIAL,
         CONF_INSTALLATION_ID: MOCK_INSTALLATION_ID,
-        CONF_MODEL: MOCK_MODEL,
         CONF_SSL: True,
         CONF_SIMPLE_NAMING: DEFAULT_SIMPLE_NAMING,
     }
@@ -382,8 +378,6 @@ async def test_options_flow_success(hass: HomeAssistant) -> None:
             CONF_HOST: MOCK_HOST,
             CONF_PORT: DEFAULT_PORT,
             CONF_INSTALLATION_ID: MOCK_INSTALLATION_ID,
-            CONF_SERIAL: MOCK_SERIAL,
-            CONF_MODEL: MOCK_MODEL,
             CONF_SSL: False,
             CONF_SIMPLE_NAMING: False,
             CONF_UPDATE_FREQUENCY_SECONDS: DEFAULT_UPDATE_FREQUENCY_SECONDS,
@@ -787,9 +781,7 @@ async def test_ssdp_auth_ssl_uses_ssl_port(
     assert result["data"] == {
         CONF_HOST: MOCK_HOST,
         CONF_PORT: DEFAULT_SSL_PORT,
-        CONF_SERIAL: MOCK_SERIAL,
         CONF_INSTALLATION_ID: MOCK_INSTALLATION_ID,
-        CONF_MODEL: MOCK_MODEL,
         CONF_USERNAME: "remoteconsole",
         CONF_PASSWORD: "test-password",
         CONF_SSL: True,
@@ -857,7 +849,9 @@ async def test_migration_v1_to_v2_without_simple_naming(hass: HomeAssistant) -> 
     result = await async_migrate_entry(hass, mock_config_entry)
     assert result is True
     assert mock_config_entry.data[CONF_SIMPLE_NAMING] is False
-    assert mock_config_entry.data[CONF_UPDATE_FREQUENCY_MODE] == UPDATE_FREQUENCY_MODE_AUTO
+    assert (
+        mock_config_entry.data[CONF_UPDATE_FREQUENCY_MODE] == UPDATE_FREQUENCY_MODE_AUTO
+    )
     assert mock_config_entry.version == 3
 
 
@@ -883,7 +877,9 @@ async def test_migration_v1_to_v2_with_simple_naming_true(hass: HomeAssistant) -
     result = await async_migrate_entry(hass, mock_config_entry)
     assert result is True
     assert mock_config_entry.data[CONF_SIMPLE_NAMING] is True
-    assert mock_config_entry.data[CONF_UPDATE_FREQUENCY_MODE] == UPDATE_FREQUENCY_MODE_AUTO
+    assert (
+        mock_config_entry.data[CONF_UPDATE_FREQUENCY_MODE] == UPDATE_FREQUENCY_MODE_AUTO
+    )
     assert mock_config_entry.version == 3
 
 
@@ -909,7 +905,9 @@ async def test_migration_v1_to_v2_with_simple_naming_false(hass: HomeAssistant) 
     result = await async_migrate_entry(hass, mock_config_entry)
     assert result is True
     assert mock_config_entry.data[CONF_SIMPLE_NAMING] is False
-    assert mock_config_entry.data[CONF_UPDATE_FREQUENCY_MODE] == UPDATE_FREQUENCY_MODE_AUTO
+    assert (
+        mock_config_entry.data[CONF_UPDATE_FREQUENCY_MODE] == UPDATE_FREQUENCY_MODE_AUTO
+    )
     assert mock_config_entry.version == 3
 
 
@@ -936,7 +934,10 @@ async def test_migration_v2_to_v3_custom_frequency_becomes_manual(
 
     result = await async_migrate_entry(hass, mock_config_entry)
     assert result is True
-    assert mock_config_entry.data[CONF_UPDATE_FREQUENCY_MODE] == UPDATE_FREQUENCY_MODE_MANUAL
+    assert (
+        mock_config_entry.data[CONF_UPDATE_FREQUENCY_MODE]
+        == UPDATE_FREQUENCY_MODE_MANUAL
+    )
     assert mock_config_entry.data[CONF_UPDATE_FREQUENCY_SECONDS] == 45
     assert mock_config_entry.version == 3
 
@@ -964,7 +965,9 @@ async def test_migration_v2_to_v3_default_frequency_becomes_auto(
 
     result = await async_migrate_entry(hass, mock_config_entry)
     assert result is True
-    assert mock_config_entry.data[CONF_UPDATE_FREQUENCY_MODE] == UPDATE_FREQUENCY_MODE_AUTO
+    assert (
+        mock_config_entry.data[CONF_UPDATE_FREQUENCY_MODE] == UPDATE_FREQUENCY_MODE_AUTO
+    )
     assert mock_config_entry.version == 3
 
 
@@ -990,7 +993,9 @@ async def test_migration_v2_to_v3_missing_frequency_becomes_auto(
 
     result = await async_migrate_entry(hass, mock_config_entry)
     assert result is True
-    assert mock_config_entry.data[CONF_UPDATE_FREQUENCY_MODE] == UPDATE_FREQUENCY_MODE_AUTO
+    assert (
+        mock_config_entry.data[CONF_UPDATE_FREQUENCY_MODE] == UPDATE_FREQUENCY_MODE_AUTO
+    )
     assert mock_config_entry.version == 3
 
 
@@ -1205,9 +1210,7 @@ async def test_ssdp_token_pairing_success(
     assert result["data"] == {
         CONF_HOST: MOCK_HOST,
         CONF_PORT: DEFAULT_SSL_PORT,
-        CONF_SERIAL: MOCK_SERIAL,
         CONF_INSTALLATION_ID: MOCK_INSTALLATION_ID,
-        CONF_MODEL: MOCK_MODEL,
         CONF_USERNAME: "token/homeassistant/homeassistant_abc123",
         CONF_PASSWORD: "generatedSecretPassword",
         CONF_SSL: True,

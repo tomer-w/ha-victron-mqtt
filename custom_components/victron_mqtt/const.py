@@ -1,14 +1,11 @@
 """Constants for the victron_mqtt integration."""
 
-
 # Integration specific values (custom / builtin Home Assistant)
 DOMAIN = "victron_mqtt"
 DEFAULT_SIMPLE_NAMING = True
 
 # generic config values
 CONF_INSTALLATION_ID = "installation_id"
-CONF_MODEL = "model"
-CONF_SERIAL = "serial"
 CONF_ROOT_TOPIC_PREFIX = "root_topic_prefix"
 CONF_UPDATE_FREQUENCY_SECONDS = "update_frequency"
 CONF_UPDATE_FREQUENCY_MODE = "update_frequency_mode"

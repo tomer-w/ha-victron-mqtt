@@ -44,10 +44,8 @@ from .const import (
     CONF_ELEVATED_TRACING,
     CONF_EXCLUDED_DEVICES,
     CONF_INSTALLATION_ID,
-    CONF_MODEL,
     CONF_OPERATION_MODE,
     CONF_ROOT_TOPIC_PREFIX,
-    CONF_SERIAL,
     CONF_SIMPLE_NAMING,
     CONF_UPDATE_FREQUENCY_MODE,
     CONF_UPDATE_FREQUENCY_SECONDS,
@@ -88,6 +86,7 @@ def default_port_for(use_ssl: bool) -> int:
     """Return default MQTT port based on transport."""
     return DEFAULT_SSL_PORT if use_ssl else DEFAULT_PORT
 
+
 DEVICE_CODES: Sequence[SelectOptionDict] = [
     {"value": str(device_type.code), "label": device_type.string}
     for device_type in DeviceType
@@ -101,7 +100,9 @@ STEP_USER_DATA_SCHEMA = vol.Schema(
         vol.Optional(CONF_USERNAME): str,
         vol.Optional(CONF_PASSWORD): str,
         vol.Required(CONF_SSL, default=False): bool,
-        vol.Required(CONF_OPERATION_MODE, default=OperationMode.FULL.value): SelectSelector(
+        vol.Required(
+            CONF_OPERATION_MODE, default=OperationMode.FULL.value
+        ): SelectSelector(
             SelectSelectorConfig(
                 options=[
                     SelectOptionDict(
@@ -120,7 +121,7 @@ STEP_USER_DATA_SCHEMA = vol.Schema(
             )
         ),
         vol.Optional(CONF_SIMPLE_NAMING, default=DEFAULT_SIMPLE_NAMING): bool,
-         vol.Optional(CONF_ROOT_TOPIC_PREFIX): str,
+        vol.Optional(CONF_ROOT_TOPIC_PREFIX): str,
         vol.Required(
             CONF_UPDATE_FREQUENCY_MODE, default=DEFAULT_UPDATE_FREQUENCY_MODE
         ): SelectSelector(
@@ -138,7 +139,9 @@ STEP_USER_DATA_SCHEMA = vol.Schema(
                 mode=SelectSelectorMode.LIST,
             )
         ),
-        vol.Optional(CONF_UPDATE_FREQUENCY_SECONDS, default=DEFAULT_UPDATE_FREQUENCY_SECONDS): int,
+        vol.Optional(
+            CONF_UPDATE_FREQUENCY_SECONDS, default=DEFAULT_UPDATE_FREQUENCY_SECONDS
+        ): int,
         vol.Optional(CONF_EXCLUDED_DEVICES, default=[]): SelectSelector(
             SelectSelectorConfig(
                 options=DEVICE_CODES,
@@ -175,7 +178,6 @@ async def validate_input(data: dict[str, Any]) -> str:
             password=data.get(CONF_PASSWORD) or None,
             use_ssl=data.get(CONF_SSL, False),
             installation_id=data.get(CONF_INSTALLATION_ID) or None,
-            serial=data.get(CONF_SERIAL, "noserial"),
             topic_prefix=data.get(CONF_ROOT_TOPIC_PREFIX) or None,
             topic_log_info=data.get(CONF_ELEVATED_TRACING) or None,
         )
@@ -199,7 +201,6 @@ class VictronMQTTConfigFlow(ConfigFlow, domain=DOMAIN):
     def __init__(self) -> None:
         """Initialize."""
         self.hostname: str | None = None
-        self.serial: str | None = None
         self.installation_id: str | None = None
         self.friendly_name: str | None = None
         self.model_name: str | None = None
@@ -211,10 +212,11 @@ class VictronMQTTConfigFlow(ConfigFlow, domain=DOMAIN):
         """Handle the initial step."""
         errors: dict[str, str] = {}
         if user_input is not None:
-            _LOGGER.info("User input received: %s", async_redact_data(user_input, TO_REDACT))
-            data = {**user_input, CONF_SERIAL: self.serial, CONF_MODEL: self.model_name}
+            _LOGGER.info(
+                "User input received: %s", async_redact_data(user_input, TO_REDACT)
+            )
             data = {
-                k: v for k, v in data.items() if v is not None
+                k: v for k, v in user_input.items() if v is not None
             }  # remove None values.
 
             try:
@@ -271,7 +273,10 @@ class VictronMQTTConfigFlow(ConfigFlow, domain=DOMAIN):
         reauth_entry = self._get_reauth_entry()
 
         if user_input is not None:
-            _LOGGER.info("Reauth user input received: %s", async_redact_data(user_input, TO_REDACT))
+            _LOGGER.info(
+                "Reauth user input received: %s",
+                async_redact_data(user_input, TO_REDACT),
+            )
             data = {
                 **reauth_entry.data,
                 CONF_USERNAME: user_input.get(CONF_USERNAME) or None,
@@ -368,9 +373,7 @@ class VictronMQTTConfigFlow(ConfigFlow, domain=DOMAIN):
             data: dict[str, Any] = {
                 CONF_HOST: self.hostname,
                 CONF_PORT: DEFAULT_SSL_PORT,
-                CONF_SERIAL: self.serial,
                 CONF_INSTALLATION_ID: self.installation_id,
-                CONF_MODEL: self.model_name,
                 CONF_SSL: True,
                 CONF_SIMPLE_NAMING: DEFAULT_SIMPLE_NAMING,
             }
@@ -451,9 +454,7 @@ class VictronMQTTConfigFlow(ConfigFlow, domain=DOMAIN):
                 data: dict[str, Any] = {
                     CONF_HOST: self.hostname,
                     CONF_PORT: DEFAULT_SSL_PORT,
-                    CONF_SERIAL: self.serial,
                     CONF_INSTALLATION_ID: self.installation_id,
-                    CONF_MODEL: self.model_name,
                     CONF_USERNAME: credentials.token_name,
                     CONF_PASSWORD: credentials.password,
                     CONF_SSL: True,
@@ -503,9 +504,7 @@ class VictronMQTTConfigFlow(ConfigFlow, domain=DOMAIN):
             data: dict[str, Any] = {
                 CONF_HOST: self.hostname,
                 CONF_PORT: default_port_for(user_input.get(CONF_SSL, True)),
-                CONF_SERIAL: self.serial,
                 CONF_INSTALLATION_ID: self.installation_id,
-                CONF_MODEL: self.model_name,
                 CONF_USERNAME: "remoteconsole",
                 CONF_PASSWORD: user_input.get(CONF_PASSWORD) or None,
                 CONF_SSL: user_input.get(CONF_SSL, True),
@@ -552,7 +551,9 @@ class VictronMQTTOptionsFlow(OptionsFlow):
             "Initializing options flow. current config: %s", self.config_entry.data
         )
         if user_input is not None:
-            _LOGGER.info("User input received: %s", async_redact_data(user_input, TO_REDACT))
+            _LOGGER.info(
+                "User input received: %s", async_redact_data(user_input, TO_REDACT)
+            )
             try:
                 await validate_input(user_input)
             except AuthenticationError:
@@ -568,7 +569,8 @@ class VictronMQTTOptionsFlow(OptionsFlow):
                     errors={"base": "cannot_connect"},
                 )
             _LOGGER.info(
-                "Options flow completed successfully. new config: %s", async_redact_data(user_input, TO_REDACT)
+                "Options flow completed successfully. new config: %s",
+                async_redact_data(user_input, TO_REDACT),
             )
             # Update the config entry with new data.
             self.hass.config_entries.async_update_entry(
