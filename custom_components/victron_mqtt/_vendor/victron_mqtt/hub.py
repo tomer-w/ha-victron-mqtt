@@ -1,6 +1,7 @@
 """Module to communicate with the Venus OS MQTT Broker."""
 
 import asyncio
+import contextlib
 import json
 import logging
 import random
@@ -93,8 +94,6 @@ class Hub:
         password: str | None,
         use_ssl: bool,
         installation_id: str | None = None,
-        model_name: str | None = None,
-        serial: str | None = "noserial",
         topic_prefix: str | None = None,
         topic_log_info: str | None = None,
         operation_mode: OperationMode = OperationMode.FULL,
@@ -123,10 +122,6 @@ class Hub:
             If provided, used to replace `{installation_id}` placeholders in topics.
             If None, the installation id will be discovered from the broker when
             `connect()` is called.
-        model_name: str | None
-            Optional device model name used for informational purposes.
-        serial: str | None
-            Optional device serial identifier (defaults to "noserial").
         topic_prefix: str | None
             Optional prefix that is prepended to every subscribe/publish topic.
         topic_log_info: str | None
@@ -196,25 +191,22 @@ class Hub:
         ):
             raise ValueError(f"update_frequency_seconds must be an int, None or one of {sorted(AUTO_UPDATE_INTERVALS)}")
         _LOGGER.info(
-            "Initializing Hub[ID: %d](host=%s, port=%d, username=%s, use_ssl=%s, installation_id=%s, model_name=%s, topic_prefix=%s, operation_mode=%s, device_type_exclude_filter=%s, update_frequency_seconds=%s, topic_log_info=%s)",
+            "Initializing Hub[ID: %d](host=%s, port=%d, username=%s, use_ssl=%s, installation_id=%s, topic_prefix=%s, operation_mode=%s, device_type_exclude_filter=%s, update_frequency_seconds=%s, topic_log_info=%s)",
             self._instance_id,
             host,
             port,
             username,
             use_ssl,
             installation_id,
-            model_name,
             topic_prefix,
             operation_mode,
             device_type_exclude_filter,
             update_frequency_seconds,
             topic_log_info,
         )
-        self._model_name = model_name
         self.host = host
         self.username = username
         self.password = password
-        self.serial = serial
         self.use_ssl = use_ssl
         self._ssl_context = ssl_context
         self.port = port
@@ -225,6 +217,8 @@ class Hub:
         self._installation_id_event: asyncio.Event = asyncio.Event()
         self._snapshot: dict[str, Any] = {}
         self._keepalive_task: asyncio.Task[None] | None = None
+        self._subscription_task: asyncio.Task[None] | None = None
+        self._subscription_futures: dict[int, asyncio.Future[None]] = {}
         self._connected_event = asyncio.Event()
         self._on_new_metric: CallbackOnNewMetric | None = None
         self._on_new_device: CallbackOnNewDevice | None = None
@@ -397,6 +391,7 @@ class Hub:
         self._client.on_connect = self._on_connect
         self._client.on_disconnect = self._on_disconnect
         self._client.on_message = self._on_message
+        self._client.on_subscribe = self._on_subscribe
         self._client.on_connect_fail = self._on_connect_fail
         # self._client.on_log = self._on_log
         self._connect_failed_attempts = 0
@@ -431,7 +426,7 @@ class Hub:
             ]
             # First setup subscriptions will happen here as we need the installation ID.
             # Later we will do it from the connect callback
-            self._setup_subscriptions()
+            await self._setup_subscriptions()
             self._start_keep_alive_loop()
         except Exception as exc:
             # If anything fails after loop_start(), fully clean up (keepalive task, client
@@ -538,7 +533,11 @@ class Hub:
             )
 
         _LOGGER.info("Connected to MQTT broker successfully")
-        self._setup_subscriptions()
+        if self._first_connect:
+            self._first_connect = False
+            _LOGGER.info("First connection, deferring subscription setup")
+            return
+        self._schedule_threadsafe(self._start_subscription_setup)
 
     def _on_disconnect(
         self,
@@ -557,6 +556,28 @@ class Hub:
             )
         else:
             _LOGGER.info("Disconnected from MQTT broker.")
+
+    def _on_subscribe(
+        self,
+        _client: MQTTClient,
+        _userdata: Any,
+        message_id: int,
+        reason_codes: list[ReasonCode],
+        _properties: Properties | None = None,
+    ) -> None:
+        """Handle a subscription acknowledgement."""
+        self._schedule_threadsafe(self._handle_subscription_ack, message_id, reason_codes)
+
+    def _handle_subscription_ack(self, message_id: int, reason_codes: list[ReasonCode]) -> None:
+        """Resolve the future waiting for a subscription acknowledgement."""
+        subscription_future = self._subscription_futures.get(message_id)
+        if subscription_future is None or subscription_future.done():
+            return
+        failed_codes = [reason_code for reason_code in reason_codes if reason_code.is_failure]
+        if failed_codes:
+            subscription_future.set_exception(CannotConnectError(f"Broker rejected MQTT subscription: {failed_codes}"))
+        else:
+            subscription_future.set_result(None)
 
     def _on_message(self, client: MQTTClient, userdata: Any, message: mqtt.MQTTMessage) -> None:
         try:
@@ -908,6 +929,11 @@ class Hub:
         _LOGGER.info("Disconnecting from MQTT broker")
         self._stop_keepalive_loop()
         self._stop_firmware_update_checks()
+        if self._subscription_task is not None:
+            self._subscription_task.cancel()
+            with contextlib.suppress(asyncio.CancelledError):
+                await self._subscription_task
+            self._subscription_task = None
         await asyncio.sleep(0.1)
         self._client.disconnect()
         self._client.loop_stop()  # stop the background thread started by loop_start()
@@ -1112,16 +1138,19 @@ class Hub:
             return topic[len(self._topic_prefix) + 1 :]
         return topic
 
-    def _subscribe(self, topic: str) -> None:
+    def _subscribe(self, topic: str) -> int:
         """Subscribe to a topic with automatic prefix handling."""
         assert self._client is not None
         prefixed_topic = self._add_topic_prefix(topic)
         _LOGGER.debug("Subscribing to: %s", prefixed_topic)
         try:
-            self._client.subscribe(prefixed_topic)
+            result, message_id = self._client.subscribe(prefixed_topic)
         except Exception as e:
             _LOGGER.error("Failed to subscribe to %s: %s", prefixed_topic, e)
             raise
+        if result != mqtt.MQTT_ERR_SUCCESS or message_id is None:
+            raise CannotConnectError(f"Failed to request MQTT subscription to {prefixed_topic}: {result}")
+        return message_id
 
     def _unsubscribe(self, topic: str) -> None:
         """Unsubscribe from a topic with automatic prefix handling."""
@@ -1130,23 +1159,50 @@ class Hub:
         self._client.unsubscribe(prefixed_topic)
         _LOGGER.debug("Unsubscribed from: %s", prefixed_topic)
 
-    def _setup_subscriptions(self) -> None:
-        """Subscribe to list of topics."""
-        if self._first_connect:
-            self._first_connect = False
-            _LOGGER.info("Installation ID is not set, skipping subscription setup")
-            return
-        _LOGGER.info("Setting up MQTT subscriptions")
+    async def _setup_subscriptions(self) -> None:
+        """Subscribe to each topic after the previous SUBACK is received."""
+        _LOGGER.info("Setting up MQTT subscriptions on installation ID: %s", self.installation_id)
         assert self._client is not None
         if not self._client.is_connected():
             raise NotConnectedError
-        # topic_list = [(topic, 0) for topic in topic_map]
-        for topic in self._resolved_subscription_list:
-            self._subscribe(topic)
         assert self.installation_id is not None
-        self._subscribe(f"N/{self.installation_id}/full_publish_completed")
-        _LOGGER.info("Subscribed to full_publish_completed notification")
+        subscription_topics = [
+            *self._resolved_subscription_list,
+            f"N/{self.installation_id}/full_publish_completed",
+        ]
+        for topic in subscription_topics:
+            await self._subscribe_and_wait(topic)
+        _LOGGER.info("All %d MQTT subscriptions acknowledged", len(subscription_topics))
         self._keepalive(True)
+
+    async def _subscribe_and_wait(self, topic: str) -> None:
+        """Subscribe to one topic and wait for its SUBACK."""
+        message_id = self._subscribe(topic)
+        subscription_future = asyncio.get_running_loop().create_future()
+        self._subscription_futures[message_id] = subscription_future
+        try:
+            async with asyncio.timeout(25):
+                await subscription_future
+        except TimeoutError as exc:
+            raise CannotConnectError(f"Timeout waiting for MQTT subscription acknowledgement: {topic}") from exc
+        finally:
+            self._subscription_futures.pop(message_id, None)
+
+    def _start_subscription_setup(self) -> None:
+        """Start subscription setup after an automatic reconnect."""
+        if self._subscription_task is not None and not self._subscription_task.done():
+            _LOGGER.warning("MQTT subscription setup is already running")
+            return
+        self._subscription_task = asyncio.create_task(self._setup_subscriptions())
+        self._subscription_task.add_done_callback(self._subscription_setup_done)
+
+    def _subscription_setup_done(self, task: asyncio.Task[None]) -> None:
+        """Handle subscription setup failure after an automatic reconnect."""
+        if task.cancelled():
+            return
+        if exception := task.exception():
+            _LOGGER.error("MQTT subscription setup failed: %s", exception)
+            self._client.disconnect()
 
     async def _wait_for_connect(self) -> None:
         """Wait for the first connection to complete."""
@@ -1308,7 +1364,8 @@ class Hub:
     @property
     def model_name(self) -> str | None:
         """Return the model name."""
-        return self._model_name
+        system_device = self._devices.get("system_0")
+        return system_device.model if system_device is not None else None
 
     @property
     def topic_prefix(self) -> str | None:
