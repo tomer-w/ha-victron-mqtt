@@ -6,7 +6,11 @@ from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
 from homeassistant.components.update import UpdateDeviceClass, UpdateEntityFeature
-from pytest_homeassistant_custom_component.common import MockConfigEntry
+from homeassistant.core import HomeAssistant, State
+from pytest_homeassistant_custom_component.common import (
+    MockConfigEntry,
+    mock_restore_cache,
+)
 
 from custom_components.victron_mqtt._vendor.victron_mqtt import (
     FirmwareUpdateError,
@@ -57,7 +61,7 @@ async def test_setup_adds_firmware_entity_without_polling() -> None:
     """Test setup adds the notification-driven firmware entity."""
     entry = MockConfigEntry(domain=DOMAIN, unique_id="123")
     entry.runtime_data = MagicMock()
-    entry.runtime_data.firmware_update_info = FirmwareUpdateInfo(None, None, None, None)
+    entry.runtime_data.firmware_update_info = None
     async_add_entities = MagicMock()
 
     await async_setup_entry(MagicMock(), entry, async_add_entities)
@@ -93,6 +97,50 @@ async def test_entity_subscribes_to_firmware_notifications() -> None:
 
     await entity.async_remove()
     unsubscribe.assert_called_once_with()
+
+
+async def test_restored_skip_survives_firmware_initialization(
+    hass: HomeAssistant,
+) -> None:
+    """Test startup preserves a skip when the same update is still offered."""
+    entry = MockConfigEntry(domain=DOMAIN, unique_id="123")
+    hub = MagicMock()
+    hub.firmware_update_info = None
+    entry.runtime_data = hub
+    entity = VictronFirmwareUpdateEntity(entry)
+    entity.hass = hass
+    entity.entity_id = "update.venus_os_firmware"
+    mock_restore_cache(
+        hass,
+        [
+            State(
+                entity.entity_id,
+                "off",
+                {
+                    "installed_version": "v3.60",
+                    "latest_version": "v3.70",
+                    "skipped_version": "v3.70",
+                },
+            )
+        ],
+    )
+
+    await entity.async_internal_added_to_hass()
+
+    assert entity.latest_version is None
+    state_attributes = entity.state_attributes
+    assert state_attributes is not None
+    assert state_attributes["skipped_version"] == "v3.70"
+
+    with patch.object(entity, "async_write_ha_state"):
+        entity._on_firmware_update(
+            FirmwareUpdateInfo("v3.60", "v3.70", FirmwareUpdateState.IDLE, None)
+        )
+
+    assert entity.state == "off"
+    state_attributes = entity.state_attributes
+    assert state_attributes is not None
+    assert state_attributes["skipped_version"] == "v3.70"
 
 
 @pytest.mark.parametrize(

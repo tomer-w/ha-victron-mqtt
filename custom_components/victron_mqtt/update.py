@@ -47,6 +47,8 @@ class VictronFirmwareUpdateEntity(UpdateEntity):
         self._entry = entry
         self._hub = entry.runtime_data
         info = self._hub.firmware_update_info
+        if info is None:
+            info = FirmwareUpdateInfo(None, None, None, None)
         self._installed_version = info.installed_version
         self._online_version = info.available_version
         self._last_logged_versions: tuple[str | None, str | None] | None = None

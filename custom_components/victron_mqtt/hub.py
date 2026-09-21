@@ -161,7 +161,7 @@ class Hub:
         await self._hub.disconnect()
 
     @property
-    def firmware_update_info(self) -> FirmwareUpdateInfo:
+    def firmware_update_info(self) -> FirmwareUpdateInfo | None:
         """Return the library's current firmware update snapshot."""
         return self._hub.firmware_update_info
 
