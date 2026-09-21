@@ -108,8 +108,12 @@ async def test_restored_skip_survives_firmware_initialization(
     hub.firmware_update_info = None
     entry.runtime_data = hub
     entity = VictronFirmwareUpdateEntity(entry)
-    entity.hass = hass
     entity.entity_id = "update.venus_os_firmware"
+    platform = MagicMock()
+    platform.platform_name = DOMAIN
+    platform.config_entry = None
+    platform.platform_data = None
+    entity.add_to_platform_start(hass, platform, None)
     mock_restore_cache(
         hass,
         [
