@@ -223,7 +223,8 @@ class Hub:
         self._on_new_metric: CallbackOnNewMetric | None = None
         self._on_new_device: CallbackOnNewDevice | None = None
         self._on_firmware_update: CallbackOnFirmwareUpdate | None = None
-        self._last_firmware_update_info = FirmwareUpdateInfo(None, None, None, None)
+        self._last_firmware_update_info: FirmwareUpdateInfo | None = None
+        self._firmware_update_info_ready = False
         self._topic_log_info = topic_log_info
         self._operation_mode = operation_mode
         self._device_type_exclude_filter = device_type_exclude_filter
@@ -403,6 +404,8 @@ class Hub:
         self._connected_event.clear()
         self._installation_id_event.clear()
         self._first_refresh_event.clear()
+        self._firmware_update_info_ready = False
+        self._last_firmware_update_info = None
         # self._loop.set_task_factory(lambda loop, coro: TracedTask(coro, loop=loop, name=name))
         self._last_full_publish_called = time.monotonic()  # Initialize last full publish time
         self._periodic_full_publish_triggered_once = False
@@ -848,9 +851,10 @@ class Hub:
                     _LOGGER.error("Firmware version format not supported: %s", version_metric.value)
             else:
                 _LOGGER.warning("Version metric not found: %s", version_metric_name)
+        self._first_full_publish = False
+        self._firmware_update_info_ready = True
         self._schedule_threadsafe(self._first_refresh_event.set)
         self._notify_firmware_update()
-        self._first_full_publish = False
         _LOGGER.debug("Full publish handling completed")
 
     def _handle_installation_id_message(self, topic: str) -> None:
@@ -1275,19 +1279,22 @@ class Hub:
         return metric
 
     @property
-    def firmware_update_info(self) -> FirmwareUpdateInfo:
+    def firmware_update_info(self) -> FirmwareUpdateInfo | None:
         """Return the current GX firmware update information.
 
         The result is a snapshot built from the latest in-memory MQTT values;
-        reading this property does not perform network I/O. Fields are None when
-        their source metrics have not arrived or are unavailable.
+        reading this property does not perform network I/O. None is returned
+        until the first full MQTT refresh completes. After that, individual
+        fields are None when their source metrics are unavailable.
         """
+        if not self._firmware_update_info_ready:
+            return None
         return get_firmware_update_info(self)
 
     def _notify_firmware_update(self) -> None:
         """Notify when the aggregate firmware update information changes."""
         info = self.firmware_update_info
-        if info == self._last_firmware_update_info:
+        if info is None or info == self._last_firmware_update_info:
             return
         self._last_firmware_update_info = info
         if callable(self._on_firmware_update):
