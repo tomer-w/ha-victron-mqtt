@@ -37,6 +37,7 @@ CONNECT_MAX_FAILED_ATTEMPTS = 3
 FORCE_INVALIDATE_AFTER_NOT_CONNECTED_SECONDS = 120
 FULL_PUBLISH_MIN_INTERVAL_SECONDS = 180
 FIRST_FULL_PUBLISH_MIN_INTERVAL_SECONDS = 30
+SUBSCRIPTION_ACK_TIMEOUT_SECONDS = 25
 # Venus OS versions use a two-digit minor ("v3.50", "v3.54"), compared as integer tuples
 MINIMUM_FULLY_SUPPORTED_VERSION = (3, 50)
 # The keepalive loop ticks every 30s. Every Nth tick we send a forced full republish so the
@@ -218,7 +219,7 @@ class Hub:
         self._snapshot: dict[str, Any] = {}
         self._keepalive_task: asyncio.Task[None] | None = None
         self._subscription_task: asyncio.Task[None] | None = None
-        self._subscription_futures: dict[int, asyncio.Future[None]] = {}
+        self._pending_subscription: tuple[int, asyncio.Future[list[ReasonCode]]] | None = None
         self._connected_event = asyncio.Event()
         self._on_new_metric: CallbackOnNewMetric | None = None
         self._on_new_device: CallbackOnNewDevice | None = None
@@ -551,6 +552,7 @@ class Hub:
         _properties: Properties | None = None,
     ) -> None:
         """Handle disconnection callback."""
+        self._schedule_threadsafe(self._cancel_subscription_setup)
         if reason_code != 0:
             _LOGGER.warning(
                 "Unexpected disconnection from MQTT broker. Error: %s. flags: %s, Reconnecting...",
@@ -573,14 +575,12 @@ class Hub:
 
     def _handle_subscription_ack(self, message_id: int, reason_codes: list[ReasonCode]) -> None:
         """Resolve the future waiting for a subscription acknowledgement."""
-        subscription_future = self._subscription_futures.get(message_id)
-        if subscription_future is None or subscription_future.done():
+        pending = self._pending_subscription
+        if pending is None or pending[0] != message_id:
             return
-        failed_codes = [reason_code for reason_code in reason_codes if reason_code.is_failure]
-        if failed_codes:
-            subscription_future.set_exception(CannotConnectError(f"Broker rejected MQTT subscription: {failed_codes}"))
-        else:
-            subscription_future.set_result(None)
+        subscription_future = pending[1]
+        if not subscription_future.done():
+            subscription_future.set_result(reason_codes)
 
     def _on_message(self, client: MQTTClient, userdata: Any, message: mqtt.MQTTMessage) -> None:
         try:
@@ -1091,7 +1091,8 @@ class Hub:
         subscribe_topic = (
             TOPIC_INSTALLATION_ID.replace("+", expected_id) if expected_id is not None else TOPIC_INSTALLATION_ID
         )
-        self._subscribe(subscribe_topic)
+        message_id = self._subscribe(subscribe_topic)
+        await self._wait_for_subscription_ack(message_id, [subscribe_topic])
         try:
             async with asyncio.timeout(60):
                 await self._installation_id_event.wait()
@@ -1153,6 +1154,20 @@ class Hub:
             raise CannotConnectError(f"Failed to request MQTT subscription to {prefixed_topic}: {result}")
         return message_id
 
+    def _subscribe_many(self, topic_filters: list[str]) -> int:
+        """Subscribe to multiple topics in one MQTT packet."""
+        assert self._client is not None
+        prefixed_topics = [(self._add_topic_prefix(topic), 0) for topic in topic_filters]
+        _LOGGER.debug("Subscribing to %d topics", len(prefixed_topics))
+        try:
+            result, message_id = self._client.subscribe(prefixed_topics)
+        except Exception as exc:
+            _LOGGER.error("Failed to subscribe to topic batch: %s", exc)
+            raise
+        if result != mqtt.MQTT_ERR_SUCCESS or message_id is None:
+            raise CannotConnectError(f"Failed to request MQTT subscription batch: {result}")
+        return message_id
+
     def _unsubscribe(self, topic: str) -> None:
         """Unsubscribe from a topic with automatic prefix handling."""
         assert self._client is not None
@@ -1160,8 +1175,36 @@ class Hub:
         self._client.unsubscribe(prefixed_topic)
         _LOGGER.debug("Unsubscribed from: %s", prefixed_topic)
 
+    async def _wait_for_subscription_ack(self, message_id: int, topic_filters: list[str]) -> None:
+        """Wait for and validate the SUBACK for one subscription request."""
+        subscription_future: asyncio.Future[list[ReasonCode]] = asyncio.get_running_loop().create_future()
+        pending = (message_id, subscription_future)
+        self._pending_subscription = pending
+        try:
+            async with asyncio.timeout(SUBSCRIPTION_ACK_TIMEOUT_SECONDS):
+                reason_codes = await subscription_future
+        except TimeoutError as exc:
+            raise CannotConnectError(
+                f"Timeout waiting for MQTT subscription acknowledgement for {len(topic_filters)} topics"
+            ) from exc
+        finally:
+            if self._pending_subscription is pending:
+                self._pending_subscription = None
+        if len(reason_codes) != len(topic_filters):
+            raise CannotConnectError(
+                "MQTT subscription acknowledgement result count does not match "
+                f"the requested topics: {len(reason_codes)} != {len(topic_filters)}"
+            )
+        failures = [
+            (topic, reason_code)
+            for topic, reason_code in zip(topic_filters, reason_codes, strict=True)
+            if reason_code.is_failure
+        ]
+        if failures:
+            raise CannotConnectError(f"Broker rejected MQTT subscriptions: {failures}")
+
     async def _setup_subscriptions(self) -> None:
-        """Subscribe to each topic after the previous SUBACK is received."""
+        """Subscribe to all topics and wait for the ordered SUBACK response."""
         _LOGGER.info("Setting up MQTT subscriptions on installation ID: %s", self.installation_id)
         assert self._client is not None
         if not self._client.is_connected():
@@ -1171,35 +1214,27 @@ class Hub:
             *self._resolved_subscription_list,
             f"N/{self.installation_id}/full_publish_completed",
         ]
-        for topic in subscription_topics:
-            await self._subscribe_and_wait(topic)
+        message_id = self._subscribe_many(subscription_topics)
+        await self._wait_for_subscription_ack(message_id, subscription_topics)
         _LOGGER.info("All %d MQTT subscriptions acknowledged", len(subscription_topics))
         self._keepalive(True)
-
-    async def _subscribe_and_wait(self, topic: str) -> None:
-        """Subscribe to one topic and wait for its SUBACK."""
-        message_id = self._subscribe(topic)
-        subscription_future = asyncio.get_running_loop().create_future()
-        self._subscription_futures[message_id] = subscription_future
-        try:
-            async with asyncio.timeout(25):
-                await subscription_future
-        except TimeoutError as exc:
-            raise CannotConnectError(f"Timeout waiting for MQTT subscription acknowledgement: {topic}") from exc
-        finally:
-            self._subscription_futures.pop(message_id, None)
 
     def _start_subscription_setup(self) -> None:
         """Start subscription setup after an automatic reconnect."""
         if self._subscription_task is not None and not self._subscription_task.done():
-            _LOGGER.warning("MQTT subscription setup is already running")
-            return
+            _LOGGER.info("Replacing stale MQTT subscription setup")
+            self._subscription_task.cancel()
         self._subscription_task = asyncio.create_task(self._setup_subscriptions())
         self._subscription_task.add_done_callback(self._subscription_setup_done)
 
+    def _cancel_subscription_setup(self) -> None:
+        """Cancel subscription setup when its MQTT connection is lost."""
+        if self._subscription_task is not None and not self._subscription_task.done():
+            self._subscription_task.cancel()
+
     def _subscription_setup_done(self, task: asyncio.Task[None]) -> None:
         """Handle subscription setup failure after an automatic reconnect."""
-        if task.cancelled():
+        if task is not self._subscription_task or task.cancelled():
             return
         if exception := task.exception():
             _LOGGER.error("MQTT subscription setup failed: %s", exception)

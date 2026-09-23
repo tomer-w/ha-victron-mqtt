@@ -124,23 +124,12 @@ async def create_mocked_hub(
             message_ids = count(1)
 
             # Mock subscribe acknowledgements and installation ID discovery.
-            def mock_subscribe(topic: str) -> tuple[Any, int]:
+            def mock_subscribe(topic: str | list[tuple[str, int]]) -> tuple[Any, int]:
                 message_id = next(message_ids)
-                if topic == TOPIC_INSTALLATION_ID or topic == TOPIC_INSTALLATION_ID.replace(
-                    "+", mocked_installation_id
+                if isinstance(topic, str) and (
+                    topic == TOPIC_INSTALLATION_ID
+                    or topic == TOPIC_INSTALLATION_ID.replace("+", mocked_installation_id)
                 ):
-                    mocked_client.on_message(
-                        mocked_client,
-                        None,
-                        MagicMock(
-                            topic=f"N/{mocked_installation_id}/system/0/Serial",
-                            payload=json.dumps({"value": mocked_installation_id}).encode(),
-                        ),
-                    )
-                    return MQTT_ERR_SUCCESS, message_id
-                assert "{installation_id}" not in topic
-                assert not topic.startswith("N/+")
-                if topic.startswith(f"N/{mocked_installation_id}/"):
                     assert hub._loop is not None
                     hub._loop.call_soon(
                         mocked_client.on_subscribe,
@@ -150,6 +139,31 @@ async def create_mocked_hub(
                         [ReasonCode(PacketTypes.SUBACK, identifier=0)],
                         None,
                     )
+                    mocked_client.on_message(
+                        mocked_client,
+                        None,
+                        MagicMock(
+                            topic=f"N/{mocked_installation_id}/system/0/Serial",
+                            payload=json.dumps({"value": mocked_installation_id}).encode(),
+                        ),
+                    )
+                    return MQTT_ERR_SUCCESS, message_id
+                if isinstance(topic, list):
+                    assert all("{installation_id}" not in topic_filter for topic_filter, _qos in topic)
+                    assert all(not topic_filter.startswith("N/+") for topic_filter, _qos in topic)
+                    reason_codes = [ReasonCode(PacketTypes.SUBACK, identifier=0) for _topic in topic]
+                    assert hub._loop is not None
+                    hub._loop.call_soon(
+                        mocked_client.on_subscribe,
+                        mocked_client,
+                        None,
+                        message_id,
+                        reason_codes,
+                        None,
+                    )
+                else:
+                    assert "{installation_id}" not in topic
+                    assert not topic.startswith("N/+")
                 return MQTT_ERR_SUCCESS, message_id
 
             mocked_client.subscribe = MagicMock(name="subscribe", side_effect=mock_subscribe)
