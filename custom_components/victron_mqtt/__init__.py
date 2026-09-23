@@ -1,5 +1,6 @@
 """The victron_mqtt integration."""
 
+import asyncio
 import logging
 
 import homeassistant.helpers.config_validation as cv
@@ -132,6 +133,10 @@ async def async_setup_entry(hass: HomeAssistant, entry: VictronGxConfigEntry) ->
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
     try:
         await hub.start()
+    except asyncio.CancelledError:
+        await hass.config_entries.async_unload_platforms(entry, PLATFORMS)
+        hub.unregister_all_new_metric_callbacks()
+        raise
     except Exception:
         await hass.config_entries.async_unload_platforms(entry, PLATFORMS)
         hub.unregister_all_new_metric_callbacks()

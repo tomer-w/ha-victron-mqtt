@@ -1,5 +1,6 @@
 """Test the Victron GX MQTT Hub class."""
 
+import asyncio
 from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
@@ -24,7 +25,7 @@ from pytest_homeassistant_custom_component.common import (
     mock_restore_cache_with_extra_data,
 )
 
-from custom_components.victron_mqtt import PLATFORMS
+from custom_components.victron_mqtt import PLATFORMS, async_setup_entry
 from custom_components.victron_mqtt._vendor.victron_mqtt import (
     AuthenticationError,
     CannotConnectError,
@@ -260,6 +261,33 @@ async def test_hub_start_connection_error(
     assert mock_config_entry.state == ConfigEntryState.LOADED
     assert mock_victron_hub.connect.await_count == 2
     mock_victron_hub.check_firmware_update.assert_called_once_with()
+
+
+async def test_setup_cancellation_unloads_platforms(
+    hass: HomeAssistant, mock_config_entry
+) -> None:
+    """Test setup cancellation does not leave platforms half-initialized."""
+    hub = MagicMock(spec=Hub)
+    hub.start = AsyncMock(side_effect=asyncio.CancelledError)
+
+    with (
+        patch("custom_components.victron_mqtt.Hub", return_value=hub),
+        patch.object(
+            hass.config_entries,
+            "async_forward_entry_setups",
+            new=AsyncMock(),
+        ) as forward_setups,
+        patch.object(
+            hass.config_entries,
+            "async_unload_platforms",
+            new=AsyncMock(return_value=True),
+        ) as unload_platforms,
+        pytest.raises(asyncio.CancelledError),
+    ):
+        await async_setup_entry(hass, mock_config_entry)
+    forward_setups.assert_awaited_once_with(mock_config_entry, PLATFORMS)
+    unload_platforms.assert_awaited_once_with(mock_config_entry, PLATFORMS)
+    hub.unregister_all_new_metric_callbacks.assert_called_once_with()
 
 
 async def test_hub_stop(hass: HomeAssistant, init_integration) -> None:
