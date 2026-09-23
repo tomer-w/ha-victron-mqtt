@@ -194,6 +194,39 @@ async def test_firmware_update_info(hass: HomeAssistant, init_integration) -> No
     install.assert_awaited_once_with(progress_callback)
 
 
+@pytest.mark.parametrize(
+    "state",
+    [
+        FirmwareUpdateState.CHECKING,
+        FirmwareUpdateState.ERROR_DURING_CHECK,
+    ],
+)
+async def test_firmware_update_ignores_unresolved_online_check(
+    hass: HomeAssistant,
+    mock_config_entry,
+    mock_victron_hub,
+    state: FirmwareUpdateState,
+) -> None:
+    """Test unresolved checks do not replace the last stable snapshot."""
+    hub = Hub(hass, mock_config_entry)
+    callback = MagicMock()
+    hub.register_firmware_update_callback(callback)
+
+    hub._on_firmware_update(
+        mock_victron_hub,
+        FirmwareUpdateInfo("v3.60", None, state, None),
+    )
+
+    callback.assert_not_called()
+
+    settled = FirmwareUpdateInfo(
+        "v3.60", "v3.70", FirmwareUpdateState.IDLE, None
+    )
+    hub._on_firmware_update(mock_victron_hub, settled)
+
+    callback.assert_called_once_with(settled)
+
+
 async def test_hub_start_connection_error(
     hass: HomeAssistant, mock_config_entry, mock_victron_hub
 ) -> None:

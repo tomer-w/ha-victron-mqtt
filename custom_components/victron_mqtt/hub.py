@@ -23,6 +23,7 @@ from ._vendor.victron_mqtt import (
     CannotConnectError,
     DeviceType,
     FirmwareUpdateInfo,
+    FirmwareUpdateState,
     MetricKind,
     OperationMode,
 )
@@ -190,6 +191,12 @@ class Hub:
         self, hub: VictronVenusHub, info: FirmwareUpdateInfo
     ) -> None:
         """Forward library firmware notifications to the update entity."""
+        if info.state in {
+            FirmwareUpdateState.CHECKING,
+            FirmwareUpdateState.ERROR_DURING_CHECK,
+        }:
+            return
+
         callback = self._firmware_update_callback
         if callback is not None:
             callback(info)
