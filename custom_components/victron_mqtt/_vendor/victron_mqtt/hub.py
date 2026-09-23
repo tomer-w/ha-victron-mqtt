@@ -915,8 +915,6 @@ class Hub:
 
         device = self._get_or_create_device(parsed_topic, desc)
         placeholder = device.handle_message(fallback_to_metric_topic, topic, parsed_topic, desc, payload, log_debug)
-        if placeholder is None and desc.short_id.startswith("platform_venus_firmware_"):
-            self._notify_firmware_update()
         if isinstance(placeholder, MetricPlaceholder):
             existing_placeholder = self._metrics_placeholders.get(placeholder.parsed_topic.unique_id)
             if existing_placeholder:
@@ -1016,7 +1014,6 @@ class Hub:
             log_debug = _LOGGER.info if is_info_level else _LOGGER.debug
 
             metric._keepalive(force_invalidate, log_debug, stale_timeout=stale_timeout)
-        self._notify_firmware_update()
 
     def _start_keep_alive_loop(self) -> None:
         """Start the keep_alive loop."""
@@ -1292,7 +1289,7 @@ class Hub:
         return get_firmware_update_info(self)
 
     def _notify_firmware_update(self) -> None:
-        """Notify when the aggregate firmware update information changes."""
+        """Notify when firmware information changes at a full-publish processing boundary."""
         info = self.firmware_update_info
         if info is None or info == self._last_firmware_update_info:
             return
@@ -1456,12 +1453,12 @@ class Hub:
 
     @property
     def on_firmware_update(self) -> CallbackOnFirmwareUpdate | None:
-        """Return the callback invoked when firmware update information changes."""
+        """Return the callback for coherent firmware snapshots at full-publish processing boundaries."""
         return self._on_firmware_update
 
     @on_firmware_update.setter
     def on_firmware_update(self, value: CallbackOnFirmwareUpdate | None) -> None:
-        """Set the callback invoked when firmware update information changes."""
+        """Set the callback for coherent firmware snapshots at full-publish processing boundaries."""
         self._on_firmware_update = value
 
     def generate_keepalive_options(self, force: bool) -> str:
