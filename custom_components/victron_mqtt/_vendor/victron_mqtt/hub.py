@@ -432,14 +432,15 @@ class Hub:
             # Later we will do it from the connect callback
             await self._setup_subscriptions()
             self._start_keep_alive_loop()
+        except asyncio.CancelledError:
+            _LOGGER.info("Connection setup cancelled, cleaning up")
+            await self._cleanup_connection_setup("Error during cancelled connect() cleanup, ignoring: %s")
+            raise
         except Exception as exc:
             # If anything fails after loop_start(), fully clean up (keepalive task, client
             # disconnect, paho thread) so nothing is leaked. On HA retry a new Hub is created.
             _LOGGER.info("Connection setup failed, cleaning up")
-            try:
-                await self.disconnect()
-            except Exception as cleanup_exc:
-                _LOGGER.warning("Error during connect() cleanup, ignoring: %s", cleanup_exc)
+            await self._cleanup_connection_setup("Error during connect() cleanup, ignoring: %s")
             # Exception contract: surface every non-authentication failure as CannotConnectError so
             # callers only need to catch AuthenticationError / CannotConnectError. AuthenticationError
             # and InvalidInstallationIdError are CannotConnectError subclasses and pass through as-is.
@@ -447,6 +448,13 @@ class Hub:
                 raise
             raise CannotConnectError(f"Failed to connect to MQTT broker at {self.host}:{self.port}: {exc}") from exc
         _LOGGER.info("Connected. Installation ID: %s", self._installation_id)
+
+    async def _cleanup_connection_setup(self, warning_message: str) -> None:
+        """Disconnect after connection setup exits unsuccessfully."""
+        try:
+            await self.disconnect()
+        except Exception as cleanup_exc:
+            _LOGGER.warning(warning_message, cleanup_exc)
 
     async def _setup_tls(self) -> None:
         """Configure TLS on the MQTT client if enabled.

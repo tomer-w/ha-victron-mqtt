@@ -147,13 +147,14 @@ _ID_LOOKUPS: dict[type[VictronEnum], dict[str, VictronEnum]] = {}
 
 
 class VictronEnum(Enum):
-    """Base class for Victron Enums with code and string representation."""
+    """Base class for Victron Enums with code, string, and description representations."""
 
-    def __init__(self, code: int | str, enum_id: str, string: str) -> None:
+    def __init__(self, code: int | str, enum_id: str, string: str, description: str) -> None:
         self._value_ = (code, string)
         self.code = code
         self.id = enum_id
         self.string = string
+        self.description = description
 
     def __repr__(self) -> str:
         return f"{self.__class__.__name__}.{self.name}(code={self.code}, id={self.id}, string={self.string})"
@@ -233,8 +234,15 @@ class VictronEnum(Enum):
 class VictronDeviceEnum(VictronEnum):
     """Base class for Victron Enums that may map to other enum values."""
 
-    def __init__(self, code: str, enum_id: str, string: str, mapped_to: str | None = None) -> None:
-        super().__init__(code, enum_id, string)
+    def __init__(
+        self,
+        code: str,
+        enum_id: str,
+        string: str,
+        description: str,
+        mapped_to: str | None = None,
+    ) -> None:
+        super().__init__(code, enum_id, string, description)
         self.mapped_to = mapped_to
 
     @classmethod
