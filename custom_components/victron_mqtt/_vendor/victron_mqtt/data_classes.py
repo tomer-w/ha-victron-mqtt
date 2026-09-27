@@ -106,6 +106,7 @@ class TopicDescriptor:
     sub_device_key: str | None = (
         None  # When set, topics with this field create a separate sub-device per unique placeholder value (e.g., "output" creates sub-devices per output ID)
     )
+    description: str | None = None
 
     def __repr__(self) -> str:
         """Return a string representation of the topic."""
