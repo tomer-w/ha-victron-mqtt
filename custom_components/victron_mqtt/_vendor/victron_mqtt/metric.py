@@ -75,8 +75,6 @@ class Metric:
         self._hub = hub
         self._last_notified: float = 0
         self._last_seen: float = 0
-        self._generic_short_id = self._descriptor.short_id
-        self._generic_name = self._descriptor.generic_name
         frequency = hub._update_frequency_seconds
         if descriptor.metric_type in UNTHROTTLED_METRIC_TYPES:
             self._update_interval_seconds = None
@@ -109,6 +107,7 @@ class Metric:
     def phase2_init(self, device_id: str, all_metrics: dict[str, Metric]) -> None:
         """Second phase of initializing the metric."""
         assert self._descriptor.name is not None, f"name must be set for topic: {self._descriptor.topic}"
+        assert self._descriptor.description is not None, f"description must be set for topic: {self._descriptor.topic}"
         name_temp = ParsedTopic.replace_ids(self._descriptor.name, self._key_values)
         self._name = self._replace_ids(name_temp, device_id, all_metrics)
 
@@ -181,14 +180,21 @@ class Metric:
     @property
     def generic_name(self) -> str:
         """Returns the generic name of the metric."""
-        assert self._generic_name is not None, f"Metric generic_name is None for metric: {self!r}"
-        return self._generic_name
+        generic_name = self._descriptor.generic_name
+        assert generic_name is not None, f"Metric generic_name is None for metric: {self!r}"
+        return generic_name
+
+    @property
+    def description(self) -> str:
+        """Return the human-readable metric description."""
+        description = self._descriptor.description
+        assert description is not None, f"Metric description is None for metric: {self!r}"
+        return description
 
     @property
     def generic_short_id(self) -> str:
         """Returns the generic short id of the metric."""
-        assert self._generic_short_id is not None, f"Metric generic_short_id is None for metric: {self!r}"
-        return self._generic_short_id
+        return self._descriptor.short_id
 
     @property
     def unit_of_measurement(self) -> str | None:
