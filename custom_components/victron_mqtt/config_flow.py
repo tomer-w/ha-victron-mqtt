@@ -2,10 +2,14 @@
 
 import logging
 from collections.abc import Mapping, Sequence
-from typing import Any
+from typing import TYPE_CHECKING, Any
 from urllib.parse import urlparse
 
-import voluptuous as vol
+if TYPE_CHECKING:
+    import probatio as vol
+else:
+    import voluptuous as vol
+
 from homeassistant.config_entries import (
     ConfigEntry,
     ConfigFlow,
