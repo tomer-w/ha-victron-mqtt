@@ -54,6 +54,7 @@ max-complexity = 15
 [tool.ruff.lint.per-file-ignores]
 "tests/**/test_*.py" = ["D"]
 "tests/send_ssdp.py" = ["T201"]
+"custom_components/victron_mqtt/migrate_to_victron_gx.py" = ["T201"]
 
 [tool.pylint.MAIN]
 py-version = "3.13"

@@ -77,6 +77,93 @@ This script will fetch the specified version of the integration directly from th
 
 Note: Restart Home Assistant manually if you did not use the `--restart` flag.
 
+## Migrating to Home Assistant's built-in Victron GX integration
+
+> [!WARNING]
+> This migration is still under development and has not yet been thoroughly
+> tested. Use it only after creating a full Home Assistant backup, review the
+> dry-run output carefully, and be prepared to restore the backup if needed.
+
+Home Assistant's built-in **Victron GX** integration uses the same Victron
+metrics, but it gives them different registry identities. Simply deleting this
+custom integration and adding Victron GX therefore creates new entities. The
+old history remains in the recorder database under the old entity IDs, while
+dashboards and automations continue to reference entities that no longer
+update.
+
+The included migration script performs an offline registry handoff instead:
+
+- the custom entity and device IDs are retained;
+- recorder history, long-term statistics, dashboards, and entity-based
+  automations continue to use those IDs;
+- the retained registry entries are reassigned to the built-in `victron_gx`
+  config entry; and
+- duplicate entities and devices previously created by Victron GX are removed
+  from the registries.
+
+The script does not edit the recorder database or dashboard/automation files.
+It only migrates pairs that already exist in both integrations. Anything not
+exposed by Victron GX is reported and left untouched.
+
+### Before migrating
+
+1. Update Home Assistant and this custom integration.
+2. Add and configure the built-in **Victron GX** integration for the same GX
+   installation.
+3. Let both integrations run long enough to discover all devices and entities.
+   Enable any disabled-by-default Victron GX entities that you need migrated.
+4. Create a full Home Assistant backup.
+5. Open the Terminal & SSH add-on (or another shell that remains available
+   while Home Assistant Core is stopped).
+
+### Dry run
+
+The dry run reads the registries and reports matched and unmatched entries
+without changing anything:
+
+```bash
+python3 /config/custom_components/victron_mqtt/migrate_to_victron_gx.py \
+  /config/.storage
+```
+
+Review the counts and every unmatched entity. An unmatched entity cannot be
+handed to Victron GX and will become unavailable when the custom integration is
+disabled.
+
+### Apply
+
+Stop Home Assistant Core before writing `.storage`; otherwise Core can
+overwrite the migration:
+
+```bash
+ha core stop
+python3 /config/custom_components/victron_mqtt/migrate_to_victron_gx.py \
+  /config/.storage --apply
+ha core start
+```
+
+For multiple GX installations, the script migrates every installation present
+in both integrations. Use `--installation-id <VRM portal ID>` to migrate only
+one.
+
+The apply step creates timestamped backups of `core.config_entries`,
+`core.device_registry`, and `core.entity_registry` in `/config/.storage`. It
+also disables the custom config entry and enables the corresponding Victron GX
+entry.
+
+### Verify and finish
+
+1. Confirm that the old entity IDs now show **Victron GX** as their integration
+   and are updating.
+2. Check representative history graphs, long-term energy statistics,
+   dashboards, automations, and device-targeted actions.
+3. Keep the custom integration installed but disabled until verification is
+   complete. Once satisfied, remove its disabled config entry and uninstall it.
+
+To roll back before proceeding, stop Home Assistant Core and restore all three
+files from the backups printed by the script (or restore the full Home
+Assistant backup), then start Core again.
+
 
 ## Configuration
 
