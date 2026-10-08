@@ -18,7 +18,7 @@ from .hub import VictronGxConfigEntry
 
 _LOGGER = logging.getLogger(__name__)
 
-_FIRMWARE_UPDATE_URL = "https://www.victronenergy.com/blog/category/firmware-software/"
+_FIRMWARE_UPDATE_URL = "https://professional.victronenergy.com/news/"
 
 
 async def async_setup_entry(
