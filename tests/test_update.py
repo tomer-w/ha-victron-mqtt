@@ -48,7 +48,7 @@ def test_firmware_update_details() -> None:
     assert entity.installed_version == "v3.60"
     assert entity.latest_version == "v3.70"
     assert entity.release_url == (
-        "https://www.victronenergy.com/blog/category/firmware-software/"
+        "https://professional.victronenergy.com/news/"
     )
     assert entity.supported_features == (
         UpdateEntityFeature.INSTALL | UpdateEntityFeature.PROGRESS
