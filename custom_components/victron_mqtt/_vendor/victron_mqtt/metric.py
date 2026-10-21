@@ -254,7 +254,7 @@ class Metric:
 
     @on_update.setter
     def on_update(self, value: CallbackOnUpdate | None) -> None:
-        """Sets the on_update callback."""
+        """Set the on_update callback."""
         self._on_update = value
 
     def _keepalive(
@@ -287,10 +287,10 @@ class Metric:
                 return
         if self._last_seen > self._last_notified:
             log_debug(
-                "Metric %s has been updated at %.2f but not published since %.2fs, re-publishing",
+                "Metric %s was last seen at %.2f but last notified at %.2f, re-publishing",
                 self.unique_id,
-                self._last_notified,
                 self._last_seen,
+                self._last_notified,
             )
             self._handle_message(self._value, log_debug, update_last_seen=False, force=True)
             return
@@ -361,16 +361,45 @@ class Metric:
                 # This happens when the last time was before the update frequency passed so now we do really need to notify on it
                 should_notify = True
 
-        if should_notify and self._hub._loop and callable(self._on_update) and self._hub._loop.is_running():
-            self._last_notified = now
-            try:
-                # If the event loop is running, schedule the callback
-                self._hub._loop.call_soon_threadsafe(self._on_update, self, self.value)
-            except RuntimeError as exc:
-                # The loop can close between the is_running() check above and this call during shutdown
-                _LOGGER.debug("Skipping on_update callback for %s: %s", self.unique_id, exc)
-            except Exception as exc:
-                _LOGGER.exception("Error scheduling on_update callback for %s: %s", self.unique_id, exc)
+        if should_notify:
+            callback = self._on_update
+            loop = self._hub._loop
+            skip_reason: str | None = None
+            if not callable(callback):
+                skip_reason = "on_update callback is not registered"
+            elif loop is None:
+                skip_reason = "event loop is not set"
+            elif not loop.is_running():
+                skip_reason = "event loop is not running"
+            else:
+                log_debug(
+                    "Scheduling on_update callback for metric %s "
+                    "(value=%r, available=%s, last_seen=%.2f, last_notified=%.2f)",
+                    self.unique_id,
+                    self.value,
+                    self.available,
+                    self._last_seen,
+                    self._last_notified,
+                )
+                try:
+                    loop.call_soon_threadsafe(callback, self, self.value)
+                except RuntimeError as exc:
+                    # The loop can close between the is_running() check above and this call during shutdown.
+                    _LOGGER.debug("Skipping on_update callback for %s: %s", self.unique_id, exc)
+                except Exception as exc:
+                    _LOGGER.exception("Error scheduling on_update callback for %s: %s", self.unique_id, exc)
+                else:
+                    self._last_notified = now
+            if skip_reason is not None:
+                log_debug(
+                    "Metric %s update not scheduled: %s (value=%r, available=%s, last_seen=%.2f, last_notified=%.2f)",
+                    self.unique_id,
+                    skip_reason,
+                    self.value,
+                    self.available,
+                    self._last_seen,
+                    self._last_notified,
+                )
 
         for dependency in self._depend_on_me:
             assert self != dependency, f"Circular dependency detected: {self}"

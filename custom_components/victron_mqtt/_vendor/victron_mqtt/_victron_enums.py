@@ -151,6 +151,7 @@ class DeviceType(VictronDeviceEnum):
         "DC/DC charger",
         "Identifies the DC/DC charger MQTT and D-Bus service type.",
     )  # Orion XS 1400 in battery to battery charging mode.
+    DCGENSET = ("dcgenset", "dcgenset", "DC genset", "Identifies the DC genset MQTT and D-Bus service type.")
 
 
 class VictronProductId(VictronEnum):
@@ -442,6 +443,22 @@ class GenericOnOffInverted(VictronEnum):
     OFF = (1, "off", "Off", "The option is disabled.")
 
 
+class GensetStatus(VictronEnum):
+    """Genset status code"""
+
+    STANDBY = (0, "standby", "Standby", "The genset is stopped and ready to start.")
+    STARTUP_1 = (1, "startup_1", "Startup 1", "The genset is in startup phase 1.")
+    STARTUP_2 = (2, "startup_2", "Startup 2", "The genset is in startup phase 2.")
+    STARTUP_3 = (3, "startup_3", "Startup 3", "The genset is in startup phase 3.")
+    STARTUP_4 = (4, "startup_4", "Startup 4", "The genset is in startup phase 4.")
+    STARTUP_5 = (5, "startup_5", "Startup 5", "The genset is in startup phase 5.")
+    STARTUP_6 = (6, "startup_6", "Startup 6", "The genset is in startup phase 6.")
+    STARTUP_7 = (7, "startup_7", "Startup 7", "The genset is in startup phase 7.")
+    RUNNING = (8, "running", "Running", "The genset is running.")
+    STOPPING = (9, "stopping", "Stopping", "The genset is shutting down.")
+    ERROR = (10, "error", "Error", "The genset has stopped because of an error.")
+
+
 class FirmwareUpdateState(VictronEnum):
     """GX firmware update state."""
 
@@ -718,6 +735,13 @@ class EvChargingState(VictronEnum):
         "Scheduled charging",
         "The electric vehicle is charging during an active scheduled-charge window.",
     )
+
+
+class AcPosition(VictronEnum):
+    """Where an AC load or heat pump is connected relative to the inverter/charger"""
+
+    AC_OUTPUT = (0, "ac_output", "AC output", "The device is connected to the inverter/charger AC output.")
+    AC_INPUT = (1, "ac_input", "AC input", "The device is connected on the AC input side of the inverter/charger.")
 
 
 class EvChargerPosition(VictronEnum):

@@ -55,6 +55,13 @@
   },
   "entity": {
     "binary_sensor": {
+      "acload_is_generic_energy_meter": {
+        "name": "Is generic energy meter",
+        "state": {
+          "off": "Off",
+          "on": "On"
+        }
+      },
       "alternator_mode": {
         "state": {
           "off": "Off",
@@ -82,6 +89,27 @@
         }
       },
       "dcdc_mode": {
+        "state": {
+          "off": "Off",
+          "on": "On"
+        }
+      },
+      "dcgenset_enable_remote_start_mode": {
+        "name": "Enable remote start mode",
+        "state": {
+          "off": "Off",
+          "on": "On"
+        }
+      },
+      "dcgenset_remote_start_mode_enabled": {
+        "name": "Remote start mode",
+        "state": {
+          "off": "Off",
+          "on": "On"
+        }
+      },
+      "dcgenset_start": {
+        "name": "Start generator",
         "state": {
           "off": "Off",
           "on": "On"
@@ -460,11 +488,17 @@
       }
     },
     "number": {
+      "acload_phase_setting": {
+        "name": "Phase"
+      },
       "alternator_charge_current_limit": {
         "name": "Charge current limit"
       },
       "charger_ac_in_current_limit": {
         "name": "AC input current limit"
+      },
+      "dcgenset_nr_of_phases": {
+        "name": "Number of phases"
       },
       "evcharger_max_set_current": {
         "name": "Max charging current"
@@ -606,6 +640,13 @@
       }
     },
     "select": {
+      "acload_position": {
+        "name": "Position",
+        "state": {
+          "ac_input": "AC input",
+          "ac_output": "AC output"
+        }
+      },
       "acsystem_mode": {
         "state": {
           "charger_only": "Charger only",
@@ -737,11 +778,36 @@
       "acload_energy_forward_phase": {
         "name": "Consumption on {phase}"
       },
+      "acload_energy_reverse": {
+        "name": "Feed-in"
+      },
+      "acload_energy_reverse_phase": {
+        "name": "Feed-in on {phase}"
+      },
+      "acload_error_code": {
+        "name": "Error code"
+      },
       "acload_frequency": {
         "name": "Frequency"
       },
+      "acload_phase_setting": {
+        "name": "Phase"
+      },
+      "acload_position": {
+        "name": "Position",
+        "state": {
+          "ac_input": "AC input",
+          "ac_output": "AC output"
+        }
+      },
       "acload_power": {
         "name": "Power"
+      },
+      "acload_power_factor": {
+        "name": "Power factor"
+      },
+      "acload_power_factor_phase": {
+        "name": "Power factor on {phase}"
       },
       "acload_power_phase": {
         "name": "Power on {phase}"
@@ -760,6 +826,9 @@
           "on": "On",
           "passthrough": "Passthrough"
         }
+      },
+      "acsystem_output_power_phase": {
+        "name": "AC system output power {phase}"
       },
       "alternator_charge_current_limit": {
         "name": "Charge current limit"
@@ -917,6 +986,14 @@
           "warning": "Warning"
         }
       },
+      "battery_high_starter_voltage": {
+        "name": "High starter voltage",
+        "state": {
+          "alarm": "Alarm",
+          "no_alarm": "No alarm",
+          "warning": "Warning"
+        }
+      },
       "battery_high_temperature": {
         "name": "High temperature",
         "state": {
@@ -965,6 +1042,14 @@
       },
       "battery_low_soc": {
         "name": "Low state of charge",
+        "state": {
+          "alarm": "Alarm",
+          "no_alarm": "No alarm",
+          "warning": "Warning"
+        }
+      },
+      "battery_low_starter_voltage": {
+        "name": "Low starter voltage",
         "state": {
           "alarm": "Alarm",
           "no_alarm": "No alarm",
@@ -1196,6 +1281,118 @@
           "sustain": "Sustain",
           "sustain_alt": "Sustain alt"
         }
+      },
+      "dcgenset_current_phase": {
+        "name": "Current on {phase}"
+      },
+      "dcgenset_dc_current": {
+        "name": "DC output current"
+      },
+      "dcgenset_dc_voltage": {
+        "name": "DC output voltage"
+      },
+      "dcgenset_energy_forward": {
+        "name": "Consumption"
+      },
+      "dcgenset_engine_coolant_temperature": {
+        "name": "Engine coolant temperature"
+      },
+      "dcgenset_engine_exaust_temperature": {
+        "name": "Engine exhaust temperature"
+      },
+      "dcgenset_engine_load": {
+        "name": "Engine load"
+      },
+      "dcgenset_engine_oil_pressure": {
+        "name": "Oil pressure",
+        "unit_of_measurement": "kPa"
+      },
+      "dcgenset_engine_oil_temperature": {
+        "name": "Engine oil temperature"
+      },
+      "dcgenset_engine_operating_hours": {
+        "name": "Operating hours"
+      },
+      "dcgenset_engine_speed": {
+        "name": "Speed",
+        "unit_of_measurement": "rpm"
+      },
+      "dcgenset_engine_starts": {
+        "name": "Starts"
+      },
+      "dcgenset_engine_winding_temperature": {
+        "name": "Internal winding temperature"
+      },
+      "dcgenset_error_code": {
+        "name": "Error code",
+        "state": {
+          "battery_voltage_too_high": "Battery voltage too high",
+          "bms_connection_lost": "BMS connection lost",
+          "bulk_time_limit_exceeded": "Bulk time limit exceeded",
+          "charger_current_reversed": "Charger current reversed",
+          "charger_over_current": "Charger over current",
+          "charger_temperature_too_high": "Charger temperature too high",
+          "converter_issue": "Converter issue",
+          "current_sensor_issue": "Current sensor issue",
+          "factory_calibration_data_lost": "Factory calibration data lost",
+          "input_current_too_high": "Input current too high (solar panel)",
+          "input_shutdown_battery_voltage_too_high": "Input shutdown (battery voltage too high)",
+          "input_shutdown_reverse_current": "Input shutdown (reverse current)",
+          "input_voltage_too_high": "Input voltage too high (solar panel)",
+          "invalid_incompatible_firmware": "Invalid/incompatible firmware",
+          "lost_communication_with_device": "Lost communication with device",
+          "network_misconfigured": "Network misconfigured",
+          "no_error": "No error",
+          "synchronized_charging_config_issue": "Synchronized charging config issue",
+          "terminals_overheated": "Terminals overheated",
+          "user_settings_invalid": "User settings invalid"
+        }
+      },
+      "dcgenset_error_id_index": {
+        "name": "Id"
+      },
+      "dcgenset_frequency": {
+        "name": "Frequency"
+      },
+      "dcgenset_heatsink_temperature": {
+        "name": "Heatsink temperature"
+      },
+      "dcgenset_history_energy_out": {
+        "name": "Total energy produced"
+      },
+      "dcgenset_module_id": {
+        "name": "Module id"
+      },
+      "dcgenset_nr_of_phases": {
+        "name": "Number of phases"
+      },
+      "dcgenset_power": {
+        "name": "Power"
+      },
+      "dcgenset_power_phase": {
+        "name": "Power on {phase}"
+      },
+      "dcgenset_starter_voltage": {
+        "name": "Starter battery voltage"
+      },
+      "dcgenset_status_code": {
+        "name": "Status",
+        "state": {
+          "error": "Error",
+          "running": "Running",
+          "standby": "Standby",
+          "startup_1": "Startup 1",
+          "startup_2": "Startup 2",
+          "startup_3": "Startup 3",
+          "startup_4": "Startup 4",
+          "startup_5": "Startup 5",
+          "startup_6": "Startup 6",
+          "startup_7": "Startup 7",
+          "stopping": "Stopping"
+        }
+      },
+      "dcgenset_voltage_phase": {
+        "name": "Voltage on {phase}"
       },
       "dcload_current": {
         "name": "Current"
@@ -2733,6 +2930,20 @@
         }
       },
       "dcdc_mode": {
+        "state": {
+          "off": "Off",
+          "on": "On"
+        }
+      },
+      "dcgenset_enable_remote_start_mode": {
+        "name": "Enable remote start mode",
+        "state": {
+          "off": "Off",
+          "on": "On"
+        }
+      },
+      "dcgenset_start": {
+        "name": "Start generator",
         "state": {
           "off": "Off",
           "on": "On"

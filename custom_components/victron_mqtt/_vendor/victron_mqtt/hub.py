@@ -829,11 +829,24 @@ class Hub:
                 continue
             try:
                 if callable(self._on_new_metric):
+                    _LOGGER.debug(
+                        "Scheduling on_new_metric callback for %s: value=%r, available=%s",
+                        metric.unique_id,
+                        metric.value,
+                        metric.available,
+                    )
                     self._schedule_threadsafe(self._on_new_metric, self, device, metric)
+                else:
+                    _LOGGER.debug(
+                        "Skipping on_new_metric callback for %s: callback is not registered, value=%r, available=%s",
+                        metric.unique_id,
+                        metric.value,
+                        metric.available,
+                    )
             except Exception as exc:
                 _LOGGER.exception("Error calling _on_new_metric callback %s", exc)
-        # Trace the version once
-        if self._first_full_publish:
+        # Retry firmware detection until a valid version is available.
+        if not self._firmware_version:
             version_metric_name = "system_0_platform_venus_firmware_installed_version"
             version_metric = self._all_metrics.get(version_metric_name)
             if version_metric and version_metric.value:
@@ -989,8 +1002,10 @@ class Hub:
                 except Exception as exc:
                     _LOGGER.exception("Error sending keepalive: %s", exc)
                 await asyncio.sleep(30)
-                # Old firmwars dont resend values after the keepalive message so we cant use this logic of invalidation if there is no new value
-                if self._firmware_version >= MINIMUM_FULLY_SUPPORTED_VERSION:
+                # Known old firmware cannot reliably refresh constant values, so skip stale detection.
+                # Keep the safety net enabled while the version is unknown, even if delivery
+                # stalls before firmware detection can succeed (issue #139).
+                if not self._firmware_version or self._firmware_version >= MINIMUM_FULLY_SUPPORTED_VERSION:
                     # We should keep alive all metrics every 60 seconds
                     count += 1
                     if count % 2 == 0:

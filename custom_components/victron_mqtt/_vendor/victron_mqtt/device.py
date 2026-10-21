@@ -13,6 +13,7 @@ from ._unwrappers import (
     unwrap_bool,
     unwrap_enum,
     unwrap_float,
+    unwrap_float_default_0,
     unwrap_float_m3_to_liters,
     unwrap_int_seconds_to_hours,
     unwrap_int_seconds_to_minutes,
@@ -168,6 +169,7 @@ class Device:
             value = unwrapper(payload, topic_desc.enum)
         elif unwrapper in [
             unwrap_float,
+            unwrap_float_default_0,
             unwrap_int_seconds_to_hours,
             unwrap_int_seconds_to_minutes,
             unwrap_float_m3_to_liters,

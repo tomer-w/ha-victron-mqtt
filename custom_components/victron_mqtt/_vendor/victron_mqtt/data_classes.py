@@ -311,6 +311,7 @@ class TopicDescriptor:
         # General initialization
         if self.value_type not in [
             ValueType.FLOAT,
+            ValueType.FLOAT_DEFAULT_0,
             ValueType.FLOAT_M3_TO_LITERS,
             ValueType.INT_SECONDS_TO_HOURS,
             ValueType.INT_SECONDS_TO_MINUTES,
