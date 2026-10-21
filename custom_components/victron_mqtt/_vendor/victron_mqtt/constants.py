@@ -105,6 +105,7 @@ class ValueType(Enum):
     INT = "int"
     INT_DEFAULT_0 = "int_0"
     FLOAT = "float"
+    FLOAT_DEFAULT_0 = "float_0"
     STRING = "str"
     ENUM = "enum"
     BITMASK = "bitmask"

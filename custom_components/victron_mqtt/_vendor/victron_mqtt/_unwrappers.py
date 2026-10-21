@@ -19,26 +19,20 @@ def unwrap_bool(json_str: str) -> bool | None:
         return None
 
 
-def unwrap_int(json_str: str) -> int | None:
+def unwrap_int(json_str: str, *, null_default: int | None = None) -> int | None:
     """Unwrap an integer value from a JSON string."""
     try:
         data = json.loads(json_str)
         if data["value"] is None:
-            return None
+            return null_default
         return int(data["value"])
     except (json.JSONDecodeError, KeyError, ValueError, TypeError):
         return None
 
 
-def unwrap_int_default_0(json_str: str) -> int:
-    """Unwrap an integer value from a JSON string, defaulting to 0."""
-    try:
-        data = json.loads(json_str)
-        if data["value"] is None:
-            return 0
-        return int(data["value"])
-    except (json.JSONDecodeError, KeyError, ValueError, TypeError):
-        return 0
+def unwrap_int_default_0(json_str: str) -> int | None:
+    """Unwrap an integer, defaulting explicit null to zero but rejecting invalid payloads."""
+    return unwrap_int(json_str, null_default=0)
 
 
 def unwrap_int_seconds_to_hours(json_str: str, precision: int | None) -> float | None:
@@ -59,16 +53,23 @@ def unwrap_int_seconds_to_minutes(json_str: str, precision: int | None) -> float
     return minutes if precision is None else round(minutes, precision)
 
 
-def unwrap_float(json_str: str, precision: int | None, json_value: str = "value") -> float | None:
+def unwrap_float(
+    json_str: str, precision: int | None, json_value: str = "value", *, null_default: float | None = None
+) -> float | None:
     """Unwrap a float value from a JSON string."""
     try:
         data = json.loads(json_str)
-        if data.get(json_value) is None:
-            return None
+        if data[json_value] is None:
+            return null_default
         value = float(data[json_value])
         return value if precision is None else round(value, precision)
     except (json.JSONDecodeError, KeyError, ValueError, TypeError):
         return None
+
+
+def unwrap_float_default_0(json_str: str, precision: int | None) -> float | None:
+    """Unwrap a float, defaulting explicit null to zero but rejecting invalid payloads."""
+    return unwrap_float(json_str, precision, null_default=0.0)
 
 
 def unwrap_float_m3_to_liters(json_str: str, precision: int | None) -> float | None:
@@ -204,6 +205,7 @@ VALUE_TYPE_UNWRAPPER: dict[ValueType, Callable[..., Any]] = {
     ValueType.INT: unwrap_int,
     ValueType.INT_DEFAULT_0: unwrap_int_default_0,
     ValueType.FLOAT: unwrap_float,
+    ValueType.FLOAT_DEFAULT_0: unwrap_float_default_0,
     ValueType.STRING: unwrap_string,
     ValueType.ENUM: unwrap_enum,
     ValueType.BITMASK: unwrap_bitmask,
@@ -218,6 +220,7 @@ VALUE_TYPE_WRAPPER: dict[ValueType, Callable[..., str]] = {
     ValueType.INT: wrap_int,
     ValueType.INT_DEFAULT_0: wrap_int_default_0,
     ValueType.FLOAT: wrap_float,
+    ValueType.FLOAT_DEFAULT_0: wrap_float,
     ValueType.STRING: wrap_string,
     ValueType.ENUM: wrap_enum,
     ValueType.BITMASK: wrap_bitmask,
