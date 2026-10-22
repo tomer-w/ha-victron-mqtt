@@ -818,6 +818,9 @@
       "acload_voltage_phase": {
         "name": "Voltage on {phase}"
       },
+      "acsystem_input_power_phase": {
+        "name": "AC system input power {phase}"
+      },
       "acsystem_mode": {
         "state": {
           "charger_only": "Charger only",
@@ -1946,6 +1949,9 @@
           "self_consumption": "Self-consumption",
           "self_consumption_batterylife": "Self-consumption (BatteryLife)"
         }
+      },
+      "multi_input_power_phase": {
+        "name": "AC input power on {phase}"
       },
       "multi_inverter_power_setpoint": {
         "name": "Inverter power setpoint"

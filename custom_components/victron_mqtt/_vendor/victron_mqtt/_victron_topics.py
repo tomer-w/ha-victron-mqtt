@@ -292,6 +292,15 @@ topics: list[TopicDescriptor] = [
     ),
     # ACSYSTEM topics
     TopicDescriptor(
+        topic="N/{installation_id}/acsystem/{device_id}/Ac/In/{phase}/P",
+        message_type=MetricKind.SENSOR,
+        short_id="acsystem_input_power_{phase}",
+        name="AC system input power {phase}",
+        description="Measured input power for an AC phase of the AC system. Null readings are reported as 0 W.",
+        metric_type=MetricType.POWER,
+        value_type=ValueType.FLOAT_DEFAULT_0,
+    ),
+    TopicDescriptor(
         topic="N/{installation_id}/acsystem/{device_id}/Ac/Out/{phase}/P",
         message_type=MetricKind.SENSOR,
         short_id="acsystem_output_power_{phase}",
@@ -2569,6 +2578,15 @@ topics: list[TopicDescriptor] = [
         name="Input voltage on {phase}",
         description="Measured input voltage on an AC phase for the Multi RS inverter/charger.",
         metric_type=MetricType.VOLTAGE,
+    ),
+    TopicDescriptor(
+        topic="N/{installation_id}/multi/{device_id}/Ac/In/{phase}/P",
+        message_type=MetricKind.SENSOR,
+        short_id="multi_input_power_{phase}",
+        name="AC input power on {phase}",
+        description="Measured AC input power on an AC phase for the Multi RS inverter/charger. Null readings are reported as 0 W.",
+        metric_type=MetricType.POWER,
+        value_type=ValueType.FLOAT_DEFAULT_0,
     ),
     TopicDescriptor(
         topic="N/{installation_id}/multi/{device_id}/Ac/NumberOfPhases",

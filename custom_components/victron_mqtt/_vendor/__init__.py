@@ -1,3 +1,3 @@
 """Vendored third-party packages."""
 
-VICTRON_MQTT_VERSION = "2026.10.0"
+VICTRON_MQTT_VERSION = "2026.10.1"
