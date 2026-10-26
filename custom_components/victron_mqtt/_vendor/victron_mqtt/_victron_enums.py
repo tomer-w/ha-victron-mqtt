@@ -555,6 +555,29 @@ class ChargerMode(VictronEnum):
     OFF = (4, "off", "Off", "The charger is disabled.")
 
 
+class EmergencyChargeControl(VictronEnum):
+    """Orion XS emergency reverse charging status and control."""
+
+    NOT_POSSIBLE = (
+        0,
+        "not_possible",
+        "Not possible",
+        "Emergency reverse charging is unavailable under the current operating conditions.",
+    )
+    NOT_STARTED = (
+        2,
+        "not_started",
+        "Not started",
+        "Emergency reverse charging is available but has not been started; writing this value stops it.",
+    )
+    STARTED = (
+        3,
+        "started",
+        "Started",
+        "Emergency reverse charging has been requested, including during the blocked cooldown; writing this value starts it.",
+    )
+
+
 class BMSMode(VictronEnum):
     """BMS contactor mode enum."""
 

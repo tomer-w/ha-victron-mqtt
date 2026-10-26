@@ -1,7 +1,7 @@
 """Test the Victron GX MQTT Hub class."""
 
 import asyncio
-from unittest.mock import AsyncMock, MagicMock, patch
+from unittest.mock import AsyncMock, MagicMock, call, patch
 
 import pytest
 from homeassistant.components.number import NumberMode
@@ -718,6 +718,86 @@ async def test_select_main_topic(
         "off",
     ]
     assert entity.original_name is None
+
+
+async def test_alternator_emergency_charge(
+    hass: HomeAssistant,
+    init_integration,
+) -> None:
+    """Test emergency charge control and countdown sensors."""
+    victron_hub, mock_config_entry = init_integration
+
+    await inject_message(
+        victron_hub,
+        "N/123/alternator/278/EmergencyCharge/Control",
+        '{"value": 0}',
+    )
+    await inject_message(
+        victron_hub,
+        "N/123/alternator/278/EmergencyCharge/ChargingCountdown",
+        '{"value": 900}',
+    )
+    await inject_message(
+        victron_hub,
+        "N/123/alternator/278/EmergencyCharge/BlockedCountdown",
+        '{"value": 300}',
+    )
+    await finalize_injection(victron_hub)
+    await hass.async_block_till_done()
+
+    entities = _metric_entities(hass, mock_config_entry)
+    by_key = {entity.translation_key: entity for entity in entities}
+    assert set(by_key) == {
+        "alternator_emergency_charge_control",
+        "alternator_emergency_charge_charging_countdown",
+        "alternator_emergency_charge_blocked_countdown",
+    }
+
+    control_entity = by_key["alternator_emergency_charge_control"]
+    control_state = hass.states.get(control_entity.entity_id)
+    assert control_state is not None
+    assert control_state.state == "not_possible"
+    assert control_state.attributes["options"] == [
+        "not_possible",
+        "not_started",
+        "started",
+    ]
+
+    countdowns = {
+        "alternator_emergency_charge_charging_countdown": "900",
+        "alternator_emergency_charge_blocked_countdown": "300",
+    }
+    for translation_key, value in countdowns.items():
+        state = hass.states.get(by_key[translation_key].entity_id)
+        assert state is not None
+        assert state.state == value
+        assert state.attributes["device_class"] == "duration"
+        assert state.attributes["unit_of_measurement"] == "s"
+
+    with patch.object(control_entity._metric._hub, "_publish") as publish:
+        await hass.services.async_call(
+            "select",
+            "select_option",
+            {
+                "entity_id": control_entity.entity_id,
+                "option": "started",
+            },
+            blocking=True,
+        )
+        await hass.services.async_call(
+            "select",
+            "select_option",
+            {
+                "entity_id": control_entity.entity_id,
+                "option": "not_started",
+            },
+            blocking=True,
+        )
+
+    assert publish.call_args_list == [
+        call("W/123/alternator/278/EmergencyCharge/Control", '{"value": 3}'),
+        call("W/123/alternator/278/EmergencyCharge/Control", '{"value": 2}'),
+    ]
 
 
 async def test_button(
