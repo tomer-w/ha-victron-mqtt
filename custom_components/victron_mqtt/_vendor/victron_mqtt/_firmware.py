@@ -3,16 +3,20 @@
 from __future__ import annotations
 
 import asyncio
+import logging
 from dataclasses import dataclass
 from enum import StrEnum
 from typing import TYPE_CHECKING
 
+from ._exceptions import NotConnectedError, PublishError
 from ._victron_enums import FirmwareUpdateState
 
 if TYPE_CHECKING:
     from collections.abc import Callable
 
     from .hub import Hub
+
+_LOGGER = logging.getLogger(__name__)
 
 _AVAILABLE_VERSION_METRIC = "system_0_platform_venus_firmware_available_version"
 _INSTALLED_VERSION_METRIC = "system_0_platform_venus_firmware_installed_version"
@@ -137,7 +141,10 @@ async def _check_firmware_updates(  # pyright: ignore[reportUnusedFunction] - ca
 ) -> None:
     """Periodically ask the GX device to check for firmware updates."""
     while True:
-        hub.publish(_CHECK_SERVICE, "0", 1)
+        try:
+            hub.publish(_CHECK_SERVICE, "0", 1)
+        except (NotConnectedError, PublishError) as error:
+            _LOGGER.warning("Cannot check for firmware updates: %s", error)
         await asyncio.sleep(poll_interval)
 
 

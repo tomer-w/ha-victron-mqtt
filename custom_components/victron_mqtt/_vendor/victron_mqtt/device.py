@@ -17,6 +17,7 @@ from ._unwrappers import (
     unwrap_float_m3_to_liters,
     unwrap_int_seconds_to_hours,
     unwrap_int_seconds_to_minutes,
+    wrap_string,
 )
 from ._victron_enums import SwitchableOutputType
 from .constants import MetricKind, OperationMode, RangeType, VictronEnum
@@ -34,6 +35,16 @@ if TYPE_CHECKING:
 
 _LOGGER = logging.getLogger(__name__)
 
+_WRITABLE_METRIC_KINDS = (
+    MetricKind.SWITCH,
+    MetricKind.NUMBER,
+    MetricKind.SELECT,
+    MetricKind.BUTTON,
+    MetricKind.TIME,
+    MetricKind.TEXT,
+    MetricKind.DYNAMIC,
+)
+
 
 class Device:
     """Class to represent a Victron device."""
@@ -45,6 +56,7 @@ class Device:
         descriptor: TopicDescriptor,
         *,
         parent_device: Device | None = None,
+        hub: Hub | None = None,
     ) -> None:
         """Initialize."""
         self._descriptor = descriptor
@@ -58,6 +70,8 @@ class Device:
         self._serial_number: str | None = None
         self._firmware_version: str | None = None
         self._custom_name: str | None = None
+        self._custom_name_write_topic: str | None = None
+        self._hub = hub
         self._productid: int | None = None
         self._parent_device: Device | None = parent_device
 
@@ -129,6 +143,8 @@ class Device:
 
         if topic_desc.message_type == MetricKind.ATTRIBUTE:
             self._set_device_property_from_topic(topic_desc, payload)
+            if topic_desc.short_id == "custom_name" and self._custom_name is not None:
+                self._custom_name_write_topic = "W" + topic[1:]
             return None
 
         parsed_topic.finalize_topic_fields(topic_desc, device_unique_id=self._unique_id)
@@ -213,14 +229,7 @@ class Device:
                 new_topic_desc.message_type = MetricKind.SENSOR
 
         # Handle READ_ONLY mode: resolve writable types to read-only equivalents
-        if hub._operation_mode == OperationMode.READ_ONLY and new_topic_desc.message_type in [
-            MetricKind.SWITCH,
-            MetricKind.NUMBER,
-            MetricKind.SELECT,
-            MetricKind.BUTTON,
-            MetricKind.TIME,
-            MetricKind.DYNAMIC,
-        ]:
+        if hub._operation_mode == OperationMode.READ_ONLY and new_topic_desc.message_type in _WRITABLE_METRIC_KINDS:
             if new_topic_desc.message_type == MetricKind.DYNAMIC:
                 # DYNAMIC resolves based on output_type:
                 # DROPDOWN → SENSOR (read-only SELECT), DIMMABLE → SENSOR (read-only NUMBER), else → BINARY_SENSOR
@@ -262,14 +271,7 @@ class Device:
         assert metric_placeholder.parsed_topic.device_type is not None, "device_type must be set for metric"
 
         metric: Metric
-        if new_topic_desc.message_type in [
-            MetricKind.SWITCH,
-            MetricKind.NUMBER,
-            MetricKind.SELECT,
-            MetricKind.BUTTON,
-            MetricKind.TIME,
-            MetricKind.DYNAMIC,
-        ]:
+        if new_topic_desc.message_type in _WRITABLE_METRIC_KINDS:
             metric = WritableMetric(
                 device=self,
                 name=name,
@@ -300,13 +302,17 @@ class Device:
         short_id = ParsedTopic.replace_ids(topic_desc.short_id, key_values)
         unique_id = ParsedTopic.make_unique_id(self.unique_id, short_id)
         metric: FormulaMetric
-        if topic_desc.message_type in [
-            MetricKind.SWITCH,
-            MetricKind.NUMBER,
-            MetricKind.SELECT,
-            MetricKind.BUTTON,
-            MetricKind.TIME,
-        ]:
+        # DYNAMIC resolution is only supported for MQTT-backed metrics.
+        is_writable = (
+            topic_desc.message_type in _WRITABLE_METRIC_KINDS and topic_desc.message_type != MetricKind.DYNAMIC
+        )
+        if is_writable and hub._operation_mode == OperationMode.READ_ONLY:
+            topic_desc = copy.deepcopy(topic_desc)
+            topic_desc.message_type = (
+                MetricKind.BINARY_SENSOR if topic_desc.message_type == MetricKind.SWITCH else MetricKind.SENSOR
+            )
+            is_writable = False
+        if is_writable:
             metric = WritableFormulaMetric(
                 device=self,
                 name=name,
@@ -396,6 +402,32 @@ class Device:
     def custom_name(self) -> str | None:
         """Return the custom name for devices."""
         return self._custom_name
+
+    @property
+    def can_set_custom_name(self) -> bool:
+        """Return whether a custom name topic is known and writes are enabled."""
+        return (
+            self._hub is not None
+            and self._hub._operation_mode != OperationMode.READ_ONLY
+            and self._custom_name_write_topic is not None
+        )
+
+    def set_custom_name(self, name: str) -> None:
+        """Publish a custom name, or an empty string to clear it.
+
+        Requires a hub and a previously received, non-null custom name.
+        The cached name changes only when the device reports it over MQTT.
+        Transport failures propagate as NotConnectedError or PublishError.
+        """
+        if not isinstance(name, str):  # pyright: ignore[reportUnnecessaryIsInstance]
+            raise TypeError("Custom name must be a string")
+        if self._hub is None:
+            raise ValueError("Cannot set custom name without a hub")
+        if self._hub._operation_mode == OperationMode.READ_ONLY:
+            raise ValueError("Cannot set custom name in read-only mode")
+        if self._custom_name_write_topic is None:
+            raise ValueError(f"Device {self.unique_id} has not reported a custom name topic")
+        self._hub._publish(self._custom_name_write_topic, wrap_string(name))
 
     @property
     def parent_device(self) -> Device | None:
