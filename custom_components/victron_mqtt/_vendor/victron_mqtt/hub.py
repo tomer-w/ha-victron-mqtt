@@ -21,6 +21,14 @@ from paho.mqtt.properties import Properties
 from paho.mqtt.reasoncodes import ReasonCode
 
 from . import _firmware
+from ._exceptions import (
+    AuthenticationError,
+    CannotConnectError,
+    InvalidInstallationIdError,
+    NotConnectedError,
+    PublishError,
+    TopicNotFoundError,
+)
 from ._firmware import FirmwareUpdateError, FirmwareUpdateErrorReason, FirmwareUpdateInfo, get_firmware_update_info
 from ._victron_enums import DeviceType
 from ._victron_topics import topics
@@ -480,7 +488,12 @@ class Hub:
         self._client.tls_set_context(context)  # pyright: ignore[reportUnknownMemberType]
 
     def publish(self, topic_short_id: str, device_id: str, value: MetricValue) -> None:
-        """Publish a message to the MQTT broker."""
+        """Submit a message to the MQTT client.
+
+        Raises NotConnectedError if disconnected or the installation ID is
+        unknown, and PublishError for other unsuccessful MQTT return codes.
+        Successful submission does not confirm that the device applied the value.
+        """
         _LOGGER.info(
             "Publishing message to topic_short_id: %s, device_id: %s, value: %s", topic_short_id, device_id, value
         )
@@ -986,7 +999,11 @@ class Hub:
 
         prefixed_topic = self._add_topic_prefix(topic)
         log_debug("Publishing message to topic: %s, value: %s", prefixed_topic, value)
-        self._client.publish(prefixed_topic, value)
+        result = self._client.publish(prefixed_topic, value)
+        if result.rc == mqtt.MQTT_ERR_NO_CONN:
+            raise NotConnectedError("Cannot publish: MQTT client is disconnected")
+        if result.rc != mqtt.MQTT_ERR_SUCCESS:
+            raise PublishError(f"MQTT publish failed: {mqtt.error_string(result.rc)}")
 
     async def _keepalive_loop(self) -> None:
         """Run keepalive every 30 seconds."""
@@ -1299,7 +1316,7 @@ class Hub:
                     _LOGGER.info(
                         "Creating parent device: unique_id=%s, parsed_topic=%s", parent_unique_id, parsed_topic
                     )
-                    parent_device = Device(parent_unique_id, parsed_topic, desc)
+                    parent_device = Device(parent_unique_id, parsed_topic, desc, hub=self)
                     self._devices[parent_unique_id] = parent_device
                 sub_device_unique_id = f"{parent_unique_id}_{desc.sub_device_key}_{sub_key_value}".lower()
                 device = self._devices.get(sub_device_unique_id)
@@ -1310,7 +1327,7 @@ class Hub:
                         parent_unique_id,
                         parsed_topic,
                     )
-                    device = Device(sub_device_unique_id, parsed_topic, desc, parent_device=parent_device)
+                    device = Device(sub_device_unique_id, parsed_topic, desc, parent_device=parent_device, hub=self)
                     self._devices[sub_device_unique_id] = device
                 return device
 
@@ -1322,6 +1339,7 @@ class Hub:
                 device_unique_id,
                 parsed_topic,
                 desc,
+                hub=self,
             )
             self._devices[device_unique_id] = device
         return device
@@ -1360,7 +1378,8 @@ class Hub:
 
         The first check is published immediately. Subsequent checks are
         published every poll_interval seconds. Calling this method again
-        replaces the existing schedule.
+        replaces the existing schedule. Transport failures are logged and
+        retried at the next scheduled interval.
         """
         if poll_interval <= 0:
             raise ValueError("poll_interval must be greater than zero")
@@ -1401,6 +1420,10 @@ class Hub:
             update, the GX reports a failure, or the operation times out.
         ValueError
             If timeout or poll_interval is not greater than zero.
+        NotConnectedError
+            If the install command cannot be submitted because MQTT is disconnected.
+        PublishError
+            If the MQTT client rejects the install command for another reason.
 
         Notes
         -----
@@ -1537,27 +1560,3 @@ class Hub:
         except (json.JSONDecodeError, KeyError, ValueError, TypeError):
             _LOGGER.error("Failed to extract keepalive echo: %s", value)
             return None
-
-
-class CannotConnectError(Exception):
-    """Error to indicate we cannot connect."""
-
-
-class ProgrammingError(Exception):
-    """Error to indicate that we are in a state that should never be reached."""
-
-
-class NotConnectedError(Exception):
-    """Error to indicate that we expected to be connected at this stage but is not."""
-
-
-class TopicNotFoundError(Exception):
-    """Error to indicate that we expected to find a topic but it is not present."""
-
-
-class AuthenticationError(CannotConnectError):
-    """Authentication failed."""
-
-
-class InvalidInstallationIdError(CannotConnectError):
-    """The provided installation ID was not found on the broker."""

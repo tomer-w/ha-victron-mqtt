@@ -761,6 +761,93 @@
       "description": "Measured input voltage for the alternator charger."
     },
     {
+      "topic": "N/{installation_id}/alternator/{device_id}/EmergencyCharge/BlockedCountdown",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "alternator_emergency_charge_blocked_countdown",
+      "name": "Emergency charge blocked countdown",
+      "unit_of_measurement": "s",
+      "metric_type": "MetricType.DURATION",
+      "metric_nature": "MetricNature.MEASUREMENT",
+      "value_type": "ValueType.INT",
+      "precision": null,
+      "enum": null,
+      "min_max_range": "RangeType.STATIC",
+      "min": null,
+      "max": null,
+      "step": null,
+      "is_adjustable_suffix": null,
+      "output_type": null,
+      "labels": null,
+      "nullable": false,
+      "key_values": {},
+      "experimental": false,
+      "depends_on": [],
+      "generic_name": "Emergency charge blocked countdown",
+      "is_formula": false,
+      "main_topic": false,
+      "hidden": false,
+      "sub_device_key": null,
+      "description": "Seconds remaining in the blocked period after emergency reverse charging, during which reverse charging cannot occur."
+    },
+    {
+      "topic": "N/{installation_id}/alternator/{device_id}/EmergencyCharge/ChargingCountdown",
+      "message_type": "MetricKind.SENSOR",
+      "short_id": "alternator_emergency_charge_charging_countdown",
+      "name": "Emergency charge charging countdown",
+      "unit_of_measurement": "s",
+      "metric_type": "MetricType.DURATION",
+      "metric_nature": "MetricNature.MEASUREMENT",
+      "value_type": "ValueType.INT",
+      "precision": null,
+      "enum": null,
+      "min_max_range": "RangeType.STATIC",
+      "min": null,
+      "max": null,
+      "step": null,
+      "is_adjustable_suffix": null,
+      "output_type": null,
+      "labels": null,
+      "nullable": false,
+      "key_values": {},
+      "experimental": false,
+      "depends_on": [],
+      "generic_name": "Emergency charge charging countdown",
+      "is_formula": false,
+      "main_topic": false,
+      "hidden": false,
+      "sub_device_key": null,
+      "description": "Seconds remaining in the active emergency reverse charging state."
+    },
+    {
+      "topic": "N/{installation_id}/alternator/{device_id}/EmergencyCharge/Control",
+      "message_type": "MetricKind.SELECT",
+      "short_id": "alternator_emergency_charge_control",
+      "name": "Emergency charge control",
+      "unit_of_measurement": null,
+      "metric_type": "MetricType.ENUM",
+      "metric_nature": "MetricNature.NONE",
+      "value_type": "ValueType.ENUM",
+      "precision": null,
+      "enum": "EmergencyChargeControl",
+      "min_max_range": "RangeType.STATIC",
+      "min": null,
+      "max": null,
+      "step": null,
+      "is_adjustable_suffix": null,
+      "output_type": null,
+      "labels": null,
+      "nullable": false,
+      "key_values": {},
+      "experimental": false,
+      "depends_on": [],
+      "generic_name": "Emergency charge control",
+      "is_formula": false,
+      "main_topic": false,
+      "hidden": false,
+      "sub_device_key": null,
+      "description": "Reports whether emergency reverse charging is possible and has been started, and allows starting or stopping it. Writing 1 or 3 has the same effect: requesting a start. Writing 0 or 2 stops charging. The start command (1) is not a persistent state; it is immediately replaced by 3 if emergency charging is allowed or 0 otherwise. The started state (3) remains during the blocked period, when reverse charging cannot occur."
+    },
+    {
       "topic": "N/{installation_id}/alternator/{device_id}/Mode",
       "message_type": "MetricKind.SWITCH",
       "short_id": "alternator_mode",
@@ -3696,7 +3783,7 @@
       "topic": "N/{installation_id}/dcgenset/{device_id}/Error/{index}/Id",
       "message_type": "MetricKind.SENSOR",
       "short_id": "dcgenset_error_id_{index}",
-      "name": "Id",
+      "name": "ID",
       "unit_of_measurement": null,
       "metric_type": "MetricType.NONE",
       "metric_nature": "MetricNature.NONE",
@@ -3714,7 +3801,7 @@
       "key_values": {},
       "experimental": false,
       "depends_on": [],
-      "generic_name": "Id",
+      "generic_name": "ID",
       "is_formula": false,
       "main_topic": false,
       "hidden": false,
@@ -3835,7 +3922,7 @@
       "main_topic": false,
       "hidden": false,
       "sub_device_key": null,
-      "description": "Reports module id for the DC genset."
+      "description": "Reports module ID for the DC genset."
     },
     {
       "topic": "N/{installation_id}/dcgenset/{device_id}/NrOfPhases",
@@ -16948,6 +17035,35 @@
           "name": "External control",
           "value": 3,
           "description": "An external controller manages ESS charge and discharge behavior."
+        }
+      ]
+    },
+    {
+      "name": "EmergencyChargeControl",
+      "EnumValues": [
+        {
+          "id": "not_possible",
+          "name": "Not possible",
+          "value": 0,
+          "description": "Emergency reverse charging is not possible; start commands are ignored in this state, and writing this value stops charging."
+        },
+        {
+          "id": "start",
+          "name": "Start",
+          "value": 1,
+          "description": "Requests emergency reverse charging, with the same effect as writing the started value. This command does not persist; the charger reports started if charging is allowed or not possible otherwise."
+        },
+        {
+          "id": "not_started",
+          "name": "Not started",
+          "value": 2,
+          "description": "Emergency reverse charging is possible but has not been started; writing this value stops charging."
+        },
+        {
+          "id": "started",
+          "name": "Started",
+          "value": 3,
+          "description": "Emergency reverse charging is possible and has been started. This state remains during the blocked period when reverse charging cannot occur; writing this value requests a start."
         }
       ]
     },

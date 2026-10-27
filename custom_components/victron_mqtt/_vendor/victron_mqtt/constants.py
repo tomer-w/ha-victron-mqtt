@@ -21,6 +21,7 @@ class MetricKind(Enum):
     SERVICE = "service"
     BUTTON = "button"
     TIME = "time"
+    TEXT = "text"
     DEVICE_TRACKER = "device_tracker"
     DYNAMIC = "dynamic"
 

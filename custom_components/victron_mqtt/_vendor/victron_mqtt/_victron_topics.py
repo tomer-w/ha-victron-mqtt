@@ -21,6 +21,7 @@ from ._victron_enums import (
     DigitalInputState,
     DigitalInputType,
     DVCCMode,
+    EmergencyChargeControl,
     ErrorCode,
     ESSMode,
     ESSModeHub4,
@@ -367,6 +368,36 @@ topics: list[TopicDescriptor] = [
         name="Input voltage",
         description="Measured input voltage for the alternator charger.",
         metric_type=MetricType.VOLTAGE,
+    ),
+    TopicDescriptor(
+        topic="N/{installation_id}/alternator/{device_id}/EmergencyCharge/BlockedCountdown",
+        message_type=MetricKind.SENSOR,
+        short_id="alternator_emergency_charge_blocked_countdown",
+        name="Emergency charge blocked countdown",
+        description="Seconds remaining in the blocked period after emergency reverse charging, during which reverse charging cannot occur.",
+        metric_type=MetricType.DURATION,
+    ),
+    TopicDescriptor(
+        topic="N/{installation_id}/alternator/{device_id}/EmergencyCharge/ChargingCountdown",
+        message_type=MetricKind.SENSOR,
+        short_id="alternator_emergency_charge_charging_countdown",
+        name="Emergency charge charging countdown",
+        description="Seconds remaining in the active emergency reverse charging state.",
+        metric_type=MetricType.DURATION,
+    ),
+    TopicDescriptor(
+        topic="N/{installation_id}/alternator/{device_id}/EmergencyCharge/Control",
+        message_type=MetricKind.SELECT,
+        short_id="alternator_emergency_charge_control",
+        name="Emergency charge control",
+        description=(
+            "Reports whether emergency reverse charging is possible and has been started, and allows starting or stopping it. "
+            "Writing 1 or 3 has the same effect: requesting a start. Writing 0 or 2 stops charging. "
+            "The start command (1) is not a persistent state; it is immediately replaced by 3 if emergency charging is allowed or 0 otherwise. "
+            "The started state (3) remains during the blocked period, when reverse charging cannot occur."
+        ),
+        value_type=ValueType.ENUM,
+        enum=EmergencyChargeControl,
     ),
     TopicDescriptor(
         topic="N/{installation_id}/alternator/{device_id}/Mode",
@@ -1281,7 +1312,7 @@ topics: list[TopicDescriptor] = [
         topic="N/{installation_id}/dcgenset/{device_id}/Error/{index}/Id",
         message_type=MetricKind.SENSOR,
         short_id="dcgenset_error_id_{index}",
-        name="Id",
+        name="ID",
         description="Reports id for the DC genset.",
         value_type=ValueType.STRING,
     ),
@@ -1315,7 +1346,7 @@ topics: list[TopicDescriptor] = [
         message_type=MetricKind.SENSOR,
         short_id="dcgenset_module_id",
         name="Module id",
-        description="Reports module id for the DC genset.",
+        description="Reports module ID for the DC genset.",
         metric_nature=MetricNature.NONE,
         value_type=ValueType.STRING,
     ),

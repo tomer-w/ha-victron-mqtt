@@ -13,7 +13,7 @@ from itertools import count
 from typing import TYPE_CHECKING, Any, Literal
 from unittest.mock import MagicMock, patch
 
-from paho.mqtt.client import MQTT_ERR_SUCCESS, ConnectFlags
+from paho.mqtt.client import MQTT_ERR_SUCCESS, ConnectFlags, MQTTMessageInfo
 from paho.mqtt.packettypes import PacketTypes
 from paho.mqtt.reasoncodes import ReasonCode
 
@@ -179,7 +179,7 @@ async def create_mocked_hub(
                 except (json.JSONDecodeError, AttributeError, IndexError):
                     return ""
 
-            def mock_publish(topic: str, value: str) -> None:
+            def mock_publish(topic: str, value: str) -> MQTTMessageInfo:
                 if topic == f"R/{mocked_installation_id}/keepalive" and "suppress-republish" not in str(value):
                     echo = parse_keepalive_options(value)
                     keepalive_payload = json.dumps({"full-publish-completed-echo": echo, "value": 42})
@@ -196,6 +196,9 @@ async def create_mocked_hub(
                 if topic.startswith("W/"):
                     read_topic = "N" + topic[1:]
                     mocked_client.on_message(mocked_client, None, MagicMock(topic=read_topic, payload=value.encode()))
+                result = MQTTMessageInfo(next(message_ids))
+                result.rc = MQTT_ERR_SUCCESS
+                return result
 
             mocked_client.publish = MagicMock(name="publish", side_effect=mock_publish)
 

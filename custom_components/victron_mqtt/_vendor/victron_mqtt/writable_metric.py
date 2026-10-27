@@ -221,6 +221,10 @@ class WritableMetric(Metric):
         ValueError
             If a numeric value is outside the metric's min/max range, or if a
             dropdown value is not one of the available labels.
+        NotConnectedError
+            If MQTT is disconnected when submitting the write.
+        PublishError
+            If the MQTT client rejects the write for another reason.
         """
         assert self._write_topic is not None
         if isinstance(value, float | int) and not isinstance(value, bool):
