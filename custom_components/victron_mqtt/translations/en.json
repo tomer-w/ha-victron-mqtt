@@ -1388,7 +1388,7 @@
         "name": "Total energy produced"
       },
       "dcgenset_module_id": {
-        "name": "Module id"
+        "name": "Module ID"
       },
       "dcgenset_nr_of_phases": {
         "name": "Number of phases"
