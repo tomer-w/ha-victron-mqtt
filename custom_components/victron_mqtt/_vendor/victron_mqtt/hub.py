@@ -867,11 +867,14 @@ class Hub:
                 assert isinstance(version_value, str)
                 if version_value[0] == "v":
                     try:
-                        # Accept versions like 'v3.70' and 'v3.70~15' by stripping any '~' suffix
+                        # Accept stable, beta, and '~' build suffixes after the numeric version.
                         ver_str = version_value[1:]
                         if "~" in ver_str:
                             ver_str = ver_str.split("~", 1)[0]
-                        self._firmware_version = tuple(int(part) for part in ver_str.split("."))
+                        version_match = re.match(r"(\d+(?:\.\d+)*)", ver_str)
+                        if version_match is None:
+                            raise ValueError(f"Unrecognized firmware version: {version_value}")
+                        self._firmware_version = tuple(int(part) for part in version_match.group(1).split("."))
                         if self._firmware_version < MINIMUM_FULLY_SUPPORTED_VERSION:
                             _LOGGER.warning(
                                 "Firmware version is below v3.50: %s. Reduced functionality may occur.",
