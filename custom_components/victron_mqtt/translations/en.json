@@ -283,6 +283,34 @@
           "on": "On"
         }
       },
+      "platform_firmware_large_image_support": {
+        "name": "Large image support",
+        "state": {
+          "off": "Off",
+          "on": "On"
+        }
+      },
+      "platform_network_ethernet_gateway_enabled": {
+        "name": "Allow using ethernet for internet access",
+        "state": {
+          "off": "Off",
+          "on": "On"
+        }
+      },
+      "platform_network_wifi_gateway_enabled": {
+        "name": "Allow using wifi for internet access",
+        "state": {
+          "off": "Off",
+          "on": "On"
+        }
+      },
+      "platform_services_access_point_enabled": {
+        "name": "Create access point",
+        "state": {
+          "off": "Off",
+          "on": "On"
+        }
+      },
       "solarcharger_load_state": {
         "name": "Load state",
         "state": {
@@ -468,6 +496,9 @@
     "button": {
       "platform_device_reboot": {
         "name": "Device reboot"
+      },
+      "platform_network_wifi_scan": {
+        "name": "Scan"
       }
     },
     "device_tracker": {
@@ -2073,6 +2104,39 @@
       "multiplus_assist_current_boost_factor": {
         "name": "Assist current boost factor"
       },
+      "platform_device_hq_serial_number": {
+        "name": "Hq serial number"
+      },
+      "platform_device_model": {
+        "name": "Model"
+      },
+      "platform_device_product_id": {
+        "name": "Product id"
+      },
+      "platform_device_unique_id": {
+        "name": "Unique id"
+      },
+      "platform_firmware_installed_build": {
+        "name": "Build"
+      },
+      "platform_firmware_installed_image_type": {
+        "name": "Image type"
+      },
+      "platform_firmware_online_available_build": {
+        "name": "Available build"
+      },
+      "platform_network_ethernet_link_local_ip_address": {
+        "name": "Link local ip address"
+      },
+      "platform_network_has_bluetooth_support": {
+        "name": "Has bluetooth support"
+      },
+      "platform_network_services": {
+        "name": "Services"
+      },
+      "platform_network_wifi_signal_strength": {
+        "name": "Signal strength"
+      },
       "platform_venus_firmware_available_version": {
         "name": "Available version"
       },
@@ -3070,6 +3134,27 @@
           "on": "On"
         }
       },
+      "platform_network_ethernet_gateway_enabled": {
+        "name": "Allow using ethernet for internet access",
+        "state": {
+          "off": "Off",
+          "on": "On"
+        }
+      },
+      "platform_network_wifi_gateway_enabled": {
+        "name": "Allow using wifi for internet access",
+        "state": {
+          "off": "Off",
+          "on": "On"
+        }
+      },
+      "platform_services_access_point_enabled": {
+        "name": "Create access point",
+        "state": {
+          "off": "Off",
+          "on": "On"
+        }
+      },
       "solarcharger_mode": {
         "state": {
           "off": "Off",
@@ -3208,6 +3293,11 @@
           "off": "Off",
           "on": "On"
         }
+      }
+    },
+    "text": {
+      "platform_network_set_value": {
+        "name": "Set value"
       }
     },
     "time": {
