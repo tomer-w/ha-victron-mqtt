@@ -9524,7 +9524,7 @@
       "unit_of_measurement": null,
       "metric_type": "MetricType.NONE",
       "metric_nature": "MetricNature.NONE",
-      "value_type": "ValueType.STRING",
+      "value_type": "ValueType.JSON",
       "precision": null,
       "enum": null,
       "min_max_range": "RangeType.STATIC",

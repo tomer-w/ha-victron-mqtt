@@ -116,6 +116,7 @@ class ValueType(Enum):
     INT_SECONDS_TO_MINUTES = "int_seconds_to_minutes"
     FLOAT_M3_TO_LITERS = "float_m3_to_liters"
     GPS_LOCATION = "gps_location"
+    JSON = "json"
 
 
 class RangeType(Enum):
