@@ -92,6 +92,14 @@ CallbackOnNewDevice = Callable[["Hub", Device], None]
 CallbackOnFirmwareUpdate = Callable[["Hub", FirmwareUpdateInfo], None]
 
 
+def _parse_firmware_version(version: str) -> tuple[int, int]:
+    """Parse major/minor numbers, ignoring trailing components and suffixes."""
+    match = re.match(r"v(\d+)\.(\d+)", version)
+    if match is None:
+        raise ValueError(f"Firmware version format not recognized: {version}")
+    return int(match.group(1)), int(match.group(2))
+
+
 class Hub:
     """Class to communicate with the Venus OS hub."""
 
@@ -867,11 +875,7 @@ class Hub:
                 assert isinstance(version_value, str)
                 if version_value[0] == "v":
                     try:
-                        # Accept versions like 'v3.70' and 'v3.70~15' by stripping any '~' suffix
-                        ver_str = version_value[1:]
-                        if "~" in ver_str:
-                            ver_str = ver_str.split("~", 1)[0]
-                        self._firmware_version = tuple(int(part) for part in ver_str.split("."))
+                        self._firmware_version = _parse_firmware_version(version_value)
                         if self._firmware_version < MINIMUM_FULLY_SUPPORTED_VERSION:
                             _LOGGER.warning(
                                 "Firmware version is below v3.50: %s. Reduced functionality may occur.",
