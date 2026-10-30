@@ -3082,7 +3082,7 @@ topics: list[TopicDescriptor] = [
         short_id="platform_network_services",
         name="Services",
         description="Available services on the ethernet and wifi interfaces, as JSON: per interface (ethernet, wifi) the services (Wired, or the access point name) with their properties.",
-        value_type=ValueType.STRING,
+        value_type=ValueType.JSON,
     ),
     TopicDescriptor(
         topic="N/{installation_id}/platform/{device_id}/Network/SetValue",
