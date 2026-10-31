@@ -31,12 +31,17 @@ from custom_components.victron_mqtt._vendor.victron_mqtt import (
     CannotConnectError,
     FirmwareUpdateInfo,
     FirmwareUpdateState,
+    MetricKind,
+    ValueType,
 )
 from custom_components.victron_mqtt._vendor.victron_mqtt import (
     Device as VictronVenusDevice,
 )
 from custom_components.victron_mqtt._vendor.victron_mqtt import (
     Hub as VictronVenusHub,
+)
+from custom_components.victron_mqtt._vendor.victron_mqtt import (
+    Metric as VictronVenusMetric,
 )
 from custom_components.victron_mqtt._vendor.victron_mqtt.testing import (
     create_mocked_hub,
@@ -220,9 +225,7 @@ async def test_firmware_update_ignores_unresolved_online_check(
 
     callback.assert_not_called()
 
-    settled = FirmwareUpdateInfo(
-        "v3.60", "v3.70", FirmwareUpdateState.IDLE, None
-    )
+    settled = FirmwareUpdateInfo("v3.60", "v3.70", FirmwareUpdateState.IDLE, None)
     hub._on_firmware_update(mock_victron_hub, settled)
 
     callback.assert_called_once_with(settled)
@@ -399,6 +402,51 @@ async def test_unregister_add_entities_callback(
         entity_registry, mock_config_entry.entry_id
     )
     assert len(entities_after) == len(entities_before)
+
+
+@pytest.mark.parametrize("metric_kind", list(MetricKind))
+async def test_on_new_metric_skips_json(
+    hass: HomeAssistant,
+    mock_config_entry,
+    mock_victron_hub,
+    metric_kind: MetricKind,
+) -> None:
+    """Test JSON metrics are excluded regardless of their entity platform."""
+    hub = Hub(hass, mock_config_entry)
+    callback = MagicMock()
+    hub.register_new_metric_callback(metric_kind, callback)
+    device = MagicMock(spec=VictronVenusDevice)
+    metric = MagicMock(spec=VictronVenusMetric)
+    metric.metric_kind = metric_kind
+    metric.value_type = ValueType.JSON
+
+    hub._on_new_metric(mock_victron_hub, device, metric)
+
+    callback.assert_not_called()
+
+
+async def test_json_metric_does_not_create_entity(
+    hass: HomeAssistant,
+    init_integration,
+) -> None:
+    """Test JSON discovery is skipped while ordinary metrics still create entities."""
+    victron_hub, mock_config_entry = init_integration
+
+    await inject_message(
+        victron_hub,
+        "N/123/platform/0/Network/Services",
+        '{"value": {"ethernet": {"Wired": {"State": "online"}}}}',
+    )
+    await inject_message(victron_hub, "N/123/battery/0/Dc/0/Current", '{"value": 10.5}')
+    await finalize_injection(victron_hub)
+    await hass.async_block_till_done()
+
+    entities = _metric_entities(hass, mock_config_entry)
+    assert len(entities) == 1
+    assert entities[0].translation_key == "battery_current"
+    state = hass.states.get(entities[0].entity_id)
+    assert state is not None
+    assert state.state == "10.5"
 
 
 async def test_on_new_metric_sensor(

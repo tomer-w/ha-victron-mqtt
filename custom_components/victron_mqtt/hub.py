@@ -26,6 +26,7 @@ from ._vendor.victron_mqtt import (
     FirmwareUpdateState,
     MetricKind,
     OperationMode,
+    ValueType,
 )
 from ._vendor.victron_mqtt import (
     Device as VictronVenusDevice,
@@ -207,6 +208,12 @@ class Hub:
         device: VictronVenusDevice,
         metric: VictronVenusMetric,
     ) -> None:
+        if metric.value_type is ValueType.JSON:
+            _LOGGER.debug(
+                "Skipping entity creation for JSON metric: %s", metric.unique_id
+            )
+            return
+
         _LOGGER.info("New metric received. Device: %s, Metric: %s", device, metric)
         assert hub.installation_id is not None
         device_info = Hub._map_device_info(device, hub.installation_id)

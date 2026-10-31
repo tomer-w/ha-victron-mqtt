@@ -2131,9 +2131,6 @@
       "platform_network_has_bluetooth_support": {
         "name": "Has bluetooth support"
       },
-      "platform_network_services": {
-        "name": "Services"
-      },
       "platform_network_wifi_signal_strength": {
         "name": "Signal strength"
       },

@@ -1,3 +1,5 @@
+"""Generate English entity localizations from the Victron MQTT topic catalog."""
+
 import json
 import os
 
@@ -5,27 +7,48 @@ import os
 SPECIAL_NATIVE_UNITS = {"%", "Ah"}
 
 
-def main():
+def _sort_entity_translations(entity: dict) -> dict:
+    """Sort entity platforms, translation keys, and enum states."""
+    sorted_entity = {}
+    for entity_type in sorted(entity):
+        sorted_entity[entity_type] = {}
+        for translation_key in sorted(entity[entity_type]):
+            entry = entity[entity_type][translation_key]
+            sorted_entry = {}
+            if "name" in entry:
+                sorted_entry["name"] = entry["name"]
+            if "unit_of_measurement" in entry:
+                sorted_entry["unit_of_measurement"] = entry["unit_of_measurement"]
+            if "state" in entry:
+                sorted_entry["state"] = dict(sorted(entry["state"].items()))
+            sorted_entity[entity_type][translation_key] = sorted_entry
+    return sorted_entity
+
+
+def main() -> None:
+    """Merge supported topic translations into the English localization file."""
     base = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
-    topics_path = os.path.join(base, 'victron_mqtt.json')
-    translations_dir = os.path.join(base, 'custom_components', 'victron_mqtt', 'translations')
-    en_path = os.path.join(translations_dir, 'en.json')
+    topics_path = os.path.join(base, "victron_mqtt.json")
+    translations_dir = os.path.join(
+        base, "custom_components", "victron_mqtt", "translations"
+    )
+    en_path = os.path.join(translations_dir, "en.json")
     print(f"topics_path={topics_path}")
     print(f"en_path={en_path}")
-    with open(topics_path, encoding='utf-8') as f:
+    with open(topics_path, encoding="utf-8") as f:
         topics_data = json.load(f)
 
-    with open(en_path, encoding='utf-8') as f:
+    with open(en_path, encoding="utf-8") as f:
         en = json.load(f)
 
     # Build enum lookup: enum_name -> {lowercase_id: human_readable_name}
     enum_lookup = {}
-    for enum_def in topics_data.get('enums', []):
-        enum_name = enum_def.get('name')
+    for enum_def in topics_data.get("enums", []):
+        enum_name = enum_def.get("name")
         enum_values = {}
-        for ev in enum_def.get('EnumValues', []):
+        for ev in enum_def.get("EnumValues", []):
             # Use lowercase id as key, name as value
-            enum_values[ev.get('id', '').lower()] = ev.get('name', '')
+            enum_values[ev.get("id", "").lower()] = ev.get("name", "")
         enum_lookup[enum_name] = enum_values
 
     # MetricTypes that map to a SensorDeviceClass in entity.py.
@@ -54,23 +77,25 @@ def main():
     # Update topics: add or update entries in en.json under entity.sensor for each topic id
     entity = {}
     count = 0
-    for topic in topics_data.get('topics', []):
-        translation_key = topic.get('short_id').replace('{', '').replace('}', '') # same as in common.py
-        topic_name = topic.get('generic_name')
-        topic_unit = topic.get('unit_of_measurement')
-        topic_metric_type = topic.get('metric_type')
-        message_type = topic.get('message_type')
-        is_adjustable_suffix = topic.get('is_adjustable_suffix')
-        enum_name = topic.get('enum')
+    for topic in topics_data.get("topics", []):
+        translation_key = (
+            topic.get("short_id").replace("{", "").replace("}", "")
+        )  # same as in common.py
+        topic_name = topic.get("generic_name")
+        topic_unit = topic.get("unit_of_measurement")
+        topic_metric_type = topic.get("metric_type")
+        message_type = topic.get("message_type")
+        is_adjustable_suffix = topic.get("is_adjustable_suffix")
+        enum_name = topic.get("enum")
         is_main_topic = topic.get("main_topic", False)
         is_hidden = topic.get("hidden", False)
 
-        if is_hidden:
+        if is_hidden or topic.get("value_type") == "ValueType.JSON":
             continue
-        
+
         # Extract the part after the dot and make it lower case
-        if '.' in message_type:
-            entity_type = message_type.split('.', 1)[1].lower()
+        if "." in message_type:
+            entity_type = message_type.split(".", 1)[1].lower()
         else:
             # Fallback for old format
             entity_type = message_type.lower()
@@ -95,55 +120,37 @@ def main():
             entity_entry["state"] = enum_lookup[enum_name]
 
         # Add to original entity type
-        if entity_type not in entity:
-            entity[entity_type] = {}
-        entity[entity_type][translation_key] = entity_entry
+        entity.setdefault(entity_type, {})[translation_key] = entity_entry
         count += 1
-        
+
         # If is_adjustable_suffix is set, also add to sensor entity type
-        if is_adjustable_suffix is not None and entity_type != 'sensor':
-            if 'sensor' not in entity:
-                entity['sensor'] = {}
-            entity['sensor'][translation_key] = entity_entry
+        if is_adjustable_suffix is not None and entity_type != "sensor":
+            entity.setdefault("sensor", {})[translation_key] = entity_entry
         # to support READ_ONLY we need everything in sensor and in binary_sensor
-        if entity_type == 'switch':
-            if 'binary_sensor' not in entity:
-                entity['binary_sensor'] = {}
-            entity['binary_sensor'][translation_key] = entity_entry
-        if entity_type in ['number', 'select']:
-            if 'sensor' not in entity:
-                entity['sensor'] = {}
-            entity['sensor'][translation_key] = entity_entry
+        if entity_type == "switch":
+            entity.setdefault("binary_sensor", {})[translation_key] = entity_entry
+        if entity_type in ["number", "select"]:
+            entity.setdefault("sensor", {})[translation_key] = entity_entry
     # Sort the entity dictionary and its nested dictionaries
-    sorted_entity = {}
-    for entity_type in sorted(entity.keys()):
-        sorted_entity[entity_type] = {}
-        for translation_key in sorted(entity[entity_type].keys()):
-            entry = entity[entity_type][translation_key]
-            sorted_entry = {}
-            if "name" in entry:
-                sorted_entry["name"] = entry["name"]
-            if "unit_of_measurement" in entry:
-                sorted_entry["unit_of_measurement"] = entry["unit_of_measurement"]
-            if "state" in entry:
-                # Sort the state dictionary alphabetically by key
-                sorted_entry["state"] = dict(sorted(entry["state"].items()))
-            sorted_entity[entity_type][translation_key] = sorted_entry
-    
-    en['entity'] = sorted_entity
+    sorted_entity = _sort_entity_translations(entity)
+
+    en["entity"] = sorted_entity
 
     # Build lookup of units from generated English entity translations
     units_lookup = {}
     for entity_type, entries in sorted_entity.items():
         units_lookup[entity_type] = {}
         for translation_key, entry in entries.items():
-            if 'unit_of_measurement' in entry:
-                units_lookup[entity_type][translation_key] = entry['unit_of_measurement']
+            if "unit_of_measurement" in entry:
+                units_lookup[entity_type][translation_key] = entry[
+                    "unit_of_measurement"
+                ]
 
-    with open(en_path, 'w', encoding='utf-8') as f:
+    with open(en_path, "w", encoding="utf-8", newline="\n") as f:
         json.dump(en, f, ensure_ascii=False, indent=2, sort_keys=True)
 
     print(f"Updated {count} entities")
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()
