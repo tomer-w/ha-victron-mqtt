@@ -17,6 +17,7 @@ from .constants import (
     MetricKind,
     MetricNature,
     MetricType,
+    ValueType,
 )
 from .data_classes import MetricValue, ParsedTopic, TopicDescriptor
 from .id_utils import replace_complex_ids
@@ -155,6 +156,12 @@ class Metric:
     def value(self) -> MetricValue:
         """Returns the value of the metric."""
         return self._value
+
+    @property
+    def value_type(self) -> ValueType:
+        """Return the declared value type of the metric."""
+        assert self._descriptor.value_type is not None
+        return self._descriptor.value_type
 
     @property
     def available(self) -> bool:
