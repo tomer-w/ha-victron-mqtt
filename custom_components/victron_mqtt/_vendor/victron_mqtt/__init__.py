@@ -70,6 +70,7 @@ from .constants import (
     MetricType,
     OperationMode,
     RangeType,
+    ValueType,
     VictronDeviceEnum,
     VictronEnum,
 )
@@ -154,6 +155,7 @@ __all__ = [
     "TemperatureStatus",
     "TemperatureType",
     "TopicNotFoundError",
+    "ValueType",
     "VictronDeviceEnum",
     "VictronEnum",
     "VictronProductId",
