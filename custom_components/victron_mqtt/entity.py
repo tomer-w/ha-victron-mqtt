@@ -19,14 +19,47 @@ from ._vendor.victron_mqtt import (
 )
 
 # Entities that should be marked as diagnostic
-ENTITIES_CATEGORY_DIAGNOSTIC = ["system_heartbeat", "solarcharger_device_off_reason"]
+ENTITIES_CATEGORY_DIAGNOSTIC = [
+    "system_heartbeat",
+    "platform_device_hq_serial_number",
+    "platform_device_model",
+    "platform_device_product_id",
+    "platform_device_reboot",
+    "platform_device_unique_id",
+    "platform_firmware_installed_build",
+    "platform_firmware_installed_image_type",
+    "platform_firmware_large_image_support",
+    "platform_firmware_online_available_build",
+    "platform_network_ethernet_gateway_enabled",
+    "platform_network_ethernet_link_local_ip_address",
+    "platform_network_has_bluetooth_support",
+    "platform_network_wifi_gateway_enabled",
+    "platform_network_wifi_scan",
+    "platform_network_wifi_signal_strength",
+    "platform_services_access_point_enabled",
+    "solarcharger_device_off_reason",
+]
 # Entities that should be disabled by default
 ENTITIES_DISABLE_BY_DEFAULT = [
     "system_heartbeat",
+    "platform_device_hq_serial_number",
+    "platform_device_model",
+    "platform_device_product_id",
+    "platform_device_reboot",
+    "platform_device_unique_id",
+    "platform_firmware_installed_build",
+    "platform_firmware_installed_image_type",
+    "platform_firmware_large_image_support",
+    "platform_firmware_online_available_build",
+    "platform_network_ethernet_gateway_enabled",
+    "platform_network_ethernet_link_local_ip_address",
+    "platform_network_has_bluetooth_support",
+    "platform_network_wifi_gateway_enabled",
+    "platform_network_wifi_scan",
+    "platform_network_wifi_signal_strength",
+    "platform_services_access_point_enabled",
     "solarcharger_device_off_reason",
-    # Per-tracker solarcharger entities — multiply quickly on multi-tracker chargers
-    # (e.g. RS 450/200 = 4 trackers × 8 entities = 32 extra recorded entities per charger).
-    # Enabled individually by users who need the per-string breakdown.
+    # Per-tracker solar charger entities can multiply quickly on multi-tracker chargers.
     "solarcharger_tracker_{tracker}_power",
     "solarcharger_tracker_{tracker}_voltage",
     "solarcharger_tracker_{tracker}_current",
@@ -35,7 +68,7 @@ ENTITIES_DISABLE_BY_DEFAULT = [
     "solarcharger_tracker_{tracker}_max_power_today",
     "solarcharger_tracker_{tracker}_max_voltage_today",
     "solarcharger_tracker_{tracker}_yield_today",
-    # Per-MPPT multi-device entities — same reason
+    # Per-MPPT multi-device entities have the same amplification problem.
     "multi_mppt_{mppt_id}_yield_today",
     "multi_mppt_{mppt_id}_yield_yesterday",
     "multi_mppt_{mpptnumber}_state",
@@ -80,9 +113,9 @@ class VictronBaseEntity(Entity):
         self._attr_unique_id = entity_id
         self._attr_suggested_display_precision = metric.precision
         # Always set translation_key so HA can resolve state/option translations (e.g. select options).
-        self._attr_translation_key = metric.generic_short_id.replace(
-            "{", ""
-        ).replace("}", "")
+        self._attr_translation_key = metric.generic_short_id.replace("{", "").replace(
+            "}", ""
+        )
         self._attr_translation_placeholders = metric.key_values
         # When main_topic is set, override name to None so HA uses the device name (via _attr_has_entity_name).
         if metric.main_topic:
