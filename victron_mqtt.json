@@ -9056,7 +9056,7 @@
       "topic": "N/{installation_id}/platform/{device_id}/Device/HQSerialNumber",
       "message_type": "MetricKind.SENSOR",
       "short_id": "platform_device_hq_serial_number",
-      "name": "Hq serial number",
+      "name": "HQ serial number",
       "unit_of_measurement": null,
       "metric_type": "MetricType.NONE",
       "metric_nature": "MetricNature.NONE",
@@ -9074,7 +9074,7 @@
       "key_values": {},
       "experimental": false,
       "depends_on": [],
-      "generic_name": "Hq serial number",
+      "generic_name": "HQ serial number",
       "is_formula": false,
       "main_topic": false,
       "hidden": false,
@@ -9114,7 +9114,7 @@
       "topic": "N/{installation_id}/platform/{device_id}/Device/ProductId",
       "message_type": "MetricKind.SENSOR",
       "short_id": "platform_device_product_id",
-      "name": "Product id",
+      "name": "Product ID",
       "unit_of_measurement": null,
       "metric_type": "MetricType.NONE",
       "metric_nature": "MetricNature.NONE",
@@ -9132,12 +9132,12 @@
       "key_values": {},
       "experimental": false,
       "depends_on": [],
-      "generic_name": "Product id",
+      "generic_name": "Product ID",
       "is_formula": false,
       "main_topic": false,
       "hidden": false,
       "sub_device_key": null,
-      "description": "Reports GX device product id."
+      "description": "Reports GX device product ID."
     },
     {
       "topic": "N/{installation_id}/platform/{device_id}/Device/Reboot",
@@ -9172,7 +9172,7 @@
       "topic": "N/{installation_id}/platform/{device_id}/Device/UniqueId",
       "message_type": "MetricKind.SENSOR",
       "short_id": "platform_device_unique_id",
-      "name": "Unique id",
+      "name": "Unique ID",
       "unit_of_measurement": null,
       "metric_type": "MetricType.NONE",
       "metric_nature": "MetricNature.NONE",
@@ -9190,7 +9190,7 @@
       "key_values": {},
       "experimental": false,
       "depends_on": [],
-      "generic_name": "Unique id",
+      "generic_name": "Unique ID",
       "is_formula": false,
       "main_topic": false,
       "hidden": false,
@@ -9433,7 +9433,7 @@
       "topic": "N/{installation_id}/platform/{device_id}/Network/Ethernet/GatewayEnabled",
       "message_type": "MetricKind.SWITCH",
       "short_id": "platform_network_ethernet_gateway_enabled",
-      "name": "Allow using ethernet for internet access",
+      "name": "Allow using Ethernet for internet access",
       "unit_of_measurement": null,
       "metric_type": "MetricType.ENUM",
       "metric_nature": "MetricNature.NONE",
@@ -9451,18 +9451,18 @@
       "key_values": {},
       "experimental": false,
       "depends_on": [],
-      "generic_name": "Allow using ethernet for internet access",
+      "generic_name": "Allow using Ethernet for internet access",
       "is_formula": false,
       "main_topic": false,
       "hidden": false,
       "sub_device_key": null,
-      "description": "Controls allow using ethernet for internet access for the GX device."
+      "description": "Controls allow using Ethernet for internet access for the GX device."
     },
     {
       "topic": "N/{installation_id}/platform/{device_id}/Network/Ethernet/LinkLocalIpAddress",
       "message_type": "MetricKind.SENSOR",
       "short_id": "platform_network_ethernet_link_local_ip_address",
-      "name": "Link local ip address",
+      "name": "Link local IP address",
       "unit_of_measurement": null,
       "metric_type": "MetricType.NONE",
       "metric_nature": "MetricNature.NONE",
@@ -9480,18 +9480,18 @@
       "key_values": {},
       "experimental": false,
       "depends_on": [],
-      "generic_name": "Link local ip address",
+      "generic_name": "Link local IP address",
       "is_formula": false,
       "main_topic": false,
       "hidden": false,
       "sub_device_key": null,
-      "description": "Reports link local ip address for the GX device."
+      "description": "Reports link local IP address for the GX device."
     },
     {
       "topic": "N/{installation_id}/platform/{device_id}/Network/HasBluetoothSupport",
       "message_type": "MetricKind.SENSOR",
       "short_id": "platform_network_has_bluetooth_support",
-      "name": "Has bluetooth support",
+      "name": "Has Bluetooth support",
       "unit_of_measurement": null,
       "metric_type": "MetricType.NONE",
       "metric_nature": "MetricNature.MEASUREMENT",
@@ -9509,12 +9509,12 @@
       "key_values": {},
       "experimental": false,
       "depends_on": [],
-      "generic_name": "Has bluetooth support",
+      "generic_name": "Has Bluetooth support",
       "is_formula": false,
       "main_topic": false,
       "hidden": false,
       "sub_device_key": null,
-      "description": "Reports whether the GX device supports bluetooth."
+      "description": "Reports whether the GX device supports Bluetooth."
     },
     {
       "topic": "N/{installation_id}/platform/{device_id}/Network/Services",
@@ -9543,7 +9543,7 @@
       "main_topic": false,
       "hidden": false,
       "sub_device_key": null,
-      "description": "Available services on the ethernet and wifi interfaces, as JSON: per interface (ethernet, wifi) the services (Wired, or the access point name) with their properties."
+      "description": "Available services on the Ethernet and Wi-Fi interfaces, as JSON: per interface (ethernet, wifi) the services (Wired, or the access point name) with their properties."
     },
     {
       "topic": "N/{installation_id}/platform/{device_id}/Network/SetValue",
@@ -9578,7 +9578,7 @@
       "topic": "N/{installation_id}/platform/{device_id}/Network/Wifi/GatewayEnabled",
       "message_type": "MetricKind.SWITCH",
       "short_id": "platform_network_wifi_gateway_enabled",
-      "name": "Allow using wifi for internet access",
+      "name": "Allow using Wi-Fi for internet access",
       "unit_of_measurement": null,
       "metric_type": "MetricType.ENUM",
       "metric_nature": "MetricNature.NONE",
@@ -9596,12 +9596,12 @@
       "key_values": {},
       "experimental": false,
       "depends_on": [],
-      "generic_name": "Allow using wifi for internet access",
+      "generic_name": "Allow using Wi-Fi for internet access",
       "is_formula": false,
       "main_topic": false,
       "hidden": false,
       "sub_device_key": null,
-      "description": "Controls whether the GX device may use wifi for internet access."
+      "description": "Controls whether the GX device may use Wi-Fi for internet access."
     },
     {
       "topic": "N/{installation_id}/platform/{device_id}/Network/Wifi/Scan",
@@ -9630,7 +9630,7 @@
       "main_topic": false,
       "hidden": false,
       "sub_device_key": null,
-      "description": "Initiate a wifi scan on the GX device."
+      "description": "Initiate a Wi-Fi scan on the GX device."
     },
     {
       "topic": "N/{installation_id}/platform/{device_id}/Network/Wifi/SignalStrength",
@@ -9688,7 +9688,7 @@
       "main_topic": false,
       "hidden": false,
       "sub_device_key": null,
-      "description": "Enables/disables wifi access point on the GX device."
+      "description": "Enables/disables Wi-Fi access point on the GX device."
     },
     {
       "topic": "N/{installation_id}/pvinverter/{device_id}/Ac/Energy/Forward",
@@ -17541,8 +17541,8 @@
           "description": "Emergency reverse charging is not possible; start commands are ignored in this state, and writing this value stops charging."
         },
         {
-          "id": "start",
-          "name": "Start",
+          "id": "starting",
+          "name": "Starting",
           "value": 1,
           "description": "Requests emergency reverse charging, with the same effect as writing the started value. This command does not persist; the charger reports started if charging is allowed or not possible otherwise."
         },
@@ -18523,6 +18523,18 @@
           "name": "Power supply",
           "value": 11,
           "description": "The charger is operating as a regulated DC power supply."
+        },
+        {
+          "id": "reverse_charging_blocked",
+          "name": "Reverse charging blocked",
+          "value": 242,
+          "description": "Emergency reverse charging is blocked during the cooldown period."
+        },
+        {
+          "id": "reverse_charging",
+          "name": "Reverse charging",
+          "value": 243,
+          "description": "The charger is actively performing emergency reverse charging."
         },
         {
           "id": "sustain",

@@ -291,14 +291,14 @@
         }
       },
       "platform_network_ethernet_gateway_enabled": {
-        "name": "Allow using ethernet for internet access",
+        "name": "Allow using Ethernet for internet access",
         "state": {
           "off": "Off",
           "on": "On"
         }
       },
       "platform_network_wifi_gateway_enabled": {
-        "name": "Allow using wifi for internet access",
+        "name": "Allow using Wi-Fi for internet access",
         "state": {
           "off": "Off",
           "on": "On"
@@ -692,8 +692,8 @@
         "state": {
           "not_possible": "Not possible",
           "not_started": "Not started",
-          "start": "Start",
-          "started": "Started"
+          "started": "Started",
+          "starting": "Starting"
         }
       },
       "battery_bms_mode": {
@@ -896,8 +896,8 @@
         "state": {
           "not_possible": "Not possible",
           "not_started": "Not started",
-          "start": "Start",
-          "started": "Started"
+          "started": "Started",
+          "starting": "Starting"
         }
       },
       "alternator_input_current": {
@@ -929,6 +929,8 @@
           "power_supply": "Power supply",
           "recharging": "Recharging",
           "repeated_absorption": "Repeated absorption",
+          "reverse_charging": "Reverse charging",
+          "reverse_charging_blocked": "Reverse charging blocked",
           "scheduled_recharging": "Scheduled recharging",
           "starting_up": "Starting up",
           "storage": "Storage",
@@ -1288,6 +1290,8 @@
           "power_supply": "Power supply",
           "recharging": "Recharging",
           "repeated_absorption": "Repeated absorption",
+          "reverse_charging": "Reverse charging",
+          "reverse_charging_blocked": "Reverse charging blocked",
           "scheduled_recharging": "Scheduled recharging",
           "starting_up": "Starting up",
           "storage": "Storage",
@@ -1333,6 +1337,8 @@
           "power_supply": "Power supply",
           "recharging": "Recharging",
           "repeated_absorption": "Repeated absorption",
+          "reverse_charging": "Reverse charging",
+          "reverse_charging_blocked": "Reverse charging blocked",
           "scheduled_recharging": "Scheduled recharging",
           "starting_up": "Starting up",
           "storage": "Storage",
@@ -1901,6 +1907,8 @@
           "power_supply": "Power supply",
           "recharging": "Recharging",
           "repeated_absorption": "Repeated absorption",
+          "reverse_charging": "Reverse charging",
+          "reverse_charging_blocked": "Reverse charging blocked",
           "scheduled_recharging": "Scheduled recharging",
           "starting_up": "Starting up",
           "storage": "Storage",
@@ -2085,6 +2093,8 @@
           "power_supply": "Power supply",
           "recharging": "Recharging",
           "repeated_absorption": "Repeated absorption",
+          "reverse_charging": "Reverse charging",
+          "reverse_charging_blocked": "Reverse charging blocked",
           "scheduled_recharging": "Scheduled recharging",
           "starting_up": "Starting up",
           "storage": "Storage",
@@ -2105,16 +2115,16 @@
         "name": "Assist current boost factor"
       },
       "platform_device_hq_serial_number": {
-        "name": "Hq serial number"
+        "name": "HQ serial number"
       },
       "platform_device_model": {
         "name": "Model"
       },
       "platform_device_product_id": {
-        "name": "Product id"
+        "name": "Product ID"
       },
       "platform_device_unique_id": {
-        "name": "Unique id"
+        "name": "Unique ID"
       },
       "platform_firmware_installed_build": {
         "name": "Build"
@@ -2126,10 +2136,10 @@
         "name": "Available build"
       },
       "platform_network_ethernet_link_local_ip_address": {
-        "name": "Link local ip address"
+        "name": "Link local IP address"
       },
       "platform_network_has_bluetooth_support": {
-        "name": "Has bluetooth support"
+        "name": "Has Bluetooth support"
       },
       "platform_network_wifi_signal_strength": {
         "name": "Signal strength"
@@ -2279,6 +2289,8 @@
           "power_supply": "Power supply",
           "recharging": "Recharging",
           "repeated_absorption": "Repeated absorption",
+          "reverse_charging": "Reverse charging",
+          "reverse_charging_blocked": "Reverse charging blocked",
           "scheduled_recharging": "Scheduled recharging",
           "starting_up": "Starting up",
           "storage": "Storage",
@@ -2694,6 +2706,8 @@
           "power_supply": "Power supply",
           "recharging": "Recharging",
           "repeated_absorption": "Repeated absorption",
+          "reverse_charging": "Reverse charging",
+          "reverse_charging_blocked": "Reverse charging blocked",
           "scheduled_recharging": "Scheduled recharging",
           "starting_up": "Starting up",
           "storage": "Storage",
@@ -2999,6 +3013,8 @@
           "power_supply": "Power supply",
           "recharging": "Recharging",
           "repeated_absorption": "Repeated absorption",
+          "reverse_charging": "Reverse charging",
+          "reverse_charging_blocked": "Reverse charging blocked",
           "scheduled_recharging": "Scheduled recharging",
           "starting_up": "Starting up",
           "storage": "Storage",
@@ -3132,14 +3148,14 @@
         }
       },
       "platform_network_ethernet_gateway_enabled": {
-        "name": "Allow using ethernet for internet access",
+        "name": "Allow using Ethernet for internet access",
         "state": {
           "off": "Off",
           "on": "On"
         }
       },
       "platform_network_wifi_gateway_enabled": {
-        "name": "Allow using wifi for internet access",
+        "name": "Allow using Wi-Fi for internet access",
         "state": {
           "off": "Off",
           "on": "On"
