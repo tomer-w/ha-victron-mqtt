@@ -1,7 +1,7 @@
 """Test the Victron GX MQTT Hub class."""
 
 import asyncio
-from unittest.mock import AsyncMock, MagicMock, patch
+from unittest.mock import AsyncMock, MagicMock, PropertyMock, patch
 
 import pytest
 from homeassistant.components.number import NumberMode
@@ -15,6 +15,7 @@ from homeassistant.const import (
     CONF_USERNAME,
     STATE_UNAVAILABLE,
     STATE_UNKNOWN,
+    EntityCategory,
     Platform,
 )
 from homeassistant.core import HomeAssistant, State
@@ -772,6 +773,7 @@ async def test_button(
     hass: HomeAssistant,
     init_integration,
 ) -> None:
+    """Test the reboot button is registered as a disabled diagnostic entity."""
     victron_hub, mock_config_entry = init_integration
 
     # Inject a button metric (platform device reboot) - GenericOnOff enum value
@@ -785,6 +787,10 @@ async def test_button(
     entity = entities[0]
     assert entity.translation_key == "platform_device_reboot"
     assert entity.original_name == "Device reboot"
+    assert entity.entity_category is EntityCategory.DIAGNOSTIC
+    assert entity.disabled_by is er.RegistryEntryDisabler.INTEGRATION
+    assert hass.states.get(entity.entity_id) is None
+    assert hass.data["entity_components"]["button"].get_entity(entity.entity_id) is None
 
 
 async def test_switch(
@@ -1038,19 +1044,27 @@ async def test_button_press(
     hass: HomeAssistant,
     init_integration,
 ) -> None:
-    """Test pressing a button entity calls set on the metric."""
+    """Test pressing an enabled button entity calls set on the metric."""
     victron_hub, mock_config_entry = init_integration
 
-    await inject_message(victron_hub, "N/123/platform/0/Device/Reboot", '{"value": 1}')
-    await finalize_injection(victron_hub)
-    await hass.async_block_till_done()
+    with patch(
+        "custom_components.victron_mqtt.button.VictronButton.entity_registry_enabled_default",
+        new_callable=PropertyMock,
+        return_value=True,
+    ):
+        await inject_message(
+            victron_hub, "N/123/platform/0/Device/Reboot", '{"value": 1}'
+        )
+        await finalize_injection(victron_hub)
+        await hass.async_block_till_done()
 
     entity_registry = er.async_get(hass)
     entities = er.async_entries_for_config_entry(
         entity_registry, mock_config_entry.entry_id
     )
     button_entities = [e for e in entities if "button." in e.entity_id]
-    assert len(button_entities) > 0
+    assert len(button_entities) == 1
+    assert button_entities[0].disabled_by is None
     entity_id = button_entities[0].entity_id
 
     # Get the entity object to spy on _metric.set
