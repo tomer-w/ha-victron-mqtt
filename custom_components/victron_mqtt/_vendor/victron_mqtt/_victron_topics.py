@@ -3285,7 +3285,7 @@ topics: list[TopicDescriptor] = [
         description="Configured target state of charge for an ESS BatteryLife scheduled-charge slot on the GX system.",
         metric_type=MetricType.ELECTRIC_STORAGE_PERCENTAGE,
         value_type=ValueType.INT,
-        step=5,
+        step=1,
     ),
     TopicDescriptor(
         topic="N/{installation_id}/settings/{device_id}/Settings/CGwacs/BatteryLife/Schedule/Charge/{slot}/Start",
