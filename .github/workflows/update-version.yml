@@ -42,3 +42,15 @@ jobs:
         run: |
           git tag -f $GITHUB_REF_NAME
           git push -f origin $GITHUB_REF_NAME
+
+      - name: Package integration for HACS
+        run: |
+          git archive --format=zip --output="$RUNNER_TEMP/victron_mqtt.zip" HEAD:custom_components/victron_mqtt
+
+      - name: Upload HACS release asset
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+        run: |
+          gh release upload "$RELEASE_TAG" "$RUNNER_TEMP/victron_mqtt.zip"

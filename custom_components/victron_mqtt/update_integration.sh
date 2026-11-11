@@ -147,40 +147,52 @@ if [ "$LATEST_TAG" == "null" ] || [ -z "$LATEST_TAG" ]; then
     fi
 else
     echo "⬇️  Found version: $LATEST_TAG"
-    ZIP_URL="https://github.com/$GITHUB_USER/$GITHUB_REPO/archive/refs/tags/$LATEST_TAG.zip"
-    # Remove 'v' prefix from tag for folder name
-    TAG_WITHOUT_V="${LATEST_TAG#v}"
-    TMP_FOLDER="$GITHUB_REPO-$TAG_WITHOUT_V"
+    ZIP_URL="https://github.com/$GITHUB_USER/$GITHUB_REPO/releases/download/$LATEST_TAG/victron_mqtt.zip"
+    TMP_FOLDER=""
 fi
 
 # Create temp dir
 TMP_DIR=$(mktemp -d)
+trap 'rm -rf -- "$TMP_DIR"' EXIT
 echo "TMP_DIR=$TMP_DIR"
 cd "$TMP_DIR" || exit 1
 
 # Download and extract
 echo "📦 Downloading from $ZIP_URL"
-wget -q "$ZIP_URL" -O latest.zip || curl -L "$ZIP_URL" -o latest.zip
-unzip -q latest.zip
+if ! HTTP_STATUS=$(curl --fail --location --silent --show-error \
+    --write-out '%{http_code}' --output latest.zip "$ZIP_URL"); then
+    if [ "$HTTP_STATUS" = "404" ] && [ -z "$TMP_FOLDER" ]; then
+        echo "Release ZIP not found. Falling back to the source archive for $LATEST_TAG."
+        ZIP_URL="https://github.com/$GITHUB_USER/$GITHUB_REPO/archive/refs/tags/$LATEST_TAG.zip"
+        TAG_WITHOUT_V="${LATEST_TAG#v}"
+        TMP_FOLDER="$GITHUB_REPO-$TAG_WITHOUT_V"
+        curl --fail --location --silent --show-error --output latest.zip "$ZIP_URL"
+    else
+        echo "Error: Could not download $ZIP_URL (HTTP $HTTP_STATUS)." >&2
+        exit 1
+    fi
+fi
+unzip -q latest.zip -d extracted
 
 # Check if the source directory exists
-SOURCE_DIR="$TMP_FOLDER/$TARGET_SUBFOLDER"
-if [ ! -d "$SOURCE_DIR" ]; then
+SOURCE_DIR="$TMP_DIR/extracted"
+if [ -n "$TMP_FOLDER" ]; then
+    SOURCE_DIR="$SOURCE_DIR/$TMP_FOLDER/$TARGET_SUBFOLDER"
+fi
+if [ ! -f "$SOURCE_DIR/manifest.json" ] || [ ! -f "$SOURCE_DIR/update_integration.sh" ]; then
     echo "❌ Source directory not found: $SOURCE_DIR"
-    echo "Available directories in $TMP_FOLDER:"
-    ls -la "$TMP_FOLDER/"
+    echo "The archive must contain manifest.json and update_integration.sh."
     exit 1
 fi
 
 # Copy the integration folder to destination
 mkdir -p "$DEST_FOLDER"
-cp -r "$TMP_FOLDER/$TARGET_SUBFOLDER/"* "$DEST_FOLDER/"
+cp -r "$SOURCE_DIR/." "$DEST_FOLDER/"
 chmod +x "$DEST_FOLDER/update_integration.sh"
 echo "✅ Integration updated at $DEST_FOLDER"
 
 # Cleanup
 cd /
-rm -rf "$TMP_DIR"
 
 # Restart Home Assistant if requested
 if [ "$RESTART_HA" = true ]; then
