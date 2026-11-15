@@ -1,6 +1,6 @@
 # Victron Venus MQTT Integration for Home Assistant
 
-[![hacs_badge](https://img.shields.io/badge/HACS-Default-green.svg)](https://github.com/custom-components/hacs)
+[![Marketplace](https://img.shields.io/badge/Home_Assistant-Marketplace-green.svg)](https://www.home-assistant.io/integrations/marketplace/)
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0)
 [![Validate](https://github.com/tomer-w/ha-victron-mqtt/actions/workflows/validate.yaml/badge.svg)](https://github.com/tomer-w/ha-victron-mqtt/actions/workflows/validate.yaml)
 
@@ -26,19 +26,32 @@ A Home Assistant integration that connects to Victron Energy devices using MQTT,
 
 ## Installation
 
-### HACS Installation (Recommended)
-1. Make sure you have [HACS](https://hacs.xyz/) installed
-2. Go to HACS > Integrations
-3. Click the "+" button and search for "Victron MQTT"
-4. Click "Download"
-5. Restart Home Assistant
+### Marketplace Installation (Recommended, Home Assistant 2026.11 or newer)
+
+Home Assistant 2026.11 and newer include the [Marketplace](https://www.home-assistant.io/integrations/marketplace/), which replaces HACS. You do not need to install HACS separately.
+
+1. As an administrator, go to **Settings > Marketplace**.
+2. Review and accept the community-content warning if this is your first visit.
+3. Search for "Victron MQTT" and open the integration's repository page.
+4. Select **Install**, review the version, and select **Install** to confirm.
+5. Restart Home Assistant if prompted, then continue with [Configuration](#configuration).
+
+Already using HACS? When you upgrade to Home Assistant 2026.11 or newer, the Marketplace automatically takes over your installed integrations and custom repositories. You do not need to reinstall this integration. See the [HACS upgrade guidance](https://hacs.xyz/docs/marketplace/#upgrading-to-home-assistant-202611).
+
+### HACS Installation (Home Assistant 2026.10 or older)
+
+1. Make sure you have [HACS](https://hacs.xyz/docs/use/) installed.
+2. Open **HACS** from the Home Assistant sidebar.
+3. Search for "Victron MQTT" and open the integration's repository page.
+4. Select **Download** and confirm the download.
+5. Restart Home Assistant, then continue with [Configuration](#configuration).
 
 ### Manual Installation
 1. Copy the `custom_components/victron-mqtt` folder to your Home Assistant's `custom_components` directory
 2. Restart Home Assistant
 
 ### Script-Based Update (For Limited Bandwidth Environments)
-If you prefer not to use HACS due to bandwidth constraints, especially in marine environments, you can use the provided update script to manually update the integration after it was installed for the first time.
+If you prefer not to use the Marketplace (or HACS on older Home Assistant versions) due to bandwidth constraints, especially in marine environments, you can use the provided update script to manually update the integration after it was installed for the first time.
 
 1. Open the HA Terminal window.
 2. For the first time only, you need to give the script execution permissions:
