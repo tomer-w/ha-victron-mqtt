@@ -1,4 +1,6 @@
 {
   "name": "Victron MQTT Integration",
-  "render_readme": true
-  }
+  "render_readme": true,
+  "zip_release": true,
+  "filename": "victron_mqtt.zip"
+}
