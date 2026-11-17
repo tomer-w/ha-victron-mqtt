@@ -62,6 +62,13 @@
           "on": "On"
         }
       },
+      "acsystem_pv_disable": {
+        "name": "Disable PV",
+        "state": {
+          "off": "Off",
+          "on": "On"
+        }
+      },
       "alternator_mode": {
         "state": {
           "off": "Off",
@@ -201,6 +208,13 @@
       },
       "hub4_force_charge": {
         "name": "Force charge",
+        "state": {
+          "off": "Off",
+          "on": "On"
+        }
+      },
+      "hub4_pv_disable": {
+        "name": "Disable PV inverters",
         "state": {
           "off": "Off",
           "on": "On"
@@ -387,6 +401,13 @@
           "on": "On"
         }
       },
+      "system_pv_disable": {
+        "name": "Disable all PV",
+        "state": {
+          "off": "Off",
+          "on": "On"
+        }
+      },
       "system_relay_relay": {
         "name": "Relay {relay} state",
         "state": {
@@ -410,6 +431,13 @@
       },
       "vebus_device_device_number_power_assist_enabled": {
         "name": "{device_number} PowerAssist enabled",
+        "state": {
+          "off": "Off",
+          "on": "On"
+        }
+      },
+      "vebus_device_device_number_relay_test_ok": {
+        "name": "{device_number} relay test OK",
         "state": {
           "off": "Off",
           "on": "On"
@@ -464,6 +492,62 @@
           "on": "On"
         }
       },
+      "vebus_inverter_led_absorption": {
+        "name": "Absorption LED",
+        "state": {
+          "off": "Off",
+          "on": "On"
+        }
+      },
+      "vebus_inverter_led_bulk": {
+        "name": "Bulk LED",
+        "state": {
+          "off": "Off",
+          "on": "On"
+        }
+      },
+      "vebus_inverter_led_float": {
+        "name": "Float LED",
+        "state": {
+          "off": "Off",
+          "on": "On"
+        }
+      },
+      "vebus_inverter_led_inverter": {
+        "name": "Inverter LED",
+        "state": {
+          "off": "Off",
+          "on": "On"
+        }
+      },
+      "vebus_inverter_led_low_battery": {
+        "name": "Low battery LED",
+        "state": {
+          "off": "Off",
+          "on": "On"
+        }
+      },
+      "vebus_inverter_led_mains": {
+        "name": "Mains LED",
+        "state": {
+          "off": "Off",
+          "on": "On"
+        }
+      },
+      "vebus_inverter_led_overload": {
+        "name": "Overload LED",
+        "state": {
+          "off": "Off",
+          "on": "On"
+        }
+      },
+      "vebus_inverter_led_temperature": {
+        "name": "Temperature LED",
+        "state": {
+          "off": "Off",
+          "on": "On"
+        }
+      },
       "vebus_inverter_prefer_renewable_energy": {
         "name": "Prefer renewable energy",
         "state": {
@@ -480,6 +564,20 @@
       },
       "vebus_inverter_setting_alarm_grid_lost": {
         "name": "Grid lost alarm setting",
+        "state": {
+          "off": "Off",
+          "on": "On"
+        }
+      },
+      "vebus_microgrid_allow_black_start": {
+        "name": "Microgrid black start allowed",
+        "state": {
+          "off": "Off",
+          "on": "On"
+        }
+      },
+      "vebus_microgrid_operation_reset_pending": {
+        "name": "Microgrid operation change pending reset",
         "state": {
           "off": "Off",
           "on": "On"
@@ -803,6 +901,20 @@
           "off": "Off",
           "on": "On"
         }
+      },
+      "vebus_microgrid_operation": {
+        "name": "Microgrid operation",
+        "state": {
+          "microgrid": "Microgrid operation",
+          "standard": "Standard operation"
+        }
+      },
+      "vebus_weak_ac_input": {
+        "name": "AC input strength",
+        "state": {
+          "strong": "Strong AC input",
+          "weak": "Weak AC input"
+        }
       }
     },
     "sensor": {
@@ -986,6 +1098,14 @@
       "battery_consumed_amphours": {
         "name": "Consumed amp-hours"
       },
+      "battery_contactor": {
+        "name": "Contactor",
+        "state": {
+          "alarm": "Alarm",
+          "no_alarm": "No alarm",
+          "warning": "Warning"
+        }
+      },
       "battery_cumulative_ah_drawn": {
         "name": "Cumulative Ah drawn"
       },
@@ -1024,6 +1144,14 @@
       },
       "battery_high_charge_temperature": {
         "name": "High charge temperature",
+        "state": {
+          "alarm": "Alarm",
+          "no_alarm": "No alarm",
+          "warning": "Warning"
+        }
+      },
+      "battery_high_current": {
+        "name": "High current",
         "state": {
           "alarm": "Alarm",
           "no_alarm": "No alarm",
@@ -1653,6 +1781,9 @@
       },
       "evcharger_session_energy": {
         "name": "Last session energy"
+      },
+      "evcharger_session_saved_cost": {
+        "name": "Session saved cost"
       },
       "evcharger_session_time": {
         "name": "Last session time"
@@ -3021,9 +3152,48 @@
           "sustain": "Sustain",
           "sustain_alt": "Sustain alt"
         }
+      },
+      "vebus_microgrid_direct_drive_p_ref": {
+        "name": "Microgrid grid-following active power reference"
+      },
+      "vebus_microgrid_direct_drive_q_ref": {
+        "name": "Microgrid grid-following reactive power reference"
+      },
+      "vebus_microgrid_droop_p_ref": {
+        "name": "Microgrid droop active power reference"
+      },
+      "vebus_microgrid_droop_q_ref": {
+        "name": "Microgrid droop reactive power reference"
+      },
+      "vebus_microgrid_operation": {
+        "name": "Microgrid operation",
+        "state": {
+          "microgrid": "Microgrid operation",
+          "standard": "Standard operation"
+        }
+      },
+      "vebus_nominal_inverter_power": {
+        "name": "Nominal inverter power"
+      },
+      "vebus_nominal_inverter_power_phase": {
+        "name": "Nominal inverter power {phase}"
+      },
+      "vebus_weak_ac_input": {
+        "name": "AC input strength",
+        "state": {
+          "strong": "Strong AC input",
+          "weak": "Weak AC input"
+        }
       }
     },
     "switch": {
+      "acsystem_pv_disable": {
+        "name": "Disable PV",
+        "state": {
+          "off": "Off",
+          "on": "On"
+        }
+      },
       "alternator_mode": {
         "state": {
           "off": "Off",
@@ -3126,6 +3296,13 @@
           "on": "On"
         }
       },
+      "hub4_pv_disable": {
+        "name": "Disable PV inverters",
+        "state": {
+          "off": "Off",
+          "on": "On"
+        }
+      },
       "multi_disable_charge": {
         "name": "ESS disable charge",
         "state": {
@@ -3211,6 +3388,13 @@
       },
       "system_ess_schedule_charge_slot_enabled": {
         "name": "ESS BatteryLife schedule charge {slot} enabled",
+        "state": {
+          "off": "Off",
+          "on": "On"
+        }
+      },
+      "system_pv_disable": {
+        "name": "Disable all PV",
         "state": {
           "off": "Off",
           "on": "On"

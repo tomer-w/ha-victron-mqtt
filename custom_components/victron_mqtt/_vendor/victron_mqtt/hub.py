@@ -1,7 +1,6 @@
 """Module to communicate with the Venus OS MQTT Broker."""
 
 import asyncio
-import contextlib
 import json
 import logging
 import random
@@ -46,6 +45,7 @@ FORCE_INVALIDATE_AFTER_NOT_CONNECTED_SECONDS = 120
 FULL_PUBLISH_MIN_INTERVAL_SECONDS = 180
 FIRST_FULL_PUBLISH_MIN_INTERVAL_SECONDS = 30
 SUBSCRIPTION_ACK_TIMEOUT_SECONDS = 25
+SUBSCRIPTION_RETRY_MAX_DELAY_SECONDS = 30
 # Venus OS versions use a two-digit minor ("v3.50", "v3.54"), compared as integer tuples
 MINIMUM_FULLY_SUPPORTED_VERSION = (3, 50)
 # The keepalive loop ticks every 30s. Every Nth tick we send a forced full republish so the
@@ -98,6 +98,10 @@ def _parse_firmware_version(version: str) -> tuple[int, int]:
     if match is None:
         raise ValueError(f"Firmware version format not recognized: {version}")
     return int(match.group(1)), int(match.group(2))
+
+
+class _RetryableSubscriptionError(CannotConnectError):
+    """A transient subscription failure that can be retried at runtime."""
 
 
 class Hub:
@@ -235,6 +239,7 @@ class Hub:
         self._snapshot: dict[str, Any] = {}
         self._keepalive_task: asyncio.Task[None] | None = None
         self._subscription_task: asyncio.Task[None] | None = None
+        self._disconnecting = False
         self._pending_subscription: tuple[int, asyncio.Future[list[ReasonCode]]] | None = None
         self._connected_event = asyncio.Event()
         self._on_new_metric: CallbackOnNewMetric | None = None
@@ -383,6 +388,10 @@ class Hub:
     async def connect(self) -> None:
         """Connect to the hub.
 
+        After automatic reconnects, subscription timeouts and transport failures
+        are retried with exponential backoff capped at 30 seconds. Explicit
+        disconnect cancels retries; rejected subscriptions are not retried.
+
         Raises
         ------
         AuthenticationError
@@ -418,6 +427,7 @@ class Hub:
         # Reset per-connection state so the Hub can be reconnected cleanly after a failed attempt.
         self._first_connect = True
         self._installation_id = None
+        self._disconnecting = False
         self._connected_event.clear()
         self._installation_id_event.clear()
         self._first_refresh_event.clear()
@@ -967,16 +977,22 @@ class Hub:
     async def disconnect(self) -> None:
         """Disconnect from the hub."""
         _LOGGER.info("Disconnecting from MQTT broker")
+        self._disconnecting = True
         self._stop_keepalive_loop()
         self._stop_firmware_update_checks()
-        if self._subscription_task is not None:
-            self._subscription_task.cancel()
-            with contextlib.suppress(asyncio.CancelledError):
-                await self._subscription_task
+        try:
+            task = self._subscription_task
             self._subscription_task = None
-        await asyncio.sleep(0.1)
-        self._client.disconnect()
-        self._client.loop_stop()  # stop the background thread started by loop_start()
+            if task is not None:
+                task.cancel()
+                results = await asyncio.gather(task, return_exceptions=True)
+                if isinstance(results[0], Exception):
+                    _LOGGER.warning("MQTT subscription setup failed during disconnect: %s", results[0])
+        finally:
+            try:
+                self._client.disconnect()
+            finally:
+                await asyncio.to_thread(self._client.loop_stop)
         _LOGGER.info("Disconnected from MQTT broker")
         # Give a small delay to allow any pending MQTT messages to be processed
         await asyncio.sleep(0.1)
@@ -1209,6 +1225,8 @@ class Hub:
             _LOGGER.error("Failed to subscribe to topic batch: %s", exc)
             raise
         if result != mqtt.MQTT_ERR_SUCCESS or message_id is None:
+            if result in (mqtt.MQTT_ERR_NO_CONN, mqtt.MQTT_ERR_CONN_LOST):
+                raise _RetryableSubscriptionError(f"Failed to request MQTT subscription batch: {result}")
             raise CannotConnectError(f"Failed to request MQTT subscription batch: {result}")
         return message_id
 
@@ -1228,7 +1246,7 @@ class Hub:
             async with asyncio.timeout(SUBSCRIPTION_ACK_TIMEOUT_SECONDS):
                 reason_codes = await subscription_future
         except TimeoutError as exc:
-            raise CannotConnectError(
+            raise _RetryableSubscriptionError(
                 f"Timeout waiting for MQTT subscription acknowledgement for {len(topic_filters)} topics"
             ) from exc
         finally:
@@ -1265,24 +1283,35 @@ class Hub:
 
     def _start_subscription_setup(self) -> None:
         """Start subscription setup after an automatic reconnect."""
+        if self._disconnecting:
+            return
         if self._subscription_task is not None and not self._subscription_task.done():
             _LOGGER.info("Replacing stale MQTT subscription setup")
             self._subscription_task.cancel()
-        self._subscription_task = asyncio.create_task(self._setup_subscriptions())
-        self._subscription_task.add_done_callback(self._subscription_setup_done)
+        self._subscription_task = asyncio.create_task(self._setup_runtime_subscriptions())
+
+    async def _setup_runtime_subscriptions(self) -> None:
+        """Retry transient setup failures without stopping Paho's reconnect loop."""
+        delay = 1
+        while True:
+            try:
+                await self._setup_subscriptions()
+                return
+            except (_RetryableSubscriptionError, NotConnectedError) as exc:
+                _LOGGER.warning("MQTT subscription setup temporarily failed: %s; retrying in %s seconds", exc, delay)
+                await asyncio.sleep(delay)
+                delay = min(delay * 2, SUBSCRIPTION_RETRY_MAX_DELAY_SECONDS)
+            except Exception as exc:
+                # Reconnect replaces this task; shutdown clears it. Neither should let an old task disconnect the client.
+                if asyncio.current_task() is self._subscription_task:
+                    _LOGGER.error("MQTT subscription setup failed: %s", exc)
+                    self._client.disconnect()
+                return
 
     def _cancel_subscription_setup(self) -> None:
         """Cancel subscription setup when its MQTT connection is lost."""
         if self._subscription_task is not None and not self._subscription_task.done():
             self._subscription_task.cancel()
-
-    def _subscription_setup_done(self, task: asyncio.Task[None]) -> None:
-        """Handle subscription setup failure after an automatic reconnect."""
-        if task is not self._subscription_task or task.cancelled():
-            return
-        if exception := task.exception():
-            _LOGGER.error("MQTT subscription setup failed: %s", exception)
-            self._client.disconnect()
 
     async def _wait_for_connect(self) -> None:
         """Wait for the first connection to complete."""
