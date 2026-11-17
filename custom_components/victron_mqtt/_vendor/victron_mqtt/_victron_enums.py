@@ -778,6 +778,20 @@ class EvChargingState(VictronEnum):
     )
 
 
+class VebusACInputType(VictronEnum):
+    """VE.Bus AC input strength setting Enum"""
+
+    STRONG = (0, "strong", "Strong AC input", "The AC input is treated as a strong (stable) supply.")
+    WEAK = (1, "weak", "Weak AC input", "The AC input is treated as a weak supply, such as a small generator.")
+
+
+class GridOperationType(VictronEnum):
+    """VE.Bus standard or microgrid operation Enum"""
+
+    STANDARD = (0, "standard", "Standard operation", "The inverter/charger runs in standard operation.")
+    MICROGRID = (1, "microgrid", "Microgrid operation", "The inverter/charger runs in microgrid operation.")
+
+
 class AcPosition(VictronEnum):
     """Where an AC load or heat pump is connected relative to the inverter/charger"""
 
