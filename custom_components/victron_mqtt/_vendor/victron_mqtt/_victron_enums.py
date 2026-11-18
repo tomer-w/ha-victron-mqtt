@@ -443,6 +443,23 @@ class GenericOnOffInverted(VictronEnum):
     OFF = (1, "off", "Off", "The option is disabled.")
 
 
+class LedState(VictronEnum):
+    """LED state, including opposite-phase blinking.
+
+    See https://github.com/victronenergy/gui-v2/blob/main/components/Led.qml.
+    """
+
+    OFF = (0, "off", "Off", "The LED is off.")
+    ON = (1, "on", "On", "The LED is continuously lit.")
+    BLINKING = (2, "blinking", "Blinking", "The LED is blinking.")
+    BLINKING_INVERTED = (
+        3,
+        "blinking_inverted",
+        "Blinking inverted",
+        "The LED is blinking in the opposite phase to the blinking state.",
+    )
+
+
 class GensetStatus(VictronEnum):
     """Genset status code"""
 

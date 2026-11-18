@@ -16318,7 +16318,7 @@
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Leds/Absorption",
-      "message_type": "MetricKind.BINARY_SENSOR",
+      "message_type": "MetricKind.SENSOR",
       "short_id": "vebus_inverter_led_absorption",
       "name": "Absorption LED",
       "unit_of_measurement": null,
@@ -16326,7 +16326,7 @@
       "metric_nature": "MetricNature.NONE",
       "value_type": "ValueType.ENUM",
       "precision": null,
-      "enum": "GenericOnOff",
+      "enum": "LedState",
       "min_max_range": "RangeType.STATIC",
       "min": null,
       "max": null,
@@ -16343,11 +16343,11 @@
       "main_topic": false,
       "hidden": false,
       "sub_device_key": null,
-      "description": "Indicates whether the absorption LED is lit on the VE.Bus inverter/charger."
+      "description": "Reports the absorption LED state on the VE.Bus inverter/charger."
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Leds/Bulk",
-      "message_type": "MetricKind.BINARY_SENSOR",
+      "message_type": "MetricKind.SENSOR",
       "short_id": "vebus_inverter_led_bulk",
       "name": "Bulk LED",
       "unit_of_measurement": null,
@@ -16355,7 +16355,7 @@
       "metric_nature": "MetricNature.NONE",
       "value_type": "ValueType.ENUM",
       "precision": null,
-      "enum": "GenericOnOff",
+      "enum": "LedState",
       "min_max_range": "RangeType.STATIC",
       "min": null,
       "max": null,
@@ -16372,11 +16372,11 @@
       "main_topic": false,
       "hidden": false,
       "sub_device_key": null,
-      "description": "Indicates whether the bulk LED is lit on the VE.Bus inverter/charger."
+      "description": "Reports the bulk LED state on the VE.Bus inverter/charger."
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Leds/Float",
-      "message_type": "MetricKind.BINARY_SENSOR",
+      "message_type": "MetricKind.SENSOR",
       "short_id": "vebus_inverter_led_float",
       "name": "Float LED",
       "unit_of_measurement": null,
@@ -16384,7 +16384,7 @@
       "metric_nature": "MetricNature.NONE",
       "value_type": "ValueType.ENUM",
       "precision": null,
-      "enum": "GenericOnOff",
+      "enum": "LedState",
       "min_max_range": "RangeType.STATIC",
       "min": null,
       "max": null,
@@ -16401,11 +16401,11 @@
       "main_topic": false,
       "hidden": false,
       "sub_device_key": null,
-      "description": "Indicates whether the float LED is lit on the VE.Bus inverter/charger."
+      "description": "Reports the float LED state on the VE.Bus inverter/charger."
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Leds/Inverter",
-      "message_type": "MetricKind.BINARY_SENSOR",
+      "message_type": "MetricKind.SENSOR",
       "short_id": "vebus_inverter_led_inverter",
       "name": "Inverter LED",
       "unit_of_measurement": null,
@@ -16413,7 +16413,7 @@
       "metric_nature": "MetricNature.NONE",
       "value_type": "ValueType.ENUM",
       "precision": null,
-      "enum": "GenericOnOff",
+      "enum": "LedState",
       "min_max_range": "RangeType.STATIC",
       "min": null,
       "max": null,
@@ -16430,11 +16430,11 @@
       "main_topic": false,
       "hidden": false,
       "sub_device_key": null,
-      "description": "Indicates whether the inverter LED is lit on the VE.Bus inverter/charger."
+      "description": "Reports the inverter LED state on the VE.Bus inverter/charger."
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Leds/LowBattery",
-      "message_type": "MetricKind.BINARY_SENSOR",
+      "message_type": "MetricKind.SENSOR",
       "short_id": "vebus_inverter_led_low_battery",
       "name": "Low battery LED",
       "unit_of_measurement": null,
@@ -16442,7 +16442,7 @@
       "metric_nature": "MetricNature.NONE",
       "value_type": "ValueType.ENUM",
       "precision": null,
-      "enum": "GenericOnOff",
+      "enum": "LedState",
       "min_max_range": "RangeType.STATIC",
       "min": null,
       "max": null,
@@ -16459,11 +16459,11 @@
       "main_topic": false,
       "hidden": false,
       "sub_device_key": null,
-      "description": "Indicates whether the low battery LED is lit on the VE.Bus inverter/charger."
+      "description": "Reports the low battery LED state on the VE.Bus inverter/charger."
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Leds/Mains",
-      "message_type": "MetricKind.BINARY_SENSOR",
+      "message_type": "MetricKind.SENSOR",
       "short_id": "vebus_inverter_led_mains",
       "name": "Mains LED",
       "unit_of_measurement": null,
@@ -16471,7 +16471,7 @@
       "metric_nature": "MetricNature.NONE",
       "value_type": "ValueType.ENUM",
       "precision": null,
-      "enum": "GenericOnOff",
+      "enum": "LedState",
       "min_max_range": "RangeType.STATIC",
       "min": null,
       "max": null,
@@ -16488,11 +16488,11 @@
       "main_topic": false,
       "hidden": false,
       "sub_device_key": null,
-      "description": "Indicates whether the mains LED is lit on the VE.Bus inverter/charger."
+      "description": "Reports the mains LED state on the VE.Bus inverter/charger."
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Leds/Overload",
-      "message_type": "MetricKind.BINARY_SENSOR",
+      "message_type": "MetricKind.SENSOR",
       "short_id": "vebus_inverter_led_overload",
       "name": "Overload LED",
       "unit_of_measurement": null,
@@ -16500,7 +16500,7 @@
       "metric_nature": "MetricNature.NONE",
       "value_type": "ValueType.ENUM",
       "precision": null,
-      "enum": "GenericOnOff",
+      "enum": "LedState",
       "min_max_range": "RangeType.STATIC",
       "min": null,
       "max": null,
@@ -16517,11 +16517,11 @@
       "main_topic": false,
       "hidden": false,
       "sub_device_key": null,
-      "description": "Indicates whether the overload LED is lit on the VE.Bus inverter/charger."
+      "description": "Reports the overload LED state on the VE.Bus inverter/charger."
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/Leds/Temperature",
-      "message_type": "MetricKind.BINARY_SENSOR",
+      "message_type": "MetricKind.SENSOR",
       "short_id": "vebus_inverter_led_temperature",
       "name": "Temperature LED",
       "unit_of_measurement": null,
@@ -16529,7 +16529,7 @@
       "metric_nature": "MetricNature.NONE",
       "value_type": "ValueType.ENUM",
       "precision": null,
-      "enum": "GenericOnOff",
+      "enum": "LedState",
       "min_max_range": "RangeType.STATIC",
       "min": null,
       "max": null,
@@ -16546,7 +16546,7 @@
       "main_topic": false,
       "hidden": false,
       "sub_device_key": null,
-      "description": "Indicates whether the temperature LED is lit on the VE.Bus inverter/charger."
+      "description": "Reports the temperature LED state on the VE.Bus inverter/charger."
     },
     {
       "topic": "N/{installation_id}/vebus/{device_id}/MicroGrid/AllowBlackStart",
@@ -19024,6 +19024,35 @@
           "name": "Off",
           "value": 4,
           "description": "The inverter/charger is disabled."
+        }
+      ]
+    },
+    {
+      "name": "LedState",
+      "EnumValues": [
+        {
+          "id": "off",
+          "name": "Off",
+          "value": 0,
+          "description": "The LED is off."
+        },
+        {
+          "id": "on",
+          "name": "On",
+          "value": 1,
+          "description": "The LED is continuously lit."
+        },
+        {
+          "id": "blinking",
+          "name": "Blinking",
+          "value": 2,
+          "description": "The LED is blinking."
+        },
+        {
+          "id": "blinking_inverted",
+          "name": "Blinking inverted",
+          "value": 3,
+          "description": "The LED is blinking in the opposite phase to the blinking state."
         }
       ]
     },

@@ -492,62 +492,6 @@
           "on": "On"
         }
       },
-      "vebus_inverter_led_absorption": {
-        "name": "Absorption LED",
-        "state": {
-          "off": "Off",
-          "on": "On"
-        }
-      },
-      "vebus_inverter_led_bulk": {
-        "name": "Bulk LED",
-        "state": {
-          "off": "Off",
-          "on": "On"
-        }
-      },
-      "vebus_inverter_led_float": {
-        "name": "Float LED",
-        "state": {
-          "off": "Off",
-          "on": "On"
-        }
-      },
-      "vebus_inverter_led_inverter": {
-        "name": "Inverter LED",
-        "state": {
-          "off": "Off",
-          "on": "On"
-        }
-      },
-      "vebus_inverter_led_low_battery": {
-        "name": "Low battery LED",
-        "state": {
-          "off": "Off",
-          "on": "On"
-        }
-      },
-      "vebus_inverter_led_mains": {
-        "name": "Mains LED",
-        "state": {
-          "off": "Off",
-          "on": "On"
-        }
-      },
-      "vebus_inverter_led_overload": {
-        "name": "Overload LED",
-        "state": {
-          "off": "Off",
-          "on": "On"
-        }
-      },
-      "vebus_inverter_led_temperature": {
-        "name": "Temperature LED",
-        "state": {
-          "off": "Off",
-          "on": "On"
-        }
-      },
       "vebus_inverter_prefer_renewable_energy": {
         "name": "Prefer renewable energy",
         "state": {
@@ -3100,6 +3044,78 @@
       },
       "vebus_inverter_input_voltage_phase": {
         "name": "Input voltage {phase}"
+      },
+      "vebus_inverter_led_absorption": {
+        "name": "Absorption LED",
+        "state": {
+          "blinking": "Blinking",
+          "blinking_inverted": "Blinking inverted",
+          "off": "Off",
+          "on": "On"
+        }
+      },
+      "vebus_inverter_led_bulk": {
+        "name": "Bulk LED",
+        "state": {
+          "blinking": "Blinking",
+          "blinking_inverted": "Blinking inverted",
+          "off": "Off",
+          "on": "On"
+        }
+      },
+      "vebus_inverter_led_float": {
+        "name": "Float LED",
+        "state": {
+          "blinking": "Blinking",
+          "blinking_inverted": "Blinking inverted",
+          "off": "Off",
+          "on": "On"
+        }
+      },
+      "vebus_inverter_led_inverter": {
+        "name": "Inverter LED",
+        "state": {
+          "blinking": "Blinking",
+          "blinking_inverted": "Blinking inverted",
+          "off": "Off",
+          "on": "On"
+        }
+      },
+      "vebus_inverter_led_low_battery": {
+        "name": "Low battery LED",
+        "state": {
+          "blinking": "Blinking",
+          "blinking_inverted": "Blinking inverted",
+          "off": "Off",
+          "on": "On"
+        }
+      },
+      "vebus_inverter_led_mains": {
+        "name": "Mains LED",
+        "state": {
+          "blinking": "Blinking",
+          "blinking_inverted": "Blinking inverted",
+          "off": "Off",
+          "on": "On"
+        }
+      },
+      "vebus_inverter_led_overload": {
+        "name": "Overload LED",
+        "state": {
+          "blinking": "Blinking",
+          "blinking_inverted": "Blinking inverted",
+          "off": "Off",
+          "on": "On"
+        }
+      },
+      "vebus_inverter_led_temperature": {
+        "name": "Temperature LED",
+        "state": {
+          "blinking": "Blinking",
+          "blinking_inverted": "Blinking inverted",
+          "off": "Off",
+          "on": "On"
+        }
       },
       "vebus_inverter_mode": {
         "state": {
