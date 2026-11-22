@@ -2823,7 +2823,7 @@
       "description": "Reports time to go for the battery. Special value: 0 = charging. Not supported by CAN-bus BMS batteries."
     },
     {
-      "topic": "N/{installation_id}/battery/{device_id}/Voltages/Cell{cell_id(1-16)}",
+      "topic": "N/{installation_id}/battery/{device_id}/Voltages/Cell{cell_id(1-24)}",
       "message_type": "MetricKind.SENSOR",
       "short_id": "battery_cell_{cell_id}_voltage",
       "name": "Cell {cell_id} voltage",
@@ -19545,13 +19545,13 @@
       "EnumValues": [
         {
           "id": "strong",
-          "name": "Strong AC input",
+          "name": "Strong",
           "value": 0,
           "description": "The AC input is treated as a strong (stable) supply."
         },
         {
           "id": "weak",
-          "name": "Weak AC input",
+          "name": "Weak",
           "value": 1,
           "description": "The AC input is treated as a weak supply, such as a small generator."
         }
