@@ -1019,7 +1019,7 @@ topics: list[TopicDescriptor] = [
         value_type=ValueType.INT,
     ),
     TopicDescriptor(
-        topic="N/{installation_id}/battery/{device_id}/Voltages/Cell{cell_id(1-16)}",
+        topic="N/{installation_id}/battery/{device_id}/Voltages/Cell{cell_id(1-24)}",
         message_type=MetricKind.SENSOR,
         short_id="battery_cell_{cell_id}_voltage",
         name="Cell {cell_id} voltage",
